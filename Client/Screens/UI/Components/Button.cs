@@ -10,9 +10,13 @@ namespace Client
     {
         private string text;
         private int x, y;
+        private bool pressed = false;
 
         private static Font font;
         private static Brush brush = Brushes.Yellow;
+
+        public delegate void OnClickHandler(Button m, EventArgs e);
+        public event OnClickHandler Click;
 
         public Button(string text, Rectangle position): base(position, Game.GetButtonBackground())
         {
@@ -32,9 +36,18 @@ namespace Client
         private void setPressed(bool pressed)
         {
             if (pressed)
+            {
+                this.pressed = pressed;
                 this.backgroundImage = Game.GetButtonBackgroundPressed();
+            }
             else
+            {
+                if (this.pressed && Click != null)
+                    Click(this, null);
+
+                this.pressed = pressed;
                 this.backgroundImage = Game.GetButtonBackground();
+            }
         }
 
         public override void OnLeftMouseDown(Point position)
