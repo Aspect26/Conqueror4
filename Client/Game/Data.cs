@@ -67,5 +67,11 @@ namespace Client
         {
             return Image.FromFile("res/textures/verticalborder_focused.png");
         }
+
+        // BACKGROUNDS
+        public static Image GetLoginBackground()
+        {
+            return Image.FromFile("res/backgrounds/login.png");
+        }
     }
 }

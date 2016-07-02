@@ -40,7 +40,7 @@ namespace Client
             g.DrawString(textInput, font, brush, position.X + borderSize * 2, position.Y + borderSize);
         }
 
-        private void RenderCursor(Graphics g)
+        protected virtual void RenderCursor(Graphics g)
         {
             int size = 3;
             int textWidth = (int)g.MeasureString(textInput, font).Width;

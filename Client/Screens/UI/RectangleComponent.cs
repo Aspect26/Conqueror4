@@ -11,6 +11,7 @@ namespace Client
         protected Rectangle position;
         protected Color background;
         protected int borderSize;
+        protected Brush backgroundBrush;
 
         private Image topBorderImage;
         private Image bottomBorderImage;
@@ -35,6 +36,7 @@ namespace Client
             this.position = position;
             this.background = background;
             this.borderSize = borderSize;
+            this.backgroundBrush = new SolidBrush(background);
 
             this.WIDTH = position.Width;
             this.HEIGHT = position.Height;
@@ -55,6 +57,7 @@ namespace Client
              
         public virtual void Render(Graphics g)
         {
+            g.FillRectangle(backgroundBrush, position);
             renderBorder(g);
         }
 

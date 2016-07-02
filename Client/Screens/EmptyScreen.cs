@@ -9,9 +9,22 @@ namespace Client
     public abstract class EmptyScreen : IWindow
     {
         protected UI userInterface = new UI();
+        protected Image background;
+
+        private Rectangle screenRect = new Rectangle(0, 0, Game.WIDTH, Game.HEIGHT);
+
+        public EmptyScreen(Image background = null)
+        {
+            this.background = background;
+        }
 
         public virtual void Render(Graphics g)
         {
+            if (background != null)
+                g.DrawImage(background, screenRect);
+            else
+                g.Clear(Color.Black);
+
             userInterface.Render(g);
         }
 
