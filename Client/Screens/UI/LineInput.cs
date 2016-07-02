@@ -37,15 +37,24 @@ namespace Client
 
         protected virtual void RenderText(Graphics g)
         {
-            g.DrawString(textInput, font, brush, position.X + borderSize * 2, position.Y + borderSize);
+            g.DrawString(visibleText(g, textInput), font, brush, position.X + borderSize + MARGIN, position.Y + borderSize);
         }
 
         protected virtual void RenderCursor(Graphics g)
         {
             int size = 3;
-            int textWidth = (int)g.MeasureString(textInput, font).Width;
+            int textWidth = (int)g.MeasureString(visibleText(g, textInput), font).Width;
             g.FillRectangle(brush, position.X + borderSize * 2 + textWidth, 
                 position.Y + borderSize + MARGIN + FONTSIZE - size, FONTSIZE, size);
+        }
+
+        protected string visibleText(Graphics g, string original)
+        {
+            string trimmedText = original;
+            while ((int)g.MeasureString(trimmedText + "_", font).Width > position.Width - borderSize * 2 - MARGIN * 2)
+                trimmedText = trimmedText.Remove(0, 1);
+
+            return trimmedText;
         }
 
 
@@ -59,7 +68,12 @@ namespace Client
 
             // backspace
             if (k == 8 && textInput.Length != 0)
-                textInput = textInput.Remove(textInput.Length - 2);
+            {
+                if (textInput.Length != 1)
+                    textInput = textInput.Remove(textInput.Length - 2);
+                else
+                    textInput = "";
+            }
         }
     }
 }
