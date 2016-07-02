@@ -11,7 +11,7 @@ namespace Client
         static void Main()
         {
             Application.EnableVisualStyles();
-            Application.Run(new ApplicationForm());
+            Application.Run(new MainWindow());
         }
     }
 }

@@ -6,12 +6,9 @@ using System.Text;
 
 namespace Client
 {
-    public abstract class BorderedRectangleComponent : IComponent
+    public abstract class BorderedRectangleComponent : RectangleComponent
     {
-        protected Rectangle position;
-        protected Color background;
         protected int borderSize;
-        protected Brush backgroundBrush;
 
         private Image topBorderImage;
         private Image bottomBorderImage;
@@ -26,20 +23,21 @@ namespace Client
         private Rectangle bottomBorderRect;
         private Rectangle rightBorderRect;
 
-        public int WIDTH {  get; set; }
-        public int HEIGHT { get; set; }
-
-        protected bool focused = false;
-
         public BorderedRectangleComponent(Rectangle position, Color background, int borderSize = UI.DEFAULT_BORDER_HEIGHT)
+            : base(position, background)
         {
-            this.position = position;
-            this.background = background;
-            this.borderSize = borderSize;
-            this.backgroundBrush = new SolidBrush(background);
+            init(borderSize);
+        }
 
-            this.WIDTH = position.Width;
-            this.HEIGHT = position.Height;
+        public BorderedRectangleComponent(Rectangle position, Image background, int borderSize = UI.DEFAULT_BORDER_HEIGHT)
+            : base(position, background)
+        {
+            init(borderSize);
+        }
+
+        private void init(int borderSize)
+        {
+            this.borderSize = borderSize;
 
             this.topBorderImage = Game.GetUIHorizontalBorder();
             this.bottomBorderImage = Game.GetUIHorizontalBorder(); bottomBorderImage.RotateFlip(RotateFlipType.RotateNoneFlipY);
@@ -50,14 +48,21 @@ namespace Client
             this.verticalBorderImageFocused = Game.GetUIVerticalBorderFocused();
 
             topBorderRect = new Rectangle(position.X, position.Y, position.Width, borderSize);
-            bottomBorderRect = new Rectangle(position.X, position.Y + position.Height - borderSize, position.Width, borderSize);
-            leftBorderRect = new Rectangle(position.X, position.Y + borderSize, borderSize, position.Height - 2 * borderSize);
-            rightBorderRect = new Rectangle(position.X + position.Width - borderSize, position.Y + borderSize, borderSize, position.Height - 2 * borderSize);
+
+            bottomBorderRect = new Rectangle(position.X, position.Y + position.Height - borderSize, 
+                position.Width, borderSize);
+
+            leftBorderRect = new Rectangle(position.X, position.Y + borderSize, borderSize, 
+                position.Height - 2 * borderSize);
+
+            rightBorderRect = new Rectangle(position.X + position.Width - borderSize, position.Y + borderSize, 
+                borderSize, position.Height - 2 * borderSize);
         }
-             
-        public virtual void Render(Graphics g)
+
+        public override void Render(Graphics g)
         {
-            g.FillRectangle(backgroundBrush, position);
+            base.Render(g);
+
             renderBorder(g);
         }
 
@@ -77,25 +82,6 @@ namespace Client
                 g.DrawImage(bottomBorderImage, bottomBorderRect);
                 g.DrawImage(verticalBorderImage, rightBorderRect);
             }
-
-            g.DrawRectangle(Pens.Green, position);
         }
-
-        public void SetFocused(bool focused)
-        {
-            this.focused = focused;
-        }
-
-        public bool IsAt(Point location)
-        {
-            return position.Contains(location);
-        }
-
-        public virtual void OnKeyDown(int key) { }
-        public virtual void OnKeyUp(int key) { }
-        public virtual void OnLeftMouseDown(Point position) { }
-        public virtual void OnLeftMouseUp(Point position) { }
-        public virtual void OnRightMouseDown(Point position) { }
-        public virtual void OnRightMouseUp(Point position) { }
     }
 }

@@ -48,6 +48,17 @@ namespace Client
         }
 
         // TEXTURES
+
+        public static Image GetButtonBackground()
+        {
+            return Image.FromFile("res/textures/button.png");
+        }
+
+        public static Image GetButtonBackgroundPressed()
+        {
+            return Image.FromFile("res/textures/button_pressed.png");
+        }
+
         public static Image GetUIHorizontalBorder()
         {
             return Image.FromFile("res/textures/horizontalborder.png");

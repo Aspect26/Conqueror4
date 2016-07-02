@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace Client
 {
-    public partial class ApplicationForm : Form
+    public partial class MainWindow : Form
     {
         private Game game;
 
         private BufferedGraphicsContext context;
         private BufferedGraphics grafx;
 
-        public ApplicationForm()
+        public MainWindow()
         {
             InitializeComponent();
 
@@ -62,6 +62,14 @@ namespace Client
                 game.OnMouseLeftDown(e.Location);
             else if (e.Button == MouseButtons.Right)
                 game.OnMouseRightDown(e.Location);
+        }
+
+        private void OnMouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                game.OnMouseLeftUp(e.Location);
+            else if (e.Button == MouseButtons.Right)
+                game.OnMouseRightUp(e.Location);
         }
     }
 }

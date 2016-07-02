@@ -1,6 +1,6 @@
 ﻿namespace Client
 {
-    partial class ApplicationForm
+    partial class MainWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -30,16 +30,17 @@
         {
             this.SuspendLayout();
             // 
-            // ApplicationForm
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 442);
-            this.Name = "ApplicationForm";
-            this.Text = "ApplicationForm";
+            this.ClientSize = new System.Drawing.Size(640, 480);
+            this.Name = "MainWindow";
+            this.Text = "Conqueror 4";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnMouseUp);
             this.ResumeLayout(false);
 
         }
