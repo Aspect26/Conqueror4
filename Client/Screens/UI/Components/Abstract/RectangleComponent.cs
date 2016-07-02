@@ -15,6 +15,8 @@ namespace Client
 
         public int WIDTH { get; set; }
         public int HEIGHT { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
         protected bool focused = false;
 
@@ -27,6 +29,8 @@ namespace Client
 
             this.WIDTH = position.Width;
             this.HEIGHT = position.Height;
+            this.X = position.X;
+            this.Y = position.Y;
         }
 
         public RectangleComponent(Rectangle position, Image background)

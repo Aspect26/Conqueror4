@@ -24,5 +24,7 @@ namespace Client
 
         int WIDTH { get; set; }
         int HEIGHT { get; set; }
+        int X { get; set; }
+        int Y { get; set; }
     }
 }

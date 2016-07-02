@@ -65,6 +65,7 @@
     <Compile Include="Screens\LoginScreen.cs" />
     <Compile Include="Screens\UI\Components\Abstract\RectangleComponent.cs" />
     <Compile Include="Screens\UI\Components\Button.cs" />
+    <Compile Include="Screens\UI\Components\LineText.cs" />
     <Compile Include="Screens\UI\Components\PasswordInput.cs" />
     <Compile Include="Screens\UI\Components\LineInput.cs" />
     <Compile Include="Screens\UI\Components\Abstract\BorderedRectangleComponent.cs" />
