@@ -8,12 +8,12 @@ namespace Client
 {
     public class LineInput : BorderedRectangleComponent
     {
-        private string textInput = "";
-        private const int HEIGHT = 50;  // 10 + 10 borders, 20 text, 10 margin
-        private const int MARGIN = 5;
-        private const int FONTSIZE = 20;
-        private static Font font = new Font(FontFamily.GenericSerif, FONTSIZE);
-        private Brush brush;
+        protected string textInput = "";
+        protected const int HEIGHT = 50;  // 10 + 10 borders, 20 text, 10 margin
+        protected const int MARGIN = 5;
+        protected const int FONTSIZE = 20;
+        protected static Font font = new Font(FontFamily.GenericSerif, FONTSIZE);
+        protected Brush brush;
 
         public LineInput(Point position, int width, Color textColor, Color background) 
             : base(new Rectangle(position, new Size(width, HEIGHT)) , background)
@@ -21,7 +21,7 @@ namespace Client
             brush = new SolidBrush(textColor);
         }
 
-        public string getValue()
+        public virtual string getValue()
         {
             return textInput;
         }
@@ -35,7 +35,7 @@ namespace Client
                 RenderCursor(g);
         }
 
-        private void RenderText(Graphics g)
+        protected virtual void RenderText(Graphics g)
         {
             g.DrawString(textInput, font, brush, position.X + borderSize * 2, position.Y + borderSize);
         }

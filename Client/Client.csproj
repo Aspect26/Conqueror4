@@ -60,6 +60,7 @@
     <Compile Include="Screens\EmptyScreen.cs" />
     <Compile Include="Screens\IWindow.cs" />
     <Compile Include="Screens\LoginScreen.cs" />
+    <Compile Include="Screens\UI\PasswordInput.cs" />
     <Compile Include="Screens\UI\LineInput.cs" />
     <Compile Include="Screens\UI\RectangleComponent.cs" />
     <Compile Include="Screens\UI\IComponent.cs" />

@@ -16,6 +16,10 @@ namespace Client
         private Image bottomBorderImage;
         private Image verticalBorderImage;
 
+        private Image topBorderImageFocused;
+        private Image bottomBorderImageFocused;
+        private Image verticalBorderImageFocused;
+
         private Rectangle topBorderRect;
         private Rectangle leftBorderRect;
         private Rectangle bottomBorderRect;
@@ -39,6 +43,10 @@ namespace Client
             this.bottomBorderImage = Game.GetUIHorizontalBorder(); bottomBorderImage.RotateFlip(RotateFlipType.RotateNoneFlipY);
             this.verticalBorderImage = Game.GetUIVerticalBorder();
 
+            this.topBorderImageFocused = Game.GetUIHorizontalBorderFocused();
+            this.bottomBorderImageFocused = Game.GetUIHorizontalBorderFocused(); bottomBorderImageFocused.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            this.verticalBorderImageFocused = Game.GetUIVerticalBorderFocused();
+
             topBorderRect = new Rectangle(position.X, position.Y, position.Width, borderSize);
             bottomBorderRect = new Rectangle(position.X, position.Y + position.Height - borderSize, position.Width, borderSize);
             leftBorderRect = new Rectangle(position.X, position.Y + borderSize, borderSize, position.Height - 2 * borderSize);
@@ -52,12 +60,22 @@ namespace Client
 
         private void renderBorder(Graphics g)
         {
-            g.DrawImage(topBorderImage, topBorderRect);
-            g.DrawImage(verticalBorderImage, leftBorderRect);
-            g.DrawImage(bottomBorderImage, bottomBorderRect);
-            g.DrawImage(verticalBorderImage, rightBorderRect);
+            if (focused)
+            {
+                g.DrawImage(topBorderImageFocused, topBorderRect);
+                g.DrawImage(verticalBorderImageFocused, leftBorderRect);
+                g.DrawImage(bottomBorderImageFocused, bottomBorderRect);
+                g.DrawImage(verticalBorderImageFocused, rightBorderRect);
+            }
+            else
+            {
+                g.DrawImage(topBorderImage, topBorderRect);
+                g.DrawImage(verticalBorderImage, leftBorderRect);
+                g.DrawImage(bottomBorderImage, bottomBorderRect);
+                g.DrawImage(verticalBorderImage, rightBorderRect);
+            }
 
-            g.DrawRectangle(Pens.Red, position);
+            g.DrawRectangle(Pens.Green, position);
         }
 
         public void SetFocused(bool focused)

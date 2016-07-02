@@ -57,5 +57,15 @@ namespace Client
         {
             return Image.FromFile("res/textures/verticalborder.png");
         }
+
+        public static Image GetUIHorizontalBorderFocused()
+        {
+            return Image.FromFile("res/textures/horizontalborder_focused.png");
+        }
+
+        public static Image GetUIVerticalBorderFocused()
+        {
+            return Image.FromFile("res/textures/verticalborder_focused.png");
+        }
     }
 }
