@@ -17,20 +17,26 @@ namespace Client
 
         private IComponent focusedComponent;
         private List<IComponent> components;
+        private MessageBoxComponent messageBox;
 
         public UI()
         {
             this.components = new List<IComponent>();
             this.focusedComponent = null;
+            this.messageBox = null;
         }
 
         public void SetFocusedComponent(IComponent focusedComponent)
         {
-            if(this.focusedComponent != null)
-                this.focusedComponent.SetFocused(false);
+            if (messageBox == null)
+            {
+                if (this.focusedComponent != null)
+                    this.focusedComponent.SetFocused(false);
 
-            this.focusedComponent = focusedComponent;
-            this.focusedComponent.SetFocused(true);
+                this.focusedComponent = focusedComponent;
+                if(this.focusedComponent != null)
+                    this.focusedComponent.SetFocused(true);
+            }
         }
 
         public void AddComponent(IComponent component)
@@ -43,12 +49,22 @@ namespace Client
             this.components.Remove(component);
         }
 
+        public void MessageBoxShow(string text)
+        {
+            SetFocusedComponent(null);
+            messageBox = new MessageBoxComponent(text);
+            messageBox.Closed += OnMessageBoxClosed;
+        }
+
         public void Render(Graphics g)
         {
             foreach(IComponent c in components)
             {
                 c.Render(g);
             }
+
+            if (messageBox != null)
+                messageBox.Render(g);
         }
 
         private IComponent findComponentAt(Point location)
@@ -62,8 +78,26 @@ namespace Client
             return null;
         }
 
+        // **********************************************
+        // EVENTS
+        // **********************************************
+        public void OnMessageBoxClosed(MessageBoxComponent mBox)
+        {
+            if(mBox != messageBox)
+            {
+                Console.WriteLine("FATAL ERROR IN MESAGEBOX!!!!!!!!!!!");
+            }
+            this.messageBox = null;
+        }
+
         public void OnKeyDown(int key)
         {
+            if(messageBox != null)
+            {
+                messageBox.OnKeyDown(key);
+                return;
+            }
+
             if(focusedComponent != null)
             {
                 focusedComponent.OnKeyDown(key);
@@ -72,14 +106,29 @@ namespace Client
 
         public void OnKeyUp(int key)
         {
+            if(messageBox != null)
+            {
+                messageBox.OnKeyUp(key);
+                return;
+            }
+
             if (focusedComponent != null)
             {
-                focusedComponent.OnKeyUp(key);
+                if (key == 9)
+                    SetFocusedComponent(focusedComponent.GetNeighbour());
+                else
+                    focusedComponent.OnKeyUp(key);
             }
         }
 
         public void OnMouseLeftDown(Point location)
         {
+            if(messageBox != null)
+            {
+                messageBox.OnLeftMouseDown(location);
+                return;
+            }
+
             if (focusedComponent != null)
             {
                 focusedComponent.SetFocused(false);
@@ -96,6 +145,12 @@ namespace Client
 
         public void OnMouseLeftUp(Point location)
         {
+            if (messageBox != null)
+            {
+                messageBox.OnLeftMouseUp(location);
+                return;
+            }
+
             if (focusedComponent != null)
             {
                 focusedComponent.OnLeftMouseUp(location);
@@ -104,7 +159,7 @@ namespace Client
 
         public void OnMouseRightDown(Point location)
         {
-            if (focusedComponent != null)
+            if (messageBox == null && focusedComponent != null)
             {
                 focusedComponent.OnRightMouseDown(location);
             }
@@ -112,7 +167,7 @@ namespace Client
 
         public void OnMouseRightUp(Point location)
         {
-            if (focusedComponent != null)
+            if (messageBox == null && focusedComponent != null)
             {
                 focusedComponent.OnRightMouseUp(location);
             }

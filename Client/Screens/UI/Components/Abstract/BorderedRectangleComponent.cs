@@ -23,14 +23,16 @@ namespace Client
         private Rectangle bottomBorderRect;
         private Rectangle rightBorderRect;
 
-        public BorderedRectangleComponent(Rectangle position, Color background, int borderSize = UI.DEFAULT_BORDER_HEIGHT)
-            : base(position, background)
+        public BorderedRectangleComponent(Point parentPosition, Rectangle position, Color background, 
+            int borderSize = UI.DEFAULT_BORDER_HEIGHT, IComponent neighbour = null)
+            : base(parentPosition, position, background, neighbour)
         {
             init(borderSize);
         }
 
-        public BorderedRectangleComponent(Rectangle position, Image background, int borderSize = UI.DEFAULT_BORDER_HEIGHT)
-            : base(position, background)
+        public BorderedRectangleComponent(Point parentPosition, Rectangle position, Image background, 
+            int borderSize = UI.DEFAULT_BORDER_HEIGHT, IComponent neighbour = null)
+            : base(parentPosition, position, background, neighbour)
         {
             init(borderSize);
         }

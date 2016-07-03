@@ -4,8 +4,8 @@ namespace Client
 {
     public sealed class PasswordInput : LineInput
     {
-        public PasswordInput(Point position, int width, Color textColor, Color background) 
-            : base(position, width, textColor, background)
+        public PasswordInput(Point parentPosition, Point position, int width, Color textColor, Color background, IComponent neighbour = null) 
+            : base(parentPosition, position, width, textColor, background, neighbour)
         {
         }
 

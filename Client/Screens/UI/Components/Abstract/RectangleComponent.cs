@@ -12,19 +12,23 @@ namespace Client
         protected Color backgroundColor;
         protected Image backgroundImage;
         protected Brush backgroundBrush;
+        protected IComponent neighbour;
 
-        public int WIDTH { get; set; }
-        public int HEIGHT { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int WIDTH { get; }
+        public int HEIGHT { get; }
+        public int X { get; }
+        public int Y { get; }
 
         protected bool focused = false;
 
-        public RectangleComponent(Rectangle position, Color background)
+        public RectangleComponent(Point parentPosition, Rectangle position, Color background, IComponent neighbour = null)
         {
             this.position = position;
-            this.backgroundColor = background;
+            this.position.X += parentPosition.X;
+            this.position.Y += parentPosition.Y;
 
+            this.backgroundColor = background;
+            this.neighbour = neighbour;
             this.backgroundBrush = new SolidBrush(background);
 
             this.WIDTH = position.Width;
@@ -33,13 +37,19 @@ namespace Client
             this.Y = position.Y;
         }
 
-        public RectangleComponent(Rectangle position, Image background)
+        public RectangleComponent(Point parentPosition, Rectangle position, Image background, IComponent neighbour = null)
         {
             this.position = position;
+            this.position.X += parentPosition.X;
+            this.position.Y += parentPosition.Y;
+
             this.backgroundImage = background;
+            this.neighbour = neighbour;
 
             this.WIDTH = position.Width;
             this.HEIGHT = position.Height;
+            this.X = position.X;
+            this.Y = position.Y;
         }
 
         public virtual void Render(Graphics g)
@@ -55,6 +65,16 @@ namespace Client
         public virtual void SetFocused(bool focused)
         {
             this.focused = focused;
+        }
+
+        public IComponent GetNeighbour()
+        {
+            return neighbour;
+        }
+
+        public void SetNeighbour(IComponent neighbour)
+        {
+            this.neighbour = neighbour;
         }
 
         public bool IsAt(Point location)

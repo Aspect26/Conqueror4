@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Client
 {
@@ -83,6 +84,14 @@ namespace Client
         public static Image GetLoginBackground()
         {
             return Image.FromFile("res/backgrounds/login.png");
+        }
+
+        // CHECKS
+        private static Regex nicknamePattern = new Regex("^[a-zA-Z1-9]+$");
+
+        public static bool IsValidUsername(string name)
+        {
+            return nicknamePattern.IsMatch(name);
         }
     }
 }

@@ -16,11 +16,14 @@ namespace Client
         public Map Map { get; set; }
         public ServerConnection server { get; set; }
 
-        public static int HEIGHT = 480;
-        public static int WIDTH = 640;
+        public static int HEIGHT;
+        public static int WIDTH;
 
-        public Game(BufferedGraphics graphics)
+        public Game(int height, int width, BufferedGraphics graphics)
         {
+            HEIGHT = height;
+            WIDTH = width;
+
             this.graphics = graphics;
             this.server = new ServerConnection(this);
         }

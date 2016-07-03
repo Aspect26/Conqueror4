@@ -18,7 +18,8 @@ namespace Client
         public delegate void OnClickHandler(Button m, EventArgs e);
         public event OnClickHandler Click;
 
-        public Button(string text, Rectangle position): base(position, Game.GetButtonBackground())
+        public Button(Point parentPosition, string text, Rectangle position)
+            : base(parentPosition, position, Game.GetButtonBackground())
         {
             this.text = text;
             font = new Font(FontFamily.GenericMonospace, position.Height - 20);
@@ -50,6 +51,22 @@ namespace Client
             }
         }
 
+        public override void OnKeyDown(int key)
+        {
+            if(key == 13) // enter
+            {
+                setPressed(true);
+            }
+        }
+
+        public override void OnKeyUp(int key)
+        {
+            if (key == 13) // enter
+            {
+                setPressed(false);
+            }
+        }
+
         public override void OnLeftMouseDown(Point position)
         {
             setPressed(true);
@@ -64,7 +81,6 @@ namespace Client
         {
             base.SetFocused(focused);
 
-            setPressed(focused);
         }
     }
 }

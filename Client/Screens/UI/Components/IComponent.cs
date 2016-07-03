@@ -14,6 +14,8 @@ namespace Client
         void Render(Graphics g);
         void SetFocused(bool focused);
         bool IsAt(Point location);
+        IComponent GetNeighbour();
+        void SetNeighbour(IComponent neighbour);
 
         void OnKeyDown(int key);
         void OnKeyUp(int key);
@@ -22,9 +24,9 @@ namespace Client
         void OnRightMouseDown(Point position);
         void OnRightMouseUp(Point position);
 
-        int WIDTH { get; set; }
-        int HEIGHT { get; set; }
-        int X { get; set; }
-        int Y { get; set; }
+        int WIDTH { get; }
+        int HEIGHT { get; }
+        int X { get; }
+        int Y { get; }
     }
 }
