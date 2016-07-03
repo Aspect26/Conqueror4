@@ -30,7 +30,7 @@ namespace Client
 
         public void Start()
         {
-            gameScreen = new LoginScreen(/*this, server*/);
+            gameScreen = new LoginScreen(this);
             while (true)
             {
                 render();

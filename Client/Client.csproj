@@ -60,19 +60,22 @@
     <Compile Include="Image\ImageFunctions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\Abstract\EmptyScreen.cs" />
-    <Compile Include="Screens\Abstract\IWindow.cs" />
-    <Compile Include="Screens\LoginScreen.cs" />
-    <Compile Include="Screens\UI\Components\Abstract\RectangleComponent.cs" />
-    <Compile Include="Screens\UI\Components\Button.cs" />
-    <Compile Include="Screens\UI\Components\LineText.cs" />
-    <Compile Include="Screens\UI\Components\MessageBoxComponent.cs" />
-    <Compile Include="Screens\UI\Components\PasswordInput.cs" />
-    <Compile Include="Screens\UI\Components\LineInput.cs" />
-    <Compile Include="Screens\UI\Components\Abstract\BorderedRectangleComponent.cs" />
-    <Compile Include="Screens\UI\Components\IComponent.cs" />
-    <Compile Include="Screens\UI\UI.cs" />
+    <Compile Include="Game\Screens\Abstract\EmptyScreen.cs" />
+    <Compile Include="Game\Screens\Abstract\IWindow.cs" />
+    <Compile Include="Game\Screens\LoginScreen.cs" />
+    <Compile Include="Game\Screens\UI\Components\Abstract\RectangleComponent.cs" />
+    <Compile Include="Game\Screens\UI\Components\Button.cs" />
+    <Compile Include="Game\Screens\UI\Components\LineText.cs" />
+    <Compile Include="Game\Screens\UI\Components\MessageBoxComponent.cs" />
+    <Compile Include="Game\Screens\UI\Components\PasswordInput.cs" />
+    <Compile Include="Game\Screens\UI\Components\LineInput.cs" />
+    <Compile Include="Game\Screens\UI\Components\Abstract\BorderedRectangleComponent.cs" />
+    <Compile Include="Game\Screens\UI\Components\IComponent.cs" />
+    <Compile Include="Game\Screens\UI\UI.cs" />
     <Compile Include="ServerConnection\Server.cs" />
+    <Compile Include="ServerConnection\ServerCommands.cs" />
+    <Compile Include="ServerConnection\SpecificCommands\ServerRegisterAccount.cs" />
+    <Compile Include="ServerConnection\ServerResponses.cs" />
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -96,7 +99,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Screens\UI\GeometricStructures\" />
+    <Folder Include="Game\Screens\UI\GeometricStructures\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

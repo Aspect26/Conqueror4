@@ -33,6 +33,7 @@ namespace Client
         {
             Graphics g = this.CreateGraphics();
             grafx = context.Allocate(g, new Rectangle(0, 0, this.Width, this.Height));
+
             try {
                 game = new Game(this.ClientRectangle.Height, this.ClientRectangle.Width, grafx);
             }

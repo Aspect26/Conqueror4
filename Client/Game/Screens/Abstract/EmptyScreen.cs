@@ -8,13 +8,16 @@ namespace Client
 {
     public abstract class EmptyScreen : IWindow
     {
+        protected Game game;
+    
         protected UI userInterface = new UI();
         protected Image background;
 
         private Rectangle screenRect = new Rectangle(0, 0, Game.WIDTH, Game.HEIGHT);
 
-        public EmptyScreen(Image background = null)
+        public EmptyScreen(Game game, Image background = null)
         {
+            this.game = game;
             this.background = background;
         }
 

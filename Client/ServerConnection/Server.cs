@@ -13,11 +13,12 @@ namespace Client
         private const int bufferSize = 1024;
         private Socket serverSocket;
         private byte[] buffer = new byte[bufferSize];
+
         private NetworkStream stream;
         private StreamReader input;
         private StreamWriter output;
 
-        private object streaming = new object();
+        //private object streaming = new object();
         private Game game;
 
         public bool Connected { get; set; }
@@ -28,7 +29,7 @@ namespace Client
             this.game = game;
         }
 
-        public bool Start()
+        public bool Connect()
         {
             try
             {
@@ -42,7 +43,7 @@ namespace Client
                     input = new StreamReader(stream);
                     output = new StreamWriter(stream);
                     Console.WriteLine("Connected to the server");
-                    new Thread(() => Receive()).Start();
+                    Connected = true;
                     return true;
                 }
                 else
@@ -67,37 +68,38 @@ namespace Client
             serverSocket.Close();
         }
 
-        private void Receive()
+        public const int RESULT_OK = 0;
+        public const int RESULT_CANTCONNECT = 1;
+        public const int RESULT_CANTSEND = 2;
+        public const int RESULT_EMPTY = 3;
+        public const int RESULT_FALSE = 4;
+
+        private bool SendOne(string data)
+        {
+            if (!stream.CanWrite)
+            {
+                Console.WriteLine("ERROR: can not write to server stream.");
+                return false;
+            }
+
+            output.WriteLine(data);
+            output.Flush();
+            return true;
+        }
+
+        private string ReceiveOne()
         {
             try
             {
-                while (true)
-                {
-                    string line;
-                    line = input.ReadLine();
-                    //handleServerMessage(line);
-                    Console.WriteLine("RECEIVED: " + line);
-                }
+                string line = input.ReadLine();
+                Console.WriteLine("Server Message: " + line);
+                return line;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                return string.Empty;
             }
-        }
-
-        private void Send(string data)
-        {
-            lock (streaming)
-            {
-                if (!stream.CanWrite) Console.WriteLine("ERROR: can not write to server stream.");
-                output.WriteLine(data);
-                output.Flush();
-            }
-        }
-
-        private void RequestCommand(int cmdid, string args)
-        {
-            Send(cmdid + ":" + args);
         }
     }
 }

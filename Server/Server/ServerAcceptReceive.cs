@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 
-namespace Server.Server
+namespace Server
 {
     public partial class Server
     {
         private ManualResetEvent newConnectionEstablishedEvent = new ManualResetEvent(false);
 
+        //**************************************************
+        // ACCEPTING AND RECEIVING CYCLE
+        //**************************************************
         private void AcceptAndReceiveClients()
         {
             try
@@ -18,12 +19,13 @@ namespace Server.Server
                 serverSocket.Bind(localEndPoint);
                 serverSocket.Listen(10);
 
-                Console.WriteLine("Started accepting and receiving clients...");
+                Console.WriteLine("Thread for accepting and receiving clients started...");
+                Console.WriteLine("-------------------------");
                 while (true)
                 {
                     newConnectionEstablishedEvent.Reset();
                     serverSocket.BeginAccept(new AsyncCallback(AcceptCallback), serverSocket);
-                    newConnectionEstablishedEvent.WaitOne();
+                    newConnectionEstablishedEvent.WaitOne(); // because the cycle wouldn't stop
                 }
             }
             catch (Exception e)
@@ -32,39 +34,66 @@ namespace Server.Server
             }
         }
 
+        //**************************************************
+        // ACCEPTED CALLBACK
+        //**************************************************
         private void AcceptCallback(IAsyncResult result)
         {
             newConnectionEstablishedEvent.Set();
             Socket clientSocket = serverSocket.EndAccept(result);
-            ClientState clientState = new ClientState();
+            StateObject clientState = new StateObject();
             clientState.clientSocket = clientSocket;
 
-            clientSocket.BeginReceive(clientState.buffer, 0, ClientState.BufferSize, SocketFlags.None, new AsyncCallback(ReceiveClient), clientState);
+            clients.Add(clientState);
+            Console.WriteLine("New connection from: " + clientSocket.LocalEndPoint);
+            clientSocket.BeginReceive(clientState.buffer, 0, StateObject.BufferSize, SocketFlags.None, new AsyncCallback(FirstClientMessage), clientState);
         }
 
-        private void ReceiveClient(IAsyncResult result)
+        //**************************************************
+        // FIRST MESSAGE CALLBACK
+        //**************************************************
+        private void FirstClientMessage(IAsyncResult result)
         {
-            ClientState state = (ClientState)result.AsyncState;
-            Socket socket = state.clientSocket;
-            int bytesRead = socket.EndReceive(result);
+            StateObject state = (StateObject)result.AsyncState;
+            Socket clientSocket = state.clientSocket;
+            int bytesRead = clientSocket.EndReceive(result);
 
             if (bytesRead > 0)
             {
                 state.dataReceived.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
                 string content = state.dataReceived.ToString();
 
-                if (content.IndexOf("<EOF>") > -1)
+                if (content.IndexOf("\n") > -1)
                 {
                     // Whole message received
-                    Console.WriteLine("Read {0} bytes from socket. \n Data : {1}", content.Length, content);
+                    Console.WriteLine("First message from user: {0}", content);
+                    string[] msgParts = content.Split(':');
+                    bool actionResult;
+
+                    if (msgParts.Length != 2)
+                        actionResult = false;
+                    else if (msgParts[0] == "1")
+                        actionResult = registerAccount(msgParts[1].Split(','));
+                    else if (msgParts[0] == "2")
+                        actionResult = loginAccount(msgParts[1].Split(','));
+                    else
+                        actionResult = false;
+
+                    byte[] byteData;
+                    if (actionResult)
+                        byteData = Encoding.ASCII.GetBytes("1\n");
+                    else
+                        byteData = Encoding.ASCII.GetBytes("0\n");
+
+                    clientSocket.Send(byteData, 0, byteData.Length, 0);
 
                     // Continue receiving
-                    socket.BeginReceive(state.buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveClient), state);
+                    // clientSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(FirstClientMessage), state);
                 }
                 else
                 {
                     // Not all data received. Get more.
-                    socket.BeginReceive(state.buffer, 0, ClientState.BufferSize, 0, new AsyncCallback(ReceiveClient), state);
+                    clientSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(FirstClientMessage), state);
                 }
             }
         }
