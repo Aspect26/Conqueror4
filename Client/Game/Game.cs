@@ -12,7 +12,7 @@ namespace Client
         private BufferedGraphics graphics;
         private IWindow gameScreen;
 
-        public Player Player { get; set; }
+        public Account Account { get; set; }
         public Map Map { get; set; }
         public ServerConnection server { get; set; }
 
@@ -39,7 +39,6 @@ namespace Client
 
         public void ChangeWindow(IWindow screen)
         {
-            graphics.Graphics.Clear(Color.Black);
             this.gameScreen = screen;
         }
 
@@ -52,7 +51,7 @@ namespace Client
         public void CreateMap()
         {
             Map = new Map();
-            Map.Create(getMapFilePath(Player.CurrentLocation));
+            //Map.Create(getMapFilePath(Player.CurrentLocation));
         }
 
         public void OnKeyDown(int key)

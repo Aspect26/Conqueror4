@@ -14,10 +14,10 @@ namespace Client
         protected Brush backgroundBrush;
         protected IComponent neighbour;
 
-        public int WIDTH { get; }
-        public int HEIGHT { get; }
-        public int X { get; }
-        public int Y { get; }
+        public int WIDTH { get { return position.Width; } }
+        public int HEIGHT { get { return position.Height; } }
+        public int X { get { return position.X; }  }
+        public int Y { get { return position.Y; } }
 
         protected bool focused = false;
 
@@ -30,11 +30,6 @@ namespace Client
             this.backgroundColor = background;
             this.neighbour = neighbour;
             this.backgroundBrush = new SolidBrush(background);
-
-            this.WIDTH = position.Width;
-            this.HEIGHT = position.Height;
-            this.X = position.X;
-            this.Y = position.Y;
         }
 
         public RectangleComponent(Point parentPosition, Rectangle position, Image background, IComponent neighbour = null)
@@ -45,11 +40,6 @@ namespace Client
 
             this.backgroundImage = background;
             this.neighbour = neighbour;
-
-            this.WIDTH = position.Width;
-            this.HEIGHT = position.Height;
-            this.X = position.X;
-            this.Y = position.Y;
         }
 
         public virtual void Render(Graphics g)
@@ -58,8 +48,6 @@ namespace Client
                 g.FillRectangle(backgroundBrush, position);
             else
                 g.DrawImage(backgroundImage, position);
-
-            g.DrawRectangle(Pens.Red, position);
         }
 
         public virtual void SetFocused(bool focused)
@@ -77,6 +65,26 @@ namespace Client
             this.neighbour = neighbour;
         }
 
+        public void MoveX(int X)
+        {
+            position.X += X;
+        }
+
+        public void MoveY(int Y)
+        {
+            position.Y += Y;
+        }
+
+        public void ChangeWidth(int width)
+        {
+            position.Width = width;
+        }
+
+        public void ChangeHeight(int height)
+        {
+            position.Height = height;
+        }
+
         public bool IsAt(Point location)
         {
             return position.Contains(location);
@@ -84,9 +92,9 @@ namespace Client
 
         public virtual void OnKeyDown(int key) { }
         public virtual void OnKeyUp(int key) { }
-        public virtual void OnLeftMouseDown(Point position) { }
-        public virtual void OnLeftMouseUp(Point position) { }
-        public virtual void OnRightMouseDown(Point position) { }
-        public virtual void OnRightMouseUp(Point position) { }
+        public virtual void OnMouseLeftDown(Point position) { }
+        public virtual void OnMouseLeftUp(Point position) { }
+        public virtual void OnMouseRightDown(Point position) { }
+        public virtual void OnMouseRightUp(Point position) { }
     }
 }

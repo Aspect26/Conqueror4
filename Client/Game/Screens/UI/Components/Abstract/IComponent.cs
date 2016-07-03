@@ -17,12 +17,17 @@ namespace Client
         IComponent GetNeighbour();
         void SetNeighbour(IComponent neighbour);
 
+        void MoveX(int X);
+        void MoveY(int Y);
+        void ChangeWidth(int width);
+        void ChangeHeight(int height);
+
         void OnKeyDown(int key);
         void OnKeyUp(int key);
-        void OnLeftMouseDown(Point position);
-        void OnLeftMouseUp(Point position);
-        void OnRightMouseDown(Point position);
-        void OnRightMouseUp(Point position);
+        void OnMouseLeftDown(Point position);
+        void OnMouseLeftUp(Point position);
+        void OnMouseRightDown(Point position);
+        void OnMouseRightUp(Point position);
 
         int WIDTH { get; }
         int HEIGHT { get; }

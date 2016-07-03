@@ -58,12 +58,12 @@ namespace Client
             container.OnKeyUp(key);
         }
 
-        public override void OnLeftMouseDown(Point position)
+        public override void OnMouseLeftDown(Point position)
         {
             container.OnMouseLeftDown(position);
         }
 
-        public override void OnLeftMouseUp(Point position)
+        public override void OnMouseLeftUp(Point position)
         {
             container.OnMouseLeftUp(position);
         }

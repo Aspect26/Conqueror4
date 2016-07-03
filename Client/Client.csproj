@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\Player\Account.cs" />
+    <Compile Include="Game\Player\Character.cs" />
+    <Compile Include="Game\Screens\CharactersScreen.cs" />
+    <Compile Include="Game\Screens\UI\Components\Abstract\Panel.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -70,11 +74,11 @@
     <Compile Include="Game\Screens\UI\Components\PasswordInput.cs" />
     <Compile Include="Game\Screens\UI\Components\LineInput.cs" />
     <Compile Include="Game\Screens\UI\Components\Abstract\BorderedRectangleComponent.cs" />
-    <Compile Include="Game\Screens\UI\Components\IComponent.cs" />
+    <Compile Include="Game\Screens\UI\Components\Abstract\IComponent.cs" />
     <Compile Include="Game\Screens\UI\UI.cs" />
     <Compile Include="ServerConnection\Server.cs" />
     <Compile Include="ServerConnection\ServerCommands.cs" />
-    <Compile Include="ServerConnection\SpecificCommands\ServerRegisterAccount.cs" />
+    <Compile Include="ServerConnection\SpecificCommands\AccountCommands.cs" />
     <Compile Include="ServerConnection\ServerResponses.cs" />
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

@@ -50,6 +50,11 @@ namespace Client
 
         // TEXTURES
 
+        public static Image GetPanelBackground()
+        {
+            return Image.FromFile("res/textures/panel.png");
+        }
+
         public static Image GetButtonBackground()
         {
             return Image.FromFile("res/textures/button.png");
@@ -86,12 +91,40 @@ namespace Client
             return Image.FromFile("res/backgrounds/login.png");
         }
 
+        public static Image GetCharactersBackground()
+        {
+            return Image.FromFile("res/backgrounds/characters.png");
+        }
+
         // CHECKS
         private static Regex nicknamePattern = new Regex("^[a-zA-Z1-9]+$");
 
         public static bool IsValidUsername(string name)
         {
             return nicknamePattern.IsMatch(name);
+        }
+
+        // FONT
+        public static Font GetFont(int size)
+        {
+            return new Font(FontFamily.GenericMonospace, size);
+        }
+
+        // TEXTS
+        public static string GetSpecName(int spec)
+        {
+            switch (spec)
+            {
+                case 1: return "Demon Hunter";
+                case 2: return "Mage";
+                case 3: return "Priest";
+
+                case 4: return "Warlock";
+                case 5: return "Unnamed";
+                case 6: return "Unnamed";
+
+                default: return "Unknown";
+            }
         }
     }
 }

@@ -125,7 +125,7 @@ namespace Client
         {
             if(messageBox != null)
             {
-                messageBox.OnLeftMouseDown(location);
+                messageBox.OnMouseLeftDown(location);
                 return;
             }
 
@@ -139,7 +139,7 @@ namespace Client
             if (focusedComponent != null)
             {
                 focusedComponent.SetFocused(true);
-                focusedComponent.OnLeftMouseDown(location);
+                focusedComponent.OnMouseLeftDown(location);
             }
         }
 
@@ -147,13 +147,13 @@ namespace Client
         {
             if (messageBox != null)
             {
-                messageBox.OnLeftMouseUp(location);
+                messageBox.OnMouseLeftUp(location);
                 return;
             }
 
             if (focusedComponent != null)
             {
-                focusedComponent.OnLeftMouseUp(location);
+                focusedComponent.OnMouseLeftUp(location);
             }
         }
 
@@ -161,7 +161,7 @@ namespace Client
         {
             if (messageBox == null && focusedComponent != null)
             {
-                focusedComponent.OnRightMouseDown(location);
+                focusedComponent.OnMouseRightDown(location);
             }
         }
 
@@ -169,7 +169,7 @@ namespace Client
         {
             if (messageBox == null && focusedComponent != null)
             {
-                focusedComponent.OnRightMouseUp(location);
+                focusedComponent.OnMouseRightUp(location);
             }
         }
     }

@@ -21,6 +21,9 @@ namespace Server
             localEndPoint = new IPEndPoint(IPAddress.Loopback, PORT);
             serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
+            Console.WriteLine("Loading accounts database...");
+            gameData = Data.createMockData();
+
             Console.WriteLine("Starting server...");
 
             Thread receivingThread = new Thread(AcceptAndReceiveClients);

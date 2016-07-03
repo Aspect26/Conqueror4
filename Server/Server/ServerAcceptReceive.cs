@@ -50,7 +50,7 @@ namespace Server
         }
 
         //**************************************************
-        // FIRST MESSAGE CALLBACK
+        // FIRST MESSAGE CALLBACK (LOGIN OR REGISTER)
         //**************************************************
         private void FirstClientMessage(IAsyncResult result)
         {
@@ -66,18 +66,31 @@ namespace Server
                 if (content.IndexOf("\n") > -1)
                 {
                     // Whole message received
-                    Console.WriteLine("First message from user: {0}", content);
+                    Console.WriteLine("First message from user: {0}", clientSocket.LocalEndPoint);
+                    state.dataReceived = new StringBuilder();
                     string[] msgParts = content.Split(':');
                     bool actionResult;
+                    bool loggingIn = false;
 
                     if (msgParts.Length != 2)
+                    {
                         actionResult = false;
+                    }
                     else if (msgParts[0] == "1")
-                        actionResult = registerAccount(msgParts[1].Split(','));
+                    {
+                        actionResult = registerAccount(msgParts[1].Split(new char[] { ',' },
+                            StringSplitOptions.RemoveEmptyEntries));
+                    }
                     else if (msgParts[0] == "2")
-                        actionResult = loginAccount(msgParts[1].Split(','));
+                    {
+                        actionResult = loginAccount(state, msgParts[1].Split(new char[] { ',' },
+                            StringSplitOptions.RemoveEmptyEntries));
+                        loggingIn = true;
+                    }
                     else
+                    {
                         actionResult = false;
+                    }
 
                     byte[] byteData;
                     if (actionResult)
@@ -87,13 +100,99 @@ namespace Server
 
                     clientSocket.Send(byteData, 0, byteData.Length, 0);
 
-                    // Continue receiving
-                    // clientSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(FirstClientMessage), state);
+                    // continue sending characters list if logging in
+                    if (!loggingIn)
+                        return;
+
+                    clientSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(CharactersRequest), state);
                 }
                 else
                 {
                     // Not all data received. Get more.
                     clientSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(FirstClientMessage), state);
+                }
+            }
+        }
+
+        //**************************************************
+        // CHARACTERS LIST REQUEST
+        //**************************************************
+        private void CharactersRequest(IAsyncResult result)
+        {
+            StateObject state = (StateObject)result.AsyncState;
+            Socket clientSocket = state.clientSocket;
+            int bytesRead = clientSocket.EndReceive(result);
+
+            if (bytesRead > 0)
+            {
+                state.dataReceived.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
+                string content = state.dataReceived.ToString();
+
+                if (content.IndexOf("\n") > -1)
+                {
+                    // Whole message received
+                    Console.WriteLine("Characters list request from: {0}", state.Account.Username);
+                    state.dataReceived = new StringBuilder();
+                    content = content.Replace("\r", "").Replace("\n", "");
+                    if (content == "3:")
+                    {
+                        string charactersMessage = "";
+                        foreach(Character character in state.Account.GetCharacters())
+                        {
+                            charactersMessage += character.Name + "," + character.Level + "," + character.Spec + "|";
+                        }
+
+                        byte[] byteData = Encoding.ASCII.GetBytes(charactersMessage + "\r\n");
+                        clientSocket.Send(byteData, 0, byteData.Length, SocketFlags.None);
+
+                        clientSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceivingCallback), state);
+                    }
+                }
+                else
+                {
+                    // Not all data received. Get more.
+                    clientSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(CharactersRequest), state);
+                }
+            }
+        }
+
+        //**************************************************
+        // GENERIC COMMANDS RECEIVING
+        //**************************************************
+        private void ReceivingCallback(IAsyncResult result)
+        {
+            StateObject state = (StateObject)result.AsyncState;
+            Socket clientSocket = state.clientSocket;
+            int bytesRead = 0;
+            try {
+                bytesRead = clientSocket.EndReceive(result);
+            } catch(SocketException e)
+            {
+                Console.WriteLine("Lost connection with: " + state.Account.Username);
+                state.Account.LoggedIn = false;
+                clients.Remove(state);
+            }
+
+            if (bytesRead > 0)
+            {
+                state.dataReceived.Append(Encoding.ASCII.GetString(state.buffer, 0, bytesRead));
+                string content = state.dataReceived.ToString();
+
+                if (content.IndexOf("\n") > -1)
+                {
+                    // Whole message received
+                    state.dataReceived = new StringBuilder();
+                    Console.WriteLine("A generic message from: {0}", clientSocket.LocalEndPoint);
+
+                    // Handle message
+
+                    // Continue receiving
+                    clientSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceivingCallback), state);
+                }
+                else
+                {
+                    // Not all data received. Get more.
+                    clientSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceivingCallback), state);
                 }
             }
         }

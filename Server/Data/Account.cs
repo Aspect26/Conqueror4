@@ -7,13 +7,28 @@ namespace Server
 {
     public class Account
     {
-        string Username;
-        string Password;
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public bool LoggedIn { get; set; }
+
+        private List<Character> characters = new List<Character>();
 
         public Account(string Username, string Password)
         {
             this.Username = Username;
             this.Password = Password;
+
+            this.LoggedIn = false;
+        }
+
+        public List<Character> GetCharacters()
+        {
+            return characters;
+        }
+
+        public void AddCharacter(Character character)
+        {
+            this.characters.Add(character);
         }
     }
 }

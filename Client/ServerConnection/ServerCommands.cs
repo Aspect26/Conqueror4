@@ -9,6 +9,7 @@ namespace Client
     {
         private static int CMD_REGISTER = 1;
         private static int CMD_LOGIN = 2;
+        private static int CMD_CHARACTERS = 3;
 
         public static string RegisterAccount(string username, string password)
         {
@@ -18,6 +19,11 @@ namespace Client
         public static string LoginAccount(string username, string password)
         {
             return command(CMD_LOGIN, new string[] { username, password });
+        }
+
+        public static string GetCharacters()
+        {
+            return command(CMD_CHARACTERS, new string[] {});
         }
 
         // ************************************************

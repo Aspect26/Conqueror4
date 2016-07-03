@@ -11,6 +11,7 @@ namespace Client
         private string text;
         private int x, y;
         private bool pressed = false;
+        private bool set = false;
 
         private static Font font;
         private static Brush brush = Brushes.Yellow;
@@ -22,12 +23,22 @@ namespace Client
             : base(parentPosition, position, Game.GetButtonBackground())
         {
             this.text = text;
-            font = new Font(FontFamily.GenericMonospace, position.Height - 20);
+            font = Game.GetFont(position.Height - 20);
         }
 
         public override void Render(Graphics g)
         {
             base.Render(g);
+
+            if (!set)
+            {
+                while (g.MeasureString(text, font).Width > this.WIDTH)
+                {
+                    int size = (int)font.Size - 1;
+                    font = Game.GetFont(size);
+                }
+                set = true;
+            }
 
             x = (position.X + position.Width / 2) - (int)g.MeasureString(text, font).Width / 2;
             y = (position.Y + position.Height/2) - (int)g.MeasureString(text, font).Height / 2;
@@ -67,12 +78,12 @@ namespace Client
             }
         }
 
-        public override void OnLeftMouseDown(Point position)
+        public override void OnMouseLeftDown(Point position)
         {
             setPressed(true);
         }
 
-        public override void OnLeftMouseUp(Point position)
+        public override void OnMouseLeftUp(Point position)
         {
             setPressed(false);
         }

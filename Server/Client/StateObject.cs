@@ -14,5 +14,7 @@ namespace Server
         public StringBuilder dataReceived = new StringBuilder();
 
         public bool receiving = false;
+
+        public Account Account { get; set; }
     }
 }

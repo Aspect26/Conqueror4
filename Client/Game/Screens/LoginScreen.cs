@@ -56,24 +56,39 @@ namespace Client
 
         private void OnLoginClicked(Button button, EventArgs e)
         {
-            userInterface.MessageBoxShow("Uncompleted section!");
+            string nick = nickInput.getValue();
+            string pass = passInput.getValue();
+            if (!checkUsername(nick) || !checkPassword(pass))
+                return;
+
+            int result = game.server.LoginAccount(nick, pass);
+            if (result == ServerConnection.RESULT_OK)
+            {
+                game.Account = new Account();
+                game.Account.Username = nick;
+                game.ChangeWindow(new CharactersScreen(game));
+            }
+            else
+            {
+                switch (result)
+                {
+                    case ServerConnection.RESULT_CANTCONNECT:
+                        userInterface.MessageBoxShow("Can't connect to the server!"); break;
+                    case ServerConnection.RESULT_CANTSEND:
+                    case ServerConnection.RESULT_EMPTY:
+                        userInterface.MessageBoxShow("Can't communicate with the server!"); break;
+                    case ServerConnection.RESULT_FALSE:
+                        userInterface.MessageBoxShow("Wrong username or nicknamen or account already loggedd in."); break;
+                }
+            }
         }
 
         private void OnRegisterClicked(Button button, EventArgs e)
         {
             string nick = nickInput.getValue();
-            if (!Game.IsValidUsername(nick))
-            {
-                userInterface.MessageBoxShow("Invalid user name!");
-                return;
-            }
-
             string pass = passInput.getValue();
-            if (pass.Length < 5)
-            {
-                userInterface.MessageBoxShow("The password must contain at least 5 characters!");
+            if (!checkUsername(nick) || !checkPassword(pass))
                 return;
-            }
 
             int result = game.server.RegisterAccount(nick, pass);
             if (result == ServerConnection.RESULT_OK)
@@ -93,6 +108,28 @@ namespace Client
                         userInterface.MessageBoxShow("Could not create specified account!"); break;
                 }
             }
+        }
+
+        private bool checkUsername(string username)
+        {
+            if (!Game.IsValidUsername(username))
+            {
+                userInterface.MessageBoxShow("Invalid user name!");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool checkPassword(string pass)
+        {
+            if (pass.Length < 5)
+            {
+                userInterface.MessageBoxShow("The password must contain at least 5 characters!");
+                return false;
+            }
+
+            return true;
         }
     }
 }

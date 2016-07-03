@@ -20,5 +20,22 @@ namespace Client
 
             return RESPONSE_UNKNOWN;
         }
+
+        public static bool LoadCharacters(Account account, string message)
+        {
+            if (message == "")
+                return false;
+
+            foreach(string charString in message.Split('|'))
+            {
+                string[] parts = charString.Split(',');
+                if (parts.Length == 3)
+                {
+                    account.AddCharacter(parts[0], Convert.ToInt32(parts[1]), Convert.ToInt32(parts[2]));
+                }
+            }
+
+            return true;
+        }
     }
 }

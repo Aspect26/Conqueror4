@@ -9,7 +9,7 @@ namespace Client
     public class LineText : IComponent
     {
         protected readonly string text = "";
-        protected readonly Point position;
+        protected Point position;
         protected readonly Brush brush;
         protected readonly int size;
         protected IComponent neighbour;
@@ -19,8 +19,8 @@ namespace Client
 
         public int HEIGHT { get; set; }
         public int WIDTH { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X { get { return position.X; } }
+        public int Y { get { return position.Y; } }
 
         public LineText(Point parentPosition, string text, Color color, Point position, int size, IComponent neighbour = null)
         {
@@ -33,9 +33,6 @@ namespace Client
 
             this.brush = new SolidBrush(color);
             this.font = new Font(FontFamily.GenericMonospace, size);
-
-            this.X = position.X;
-            this.Y = position.Y;
         }
 
         public void Render(Graphics g)
@@ -50,7 +47,6 @@ namespace Client
             }
 
             g.DrawString(text, font, brush, position);
-            g.DrawRectangle(Pens.Red, new Rectangle(position, new Size(WIDTH, HEIGHT)));
         }
 
         public IComponent GetNeighbour()
@@ -63,6 +59,20 @@ namespace Client
             this.neighbour = neighbour;
         }
 
+        public void MoveX(int X)
+        {
+            position.X += X;
+        }
+
+        public void MoveY(int Y)
+        {
+            position.Y += Y;
+        }
+
+        public void ChangeWidth(int width) { }
+
+        public void ChangeHeight(int height) { }
+
         public bool IsAt(Point location)
         {
             return new Rectangle(X, Y, WIDTH, HEIGHT).Contains(location);
@@ -70,10 +80,10 @@ namespace Client
 
         public void OnKeyDown(int key) { }
         public void OnKeyUp(int key) { }
-        public void OnLeftMouseDown(Point position) { }
-        public void OnLeftMouseUp(Point position) { }
-        public void OnRightMouseDown(Point position) { }
-        public void OnRightMouseUp(Point position) { }
+        public void OnMouseLeftDown(Point position) { }
+        public void OnMouseLeftUp(Point position) { }
+        public void OnMouseRightDown(Point position) { }
+        public void OnMouseRightUp(Point position) { }
         public void SetFocused(bool focused) { }
     }
 }

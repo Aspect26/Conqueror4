@@ -9,15 +9,19 @@ namespace Server
     {
         private bool registerAccount(string[] args)
         {
-            if (args.Length != 3)
+            if (args.Length < 2)
                 return false;
 
             return gameData.RegisterAccount(args[0], args[1]);
         }
 
-        private bool loginAccount(string[] args)
+        private bool loginAccount(StateObject state, string[] args)
         {
-            return false;
+            if (args.Length < 2)
+                return false;
+
+            state.Account = gameData.LoginAccount(args[0], args[1]);
+            return state.Account != null;
         }
     }
 }
