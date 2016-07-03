@@ -37,6 +37,7 @@
             this.ClientSize = new System.Drawing.Size(640, 480);
             this.Name = "MainWindow";
             this.Text = "Conqueror 4";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnClose);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.OnMouseDown);

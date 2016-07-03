@@ -13,6 +13,7 @@ namespace Client
     public partial class MainWindow : Form
     {
         private Game game;
+        private Thread gameThread;
 
         private BufferedGraphicsContext context;
         private BufferedGraphics grafx;
@@ -43,8 +44,13 @@ namespace Client
                 return;
             }
 
-            Thread gameThread = new Thread(game.Start);
+            gameThread = new Thread(game.Start);
             gameThread.Start();
+        }
+
+        private void OnClose(object sender, FormClosedEventArgs e)
+        {
+            gameThread.Abort();
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
