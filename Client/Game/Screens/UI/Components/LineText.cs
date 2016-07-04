@@ -73,6 +73,11 @@ namespace Client
 
         public void ChangeHeight(int height) { }
 
+        public Rectangle GetClientArea()
+        {
+            return new Rectangle(X, Y, WIDTH, HEIGHT);
+        }
+
         public bool IsAt(Point location)
         {
             return new Rectangle(X, Y, WIDTH, HEIGHT).Contains(location);

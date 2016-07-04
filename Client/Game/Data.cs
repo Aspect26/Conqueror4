@@ -48,11 +48,38 @@ namespace Client
             return playerImages[charId];
         }
 
-        // TEXTURES
+        // UI COMPONENTS
+        public static Image GetLineInputBackgground()
+        {
+            return Image.FromFile("res/textures/lineinputbackground.png");
+        }
 
         public static Image GetPanelBackground()
         {
             return Image.FromFile("res/textures/panel.png");
+        }
+
+        public static Image GetCharacterImage(int spec)
+        {
+            switch (spec)
+            {
+                case 1: return Image.FromFile("res/characters/demonhunter.png");
+                case 2: return Image.FromFile("res/characters/mage.png");
+                case 3: return Image.FromFile("res/characters/priest.png");
+
+                case 4: return Image.FromFile("res/characters/warlock.png");
+                case 5: case 6: default: return Image.FromFile("res/characters/unknown.png");
+            }
+        }
+
+        public static Image GetCharacterButtonBackground()
+        {
+            return Image.FromFile("res/textures/characterbutton.png");
+        }
+
+        public static Image GetCharacterButtonBackgroundSelected()
+        {
+            return Image.FromFile("res/textures/characterbutton_selected.png");
         }
 
         public static Image GetButtonBackground()

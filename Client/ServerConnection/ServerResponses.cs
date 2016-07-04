@@ -31,11 +31,26 @@ namespace Client
                 string[] parts = charString.Split(',');
                 if (parts.Length == 3)
                 {
-                    account.AddCharacter(parts[0], Convert.ToInt32(parts[1]), Convert.ToInt32(parts[2]));
+                    account.AddCharacter(parts[0].Capitalize(), Convert.ToInt32(parts[1]), Convert.ToInt32(parts[2]));
                 }
             }
 
             return true;
+        }
+
+    }
+
+    public static class Extension
+    {
+        public static string Capitalize(this string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            if (input.Length == 1)
+                return input.ToUpper();
+
+            return input.Remove(1).ToUpper() + input.Substring(1);
         }
     }
 }

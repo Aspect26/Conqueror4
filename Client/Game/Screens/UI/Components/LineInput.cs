@@ -9,14 +9,15 @@ namespace Client
     public class LineInput : BorderedRectangleComponent
     {
         protected string textInput = "";
-        protected const int HEIGHT = 50;  // 10 + 10 borders, 20 text, 10 margin
+        protected const int HEIGHT = 35;  // 10 + 10 borders, 20 text, 10 margin
         protected const int MARGIN = 5;
-        protected const int FONTSIZE = 20;
+        protected const int FONTSIZE = 15;
         protected static Font font = new Font(FontFamily.GenericSerif, FONTSIZE);
         protected Brush brush;
 
-        public LineInput(Point parentPosition, Point position, int width, Color textColor, Color background, IComponent neighbour = null) 
-            : base(parentPosition, new Rectangle(position, new Size(width, HEIGHT)) , background, UI.DEFAULT_BORDER_HEIGHT, neighbour)
+        public LineInput(Point parentPosition, Point position, int width, Color textColor, IComponent neighbour = null) 
+            : base(parentPosition, new Rectangle(position, new Size(width, HEIGHT)) , Game.GetLineInputBackgground(), 
+                  UI.DEFAULT_BORDER_HEIGHT, neighbour)
         {
             brush = new SolidBrush(textColor);
         }

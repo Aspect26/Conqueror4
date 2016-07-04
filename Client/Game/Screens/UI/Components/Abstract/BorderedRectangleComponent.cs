@@ -61,6 +61,11 @@ namespace Client
                 borderSize, position.Height - 2 * borderSize);
         }
 
+        public override Rectangle GetClientArea()
+        {
+            return new Rectangle(X + borderSize, Y + borderSize, WIDTH - 2*borderSize, HEIGHT - 2*borderSize);
+        }
+
         public override void Render(Graphics g)
         {
             base.Render(g);

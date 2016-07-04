@@ -85,6 +85,11 @@ namespace Client
             position.Height = height;
         }
 
+        public virtual Rectangle GetClientArea()
+        {
+            return new Rectangle(X, Y, WIDTH, HEIGHT);
+        }
+
         public bool IsAt(Point location)
         {
             return position.Contains(location);

@@ -27,24 +27,21 @@ namespace Client
 
         public void AddComponent(IComponent component)
         {
-            // top and left margin
+            // top margin
             if (component.X < borderSize)
                 component.MoveX(borderSize - component.X);
 
+            // left margin
             if (component.Y < borderSize)
                 component.MoveY(borderSize - component.Y);
 
             // right margin
             if(component.X + component.WIDTH > position.X + WIDTH - borderSize*2)
-            {
-                component.ChangeWidth( (position.X + WIDTH - borderSize*2) - (component.X));
-            }
+                component.MoveX( (borderSize + GetClientArea().Width) - (component.X + component.WIDTH));
 
             // bottom margin
             if (component.Y + component.HEIGHT > position.Y + HEIGHT - borderSize*2)
-            {
-                component.ChangeHeight( (position.Y + HEIGHT - borderSize*2) - (component.Y));
-            }
+                component.MoveY((borderSize + GetClientArea().Height) - (component.Y + component.HEIGHT));
 
             component.MoveX(position.X);
             component.MoveY(position.Y);

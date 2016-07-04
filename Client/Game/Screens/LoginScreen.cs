@@ -17,11 +17,11 @@ namespace Client
         {
             int width = 300;
             nickInput = new LineInput(position, new Point(Game.WIDTH / 2 - width / 2, Game.HEIGHT / 2),
-                width, Color.Black, Color.Wheat, passInput);
+                width, Color.Black);
 
             passInput = new PasswordInput(position,
                 new Point(Game.WIDTH / 2 - width / 2, Game.HEIGHT / 2 + nickInput.HEIGHT + 5),
-                width, Color.Black, Color.Wheat);
+                width, Color.Black);
 
             loginButton = new Button(position, "Login",
                 new Rectangle(Game.WIDTH / 2 - width / 2, Game.HEIGHT / 2 + 2 * nickInput.HEIGHT + 2 * 5,
@@ -33,10 +33,10 @@ namespace Client
                 width / 2 - 5, 30));
             registerButton.Click += OnRegisterClicked;
 
-            loginText = new LineText(position, "Username:", Color.Black, new Point(
+            loginText = new LineText(position, "Username:", Color.Yellow, new Point(
                 nickInput.X - 150, nickInput.Y + 5), 20);
 
-            passText = new LineText(position, "Password:", Color.Black, new Point(
+            passText = new LineText(position, "Password:", Color.Yellow, new Point(
                 passInput.X - 150, passInput.Y + 5), 20);
 
             nickInput.SetNeighbour(passInput);
@@ -54,7 +54,7 @@ namespace Client
             userInterface.SetFocusedComponent(nickInput);
         }
 
-        private void OnLoginClicked(Button button, EventArgs e)
+        private void OnLoginClicked(Button button, EventArgs args)
         {
             string nick = nickInput.getValue();
             string pass = passInput.getValue();

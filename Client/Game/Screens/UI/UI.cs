@@ -13,7 +13,7 @@ namespace Client
     /// </summary>
     public class UI
     {
-        public const int DEFAULT_BORDER_HEIGHT = 10;
+        public const int DEFAULT_BORDER_HEIGHT = 4;
 
         private IComponent focusedComponent;
         private List<IComponent> components;

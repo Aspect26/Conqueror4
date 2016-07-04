@@ -18,21 +18,21 @@ namespace Client
 
             charactersPanel = new Panel(new Point(0, 0), new Rectangle(10, 100, 256, Game.HEIGHT - 105));
 
-            int currentY = 0;
+            int currentY = 4;
             int btn_height = 50;
-            int ofs = UI.DEFAULT_BORDER_HEIGHT;
             foreach(Character character in game.Account.GetCharacters())
             {
-                Button btn = new Button(new Point(0, ofs), character.Name + ", " + character.Level + ", " + Game.GetSpecName(character.Spec), 
-                    new Rectangle(0, currentY, charactersPanel.WIDTH, btn_height));
+                CharacterButton btn = new CharacterButton(new Point(0, 0),
+                    new Rectangle(0, currentY, charactersPanel.GetClientArea().Width, btn_height), character);
+                btn.CharacterClick += OnCharacterClicked;
 
                 charactersPanel.AddComponent(btn);
                 currentY += btn_height;
             }
 
             Button createCharacterButton = new Button(new Point(0, 0), "NEW CHARACTER", 
-                new Rectangle(charactersPanel.X, charactersPanel.HEIGHT - btn_height - UI.DEFAULT_BORDER_HEIGHT,
-                    charactersPanel.WIDTH, btn_height));
+                new Rectangle(0, charactersPanel.HEIGHT - btn_height,
+                    charactersPanel.GetClientArea().Width, btn_height));
             createCharacterButton.Click += OnNewCharacterClicked;
 
             charactersPanel.AddComponent(createCharacterButton);
@@ -40,7 +40,12 @@ namespace Client
             userInterface.AddComponent(charactersPanel);
         }
 
-        public void OnNewCharacterClicked(Button b, EventArgs e)
+        private void OnCharacterClicked(Button button, Character character)
+        {
+            userInterface.MessageBoxShow("Unfinished section!");
+        }
+
+        private void OnNewCharacterClicked(Button b, EventArgs e)
         {
             userInterface.MessageBoxShow("Unfinished section!");
         }

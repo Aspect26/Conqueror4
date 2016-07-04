@@ -33,5 +33,6 @@ namespace Client
         int HEIGHT { get; }
         int X { get; }
         int Y { get; }
+        Rectangle GetClientArea();
     }
 }

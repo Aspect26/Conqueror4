@@ -8,13 +8,13 @@ namespace Client
 {
     public class Button : RectangleComponent
     {
-        private string text;
-        private int x, y;
-        private bool pressed = false;
-        private bool set = false;
+        protected string text;
+        protected int x, y;
+        protected bool pressed = false;
+        protected bool set = false;
 
-        private static Font font;
-        private static Brush brush = Brushes.Yellow;
+        protected static Font font;
+        protected static Brush brush = Brushes.Black;
 
         public delegate void OnClickHandler(Button m, EventArgs e);
         public event OnClickHandler Click;
@@ -29,7 +29,11 @@ namespace Client
         public override void Render(Graphics g)
         {
             base.Render(g);
+            RenderText(g);
+        }
 
+        protected virtual void RenderText(Graphics g)
+        {
             if (!set)
             {
                 while (g.MeasureString(text, font).Width > this.WIDTH)
@@ -41,11 +45,11 @@ namespace Client
             }
 
             x = (position.X + position.Width / 2) - (int)g.MeasureString(text, font).Width / 2;
-            y = (position.Y + position.Height/2) - (int)g.MeasureString(text, font).Height / 2;
+            y = (position.Y + position.Height / 2) - (int)g.MeasureString(text, font).Height / 2;
             g.DrawString(text, font, brush, x, y);
         }
 
-        private void setPressed(bool pressed)
+        protected virtual void setPressed(bool pressed)
         {
             if (pressed)
             {
