@@ -49,6 +49,11 @@ namespace Client
             this.components.Remove(component);
         }
 
+        public IComponent GetFocusedComponent()
+        {
+            return this.focusedComponent;
+        }
+
         public void MessageBoxShow(string text)
         {
             SetFocusedComponent(null);

@@ -11,11 +11,15 @@ namespace Client
         public int Level { get; set; }
         public int Spec { get; set; }
 
+        public Location Location { get; set; }
+
         public Character(string name, int level, int spec)
         {
             this.Name = name;
             this.Level = level;
             this.Spec = spec;
+
+            Location = new Location();
         }
     }
 }

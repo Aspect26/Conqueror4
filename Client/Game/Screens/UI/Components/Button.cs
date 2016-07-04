@@ -13,8 +13,8 @@ namespace Client
         protected bool pressed = false;
         protected bool set = false;
 
-        protected static Font font;
-        protected static Brush brush = Brushes.Black;
+        protected Font font;
+        protected Brush brush = Brushes.Black;
 
         public delegate void OnClickHandler(Button m, EventArgs e);
         public event OnClickHandler Click;
@@ -23,7 +23,7 @@ namespace Client
             : base(parentPosition, position, Game.GetButtonBackground())
         {
             this.text = text;
-            font = Game.GetFont(position.Height - 20);
+            font = Game.GetFont((position.Height / 3) * 2);
         }
 
         public override void Render(Graphics g)

@@ -8,6 +8,7 @@ namespace Client
     public class Account
     {
         public string Username { get; set; }
+        public Character PlayCharacter { get; set; }
 
         private List<Character> characters = new List<Character>();
 

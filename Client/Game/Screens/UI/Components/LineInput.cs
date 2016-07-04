@@ -70,8 +70,8 @@ namespace Client
             // backspace
             if (k == 8 && textInput.Length != 0)
             {
-                if (textInput.Length != 1)
-                    textInput = textInput.Remove(textInput.Length - 2);
+                if (textInput.Length != 0)
+                    textInput = textInput.Remove(textInput.Length - 1);
                 else
                     textInput = "";
             }

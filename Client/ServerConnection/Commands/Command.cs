@@ -5,30 +5,27 @@ using System.Text;
 
 namespace Client
 {
-    public static class ServerCommands
+    public partial class ServerConnection
     {
         private static int CMD_REGISTER = 1;
         private static int CMD_LOGIN = 2;
         private static int CMD_CHARACTERS = 3;
+        private static int CMD_LOADCHAR = 4;
 
-        public static string RegisterAccount(string username, string password)
+        private int trySend(int commandNumber, string[] args)
         {
-            return command(CMD_REGISTER, new string[] { username, password });
-        }
+            if (!Connected)
+            {
+                return RESULT_FALSE;
+            }
 
-        public static string LoginAccount(string username, string password)
-        {
-            return command(CMD_LOGIN, new string[] { username, password });
-        }
+            if (!SendOne(command(commandNumber, args)))
+            { 
+                return RESULT_CANTSEND;
+            }
 
-        public static string GetCharacters()
-        {
-            return command(CMD_CHARACTERS, new string[] {});
+            return RESULT_OK;
         }
-
-        // ************************************************
-        // Helper functions
-        // ************************************************
 
         private static string command(int cmd, string[] args)
         {

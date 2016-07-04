@@ -8,6 +8,7 @@ namespace Server
     public partial class Server
     {
         private ManualResetEvent newConnectionEstablishedEvent = new ManualResetEvent(false);
+        private CommandsHandler commandsHandler;
 
         //**************************************************
         // ACCEPTING AND RECEIVING CYCLE
@@ -19,7 +20,7 @@ namespace Server
                 serverSocket.Bind(localEndPoint);
                 serverSocket.Listen(10);
 
-                Console.WriteLine("Thread for accepting and receiving clients started...");
+                Console.WriteLine("Task for accepting and receiving clients started...");
                 Console.WriteLine("-------------------------");
                 while (true)
                 {
@@ -182,9 +183,10 @@ namespace Server
                 {
                     // Whole message received
                     state.dataReceived = new StringBuilder();
-                    Console.WriteLine("A generic message from: {0}", clientSocket.LocalEndPoint);
+                    Console.WriteLine("A generic message from: {0}\n {1}", clientSocket.LocalEndPoint, content);
 
                     // Handle message
+                    commandsHandler.HandleMessage(state, content);
 
                     // Continue receiving
                     clientSocket.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0, new AsyncCallback(ReceivingCallback), state);

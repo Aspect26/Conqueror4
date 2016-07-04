@@ -5,56 +5,58 @@ using System.Text;
 
 namespace Server
 {
-    public class Data
+    public partial class Data
     {
-        Dictionary<string, Account> accountData = new Dictionary<string, Account>();
-        Dictionary<string, Character> characterData = new Dictionary<string, Character>();
+        // *****************************************
+        // ACCOUNTS DATA
+        // *****************************************
+        static Dictionary<string, Account> accountData = new Dictionary<string, Account>();
+        static Dictionary<string, Character> characterData = new Dictionary<string, Character>();
 
-        public bool RegisterAccount(string username, string password)
+        // getters
+        public static Character GetCharacter(string name)
         {
-            username = username.ToLower();
-            password = password.ToLower();
-
-            if (accountData.ContainsKey(username))
-                return false;
-
-            accountData.Add(username, new Account(username, password));
-            return true;
+            Character rtrn;
+            if (characterData.TryGetValue(name, out rtrn))
+                return rtrn;
+            else return null;
         }
 
-        public Account LoginAccount(string username, string password)
+        // *****************************************
+        // GAME DATA
+        // *****************************************
+
+        // map id -> map name
+        static Dictionary<int, string> mapNames = new Dictionary<int, string>()
         {
-            username = username.ToLower();
-            password = password.ToLower();
+            { 0, "Kingdom of ___" },
+            { 1, "The DarkFortress" }
+        };
 
-            if (!accountData.ContainsKey(username))
-                return null;
+        // spec id -> spec starting location
+        static Dictionary<int, Location> startingLocations = new Dictionary<int, Location>()
+        {
+            { DEMON_HUNTER,  new Location(0, 10, 10) },
+            { MAGE, new Location(0,20,20) },
+            { PRIEST, new Location(0,20,100) },
 
-            if (accountData[username].Password != password)
-                return null;
+            { WARLOCK, new Location(1,20,20) },
+            { UNK_1, new Location(1,20,20) },
+            { UNK_2, new Location(1,20,20) },
+        };
 
-            if (accountData[username].LoggedIn) //TODO: disconnect account
-                return null;
-
-            accountData[username].LoggedIn = true;
-            return accountData[username];        
+        // getters
+        public static Location GetStartingLocation(int spec)
+        {
+            Location l = startingLocations[spec];
+            return new Location(l.MapID, l.X, l.Y);
         }
 
-        public Character CreateCharacter(string username, string name, int spec)
+        public static Dictionary<int, string> GetMaps()
         {
-            name = name.ToLower();
-            if (characterData.ContainsKey(name))
-                return null;
-
-            if (!accountData.ContainsKey(username))
-                return null;
-
-            Character newChar = new Character(name, spec);
-            characterData.Add(name, newChar);
-            accountData[username].AddCharacter(newChar);
-
-            return newChar;
+            return mapNames;
         }
+
         /*****************************/
         /* MOCK DATA                 */
         /*****************************/

@@ -50,10 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game\Player\Account.cs" />
-    <Compile Include="Game\Player\Character.cs" />
+    <Compile Include="Game\Player\Character\Character.cs" />
+    <Compile Include="Game\Player\Character\Location.cs" />
     <Compile Include="Game\Screens\CharactersScreen.cs" />
+    <Compile Include="Game\Screens\PlayScreen.cs" />
     <Compile Include="Game\Screens\UI\Components\Abstract\Panel.cs" />
     <Compile Include="Game\Screens\UI\Components\CharacterButton.cs" />
+    <Compile Include="Game\Screens\UI\Components\CharactersPanel.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,10 +83,12 @@
     <Compile Include="Game\Screens\UI\Components\Abstract\BorderedRectangleComponent.cs" />
     <Compile Include="Game\Screens\UI\Components\Abstract\IComponent.cs" />
     <Compile Include="Game\Screens\UI\UI.cs" />
+    <Compile Include="ServerConnection\Commands\AccountCommands.cs" />
+    <Compile Include="ServerConnection\Commands\CharactersCommands.cs" />
+    <Compile Include="ServerConnection\ResponseParsers\BooleanResponses.cs" />
+    <Compile Include="ServerConnection\ResponseParsers\CharacterResponses.cs" />
     <Compile Include="ServerConnection\Server.cs" />
-    <Compile Include="ServerConnection\ServerCommands.cs" />
-    <Compile Include="ServerConnection\SpecificCommands\AccountCommands.cs" />
-    <Compile Include="ServerConnection\ServerResponses.cs" />
+    <Compile Include="ServerConnection\Commands\Command.cs" />
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>

@@ -56,6 +56,11 @@ namespace Client
             g.DrawImage(characterImage, position.X + 17, position.Y + 9, 35, 30);
         }
 
+        public Character GetCharacter()
+        {
+            return character;
+        }
+
         // ******************************************
         // EVENTS
         // ******************************************
