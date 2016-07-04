@@ -9,8 +9,10 @@ namespace Client
 {
     public class Map
     {
-        // HEIGHT x WIDTH
+        // X x Y
         private Tile[][] tiles;
+
+        private const int VISIBILITY = 14;
 
         public void Create(string mapPath)
         {
@@ -41,13 +43,29 @@ namespace Client
             }
         }
 
-        public void Render(Graphics graphics, int xOffset, int yOffset)
+        public void Render(Graphics graphics, Location playerLocation)
         {
-            for(int y = 0; y<tiles.Length; y++)
+            // "move" map accordingly to playe's location
+            int xPlayerOffset = playerLocation.X;
+            int yPlayerOffset = playerLocation.Y;
+
+            // "move" map so it's relative to middle of the screen, not topleft corner
+            int xScreenOffset = Game.WIDTH / 2;
+            int yScreenOffset = Game.HEIGHT / 2;
+
+            for(int y = yPlayerOffset/Tile.TILE_SIZE - VISIBILITY/2; y < yPlayerOffset/Tile.TILE_SIZE + VISIBILITY / 2; y++)
             {
-                for(int x = 0; x<tiles[y].Length; x++)
+                if (y >= 0 && y < tiles.Length)
                 {
-                    tiles[y][x].Render(graphics, x*Tile.TILE_SIZE + xOffset, y*Tile.TILE_SIZE + yOffset);
+                    for (int x = xPlayerOffset / Tile.TILE_SIZE - VISIBILITY / 2; x < xPlayerOffset / Tile.TILE_SIZE + VISIBILITY / 2; x++)
+                    {
+                        if (x >= 0 && x <= tiles[y].Length)
+                        {
+                            tiles[y][x].Render(graphics,
+                                x * Tile.TILE_SIZE - xPlayerOffset + xScreenOffset, 
+                                y * Tile.TILE_SIZE - yPlayerOffset + yScreenOffset);
+                        }
+                    }
                 }
             }
         }

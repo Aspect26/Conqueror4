@@ -36,7 +36,7 @@ namespace Server
         // spec id -> spec starting location
         static Dictionary<int, Location> startingLocations = new Dictionary<int, Location>()
         {
-            { DEMON_HUNTER,  new Location(0, 10, 10) },
+            { DEMON_HUNTER,  new Location(0, 500, 500) },
             { MAGE, new Location(0,20,20) },
             { PRIEST, new Location(0,20,100) },
 

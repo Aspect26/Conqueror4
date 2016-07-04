@@ -9,7 +9,7 @@ namespace Client
 {
     public class Tile
     {
-        public static readonly int TILE_SIZE = 40;
+        public static readonly int TILE_SIZE = 50;
         private static Pen noImagePen = Pens.Black;
         private int id;
 
@@ -20,7 +20,7 @@ namespace Client
 
         public virtual void Render(Graphics graphics, int X, int Y)
         {
-            graphics.DrawImage(Game.getTile(id), X, Y, TILE_SIZE, TILE_SIZE);
+            graphics.DrawImage(Game.GetTile(id), X, Y, TILE_SIZE, TILE_SIZE);
         }
     }
 }

@@ -11,8 +11,8 @@ namespace Client
     {
         private static Dictionary<int, string> mapIds = new Dictionary<int, string>()
         {
-            { 0, "res/maps/first" },
-            { 1, "res/maps/sekunda" },
+            { 0, "res/maps/kingdom.map" },
+            { 1, "res/maps/fortress.map" },
             { 2, "res/maps/third" }
         };
 
@@ -33,12 +33,12 @@ namespace Client
         };
 
         // GET DATA
-        public static string getMapFilePath(int mapId)
+        public static string GetMapFilePath(int mapId)
         {
             return mapIds[mapId];
         }
 
-        public static Image getTile(int tileId)
+        public static Image GetTile(int tileId)
         {
             return tileImages[tileId];
         }
