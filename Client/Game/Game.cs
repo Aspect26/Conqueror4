@@ -3,85 +3,40 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
+using System.Threading.Tasks;
 
 namespace Client
-{ 
-    public partial class Game
+{
+    public class Game
     {
-        private BufferedGraphics graphics;
-        private IWindow gameScreen;
-
-        public Account Account { get; set; }
         public Map Map { get; set; }
-        public ServerConnection server { get; set; }
+        public Character Character { get; set; }
 
-        public static int HEIGHT;
-        public static int WIDTH;
-
-        public Game(int height, int width, BufferedGraphics graphics)
+        public Game(Character character)
         {
-            HEIGHT = height;
-            WIDTH = width;
-
-            this.graphics = graphics;
-            this.server = new ServerConnection(this);
+            this.Character = character;
+            this.CreateMap();
         }
 
-        public void Start()
-        {
-            gameScreen = new LoginScreen(this);
-            while (true)
-            {
-                render();
-            }
-        }
-
-        public void ChangeWindow(IWindow screen)
-        {
-            this.gameScreen = screen;
-        }
-
-        private void render()
-        {
-            graphics.Render();
-            gameScreen.Render(graphics.Graphics);
-        }
-
-        public void CreateMap()
+        private  void CreateMap()
         {
             Map = new Map();
-            //Map.Create(getMapFilePath(Player.CurrentLocation));
+            Map.Create(GameData.GetMapFilePath(Character.Location.MapID));
         }
 
-        public void OnKeyDown(int key)
+        public void RunCycle(Graphics g, int timeSpan)
         {
-            gameScreen.OnKeyDown(key);
+            RenderAll(g);
         }
 
-        public void OnKeyUp(int key)
+        private void RenderAll(Graphics g)
         {
-            gameScreen.OnKeyUp(key);
-        }
+            // player
+            /*g.DrawImage(playerImage, Application.WIDTH / 2 - playerSize / 2, Application.HEIGHT / 2 - playerSize / 2,
+                playerSize, playerSize);
 
-        public void OnMouseLeftDown(Point location)
-        {
-            gameScreen.OnMouseLeftDown(location);
-        }
-
-        public void OnMouseRightDown(Point location)
-        {
-            gameScreen.OnMouseRightDown(location);
-        }
-
-        public void OnMouseLeftUp(Point location)
-        {
-            gameScreen.OnMouseLeftUp(location);
-        }
-
-        public void OnMouseRightUp(Point location)
-        {
-            gameScreen.OnMouseRightUp(location);
+            // map
+            map.Render(g, character.Location);*/
         }
     }
 }

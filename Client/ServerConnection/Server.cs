@@ -19,11 +19,11 @@ namespace Client
         private StreamWriter output;
 
         //private object streaming = new object();
-        private Game game;
+        private Application game;
 
         public bool Connected { get; set; }
 
-        public ServerConnection(Game game)
+        public ServerConnection(Application game)
         {
             Connected = false;
             this.game = game;

@@ -11,16 +11,17 @@ namespace Client
     {
         public static readonly int TILE_SIZE = 50;
         private static Pen noImagePen = Pens.Black;
-        private int id;
+
+        public int Id { get; set; }
 
         public Tile(int id)
         {
-            this.id = id;
+            this.Id = id;
         }
 
         public virtual void Render(Graphics graphics, int X, int Y)
         {
-            graphics.DrawImage(Game.GetTile(id), X, Y, TILE_SIZE, TILE_SIZE);
+            graphics.DrawImage(GameData.GetTile(Id), X, Y, TILE_SIZE, TILE_SIZE);
         }
     }
 }

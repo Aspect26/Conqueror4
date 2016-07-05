@@ -20,10 +20,10 @@ namespace Client
         public event OnClickHandler Click;
 
         public Button(Point parentPosition, string text, Rectangle position)
-            : base(parentPosition, position, Game.GetButtonBackground())
+            : base(parentPosition, position, GameData.GetButtonBackground())
         {
             this.text = text;
-            font = Game.GetFont((position.Height / 3) * 2);
+            font = GameData.GetFont((position.Height / 3) * 2);
         }
 
         public override void Render(Graphics g)
@@ -39,7 +39,7 @@ namespace Client
                 while (g.MeasureString(text, font).Width > this.WIDTH)
                 {
                     int size = (int)font.Size - 1;
-                    font = Game.GetFont(size);
+                    font = GameData.GetFont(size);
                 }
                 set = true;
             }
@@ -54,7 +54,7 @@ namespace Client
             if (pressed)
             {
                 this.pressed = pressed;
-                this.backgroundImage = Game.GetButtonBackgroundPressed();
+                this.backgroundImage = GameData.GetButtonBackgroundPressed();
             }
             else
             {
@@ -62,7 +62,7 @@ namespace Client
                     Click(this, null);
 
                 this.pressed = pressed;
-                this.backgroundImage = Game.GetButtonBackground();
+                this.backgroundImage = GameData.GetButtonBackground();
             }
         }
 

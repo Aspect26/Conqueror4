@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,23 @@ namespace Client
         private Tile[][] tiles;
 
         private const int VISIBILITY = 14;
+
+        readonly float[][] matrixItems = {
+            new float[] {1, 0, 0, 0, 0},
+            new float[] {0, 1, 0, 0, 0},
+            new float[] {0, 0, 1, 0, 0},
+            new float[] {0, 0, 0, 0.3f, 0},
+            new float[] {0, 0, 0, 0, 1}};
+        ColorMatrix blendMatrix;
+        ImageAttributes blendAttribute = new ImageAttributes();
+
+
+        public Map()
+        {
+            blendMatrix = new ColorMatrix(matrixItems);
+            blendAttribute = new ImageAttributes();
+            blendAttribute.SetColorMatrix(blendMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+        }
 
         public void Create(string mapPath)
         {
@@ -50,8 +68,8 @@ namespace Client
             int yPlayerOffset = playerLocation.Y;
 
             // "move" map so it's relative to middle of the screen, not topleft corner
-            int xScreenOffset = Game.WIDTH / 2;
-            int yScreenOffset = Game.HEIGHT / 2;
+            int xScreenOffset = Application.WIDTH / 2;
+            int yScreenOffset = Application.HEIGHT / 2;
 
             for(int y = yPlayerOffset/Tile.TILE_SIZE - VISIBILITY/2; y < yPlayerOffset/Tile.TILE_SIZE + VISIBILITY / 2; y++)
             {
@@ -61,13 +79,44 @@ namespace Client
                     {
                         if (x >= 0 && x <= tiles[y].Length)
                         {
-                            tiles[y][x].Render(graphics,
-                                x * Tile.TILE_SIZE - xPlayerOffset + xScreenOffset, 
+                            Point drawPoint = new Point(x * Tile.TILE_SIZE - xPlayerOffset + xScreenOffset,
                                 y * Tile.TILE_SIZE - yPlayerOffset + yScreenOffset);
+
+                            graphics.DrawImage(GameData.GetTile(tiles[y][x].Id),
+                                drawPoint.X, drawPoint.Y,
+                                Tile.TILE_SIZE, Tile.TILE_SIZE);
+
+                            //BlendTile(graphics, x, y, drawPoint);
                         }
                     }
                 }
             }
         }
+
+        private void BlendTile(Graphics g, int x, int y, Point position)
+        {
+            BlendLeft(g, x, y, position);
+        }
+
+        private void BlendLeft(Graphics g, int x, int y, Point position)
+        {
+            if (y - 1 >= 0 && y - 1 < tiles.Length)
+            {
+                if (tiles[y][x].Id != tiles[y - 1][x].Id)
+                {
+                    g.DrawImage(
+                        GameData.GetTile(tiles[y][x].Id),
+                        new Rectangle(position.X - Tile.TILE_SIZE, position.Y, Tile.TILE_SIZE, Tile.TILE_SIZE), 
+                        0.0f, 
+                        0.0f, 
+                        Tile.TILE_SIZE, 
+                        Tile.TILE_SIZE,
+                        GraphicsUnit.Pixel, 
+                        blendAttribute);
+                }
+            }
+        }
+
+        
     }
 }

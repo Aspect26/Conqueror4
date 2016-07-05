@@ -10,8 +10,8 @@ namespace Client
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.Run(new MainWindow());
+            System.Windows.Forms.Application.EnableVisualStyles();
+            System.Windows.Forms.Application.Run(new MainWindow());
         }
     }
 }

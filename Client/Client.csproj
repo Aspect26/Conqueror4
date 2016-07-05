@@ -49,40 +49,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game\Player\Account.cs" />
-    <Compile Include="Game\Player\Character\Character.cs" />
-    <Compile Include="Game\Player\Character\Location.cs" />
-    <Compile Include="Game\Screens\CharactersScreen.cs" />
-    <Compile Include="Game\Screens\PlayScreen.cs" />
-    <Compile Include="Game\Screens\UI\Components\Abstract\Panel.cs" />
-    <Compile Include="Game\Screens\UI\Components\CharacterButton.cs" />
-    <Compile Include="Game\Screens\UI\Components\CharactersPanel.cs" />
+    <Compile Include="Game\Game.cs" />
+    <Compile Include="Application\Player\Account.cs" />
+    <Compile Include="Application\Player\Character\Character.cs" />
+    <Compile Include="Application\Player\Character\Location.cs" />
+    <Compile Include="Application\Screens\CharactersScreen.cs" />
+    <Compile Include="Application\Screens\PlayScreen.cs" />
+    <Compile Include="Application\Screens\UI\Components\Abstract\Panel.cs" />
+    <Compile Include="Application\Screens\UI\Components\CharacterButton.cs" />
+    <Compile Include="Application\Screens\UI\Components\CharactersPanel.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Game\Data.cs" />
-    <Compile Include="Game\Game.cs" />
+    <Compile Include="Application\Data.cs" />
+    <Compile Include="Application\Application.cs" />
     <Compile Include="Game\Map.cs" />
-    <Compile Include="Game\Player.cs" />
-    <Compile Include="Game\Tiles.cs" />
+    <Compile Include="Application\Player.cs" />
+    <Compile Include="Application\Tiles.cs" />
     <Compile Include="Image\ImageFunctions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Game\Screens\Abstract\EmptyScreen.cs" />
-    <Compile Include="Game\Screens\Abstract\IWindow.cs" />
-    <Compile Include="Game\Screens\LoginScreen.cs" />
-    <Compile Include="Game\Screens\UI\Components\Abstract\RectangleComponent.cs" />
-    <Compile Include="Game\Screens\UI\Components\Button.cs" />
-    <Compile Include="Game\Screens\UI\Components\LineText.cs" />
-    <Compile Include="Game\Screens\UI\Components\MessageBoxComponent.cs" />
-    <Compile Include="Game\Screens\UI\Components\PasswordInput.cs" />
-    <Compile Include="Game\Screens\UI\Components\LineInput.cs" />
-    <Compile Include="Game\Screens\UI\Components\Abstract\BorderedRectangleComponent.cs" />
-    <Compile Include="Game\Screens\UI\Components\Abstract\IComponent.cs" />
-    <Compile Include="Game\Screens\UI\UI.cs" />
+    <Compile Include="Application\Screens\Abstract\EmptyScreen.cs" />
+    <Compile Include="Application\Screens\Abstract\IWindow.cs" />
+    <Compile Include="Application\Screens\LoginScreen.cs" />
+    <Compile Include="Application\Screens\UI\Components\Abstract\RectangleComponent.cs" />
+    <Compile Include="Application\Screens\UI\Components\Button.cs" />
+    <Compile Include="Application\Screens\UI\Components\LineText.cs" />
+    <Compile Include="Application\Screens\UI\Components\MessageBoxComponent.cs" />
+    <Compile Include="Application\Screens\UI\Components\PasswordInput.cs" />
+    <Compile Include="Application\Screens\UI\Components\LineInput.cs" />
+    <Compile Include="Application\Screens\UI\Components\Abstract\BorderedRectangleComponent.cs" />
+    <Compile Include="Application\Screens\UI\Components\Abstract\IComponent.cs" />
+    <Compile Include="Application\Screens\UI\UI.cs" />
     <Compile Include="ServerConnection\Commands\AccountCommands.cs" />
     <Compile Include="ServerConnection\Commands\CharactersCommands.cs" />
     <Compile Include="ServerConnection\ResponseParsers\BooleanResponses.cs" />
@@ -114,7 +115,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Game\Screens\UI\GeometricStructures\" />
+    <Folder Include="Application\Screens\UI\GeometricStructures\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

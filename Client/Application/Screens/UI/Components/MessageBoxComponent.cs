@@ -16,8 +16,8 @@ namespace Client
         private UI container;
 
         public MessageBoxComponent(string text)
-            : base(new Point(0,0), new Rectangle((Game.WIDTH - (Game.WIDTH / 5) * 4) / 2, (Game.HEIGHT - 96) / 2,
-                (Game.WIDTH / 5) * 4, 96), Color.White)
+            : base(new Point(0,0), new Rectangle((Application.WIDTH - (Application.WIDTH / 5) * 4) / 2, (Application.HEIGHT - 96) / 2,
+                (Application.WIDTH / 5) * 4, 96), Color.White)
         {
             Point thisPoisition = new Point(this.position.X, this.position.Y);
             container = new UI();

@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace Client
 {
-    public partial class Game 
+    public partial class GameData 
     {
         private static Dictionary<int, string> mapIds = new Dictionary<int, string>()
         {

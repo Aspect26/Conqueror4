@@ -13,27 +13,27 @@ namespace Client
 
         private Character character;
 
-        private Font mainFont = Game.GetFont(10);
-        private Font lesserFont = Game.GetFont(8);
+        private Font mainFont = GameData.GetFont(10);
+        private Font lesserFont = GameData.GetFont(8);
         private Image characterImage;
 
         public CharacterButton(Point parentPosition, Rectangle position, Character character)
-            : base(parentPosition, character.Name + ", " + character.Level + ", " + Game.GetSpecName(character.Spec), position)
+            : base(parentPosition, character.Name + ", " + character.Level + ", " + GameData.GetSpecName(character.Spec), position)
         {
             this.character = character;
-            font = Game.GetFont(position.Height - 20);
+            font = GameData.GetFont(position.Height - 20);
 
-            this.backgroundImage = Game.GetCharacterButtonBackground();
-            this.characterImage = Game.GetCharacterImage(character.Spec);
+            this.backgroundImage = GameData.GetCharacterButtonBackground();
+            this.characterImage = GameData.GetCharacterImage(character.Spec);
         }
 
         public override void SetFocused(bool focused)
         {
             this.focused = focused;
             if(this.focused)
-                this.backgroundImage = Game.GetCharacterButtonBackgroundSelected();
+                this.backgroundImage = GameData.GetCharacterButtonBackgroundSelected();
             else
-                this.backgroundImage = Game.GetCharacterButtonBackground();
+                this.backgroundImage = GameData.GetCharacterButtonBackground();
         }
 
         public override void Render(Graphics g)
@@ -48,7 +48,7 @@ namespace Client
             int marginTop = 6;
             g.DrawString(character.Name, mainFont, Brushes.Black, position.X + marginLeft, position.Y + marginTop);
             g.DrawString("Level " + character.Level, lesserFont, Brushes.Gray, position.X + marginLeft, position.Y + marginTop + mainFont.Size + 2);
-            g.DrawString(Game.GetSpecName(character.Spec), lesserFont, Brushes.Gray, position.X + marginLeft, position.Y + marginTop + mainFont.Size + 2 + lesserFont.Size + 1);
+            g.DrawString(GameData.GetSpecName(character.Spec), lesserFont, Brushes.Gray, position.X + marginLeft, position.Y + marginTop + mainFont.Size + 2 + lesserFont.Size + 1);
         }
 
         private void RenderCharacterImage(Graphics g)

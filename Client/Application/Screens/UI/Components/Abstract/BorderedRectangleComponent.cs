@@ -41,13 +41,13 @@ namespace Client
         {
             this.borderSize = borderSize;
 
-            this.topBorderImage = Game.GetUIHorizontalBorder();
-            this.bottomBorderImage = Game.GetUIHorizontalBorder(); bottomBorderImage.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            this.verticalBorderImage = Game.GetUIVerticalBorder();
+            this.topBorderImage = GameData.GetUIHorizontalBorder();
+            this.bottomBorderImage = GameData.GetUIHorizontalBorder(); bottomBorderImage.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            this.verticalBorderImage = GameData.GetUIVerticalBorder();
 
-            this.topBorderImageFocused = Game.GetUIHorizontalBorderFocused();
-            this.bottomBorderImageFocused = Game.GetUIHorizontalBorderFocused(); bottomBorderImageFocused.RotateFlip(RotateFlipType.RotateNoneFlipY);
-            this.verticalBorderImageFocused = Game.GetUIVerticalBorderFocused();
+            this.topBorderImageFocused = GameData.GetUIHorizontalBorderFocused();
+            this.bottomBorderImageFocused = GameData.GetUIHorizontalBorderFocused(); bottomBorderImageFocused.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            this.verticalBorderImageFocused = GameData.GetUIVerticalBorderFocused();
 
             topBorderRect = new Rectangle(position.X, position.Y, position.Width, borderSize);
 

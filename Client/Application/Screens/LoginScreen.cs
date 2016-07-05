@@ -13,23 +13,23 @@ namespace Client
         LineText loginText;
         LineText passText;
 
-        public LoginScreen(Game game) : base(game, Game.GetLoginBackground())
+        public LoginScreen(Application game) : base(game, GameData.GetLoginBackground())
         {
             int width = 300;
-            nickInput = new LineInput(position, new Point(Game.WIDTH / 2 - width / 2, Game.HEIGHT / 2),
+            nickInput = new LineInput(position, new Point(Application.WIDTH / 2 - width / 2, Application.HEIGHT / 2),
                 width, Color.Black);
 
             passInput = new PasswordInput(position,
-                new Point(Game.WIDTH / 2 - width / 2, Game.HEIGHT / 2 + nickInput.HEIGHT + 5),
+                new Point(Application.WIDTH / 2 - width / 2, Application.HEIGHT / 2 + nickInput.HEIGHT + 5),
                 width, Color.Black);
 
             loginButton = new Button(position, "Login",
-                new Rectangle(Game.WIDTH / 2 - width / 2, Game.HEIGHT / 2 + 2 * nickInput.HEIGHT + 2 * 5,
+                new Rectangle(Application.WIDTH / 2 - width / 2, Application.HEIGHT / 2 + 2 * nickInput.HEIGHT + 2 * 5,
                 width / 2 - 5, 30));
             loginButton.Click += OnLoginClicked;
 
             registerButton = new Button(position, "Register",
-                new Rectangle(Game.WIDTH / 2 - width / 2 + loginButton.WIDTH + 10, Game.HEIGHT / 2 + 2 * nickInput.HEIGHT + 2 * 5,
+                new Rectangle(Application.WIDTH / 2 - width / 2 + loginButton.WIDTH + 10, Application.HEIGHT / 2 + 2 * nickInput.HEIGHT + 2 * 5,
                 width / 2 - 5, 30));
             registerButton.Click += OnRegisterClicked;
 
@@ -61,12 +61,12 @@ namespace Client
             if (!checkUsername(nick) || !checkPassword(pass))
                 return;
 
-            int result = game.server.LoginAccount(nick, pass);
+            int result = application.server.LoginAccount(nick, pass);
             if (result == ServerConnection.RESULT_OK)
             {
-                game.Account = new Account();
-                game.Account.Username = nick;
-                game.ChangeWindow(new CharactersScreen(game));
+                application.Account = new Account();
+                application.Account.Username = nick;
+                application.ChangeWindow(new CharactersScreen(application));
             }
             else
             {
@@ -90,7 +90,7 @@ namespace Client
             if (!checkUsername(nick) || !checkPassword(pass))
                 return;
 
-            int result = game.server.RegisterAccount(nick, pass);
+            int result = application.server.RegisterAccount(nick, pass);
             if (result == ServerConnection.RESULT_OK)
             {
                 userInterface.MessageBoxShow("Account created successfully!");
@@ -112,7 +112,7 @@ namespace Client
 
         private bool checkUsername(string username)
         {
-            if (!Game.IsValidUsername(username))
+            if (!GameData.IsValidUsername(username))
             {
                 userInterface.MessageBoxShow("Invalid user name!");
                 return false;

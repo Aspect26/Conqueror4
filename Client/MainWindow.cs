@@ -12,7 +12,7 @@ namespace Client
 {
     public partial class MainWindow : Form
     {
-        private Game game;
+        private Application game;
         private Thread gameThread;
 
         private BufferedGraphicsContext context;
@@ -36,7 +36,7 @@ namespace Client
             grafx = context.Allocate(g, new Rectangle(0, 0, this.Width, this.Height));
 
             try {
-                game = new Game(this.ClientRectangle.Height, this.ClientRectangle.Width, grafx);
+                game = new Application(this.ClientRectangle.Height, this.ClientRectangle.Width, grafx);
             }
             catch (TypeInitializationException)
             {

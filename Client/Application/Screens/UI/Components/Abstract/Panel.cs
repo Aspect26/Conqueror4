@@ -12,7 +12,7 @@ namespace Client
 
         public Panel(Point offsetPosition, Rectangle position, int borderSize = UI.DEFAULT_BORDER_HEIGHT, 
             IComponent neighbour = null)
-            :base (offsetPosition, position, Game.GetPanelBackground(), borderSize, neighbour)
+            :base (offsetPosition, position, GameData.GetPanelBackground(), borderSize, neighbour)
         {
             
         }

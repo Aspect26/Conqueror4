@@ -10,7 +10,7 @@ namespace Client
     {
         private CharactersPanel charactersPanel;
 
-        public CharactersScreen(Game game): base(game, Game.GetCharactersBackground())
+        public CharactersScreen(Application game): base(game, GameData.GetCharactersBackground())
         {
             int result = game.server.GetCharacters(game.Account);
             if (result != ServerConnection.RESULT_OK)
@@ -20,7 +20,7 @@ namespace Client
             LineText usernameText = new LineText(new Point(0, 0), game.Account.Username + ":", Color.Yellow,
                 new Point(10, 76), 14);
 
-            charactersPanel = new CharactersPanel(new Point(0, 0), new Rectangle(10, 100, 256, Game.HEIGHT - 105));
+            charactersPanel = new CharactersPanel(new Point(0, 0), new Rectangle(10, 100, 256, Application.HEIGHT - 105));
 
             int currentY = 4;
             int btn_height = 50;
@@ -44,8 +44,8 @@ namespace Client
             int btn_width = 100;
             btn_height = 30;
             Button enterButton = new Button(new Point(0, 0), "ENTER WORLD",
-                new Rectangle(((Game.WIDTH - charactersPanel.WIDTH-10) / 2 - btn_width / 2) + charactersPanel.WIDTH+10, 
-                Game.HEIGHT - 10 - btn_height, btn_width, btn_height));
+                new Rectangle(((Application.WIDTH - charactersPanel.WIDTH-10) / 2 - btn_width / 2) + charactersPanel.WIDTH+10, 
+                Application.HEIGHT - 10 - btn_height, btn_width, btn_height));
             enterButton.Click += OnEnterWorldClicked;
 
             // APPLY ALL
@@ -73,8 +73,8 @@ namespace Client
 
         private void enterWorld(Character character)
         {
-            game.Account.PlayCharacter = character;
-            game.ChangeWindow(new PlayScreen(game));
+            application.Account.PlayCharacter = character;
+            application.ChangeWindow(new PlayScreen(application));
         }
     }
 }
