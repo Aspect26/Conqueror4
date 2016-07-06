@@ -11,56 +11,44 @@ namespace Server
     {
         private bool running = false;
 
-        private List<IUnit> units;
-        private Queue<IPlayerAction> playerActions;
+        private Dictionary<int, MapInstance> mapInstances;
         private Queue<ISendAction> sendActions;
 
-        private Stopwatch stopwatch;
-
-        private const int PLAYERACTIONS_PROCESSED_IN_ONE_CYCLE = 5;
-
-        public void Initialize(Queue<IPlayerAction> playerActions, Queue<ISendAction> sendActions)
+        public void Initialize(Queue<ISendAction> sendActions)
         {
-            units = new List<IUnit>();
-            this.playerActions = playerActions;
-            this.sendActions = sendActions;
+            mapInstances = new Dictionary<int, MapInstance>();
 
-            stopwatch = new Stopwatch();
-            stopwatch.Start();
-            running = true;
+            Dictionary<int, string> maps = Data.GetMaps(); 
+            foreach(int key in maps.Keys)
+            {
+                mapInstances.Add(key, new MapInstance(key, sendActions));
+            }
+
+            this.sendActions = sendActions;
+        }
+
+        public void AddPlayerAction(IPlayerAction action)
+        {
+            Character c = action.GetCharacter();
+            mapInstances[c.Location.MapID].AddAction(action);
         }
 
         public void Start()
         {
-            long lastMiliseconds = stopwatch.ElapsedMilliseconds;
-
+            running = true;
             while (running)
             {
-                // process some player actions from queue
-                lock (playerActions)
+                foreach(KeyValuePair<int, MapInstance> pair in mapInstances)
                 {
-                    lock (sendActions)
-                    {
-                        for (int i = 0; i < PLAYERACTIONS_PROCESSED_IN_ONE_CYCLE; i++)
-                        {
-                            if (playerActions.Count != 0)
-                                sendActions.Enqueue(playerActions.Dequeue().Process(units));
-                            else
-                                break;
-                        }
-                    }
-                }
-
-                // get timespan
-                long timeSpan = stopwatch.ElapsedMilliseconds - lastMiliseconds;
-                lastMiliseconds = stopwatch.ElapsedMilliseconds;
-
-                // move all units
-                foreach (IUnit unit in units)
-                {
-                    unit.PlayCycle((int)timeSpan);
+                    pair.Value.PlayCycle();
                 }
             }
+        }
+
+        public MapInstance AddPlayer(StateObject state, Character character)
+        {
+            mapInstances[character.Location.MapID].AddPlayer(state, character);
+            return mapInstances[character.Location.MapID];
         }
     }
 }

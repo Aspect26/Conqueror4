@@ -9,12 +9,14 @@ namespace Server
     public class CommandsHandler
     {
         private Server server;
+        private Game game;
 
         private const int CMD_CHARACTERLOAD = 4;
 
-        public CommandsHandler(Server server)
+        public CommandsHandler(Server server, Game game)
         {
             this.server = server;
+            this.game = game;
         }
 
         public void HandleMessage(StateObject clientState, string message)
@@ -57,7 +59,7 @@ namespace Server
                 client.clientSocket);
 
             // add character to game
-            server.AddPlayerActionToGameQueue(new CharacterEnterAction(character));
+            server.AddPlayerActionToGameQueue(new CharacterEnterLocationAction(game, client, character));
         }
 
         // ************************************************

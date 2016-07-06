@@ -85,14 +85,12 @@ namespace Client
 
             if(unit.Direction != lastDirection)
             {
-                Console.WriteLine("CHANGING DIRECTION");
                 changeSide();
                 return;
             }
 
             if (unit.Direction == MovingDirection.None)
             {
-                Console.WriteLine("STOPPED MOVING");
                 moving = false;
                 return;
             }
@@ -100,7 +98,6 @@ namespace Client
             if (lastChangeBefore > CHANGE_SPEED_MS)
             {
                 // increase index
-                Console.WriteLine("INCREASING INDEX");
                 lastChangeBefore = lastChangeBefore % CHANGE_SPEED_MS;
                 currentImageIndex = (currentImageIndex + 1) % images[currentImageSide].Length;
             }

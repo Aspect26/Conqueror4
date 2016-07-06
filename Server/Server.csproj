@@ -51,7 +51,8 @@
     <Compile Include="Data\Data.cs" />
     <Compile Include="Data\Structures\Location.cs" />
     <Compile Include="Game\Game.cs" />
-    <Compile Include="Game\PlayerActions\CharacterEnterAction.cs" />
+    <Compile Include="Game\MapInstance.cs" />
+    <Compile Include="Game\PlayerActions\CharacterEnterLocationAction.cs" />
     <Compile Include="Game\PlayerActions\IPlayerAction.cs" />
     <Compile Include="Game\Units\Character.cs" />
     <Compile Include="Game\Units\IUnit.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Server\PlayerCommands\FirstCommands.cs" />
     <Compile Include="Server\SendActions\CharactersInMap.cs" />
     <Compile Include="Server\SendActions\ISendAction.cs" />
+    <Compile Include="Server\SendActions\SendCommands.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="Server\ServerAcceptReceive.cs" />
     <Compile Include="Server\ServerSend.cs" />

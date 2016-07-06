@@ -8,6 +8,11 @@ namespace Server
 {
     public interface IUnit
     {
+        int GetId();
+        Location GetLocation();
+        string GetName();
+
         void PlayCycle(int timeSpan);
+        bool IsPlayer();
     }
 }

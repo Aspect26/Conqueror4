@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    public interface IPlayerAction
+    public static class SendCommands
     {
-        ISendAction Process();
-        Character GetCharacter();
+        public const int MSG_CHARACTERS_IN_MAP = 5;
     }
 }

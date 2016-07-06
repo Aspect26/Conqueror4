@@ -11,7 +11,6 @@ namespace Server
     {
         private Data gameData = new Data();
         private Game game;
-        private Queue<IPlayerAction> playerActions;
         private Queue<ISendAction> sendActions;
 
         private static int PORT = 26270;
@@ -22,7 +21,8 @@ namespace Server
 
         public Server()
         {
-            commandsHandler = new CommandsHandler(this);
+            game = new Game();
+            commandsHandler = new CommandsHandler(this, game);
         }
 
         public void Start()
@@ -36,12 +36,10 @@ namespace Server
             Console.WriteLine("Starting server...");
 
             // initialize game
-            playerActions = new Queue<IPlayerAction>();
             sendActions = new Queue<ISendAction>();
-            game = new Game();
-            Task gameInitializationTask = Task.Factory.StartNew(() => game.Initialize(playerActions, sendActions));
+            Task gameInitializationTask = Task.Factory.StartNew(() => game.Initialize(sendActions));
 
-            // then start game and accepting, receiving and sending data to clients
+            // then start game task, receiving commands task and sending data task
             Task gameTask = gameInitializationTask.ContinueWith((parent) => game.Start(), TaskContinuationOptions.LongRunning);
             Task receivingTask = gameInitializationTask.ContinueWith((parent) => AcceptAndReceiveClients(), TaskContinuationOptions.LongRunning);
             Task sendingTask = gameInitializationTask.ContinueWith((parent) => SendClients(), TaskContinuationOptions.LongRunning);
@@ -53,10 +51,7 @@ namespace Server
 
         public void AddPlayerActionToGameQueue(IPlayerAction action)
         {
-            lock (playerActions)
-            {
-                playerActions.Enqueue(action);
-            }
+            game.AddPlayerAction(action);
         }
     }
 }
