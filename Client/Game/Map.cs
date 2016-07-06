@@ -13,7 +13,7 @@ namespace Client
         // X x Y
         private Tile[][] tiles;
 
-        private const int VISIBILITY = 14;
+        private const int VISIBILITY = 16;
 
         readonly float[][] matrixItems = {
             new float[] {1, 0, 0, 0, 0},
@@ -77,7 +77,7 @@ namespace Client
                 {
                     for (int x = xPlayerOffset / Tile.TILE_SIZE - VISIBILITY / 2; x < xPlayerOffset / Tile.TILE_SIZE + VISIBILITY / 2; x++)
                     {
-                        if (x >= 0 && x <= tiles[y].Length)
+                        if (x >= 0 && x < tiles[y].Length)
                         {
                             Point drawPoint = new Point(x * Tile.TILE_SIZE - xPlayerOffset + xScreenOffset,
                                 y * Tile.TILE_SIZE - yPlayerOffset + yScreenOffset);

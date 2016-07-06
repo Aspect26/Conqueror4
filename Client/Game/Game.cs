@@ -10,9 +10,9 @@ namespace Client
     public class Game
     {
         public Map Map { get; set; }
-        public Character Character { get; set; }
+        public PlayerCharacter Character { get; set; }
 
-        public Game(Character character)
+        public Game(PlayerCharacter character)
         {
             this.Character = character;
             this.CreateMap();
@@ -27,16 +27,16 @@ namespace Client
         public void RunCycle(Graphics g, int timeSpan)
         {
             RenderAll(g);
+            Character.PlayCycle(timeSpan);
         }
 
         private void RenderAll(Graphics g)
         {
-            // player
-            /*g.DrawImage(playerImage, Application.WIDTH / 2 - playerSize / 2, Application.HEIGHT / 2 - playerSize / 2,
-                playerSize, playerSize);
-
             // map
-            map.Render(g, character.Location);*/
+            Map.Render(g, Character.Location);
+
+            // player
+            Character.DrawUnit(g);
         }
     }
 }

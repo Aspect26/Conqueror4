@@ -68,6 +68,7 @@ namespace Server
             d.RegisterAccount("aspect", "asdfg");
             d.RegisterAccount("anderson", "qwert");
             d.RegisterAccount("tester", "tester");
+            d.RegisterAccount("warlock", "warlock");
 
             // "load" characters
             d.CreateCharacter("aspect", "aspect", 1);
@@ -77,6 +78,7 @@ namespace Server
             d.CreateCharacter("aspect", "heavenstar", 5);
             d.CreateCharacter("tester", "tester", 6);
             d.CreateCharacter("tester", "testertwo", 1);
+            d.CreateCharacter("warlock", "warlock", 4);
 
             return d;
         }

@@ -16,7 +16,7 @@ namespace Client
 
         }
 
-        public Character GetSelectedCharacter()
+        public PlayerCharacter GetSelectedCharacter()
         {
             CharacterButton btn = (CharacterButton)container.GetFocusedComponent();
             if (btn == null)

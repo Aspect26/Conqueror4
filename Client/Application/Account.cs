@@ -8,16 +8,16 @@ namespace Client
     public class Account
     {
         public string Username { get; set; }
-        public Character PlayCharacter { get; set; }
+        public PlayerCharacter PlayCharacter { get; set; }
 
-        private List<Character> characters = new List<Character>();
+        private List<PlayerCharacter> characters = new List<PlayerCharacter>();
 
         public void AddCharacter(string name, int level, int spec)
         {
-            characters.Add(new Character(name, level, spec));
+            characters.Add(new PlayerCharacter(name, level, spec));
         }
 
-        public List<Character> GetCharacters()
+        public List<PlayerCharacter> GetCharacters()
         {
             return characters;
         }

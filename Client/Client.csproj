@@ -49,10 +49,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\Animations\Animation.cs" />
+    <Compile Include="Game\Animations\UnitAnimation.cs" />
     <Compile Include="Game\Game.cs" />
-    <Compile Include="Application\Player\Account.cs" />
-    <Compile Include="Application\Player\Character\Character.cs" />
-    <Compile Include="Application\Player\Character\Location.cs" />
+    <Compile Include="Application\Account.cs" />
+    <Compile Include="Game\Units\Character.cs" />
+    <Compile Include="Game\Units\IUnit.cs" />
+    <Compile Include="Game\Units\SimpleUnit.cs" />
+    <Compile Include="Game\Units\Structures\Location.cs" />
     <Compile Include="Application\Screens\CharactersScreen.cs" />
     <Compile Include="Application\Screens\PlayScreen.cs" />
     <Compile Include="Application\Screens\UI\Components\Abstract\Panel.cs" />
@@ -67,8 +71,7 @@
     <Compile Include="Application\Data.cs" />
     <Compile Include="Application\Application.cs" />
     <Compile Include="Game\Map.cs" />
-    <Compile Include="Application\Player.cs" />
-    <Compile Include="Application\Tiles.cs" />
+    <Compile Include="Game\Tiles.cs" />
     <Compile Include="Image\ImageFunctions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -58,7 +58,7 @@ namespace Server
                 // move all units
                 foreach (IUnit unit in units)
                 {
-                    unit.Play((int)timeSpan);
+                    unit.PlayCycle((int)timeSpan);
                 }
             }
         }

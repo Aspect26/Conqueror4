@@ -8,6 +8,6 @@ namespace Server
 {
     public interface IUnit
     {
-        void Play(int timeSpan);
+        void PlayCycle(int timeSpan);
     }
 }

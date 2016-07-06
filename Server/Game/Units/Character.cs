@@ -8,7 +8,7 @@ namespace Server
 {
     public partial class Character : IUnit
     {
-        public void Play(int timeSpan)
+        public void PlayCycle(int timeSpan)
         {
             // TODO: do player action
         }

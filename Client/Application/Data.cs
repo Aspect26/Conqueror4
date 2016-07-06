@@ -9,6 +9,14 @@ namespace Client
 {
     public partial class GameData 
     {
+        private const int DEMON_HUNTER = 1;
+        private const int MAGE = 2;
+        private const int PRIEST = 3;
+
+        private const int WARLOCK = 4;
+        private const int UNK_CLS_1 = 5;
+        private const int UNK_CLS_2 = 6;
+
         private static Dictionary<int, string> mapIds = new Dictionary<int, string>()
         {
             { 0, "res/maps/kingdom.map" },
@@ -23,15 +31,6 @@ namespace Client
             { 2, Image.FromFile("res/tiles/stone.png") }
         };
 
-        private static Dictionary<int, Image> playerImages = new Dictionary<int, Image>()
-        {
-            { 0, Image.FromFile("res/player/sesshomaru.png") },
-            { 1, Image.FromFile("res/player/kagome.png") },
-            { 2, Image.FromFile("res/player/kirara.png") },
-            { 3, Image.FromFile("res/player/ryuk.png") },
-            { 4, Image.FromFile("res/player/ash.gif") },
-        };
-
         // GET DATA
         public static string GetMapFilePath(int mapId)
         {
@@ -43,9 +42,20 @@ namespace Client
             return tileImages[tileId];
         }
 
-        public static Image GetPlayerImage(int charId)
+        public static string GetCharacterBasePath(int spec)
         {
-            return playerImages[charId];
+            switch (spec)
+            {
+                case DEMON_HUNTER:
+                case MAGE:
+                case PRIEST:
+                case WARLOCK:
+                case UNK_CLS_1:
+                case UNK_CLS_2:
+                    return "res/units/warlock/warlock";
+                default:
+                    return "res/units/warlock/warlock";
+            }
         }
 
         // UI COMPONENTS
@@ -67,7 +77,7 @@ namespace Client
                 case 2: return Image.FromFile("res/characters/mage.png");
                 case 3: return Image.FromFile("res/characters/priest.png");
 
-                case 4: return Image.FromFile("res/characters/warlock.png");
+                case 4: return Image.FromFile("res/units/warlock/warlock_front1.png");
                 case 5: case 6: default: return Image.FromFile("res/characters/unknown.png");
             }
         }
@@ -142,13 +152,13 @@ namespace Client
         {
             switch (spec)
             {
-                case 1: return "Demon Hunter";
-                case 2: return "Mage";
-                case 3: return "Priest";
+                case DEMON_HUNTER: return "Demon Hunter";
+                case MAGE: return "Mage";
+                case PRIEST: return "Priest";
 
-                case 4: return "Warlock";
-                case 5: return "Unnamed";
-                case 6: return "Unnamed";
+                case WARLOCK: return "Warlock";
+                case UNK_CLS_1: return "Unnamed";
+                case UNK_CLS_2: return "Unnamed";
 
                 default: return "Unknown";
             }
