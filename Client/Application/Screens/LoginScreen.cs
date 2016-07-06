@@ -13,7 +13,7 @@ namespace Client
         LineText loginText;
         LineText passText;
 
-        public LoginScreen(Application game) : base(game, GameData.GetLoginBackground())
+        public LoginScreen(Application game, ServerConnection server) : base(game, server, GameData.GetLoginBackground())
         {
             int width = 300;
             nickInput = new LineInput(position, new Point(Application.WIDTH / 2 - width / 2, Application.HEIGHT / 2),
@@ -66,7 +66,7 @@ namespace Client
             {
                 application.Account = new Account();
                 application.Account.Username = nick;
-                application.ChangeWindow(new CharactersScreen(application));
+                application.ChangeWindow(new CharactersScreen(application, this.server));
             }
             else
             {

@@ -12,25 +12,9 @@ namespace Client
     {
         // X x Y
         private Tile[][] tiles;
-
         private const int VISIBILITY = 16;
 
-        readonly float[][] matrixItems = {
-            new float[] {1, 0, 0, 0, 0},
-            new float[] {0, 1, 0, 0, 0},
-            new float[] {0, 0, 1, 0, 0},
-            new float[] {0, 0, 0, 0.3f, 0},
-            new float[] {0, 0, 0, 0, 1}};
-        ColorMatrix blendMatrix;
-        ImageAttributes blendAttribute = new ImageAttributes();
-
-
-        public Map()
-        {
-            blendMatrix = new ColorMatrix(matrixItems);
-            blendAttribute = new ImageAttributes();
-            blendAttribute.SetColorMatrix(blendMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
-        }
+        public Map() { }
 
         public void Create(string mapPath)
         {
@@ -92,31 +76,5 @@ namespace Client
                 }
             }
         }
-
-        private void BlendTile(Graphics g, int x, int y, Point position)
-        {
-            BlendLeft(g, x, y, position);
-        }
-
-        private void BlendLeft(Graphics g, int x, int y, Point position)
-        {
-            if (y - 1 >= 0 && y - 1 < tiles.Length)
-            {
-                if (tiles[y][x].Id != tiles[y - 1][x].Id)
-                {
-                    g.DrawImage(
-                        GameData.GetTile(tiles[y][x].Id),
-                        new Rectangle(position.X - Tile.TILE_SIZE, position.Y, Tile.TILE_SIZE, Tile.TILE_SIZE), 
-                        0.0f, 
-                        0.0f, 
-                        Tile.TILE_SIZE, 
-                        Tile.TILE_SIZE,
-                        GraphicsUnit.Pixel, 
-                        blendAttribute);
-                }
-            }
-        }
-
-        
     }
 }

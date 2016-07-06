@@ -12,7 +12,7 @@ namespace Client
         public int UnitSize { get; private set; }
         private string baseImagePath;
 
-        private UnitAnimation animation;
+        protected UnitAnimation animation;
         public  Location Location { get; set; }
 
         public MovingDirection Direction { get; private set; }

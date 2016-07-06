@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,6 +24,13 @@ namespace Server
             {
                 Location loc = unit.GetLocation();
                 msg.Append(unit.GetName() + "|" + unit.GetId() + "|" + loc.X + "|" + loc.Y + ",");
+            }
+            msg.Append("\r\n");
+
+            byte[] byteDate = Encoding.ASCII.GetBytes(msg.ToString());
+            foreach(StateObject client in mapInstance.GetClients())
+            {
+                client.clientSocket.Send(byteDate, 0, byteDate.Length, SocketFlags.None);
             }
         }
     }

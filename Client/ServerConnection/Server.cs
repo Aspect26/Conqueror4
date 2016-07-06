@@ -101,5 +101,17 @@ namespace Client
                 return string.Empty;
             }
         }
+
+        public string ReadOneMessage()
+        {
+            if (stream.DataAvailable)
+            {
+                string msg = input.ReadLine();
+                Console.WriteLine("READ 1 MSG: " + msg);
+                return msg;
+            }
+
+            else return null;
+        }
     }
 }

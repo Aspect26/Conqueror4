@@ -17,9 +17,12 @@ namespace Client
 
         private PlayerCharacter playerCharacter;
         private Game game;
+        private ServerConnection server;
 
-        public PlayScreen(Application application): base(application)
+        public PlayScreen(Application application, ServerConnection server) : base(application, server)
         {
+            this.server = server;
+
             playerCharacter = application.Account.PlayCharacter;
             application.server.LoadCharacter(playerCharacter);
 
@@ -37,6 +40,10 @@ namespace Client
 
             int elapsedMilis = (int)(stopWatch.ElapsedMilliseconds - lastCycle);
             lastCycle = stopWatch.ElapsedMilliseconds;
+
+            string msg = server.ReadOneMessage();
+            if (msg != null)
+                game.ProcessServerMessage(msg);
 
             game.RunCycle(g, elapsedMilis);
         }

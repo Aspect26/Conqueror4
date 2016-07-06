@@ -26,6 +26,9 @@ namespace Client
         {
             g.DrawImage(GetCurrentImage(), Application.WIDTH / 2 - playerSize / 2, Application.HEIGHT / 2 - playerSize / 2,
                 playerSize, playerSize);
+
+            g.DrawString(Name, GameData.GetFont(8), Brushes.Black,
+                Application.WIDTH / 2 - playerSize / 2, Application.HEIGHT / 2 - playerSize / 2 - 10);
         }
     }
 }

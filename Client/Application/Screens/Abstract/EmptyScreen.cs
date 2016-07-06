@@ -12,13 +12,15 @@ namespace Client
     
         protected UI userInterface = new UI();
         protected Image background;
+        protected ServerConnection server;
 
         private Rectangle screenRect = new Rectangle(0, 0, Application.WIDTH, Application.HEIGHT);
 
-        public EmptyScreen(Application application, Image background = null)
+        public EmptyScreen(Application application, ServerConnection server, Image background = null)
         {
             this.application = application;
             this.background = background;
+            this.server = server;
         }
 
         public virtual void Render(Graphics g)

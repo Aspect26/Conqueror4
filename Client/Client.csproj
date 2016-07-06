@@ -53,8 +53,10 @@
     <Compile Include="Game\Animations\UnitAnimation.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Application\Account.cs" />
+    <Compile Include="Game\ServerDataMessages\ServerMessage.cs" />
     <Compile Include="Game\Units\Character.cs" />
     <Compile Include="Game\Units\IUnit.cs" />
+    <Compile Include="Game\Units\PlayerUnit.cs" />
     <Compile Include="Game\Units\SimpleUnit.cs" />
     <Compile Include="Game\Units\Structures\Location.cs" />
     <Compile Include="Application\Screens\CharactersScreen.cs" />

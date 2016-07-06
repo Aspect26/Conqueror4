@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 
 namespace Client
 {
-    public class Game
+    public partial class Game
     {
         public Map Map { get; set; }
         public PlayerCharacter Character { get; set; }
+        private List<IUnit> units;
 
         public Game(PlayerCharacter character)
         {
             this.Character = character;
             this.CreateMap();
+
+            this.units = new List<IUnit>();
         }
 
         private  void CreateMap()
@@ -35,8 +38,17 @@ namespace Client
             // map
             Map.Render(g, Character.Location);
 
+            // other units
+            foreach (IUnit unit in units)
+                unit.DrawUnit(g);
+
             // player
             Character.DrawUnit(g);
+        }
+
+        public void AddUnit(string name, int id, int x, int y)
+        {
+            units.Add(new PlayerUnit(name, id, x, y));
         }
     }
 }

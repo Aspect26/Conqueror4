@@ -39,6 +39,11 @@ namespace Server
             return this.units;
         }
 
+        public List<StateObject> GetClients()
+        {
+            return clientStates;
+        }
+
         // THIS IS CALLED FROM RECEIVING TASK
         public void AddAction(IPlayerAction action)
         {

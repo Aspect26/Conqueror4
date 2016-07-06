@@ -10,7 +10,7 @@ namespace Client
     {
         private CharactersPanel charactersPanel;
 
-        public CharactersScreen(Application game): base(game, GameData.GetCharactersBackground())
+        public CharactersScreen(Application game, ServerConnection server): base(game, server, GameData.GetCharactersBackground())
         {
             int result = game.server.GetCharacters(game.Account);
             if (result != ServerConnection.RESULT_OK)
@@ -74,7 +74,7 @@ namespace Client
         private void enterWorld(PlayerCharacter character)
         {
             application.Account.PlayCharacter = character;
-            application.ChangeWindow(new PlayScreen(application));
+            application.ChangeWindow(new PlayScreen(application, server));
         }
     }
 }
