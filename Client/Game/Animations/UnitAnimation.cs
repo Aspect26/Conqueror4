@@ -79,6 +79,22 @@ namespace Client
             }
         }
 
+        public void Render(Graphics g, Location offset)
+        {
+            int size = unit.UnitSize;
+
+            if (!moving)
+            {
+                g.DrawImage(noAnimationImage,
+                    Application.WIDTH / 2 - size / 2 - offset.X, Application.HEIGHT / 2 - size / 2 - offset.Y, size, size);
+            }
+            else
+            {
+                g.DrawImage(images[currentImageSide][currentImageIndex],
+                    Application.WIDTH / 2 - size / 2, Application.HEIGHT / 2 - size / 2, size, size);
+            }
+        }
+
         public void AnimateCycle(int timeSpan)
         {
             lastChangeBefore += timeSpan;
@@ -131,7 +147,10 @@ namespace Client
 
         public Image GetCurrentImage()
         {
-            return images[currentImageSide][currentImageIndex];
+            if (!moving)
+                return noAnimationImage;
+            else
+                return images[currentImageSide][currentImageIndex];
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Client
 
         public void AddUnit(string name, int id, int x, int y)
         {
-            units.Add(new PlayerUnit(name, id, x, y));
+            units.Add(new PlayerUnit(name, id, x, y, Character));
         }
     }
 }

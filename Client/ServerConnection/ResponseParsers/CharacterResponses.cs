@@ -45,7 +45,7 @@ namespace Client
                 string[] parts = charString.Split(',');
                 if (parts.Length == 3)
                 {
-                    account.AddCharacter(parts[0].Capitalize(), Convert.ToInt32(parts[1]), Convert.ToInt32(parts[2]));
+                    account.AddCharacter(parts[0], Convert.ToInt32(parts[1]), Convert.ToInt32(parts[2]));
                 }
             }
 

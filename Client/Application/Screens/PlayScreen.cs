@@ -10,14 +10,12 @@ namespace Client
 {
     public class PlayScreen : EmptyScreen
     {
-        private Image playerImage;
         private Stopwatch stopWatch;
         private long lastCycle;
         private const int playerSize = 50;
 
         private PlayerCharacter playerCharacter;
         private Game game;
-        private ServerConnection server;
 
         public PlayScreen(Application application, ServerConnection server) : base(application, server)
         {
@@ -26,7 +24,6 @@ namespace Client
             playerCharacter = application.Account.PlayCharacter;
             application.server.LoadCharacter(playerCharacter);
 
-            playerImage = GameData.GetCharacterImage(playerCharacter.Spec);
             game = new Game(application.Account.PlayCharacter);
 
             stopWatch = new Stopwatch();

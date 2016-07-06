@@ -36,6 +36,10 @@ namespace Client
                     continue;
 
                 string name = unitParts[0];
+
+                if (name == Character.Name)
+                    continue;
+
                 int spec = Convert.ToInt32(unitParts[1]);
                 int x = Convert.ToInt32(unitParts[2]);
                 int y = Convert.ToInt32(unitParts[3]);

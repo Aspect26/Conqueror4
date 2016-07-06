@@ -13,7 +13,7 @@ namespace Client
         public int Spec { get; set; }
 
         public PlayerCharacter(string name, int level, int spec) 
-            : base(GameData.GetCharacterBasePath(spec), new Location())
+            : base(GameData.GetCharacterBasePath(spec), new Location(), null)
         {
             this.Name = name;
             this.Level = level;

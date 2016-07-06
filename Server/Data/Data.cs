@@ -40,7 +40,7 @@ namespace Server
             { MAGE, new Location(0,20,20) },
             { PRIEST, new Location(0,20,100) },
 
-            { WARLOCK, new Location(1,20,20) },
+            { WARLOCK, new Location(1,100,100) },
             { UNK_1, new Location(1,20,20) },
             { UNK_2, new Location(1,20,20) },
         };

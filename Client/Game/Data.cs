@@ -49,6 +49,7 @@ namespace Client
                 case DEMON_HUNTER:
                 case MAGE:
                 case PRIEST:
+                    return "res/units/priest/priest";
                 case WARLOCK:
                 case UNK_CLS_1:
                 case UNK_CLS_2:
@@ -73,12 +74,15 @@ namespace Client
         {
             switch (spec)
             {
-                case 1: return Image.FromFile("res/characters/demonhunter.png");
-                case 2: return Image.FromFile("res/characters/mage.png");
-                case 3: return Image.FromFile("res/characters/priest.png");
+                case 1: return Image.FromFile("res/units/demonhunter/demonhunter_none.png");
+                case 2: return Image.FromFile("res/units/mage/mage_none.png");
+                case 3: return Image.FromFile("res/units/priest/priest_none.png");
 
-                case 4: return Image.FromFile("res/units/warlock/warlock_front1.png");
-                case 5: case 6: default: return Image.FromFile("res/characters/unknown.png");
+                case 4: return Image.FromFile("res/units/warlock/warlock_none.png");
+                case 5:
+                case 6:
+
+                default: return Image.FromFile("res/units/warlock/warlock_none.png");
             }
         }
 
