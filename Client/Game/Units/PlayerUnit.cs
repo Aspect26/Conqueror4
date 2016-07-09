@@ -10,22 +10,21 @@ namespace Client
     public class PlayerUnit : SimpleUnit
     {
         private string name;
+        private Game game;
 
-        public PlayerUnit(string name, int id, int x, int y, PlayerCharacter mainCharacter)
-            :base(GameData.GetCharacterBasePath(id), new Location(), mainCharacter.Location)
+        public PlayerUnit(Game game, string name, int id, int x, int y)
+            : base(game, GameData.GetCharacterBasePath(id), new Location(x, y))
         {
             this.name = name;
-            this.Location.X = x;
-            this.Location.Y = y;
-            this.mainPlayerUnitLocation = mainCharacter.Location;
+            this.game = game;
         }
+
         public override void DrawUnit(Graphics g)
         {
-            animation.Render(g, mainPlayerUnitLocation);
+            base.DrawUnit(g);
 
-            g.DrawString(name, GameData.GetFont(8), Brushes.Black,
-                Application.WIDTH / 2 - UnitSize / 2 - mainPlayerUnitLocation.X, 
-                Application.HEIGHT / 2 - UnitSize / 2 - 10 - mainPlayerUnitLocation.Y);
+            Point p = game.MapPositionToScreenPosition(this.Location.X, this.Location.Y);
+            g.DrawString(name, GameData.GetFont(8), Brushes.Black, p.X - UnitSize/2, p.Y - UnitSize/2 - 20);
         }
     }
 }

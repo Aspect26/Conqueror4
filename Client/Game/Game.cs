@@ -10,10 +10,10 @@ namespace Client
     public partial class Game
     {
         public Map Map { get; set; }
-        public PlayerCharacter Character { get; set; }
+        public MainPlayerCharacter Character { get; set; }
         private List<IUnit> units;
 
-        public Game(PlayerCharacter character)
+        public Game(MainPlayerCharacter character)
         {
             this.Character = character;
             this.CreateMap();
@@ -48,7 +48,15 @@ namespace Client
 
         public void AddUnit(string name, int id, int x, int y)
         {
-            units.Add(new PlayerUnit(name, id, x, y, Character));
+            units.Add(new PlayerUnit(this, name, id, x, y));
+        }
+
+        public Point MapPositionToScreenPosition(int x, int y)
+        {
+            int newX = Application.WIDTH / 2 - Character.Location.X + x;
+            int newY = Application.HEIGHT / 2 - Character.Location.Y + y;
+
+            return new Point(newX, newY); 
         }
     }
 }

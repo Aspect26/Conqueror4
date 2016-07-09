@@ -9,24 +9,35 @@ namespace Client
 {
     public class UnitAnimation : IAnimation
     {
-        private string baseImagePath;
-        private SimpleUnit unit;
+        protected string baseImagePath;
+        protected SimpleUnit unit;
 
-        private const int FRONT = 0;
-        private const int RIGHT = 1;
-        private const int BACK = 2;
-        private const int LEFT = 3;
+        protected const int FRONT = 0;
+        protected const int RIGHT = 1;
+        protected const int BACK = 2;
+        protected const int LEFT = 3;
 
-        private Image[][] images;
-        private Image noAnimationImage;
-        private bool moving;
+        protected Image[][] images;
+        protected Image noAnimationImage;
+        protected bool moving;
 
-        private int currentImageSide;
-        private int currentImageIndex;
+        protected int currentImageSide;
+        protected int currentImageIndex;
 
-        private const int CHANGE_SPEED_MS = 400;
-        private int lastChangeBefore = 499;
-        private MovingDirection lastDirection = MovingDirection.None;
+        protected const int CHANGE_SPEED_MS = 400;
+        protected int lastChangeBefore = 499;
+        protected MovingDirection lastDirection = MovingDirection.None;
+
+        protected Game game;
+
+        public UnitAnimation(Game game, SimpleUnit unit, string baseImagePath)
+        {
+            this.unit = unit;
+            this.baseImagePath = baseImagePath;
+            this.game = game;
+
+            createImages();
+        }
 
         public UnitAnimation(SimpleUnit unit, string baseImagePath)
         {
@@ -63,35 +74,18 @@ namespace Client
             moving = false;
         }
 
-        public void Render(Graphics g)
+        public virtual void Render(Graphics g)
         {
             int size = unit.UnitSize;
+            Point position = game.MapPositionToScreenPosition(unit.Location.X, unit.Location.Y);
 
             if (!moving)
             {
-                g.DrawImage(noAnimationImage,
-                    Application.WIDTH / 2 - size / 2, Application.HEIGHT / 2 - size / 2, size, size);
+                g.DrawImageAt(noAnimationImage, position.X, position.Y, size, size);
             }
             else
             {
-                g.DrawImage(images[currentImageSide][currentImageIndex],
-                    Application.WIDTH / 2 - size / 2, Application.HEIGHT / 2 - size / 2, size, size);
-            }
-        }
-
-        public void Render(Graphics g, Location offset)
-        {
-            int size = unit.UnitSize;
-
-            if (!moving)
-            {
-                g.DrawImage(noAnimationImage,
-                    Application.WIDTH / 2 - size / 2 - offset.X, Application.HEIGHT / 2 - size / 2 - offset.Y, size, size);
-            }
-            else
-            {
-                g.DrawImage(images[currentImageSide][currentImageIndex],
-                    Application.WIDTH / 2 - size / 2, Application.HEIGHT / 2 - size / 2, size, size);
+                g.DrawImageAt(images[currentImageSide][currentImageIndex], position.X, position.Y, size, size);
             }
         }
 

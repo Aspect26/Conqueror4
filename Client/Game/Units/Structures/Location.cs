@@ -17,5 +17,12 @@ namespace Client
         {
             MapID = X = Y -1;
         }
+
+        public Location(int x, int y)
+        {
+            this.X = x;
+            this.Y = y;
+            this.MapID = -1;
+        }
     }
 }

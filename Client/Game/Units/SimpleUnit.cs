@@ -10,7 +10,6 @@ namespace Client
     public class SimpleUnit : IUnit
     {
         public int UnitSize { get; private set; }
-        private string baseImagePath;
 
         protected UnitAnimation animation;
         public  Location Location { get; set; }
@@ -20,16 +19,21 @@ namespace Client
 
         protected const int SLOWING_CONSTANT = 5;
 
-        protected Location mainPlayerUnitLocation;
-
-        public SimpleUnit(string baseImagePath, Location location, Location mainPlayerUnitLocation)
+        public SimpleUnit(Game game, string baseImagePath, Location location)
         {
-            this.baseImagePath = baseImagePath;
             this.Location = location;
             this.UnitSize = 50;
-            this.mainPlayerUnitLocation = mainPlayerUnitLocation;
 
-            animation = new UnitAnimation(this, baseImagePath);
+            animation = new UnitAnimation(game, this, baseImagePath);
+
+            Direction = MovingDirection.None;
+            movingSpeed = 1;
+        }
+
+        public SimpleUnit(Location location)
+        {
+            this.Location = location;
+            this.UnitSize = 50;
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
@@ -85,7 +89,7 @@ namespace Client
 
         public virtual void DrawUnit(Graphics g)
         {
-            animation.Render(g, mainPlayerUnitLocation);
+            animation.Render(g);
         }
 
         public Image GetCurrentImage()

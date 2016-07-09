@@ -8,7 +8,7 @@ namespace Client
 {
     public partial class ServerConnection
     {
-        public int LoadCharacter(PlayerCharacter character)
+        public int LoadCharacter(MainPlayerCharacter character)
         {
             int res = trySend(CMD_LOADCHAR, new string[] { character.Name });
             if (res != RESULT_OK)

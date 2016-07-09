@@ -14,7 +14,7 @@ namespace Client
         private long lastCycle;
         private const int playerSize = 50;
 
-        private PlayerCharacter playerCharacter;
+        private MainPlayerCharacter playerCharacter;
         private Game game;
 
         public PlayScreen(Application application, ServerConnection server) : base(application, server)
