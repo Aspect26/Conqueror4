@@ -14,11 +14,10 @@ namespace Server
         private Queue<IPlayerAction> playerActions;
         private Queue<ISendAction> sendActions;
 
-        private Stopwatch stopwatch;
+        private DateTime lastTime;
         private const int PLAYERACTIONS_PROCESSED_IN_ONE_CYCLE = 5;
 
         private int mapId;
-        private long lastMiliseconds;
 
         public MapInstance(int mapId, Queue<ISendAction> sendActions)
         {
@@ -29,9 +28,7 @@ namespace Server
             units = new List<IUnit>();
             playerActions = new Queue<IPlayerAction>();
 
-            stopwatch = new Stopwatch();
-            stopwatch.Start();
-            lastMiliseconds = stopwatch.ElapsedMilliseconds;
+            lastTime = DateTime.Now;
         }
         
         public List<IUnit> GetUnits()
@@ -90,8 +87,10 @@ namespace Server
             }
 
             // get timespan
-            long timeSpan = stopwatch.ElapsedMilliseconds - lastMiliseconds;
-            lastMiliseconds = stopwatch.ElapsedMilliseconds;
+            long timeSpan = (int)(DateTime.Now - lastTime).TotalMilliseconds;
+            if (timeSpan < 20)
+                return;
+            lastTime = DateTime.Now;
 
             // move all units
             foreach (IUnit unit in units)

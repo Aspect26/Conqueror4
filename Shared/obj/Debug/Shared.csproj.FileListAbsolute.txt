@@ -1,0 +1,5 @@
+D:\Programming\School\C#\Conqueror4\Server\Shared\bin\Debug\Shared.exe
+D:\Programming\School\C#\Conqueror4\Server\Shared\bin\Debug\Shared.pdb
+D:\Programming\School\C#\Conqueror4\Server\Shared\obj\Debug\Shared.csprojResolveAssemblyReference.cache
+D:\Programming\School\C#\Conqueror4\Server\Shared\obj\Debug\Shared.exe
+D:\Programming\School\C#\Conqueror4\Server\Shared\obj\Debug\Shared.pdb

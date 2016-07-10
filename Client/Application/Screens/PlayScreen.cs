@@ -10,12 +10,11 @@ namespace Client
 {
     public class PlayScreen : EmptyScreen
     {
-        private Stopwatch stopWatch;
-        private long lastCycle;
         private const int playerSize = 50;
 
-        private MainPlayerCharacter playerCharacter;
+        private PlayedCharacter playerCharacter;
         private Game game;
+        private DateTime lastTime;
 
         public PlayScreen(Application application, ServerConnection server) : base(application, server)
         {
@@ -26,17 +25,15 @@ namespace Client
 
             game = new Game(application.Account.PlayCharacter);
 
-            stopWatch = new Stopwatch();
-            stopWatch.Start();
-            lastCycle = stopWatch.ElapsedMilliseconds;
+            lastTime = DateTime.Now;
         }
 
         public override void Render(Graphics g)
         {
             base.Render(g);
 
-            int elapsedMilis = (int)(stopWatch.ElapsedMilliseconds - lastCycle);
-            lastCycle = stopWatch.ElapsedMilliseconds;
+            int elapsedMilis = (int)(DateTime.Now - lastTime).TotalMilliseconds;
+            lastTime = DateTime.Now;
 
             string msg = server.ReadOneMessage();
             if (msg != null)

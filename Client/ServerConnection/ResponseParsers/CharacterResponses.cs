@@ -8,7 +8,7 @@ namespace Client
 {
     public partial class ServerConnection
     {
-        private bool parseResponseCharacterLoad(string message, MainPlayerCharacter character)
+        private bool parseResponseCharacterLoad(string message, PlayedCharacter character)
         {
             if (message == "")
                 return false;

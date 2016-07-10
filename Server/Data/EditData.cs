@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Shared;
 
 namespace Server
 {
@@ -46,7 +43,7 @@ namespace Server
             if (!accountData.ContainsKey(username))
                 return null;
 
-            Character newChar = new Character(name, spec);
+            Character newChar = new Character(name, spec, GetStartingLocation(spec));
             characterData.Add(name, newChar);
             accountData[username].AddCharacter(newChar);
 

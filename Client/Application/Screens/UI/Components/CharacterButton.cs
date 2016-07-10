@@ -8,16 +8,16 @@ namespace Client
 {
     public sealed class CharacterButton : Button
     {
-        public delegate void OnCharacterClickHandler(Button m, MainPlayerCharacter character);
+        public delegate void OnCharacterClickHandler(Button m, Character character);
         public event OnCharacterClickHandler CharacterClick;
 
-        private MainPlayerCharacter character;
+        private Character character;
 
         private Font mainFont = GameData.GetFont(10);
         private Font lesserFont = GameData.GetFont(8);
         private Image characterImage;
 
-        public CharacterButton(Point parentPosition, Rectangle position, MainPlayerCharacter character)
+        public CharacterButton(Point parentPosition, Rectangle position, Character character)
             : base(parentPosition, character.Name + ", " + character.Level + ", " + GameData.GetSpecName(character.Spec), position)
         {
             this.character = character;
@@ -56,7 +56,7 @@ namespace Client
             g.DrawImage(characterImage, position.X + 17, position.Y + 9, 35, 30);
         }
 
-        public MainPlayerCharacter GetCharacter()
+        public Character GetCharacter()
         {
             return character;
         }

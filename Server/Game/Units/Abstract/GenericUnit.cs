@@ -1,43 +1,35 @@
-﻿using System.Drawing;
-using Shared;
+﻿using Shared;
 
-namespace Client
+namespace Server
 {
-    public class SimpleUnit : IUnit
+    public class GenericUnit : IUnit
     {
-        public int UnitSize { get; private set; }
-
-        protected UnitAnimation animation;
         public Location Location { get; set; }
-
         public MovingDirection Direction { get; private set; }
+
         protected int movingSpeed;
-
         protected const int SLOWING_CONSTANT = 5;
+        protected int id;
 
-        public SimpleUnit(Game game, string baseImagePath, Location location)
+        public string Name { get; set; }
+
+        public GenericUnit(int id, Location location)
         {
             this.Location = location;
-            this.UnitSize = 50;
-
-            animation = new UnitAnimation(game, this, baseImagePath);
+            this.id = id;
+            this.Name = "Unknown";
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
         }
 
-        public SimpleUnit(Location location)
+        public GenericUnit(string name, int id, Location location): this(id, location)
         {
-            this.Location = location;
-            this.UnitSize = 50;
-
-            Direction = MovingDirection.None;
-            movingSpeed = 1;
+            this.Name = name;
         }
 
         public virtual void PlayCycle(int timeSpan)
         {
-            animation.AnimateCycle(timeSpan);
             float movePoints = timeSpan / SLOWING_CONSTANT;
 
             if (Direction == MovingDirection.Right)
@@ -86,17 +78,7 @@ namespace Client
             }
         }
 
-        public virtual void DrawUnit(Graphics g)
-        {
-            animation.Render(g);
-        }
-
-        public Image GetCurrentImage()
-        {
-            return animation.GetCurrentImage();
-        }
-
-        public virtual void StartMovingUp()
+        public void StartMovingUp()
         {
             switch (Direction)
             {
@@ -110,7 +92,7 @@ namespace Client
             }
         }
 
-        public virtual void StartMovingRight()
+        public void StartMovingRight()
         {
             switch (Direction)
             {
@@ -124,7 +106,7 @@ namespace Client
             }
         }
 
-        public virtual void StartMovingBottom()
+        public void StartMovingBottom()
         {
             switch (Direction)
             {
@@ -138,7 +120,7 @@ namespace Client
             }
         }
 
-        public virtual void StartMovingLeft()
+        public void StartMovingLeft()
         {
             switch (Direction)
             {
@@ -152,7 +134,7 @@ namespace Client
             }
         }
 
-        public virtual void StopMovingUp()
+        public void StopMovingUp()
         {
             switch (Direction)
             {
@@ -166,7 +148,7 @@ namespace Client
             }
         }
 
-        public virtual void StopMovingRight()
+        public void StopMovingRight()
         {
             switch (Direction)
             {
@@ -180,7 +162,7 @@ namespace Client
             }
         }
 
-        public virtual void StopMovingBottom()
+        public void StopMovingBottom()
         {
             switch (Direction)
             {
@@ -194,7 +176,7 @@ namespace Client
             }
         }
 
-        public virtual void StopMovingLeft()
+        public void StopMovingLeft()
         {
             switch (Direction)
             {
@@ -206,6 +188,26 @@ namespace Client
                 default:
                     Direction = MovingDirection.None; break;
             }
+        }
+
+        public int GetId()
+        {
+            return id;
+        }
+
+        public Location GetLocation()
+        {
+            return Location;
+        }
+
+        public virtual string GetName()
+        {
+            return Name;
+        }
+
+        public virtual bool IsPlayer()
+        {
+            return false;
         }
     }
 }

@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Character.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Game\Animations\IAnimation.cs" />
     <Compile Include="Game\Animations\CentreUnitAnimation.cs" />
@@ -56,11 +57,10 @@
     <Compile Include="Game\Game.cs" />
     <Compile Include="Application\Account.cs" />
     <Compile Include="Game\ServerDataMessages\ServerMessage.cs" />
-    <Compile Include="Game\Units\Character.cs" />
+    <Compile Include="Game\Units\PlayedCharacter.cs" />
     <Compile Include="Game\Units\IUnit.cs" />
     <Compile Include="Game\Units\PlayerUnit.cs" />
     <Compile Include="Game\Units\SimpleUnit.cs" />
-    <Compile Include="Game\Units\Structures\Location.cs" />
     <Compile Include="Application\Screens\CharactersScreen.cs" />
     <Compile Include="Application\Screens\PlayScreen.cs" />
     <Compile Include="Application\Screens\UI\Components\Abstract\Panel.cs" />
@@ -92,6 +92,7 @@
     <Compile Include="Application\Screens\UI\UI.cs" />
     <Compile Include="ServerConnection\Commands\AccountCommands.cs" />
     <Compile Include="ServerConnection\Commands\CharactersCommands.cs" />
+    <Compile Include="ServerConnection\Commands\InGameCommands.cs" />
     <Compile Include="ServerConnection\ResponseParsers\BooleanResponses.cs" />
     <Compile Include="ServerConnection\ResponseParsers\CharacterResponses.cs" />
     <Compile Include="ServerConnection\Server.cs" />
@@ -122,6 +123,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\Screens\UI\GeometricStructures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{2c771cf3-4c5d-44a2-a59b-62d81ed89a99}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

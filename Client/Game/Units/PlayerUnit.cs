@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Client
         {
             base.DrawUnit(g);
 
-            Point p = game.MapPositionToScreenPosition(this.Location.X, this.Location.Y);
+            Point p = game.MapPositionToScreenPosition((int)Location.X, (int)Location.Y);
             g.DrawString(name, GameData.GetFont(8), Brushes.Black, p.X - UnitSize/2, p.Y - UnitSize/2 - 20);
         }
     }

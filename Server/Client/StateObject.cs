@@ -16,5 +16,6 @@ namespace Server
         public bool receiving = false;
 
         public Account Account { get; set; }
+        public Character PlayingCharacter { get; set; }
     }
 }

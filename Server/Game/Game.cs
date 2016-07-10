@@ -50,5 +50,10 @@ namespace Server
             mapInstances[character.Location.MapID].AddPlayer(state, character);
             return mapInstances[character.Location.MapID];
         }
+
+        public MapInstance GetMapInstanceOfCharacter(Character character)
+        {
+            return mapInstances[character.Location.MapID];
+        }
     }
 }

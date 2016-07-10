@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Shared;
 
 namespace Client
 {
     public partial class Game
     {
         public Map Map { get; set; }
-        public MainPlayerCharacter Character { get; set; }
+        public PlayedCharacter Character { get; set; }
         private List<IUnit> units;
 
-        public Game(MainPlayerCharacter character)
+        public Game(PlayedCharacter character)
         {
             this.Character = character;
             this.CreateMap();
@@ -53,8 +50,8 @@ namespace Client
 
         public Point MapPositionToScreenPosition(int x, int y)
         {
-            int newX = Application.WIDTH / 2 - Character.Location.X + x;
-            int newY = Application.HEIGHT / 2 - Character.Location.Y + y;
+            int newX = Application.WIDTH / 2 - (int)Character.Location.X + x;
+            int newY = Application.HEIGHT / 2 - (int)Character.Location.Y + y;
 
             return new Point(newX, newY); 
         }

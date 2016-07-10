@@ -1,12 +1,19 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Shared;
 
-namespace Client
+namespace Server
 {
     public interface IUnit
     {
+        int GetId();
+        Location GetLocation();
+        string GetName();
+        bool IsPlayer();
         void PlayCycle(int timeSpan);
-        void DrawUnit(Graphics g);
-        Image GetCurrentImage();
 
         void StartMovingUp();
         void StartMovingRight();

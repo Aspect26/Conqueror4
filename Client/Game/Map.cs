@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
+using Shared;
 
 namespace Client
 {
@@ -48,8 +45,8 @@ namespace Client
         public void Render(Graphics graphics, Location playerLocation)
         {
             // "move" map accordingly to playe's location
-            int xPlayerOffset = playerLocation.X;
-            int yPlayerOffset = playerLocation.Y;
+            int xPlayerOffset = (int)playerLocation.X;
+            int yPlayerOffset = (int)playerLocation.Y;
 
             // "move" map so it's relative to middle of the screen, not topleft corner
             int xScreenOffset = Application.WIDTH / 2;

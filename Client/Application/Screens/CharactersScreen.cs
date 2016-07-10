@@ -24,7 +24,7 @@ namespace Client
 
             int currentY = 4;
             int btn_height = 50;
-            foreach(MainPlayerCharacter character in game.Account.GetCharacters())
+            foreach(Character character in game.Account.GetCharacters())
             {
                 CharacterButton btn = new CharacterButton(new Point(0, 0),
                     new Rectangle(0, currentY, charactersPanel.GetClientArea().Width, btn_height), character);
@@ -56,12 +56,12 @@ namespace Client
 
         private void OnEnterWorldClicked(Button button, EventArgs e)
         {
-            MainPlayerCharacter selected = charactersPanel.GetSelectedCharacter();
+            Character selected = charactersPanel.GetSelectedCharacter();
             if (selected != null)
                 enterWorld(selected);
         }
 
-        private void OnCharacterClicked(Button button, MainPlayerCharacter character)
+        private void OnCharacterClicked(Button button, Character character)
         {
             enterWorld(character);
         }
@@ -71,9 +71,9 @@ namespace Client
             userInterface.MessageBoxShow("Unfinished section!");
         }
 
-        private void enterWorld(MainPlayerCharacter character)
+        private void enterWorld(Character character)
         {
-            application.Account.PlayCharacter = character;
+            application.Account.SetPlayedCharacter(character.Name, server);
             application.ChangeWindow(new PlayScreen(application, server));
         }
     }

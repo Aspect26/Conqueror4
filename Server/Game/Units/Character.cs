@@ -1,34 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Shared;
 
 namespace Server
 {
-    public partial class Character : IUnit
+    public partial class Character : GenericUnit
     {
-        public int GetId()
+        public int Spec { get { return id; } set { this.id = value; } }
+        public int Level { get; set; }
+
+        public Character(string name, int spec, Location location) : base(name, spec, location)
         {
-            return Spec;
+            this.Level = 1;
         }
 
-        public Location GetLocation()
-        {
-            return Location;
-        }
-
-        public string GetName()
-        {
-            return Name;
-        }
-
-        public void PlayCycle(int timeSpan)
-        {
-            // TODO: do player action
-        }
-
-        public bool IsPlayer()
+        public override bool IsPlayer()
         {
             return true;
         }

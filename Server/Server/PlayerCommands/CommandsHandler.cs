@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Shared;
+using System;
 using System.Net.Sockets;
 using System.Text;
 
@@ -12,6 +11,8 @@ namespace Server
         private Game game;
 
         private const int CMD_CHARACTERLOAD = 4;
+        private const int CMD_STARTMOVING = 5;
+        private const int CMD_STOPMOVING = 6;
 
         public CommandsHandler(Server server, Game game)
         {
@@ -41,9 +42,29 @@ namespace Server
             {
                 case CMD_CHARACTERLOAD:
                     handleCharacterLoad(clientState, arguments[0].ToLower()); break;
+                case CMD_STARTMOVING:
+                    handleCharacterStartMoving(clientState, Convert.ToInt32(arguments[0])); break;
+                case CMD_STOPMOVING:
+                    handleCharacterStopMoving(clientState, Convert.ToInt32(arguments[0])); break;
                 default:
                     return;
             }
+        }
+
+        // ************************************************
+        // SPECIFIC HANDLERS
+        // ************************************************
+
+        private void handleCharacterStartMoving(StateObject client, int direction)
+        {
+            server.AddPlayerActionToGameQueue(new CharacterStartMovingAction(game, client.PlayingCharacter,
+                intToDirection(direction)));
+        }
+
+        private void handleCharacterStopMoving(StateObject client, int direction)
+        {
+            server.AddPlayerActionToGameQueue(new CharacterStopMovingAction(game, client.PlayingCharacter,
+                intToDirection(direction)));
         }
 
         private void handleCharacterLoad(StateObject client, string characterName)
@@ -51,6 +72,8 @@ namespace Server
             Character character = Data.GetCharacter(characterName);
             if (character == null)
                 return;
+
+            client.PlayingCharacter = character;
 
             // send data back
             string msg = character.Location.MapID + "," + character.Location.X + "," + character.Location.Y + "\n";
@@ -60,6 +83,27 @@ namespace Server
 
             // add character to game
             server.AddPlayerActionToGameQueue(new CharacterEnterLocationAction(game, client, character));
+        }
+
+        // ************************************************
+        // HELPER FUNCTIONS
+        // ************************************************
+        private MovingDirection intToDirection(int direction)
+        {
+            switch (direction)
+            {
+                case 1:
+                    return MovingDirection.Up;
+                case 2:
+                    return MovingDirection.Right;
+                case 3:
+                    return MovingDirection.Bottom;
+                case 4:
+                    return MovingDirection.Left;
+
+                default:
+                    return MovingDirection.None;
+            }
         }
 
         // ************************************************
