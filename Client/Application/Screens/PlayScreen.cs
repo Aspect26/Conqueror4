@@ -14,7 +14,7 @@ namespace Client
 
         private PlayedCharacter playerCharacter;
         private Game game;
-        private DateTime lastTime;
+        private long lastTimeStamp;
 
         public PlayScreen(Application application, ServerConnection server) : base(application, server)
         {
@@ -25,19 +25,22 @@ namespace Client
 
             game = new Game(application.Account.PlayCharacter);
 
-            lastTime = DateTime.Now;
+            lastTimeStamp = Stopwatch.GetTimestamp();
         }
 
         public override void Render(Graphics g)
         {
             base.Render(g);
 
-            int elapsedMilis = (int)(DateTime.Now - lastTime).TotalMilliseconds;
-            lastTime = DateTime.Now;
+            long now = Stopwatch.GetTimestamp();
+            int elapsedMilis = (int)((1000 * (now - lastTimeStamp)) / Stopwatch.Frequency);
+            lastTimeStamp = now;
 
-            string msg = server.ReadOneMessage();
-            if (msg != null)
+            string msg;
+            while ((msg = server.ReadOneMessage()) != null)
+            {
                 game.ProcessServerMessage(msg);
+            }
 
             game.RunCycle(g, elapsedMilis);
         }

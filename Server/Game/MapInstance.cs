@@ -67,29 +67,24 @@ namespace Server
         // THIS IS CALLED FROM GAME TASK
         public void PlayCycle()
         {
-            // process some of the plyers' actions
-            for (int i = 0; i < PLAYERACTIONS_PROCESSED_IN_ONE_CYCLE; i++)
+            // process some of the players' actions
+            lock (playerActions)
             {
-                lock (playerActions)
+                while (playerActions.Count != 0)
                 {
-                    if (playerActions.Count != 0)
+                    playerActions.Dequeue().Process();
+                    /*lock (sendActions)
                     {
-                        lock (sendActions)
-                        {
-                            sendActions.Enqueue(playerActions.Dequeue().Process());
-                        }
-                    }
-                    else
-                    {
-                        break;
-                    }
+                        sendActions.Enqueue(playerActions.Dequeue().Process());
+                    }*/
                 }
             }
 
             // get timespan
             long timeSpan = (int)(DateTime.Now - lastTime).TotalMilliseconds;
-            if (timeSpan < 20)
+            if (timeSpan < 30)
                 return;
+
             lastTime = DateTime.Now;
 
             // move all units

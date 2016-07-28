@@ -13,6 +13,7 @@ namespace Client
         private static int CMD_LOADCHAR = 4;
         private static int CMD_STARTMOVING = 5;
         private static int CMD_STOPMOVING = 6;
+        private static int CMD_CHANGELOCATION = 7;
 
         private int trySend(int commandNumber, string[] args)
         {

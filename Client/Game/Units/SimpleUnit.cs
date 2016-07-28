@@ -12,6 +12,7 @@ namespace Client
 
         public MovingDirection Direction { get; private set; }
         protected int movingSpeed;
+        protected bool moved;
 
         protected const int SLOWING_CONSTANT = 5;
 
@@ -19,6 +20,7 @@ namespace Client
         {
             this.Location = location;
             this.UnitSize = 50;
+            this.moved = false;
 
             animation = new UnitAnimation(game, this, baseImagePath);
 
@@ -38,10 +40,10 @@ namespace Client
         public virtual void PlayCycle(int timeSpan)
         {
             animation.AnimateCycle(timeSpan);
-            float movePoints = timeSpan / SLOWING_CONSTANT;
+            int movePoints = timeSpan / SLOWING_CONSTANT;
 
-            if (Direction == MovingDirection.Right)
-                System.Console.WriteLine("TS: " + timeSpan + ", MP: " + movePoints);
+            if (Direction != MovingDirection.None)
+                moved = true;
 
             switch (Direction)
             {

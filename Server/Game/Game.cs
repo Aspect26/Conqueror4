@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Server
 {
@@ -27,6 +22,11 @@ namespace Server
             this.sendActions = sendActions;
         }
 
+        public Dictionary<int, MapInstance> GetMapInstances()
+        {
+            return this.mapInstances;
+        }
+
         public void AddPlayerAction(IPlayerAction action)
         {
             Character c = action.GetCharacter();
@@ -40,7 +40,10 @@ namespace Server
             {
                 foreach(KeyValuePair<int, MapInstance> pair in mapInstances)
                 {
-                    pair.Value.PlayCycle();
+                    lock (pair.Value)
+                    {
+                        pair.Value.PlayCycle();
+                    }
                 }
             }
         }

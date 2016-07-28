@@ -13,6 +13,7 @@ namespace Server
         private const int CMD_CHARACTERLOAD = 4;
         private const int CMD_STARTMOVING = 5;
         private const int CMD_STOPMOVING = 6;
+        private const int CMD_CHANGELOCATION = 7;
 
         public CommandsHandler(Server server, Game game)
         {
@@ -42,10 +43,12 @@ namespace Server
             {
                 case CMD_CHARACTERLOAD:
                     handleCharacterLoad(clientState, arguments[0].ToLower()); break;
-                case CMD_STARTMOVING:
-                    handleCharacterStartMoving(clientState, Convert.ToInt32(arguments[0])); break;
-                case CMD_STOPMOVING:
-                    handleCharacterStopMoving(clientState, Convert.ToInt32(arguments[0])); break;
+                case CMD_CHANGELOCATION:
+                    int x = Convert.ToInt32(arguments[0]);
+                    int y = Convert.ToInt32(arguments[1]);
+                    clientState.PlayingCharacter.Location.X = x;
+                    clientState.PlayingCharacter.Location.Y = y;
+                    break;
                 default:
                     return;
             }
@@ -54,19 +57,6 @@ namespace Server
         // ************************************************
         // SPECIFIC HANDLERS
         // ************************************************
-
-        private void handleCharacterStartMoving(StateObject client, int direction)
-        {
-            server.AddPlayerActionToGameQueue(new CharacterStartMovingAction(game, client.PlayingCharacter,
-                intToDirection(direction)));
-        }
-
-        private void handleCharacterStopMoving(StateObject client, int direction)
-        {
-            server.AddPlayerActionToGameQueue(new CharacterStopMovingAction(game, client.PlayingCharacter,
-                intToDirection(direction)));
-        }
-
         private void handleCharacterLoad(StateObject client, string characterName)
         {
             Character character = Data.GetCharacter(characterName);

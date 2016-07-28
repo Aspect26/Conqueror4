@@ -37,16 +37,29 @@ namespace Server
 
             // initialize game
             sendActions = new Queue<ISendAction>();
-            Task gameInitializationTask = Task.Factory.StartNew(() => game.Initialize(sendActions));
 
             // then start game task, receiving commands task and sending data task
-            Task gameTask = gameInitializationTask.ContinueWith((parent) => game.Start(), TaskContinuationOptions.LongRunning);
-            Task receivingTask = gameInitializationTask.ContinueWith((parent) => AcceptAndReceiveClients(), TaskContinuationOptions.LongRunning);
-            Task sendingTask = gameInitializationTask.ContinueWith((parent) => SendClients(), TaskContinuationOptions.LongRunning);
+
+            // TASKS
+            //Task gameInitializationTask = Task.Factory.StartNew(() => game.Initialize(sendActions));
+            //Task gameTask = gameInitializationTask.ContinueWith((parent) => game.Start(), TaskContinuationOptions.LongRunning);
+            //Task receivingTask = gameInitializationTask.ContinueWith((parent) => AcceptAndReceiveClients(), TaskContinuationOptions.LongRunning);
+            //Task sendingTask = gameInitializationTask.ContinueWith((parent) => SendClients(), TaskContinuationOptions.LongRunning);
+
+            // THREADS
+            game.Initialize(sendActions);
+            new Thread(game.Start).Start();
+            new Thread(AcceptAndReceiveClients).Start();
+            new Thread(SendClients).Start();
 
             Console.WriteLine("Server ended. Press any key to terminate.");
             Console.ReadKey(true);
             return;
+        }
+
+        public void DisconnectClient(StateObject client)
+        {
+            // TODO: this function
         }
 
         public void AddPlayerActionToGameQueue(IPlayerAction action)

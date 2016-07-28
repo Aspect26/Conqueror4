@@ -43,8 +43,8 @@ namespace Client
 
                 if (name == Character.Name)
                 {
-                    Character.Location.X = x;
-                    Character.Location.Y = y;
+                    //Character.Location.X = x;
+                    //Character.Location.Y = y;
                     continue;
                 }
                 else

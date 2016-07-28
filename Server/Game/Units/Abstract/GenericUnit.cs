@@ -30,7 +30,7 @@ namespace Server
 
         public virtual void PlayCycle(int timeSpan)
         {
-            float movePoints = timeSpan / SLOWING_CONSTANT;
+            int movePoints = timeSpan / SLOWING_CONSTANT;
 
             if (Direction == MovingDirection.Right)
                 System.Console.WriteLine("TS: " + timeSpan + ", MP: " + movePoints);

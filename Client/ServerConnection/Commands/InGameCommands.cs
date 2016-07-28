@@ -4,6 +4,11 @@ namespace Client
 {
     public partial class ServerConnection
     {
+        public void SendPlayerLocation(PlayedCharacter character)
+        {
+            trySend(CMD_CHANGELOCATION, new string[] { character.Location.X.ToString(), character.Location.Y.ToString() });
+        }
+
         public void StartMovingCharacter(MovingDirection direction)
         {
             trySend(CMD_STARTMOVING, new string[] { directionToString(direction) });
