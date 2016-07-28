@@ -28,7 +28,6 @@ namespace Client
         {
             string[] unitStrings = arguments.Split(',');
 
-            units = new List<IUnit>();
             foreach (string unitString in unitStrings)
             {
                 string[] unitParts = unitString.Split('|');
@@ -49,7 +48,7 @@ namespace Client
                 }
                 else
                 {
-                    AddUnit(name, spec, x, y);
+                    AddOrUpdateUnit(name, spec, x, y);
                 }
             }
         }

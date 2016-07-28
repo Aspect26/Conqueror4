@@ -28,30 +28,39 @@ namespace Server
                 lastTimeStamp = Stopwatch.GetTimestamp();
                 foreach (KeyValuePair<int, MapInstance> key in game.GetMapInstances())
                 {
-                    sendUpdate(key.Value);
+                    sendUpdate(key.Value, timeSpan);
                 }
             }
         }
 
-        private void sendUpdate(MapInstance mapInstance)
+        private void sendUpdate(MapInstance mapInstance, long delta)
         {
             lock (mapInstance)
             {
                 StringBuilder msg = new StringBuilder(SendCommands.MSG_CHARACTERS_IN_MAP + ":");
+                bool needSend = false;
 
                 foreach (IUnit unit in mapInstance.GetUnits())
                 {
-                    Location loc = unit.GetLocation();
-                    msg.Append(unit.GetName() + "|" + unit.GetId() + "|" + loc.X + "|" + loc.Y + ",");
+                    if (unit.Updated)
+                    {
+                        Location loc = unit.GetLocation();
+                        msg.Append(unit.GetName() + "|" + unit.GetId() + "|" + loc.X + "|" + loc.Y + ",");
+                        unit.Updated = false;
+                        needSend = true;
+                    }
                 }
                 msg.Append("\r\n");
+
+                if (!needSend)
+                    return;
 
                 byte[] byteDate = Encoding.ASCII.GetBytes(msg.ToString());
                 foreach (StateObject client in mapInstance.GetClients())
                 {
                     try
                     {
-                        Console.WriteLine("Sendding: " + msg);
+                        Console.WriteLine("Sendding: " + msg + ", " + delta);
                         client.clientSocket.Send(byteDate, 0, byteDate.Length, SocketFlags.None);
                     }
                     catch (SocketException)

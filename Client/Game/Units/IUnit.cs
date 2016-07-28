@@ -7,6 +7,7 @@ namespace Client
         void PlayCycle(int timeSpan);
         void DrawUnit(Graphics g);
         Image GetCurrentImage();
+        void SetLocation(int x, int y);
 
         void StartMovingUp();
         void StartMovingRight();

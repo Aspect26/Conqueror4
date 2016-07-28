@@ -183,7 +183,7 @@ namespace Server
                 {
                     // Whole message received
                     state.dataReceived = new StringBuilder();
-                    Console.WriteLine("A generic message from: {0}\n {1}", clientSocket.LocalEndPoint, content);
+                    //Console.WriteLine("A generic message from: {0}\n {1}", clientSocket.LocalEndPoint, content);
 
                     // Handle message
                     commandsHandler.HandleMessage(state, content);

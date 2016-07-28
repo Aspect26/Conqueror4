@@ -48,6 +48,7 @@ namespace Server
                     int y = Convert.ToInt32(arguments[1]);
                     clientState.PlayingCharacter.Location.X = x;
                     clientState.PlayingCharacter.Location.Y = y;
+                    clientState.PlayingCharacter.Updated = true;
                     break;
                 default:
                     return;

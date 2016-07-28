@@ -28,6 +28,12 @@ namespace Client
             movingSpeed = 1;
         }
 
+        public void SetLocation(int x, int y)
+        {
+            this.Location.X = x;
+            this.Location.Y = y;
+        }
+
         public SimpleUnit(Location location)
         {
             this.Location = location;

@@ -8,14 +8,14 @@ namespace Client
     {
         public Map Map { get; set; }
         public PlayedCharacter Character { get; set; }
-        private List<IUnit> units;
+        private Dictionary<string, IUnit> units;
 
         public Game(PlayedCharacter character)
         {
             this.Character = character;
             this.CreateMap();
 
-            this.units = new List<IUnit>();
+            this.units = new Dictionary<string, IUnit>();
         }
 
         private  void CreateMap()
@@ -36,16 +36,23 @@ namespace Client
             Map.Render(g, Character.Location);
 
             // other units
-            foreach (IUnit unit in units)
-                unit.DrawUnit(g);
+            foreach (KeyValuePair<string, IUnit> unit in units)
+                unit.Value.DrawUnit(g);
 
             // player
             Character.DrawUnit(g);
         }
 
-        public void AddUnit(string name, int id, int x, int y)
+        public void AddOrUpdateUnit(string name, int id, int x, int y)
         {
-            units.Add(new PlayerUnit(this, name, id, x, y));
+            if (units.ContainsKey(name))
+            {
+                units[name].SetLocation(x, y);
+            }
+            else
+            {
+                units.Add(name, new PlayerUnit(this, name, id, x, y));
+            }
         }
 
         public Point MapPositionToScreenPosition(int x, int y)

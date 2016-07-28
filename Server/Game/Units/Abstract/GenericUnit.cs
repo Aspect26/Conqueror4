@@ -6,6 +6,7 @@ namespace Server
     {
         public Location Location { get; set; }
         public MovingDirection Direction { get; private set; }
+        public bool Updated { get; set; }
 
         protected int movingSpeed;
         protected const int SLOWING_CONSTANT = 5;
@@ -32,8 +33,8 @@ namespace Server
         {
             int movePoints = timeSpan / SLOWING_CONSTANT;
 
-            if (Direction == MovingDirection.Right)
-                System.Console.WriteLine("TS: " + timeSpan + ", MP: " + movePoints);
+            if (Direction != MovingDirection.None)
+                Updated = true;
 
             switch (Direction)
             {

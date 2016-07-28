@@ -15,6 +15,8 @@ namespace Server
         bool IsPlayer();
         void PlayCycle(int timeSpan);
 
+        bool Updated { get; set; }
+
         void StartMovingUp();
         void StartMovingRight();
         void StartMovingBottom();
