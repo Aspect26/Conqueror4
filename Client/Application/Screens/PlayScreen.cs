@@ -45,6 +45,15 @@ namespace Client
         // EVENTS
         // *************************************************
         int previousDownKey = 0;
+
+        public override void OnMouseLeftDown(Point location)
+        {
+            int x = location.X - Application.MIDDLE.X;
+            int y = location.Y - Application.MIDDLE.Y;
+            double length = Math.Sqrt(x*x + y*y);
+            server.SendPlayerShoot((int)((x / length)*100), (int)((y / length)*100));
+        }
+
         public override void OnKeyDown(int key)
         {
             if (key == previousDownKey)

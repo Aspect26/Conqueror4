@@ -16,6 +16,7 @@ namespace Server
         void PlayCycle(int timeSpan);
 
         bool Updated { get; set; }
+        List<string> Differences { get; set; }
 
         void StartMovingUp();
         void StartMovingRight();

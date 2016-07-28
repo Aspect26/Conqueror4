@@ -8,7 +8,7 @@ namespace Server
 {
     public interface IPlayerAction
     {
-        ISendAction Process();
+        ISendAction Process(long timeStamp);
         Character GetCharacter();
     }
 }

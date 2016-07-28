@@ -14,7 +14,7 @@ namespace Server
         private Queue<IPlayerAction> playerActions;
         private Queue<ISendAction> sendActions;
 
-        private DateTime lastTime;
+        private long lastTimeStamp;
         private const int PLAYERACTIONS_PROCESSED_IN_ONE_CYCLE = 5;
 
         private int mapId;
@@ -28,7 +28,7 @@ namespace Server
             units = new List<IUnit>();
             playerActions = new Queue<IPlayerAction>();
 
-            lastTime = DateTime.Now;
+            lastTimeStamp = Stopwatch.GetTimestamp();
         }
         
         public List<IUnit> GetUnits()
@@ -67,12 +67,15 @@ namespace Server
         // THIS IS CALLED FROM GAME TASK
         public void PlayCycle()
         {
-            // process some of the players' actions
+            long now = Stopwatch.GetTimestamp();
+            long timeSpan = (1000*(Stopwatch.GetTimestamp() - lastTimeStamp) / Stopwatch.Frequency);
+
+            // process all players' actions
             lock (playerActions)
             {
                 while (playerActions.Count != 0)
                 {
-                    playerActions.Dequeue().Process();
+                    playerActions.Dequeue().Process(now);
                     /*lock (sendActions)
                     {
                         sendActions.Enqueue(playerActions.Dequeue().Process());
@@ -80,12 +83,9 @@ namespace Server
                 }
             }
 
-            // get timespan
-            long timeSpan = (int)(DateTime.Now - lastTime).TotalMilliseconds;
+            lastTimeStamp = now;
             if (timeSpan < 30)
                 return;
-
-            lastTime = DateTime.Now;
 
             // move all units
             foreach (IUnit unit in units)

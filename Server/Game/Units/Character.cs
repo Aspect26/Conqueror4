@@ -16,5 +16,15 @@ namespace Server
         {
             return true;
         }
+
+        private int ShootCooldown = 400;
+        private long lastShoot = long.MinValue;
+        public void Shoot(long timeSpan, int x, int y)
+        {
+            if(timeSpan > lastShoot + ShootCooldown)
+            {
+                this.Differences.Add("S:"+x+":"+y);
+            }
+        }
     }
 }

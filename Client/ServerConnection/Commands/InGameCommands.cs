@@ -4,6 +4,11 @@ namespace Client
 {
     public partial class ServerConnection
     {
+        public void SendPlayerShoot(int x, int y)
+        {
+            trySend(CMD_SHOOT, new string[] { x.ToString(), y.ToString() });
+        }
+
         public void SendPlayerLocation(PlayedCharacter character)
         {
             trySend(CMD_CHANGELOCATION, new string[] { character.Location.X.ToString(), character.Location.Y.ToString() });

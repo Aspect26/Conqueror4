@@ -1,4 +1,5 @@
 ﻿using Shared;
+using System.Collections.Generic;
 
 namespace Server
 {
@@ -7,6 +8,7 @@ namespace Server
         public Location Location { get; set; }
         public MovingDirection Direction { get; private set; }
         public bool Updated { get; set; }
+        public List<string> Differences { get; set; }
 
         protected int movingSpeed;
         protected const int SLOWING_CONSTANT = 5;
@@ -19,6 +21,7 @@ namespace Server
             this.Location = location;
             this.id = id;
             this.Name = "Unknown";
+            this.Differences = new List<string>();
 
             Direction = MovingDirection.None;
             movingSpeed = 1;

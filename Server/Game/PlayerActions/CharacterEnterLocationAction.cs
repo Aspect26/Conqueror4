@@ -24,7 +24,7 @@ namespace Server
             return character;
         }
 
-        public ISendAction Process()
+        public ISendAction Process(long timeStamp)
         {
             MapInstance mapInstance = game.AddPlayer(clientState, character);
             return new CharactersInMap(mapInstance);

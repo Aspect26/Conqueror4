@@ -14,6 +14,7 @@ namespace Server
         private const int CMD_STARTMOVING = 5;
         private const int CMD_STOPMOVING = 6;
         private const int CMD_CHANGELOCATION = 7;
+        private const int CMD_SHOOT = 8;
 
         public CommandsHandler(Server server, Game game)
         {
@@ -46,9 +47,15 @@ namespace Server
                 case CMD_CHANGELOCATION:
                     int x = Convert.ToInt32(arguments[0]);
                     int y = Convert.ToInt32(arguments[1]);
-                    clientState.PlayingCharacter.Location.X = x;
-                    clientState.PlayingCharacter.Location.Y = y;
-                    clientState.PlayingCharacter.Updated = true;
+                    lock (clientState.PlayingCharacter)
+                    {
+                        clientState.PlayingCharacter.Location.X = x;
+                        clientState.PlayingCharacter.Location.Y = y;
+                        clientState.PlayingCharacter.Updated = true;
+                    }
+                    break;
+                case CMD_SHOOT:
+                    handleCharacterShoot(clientState, Convert.ToInt32(arguments[0]), Convert.ToInt32(arguments[1]));
                     break;
                 default:
                     return;
@@ -58,6 +65,11 @@ namespace Server
         // ************************************************
         // SPECIFIC HANDLERS
         // ************************************************
+        private void handleCharacterShoot(StateObject client, int x, int y)
+        {
+            server.AddPlayerActionToGameQueue(new CharacterShootAction(client.PlayingCharacter, x, y));
+        }
+
         private void handleCharacterLoad(StateObject client, string characterName)
         {
             Character character = Data.GetCharacter(characterName);

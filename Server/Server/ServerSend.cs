@@ -42,10 +42,29 @@ namespace Server
 
                 foreach (IUnit unit in mapInstance.GetUnits())
                 {
-                    if (unit.Updated)
+                    if (unit.Updated || unit.Differences.Count != 0)
                     {
+                        // location
                         Location loc = unit.GetLocation();
-                        msg.Append(unit.GetName() + "|" + unit.GetId() + "|" + loc.X + "|" + loc.Y + ",");
+                        msg.Append(unit.GetName() + "|" + unit.GetId());
+
+                        if (unit.Updated)
+                        {
+                            msg.Append("|L:" + loc.X + ":" + loc.Y);
+                        }
+
+                        // other actions
+                        foreach(string action in unit.Differences)
+                        {
+                            msg.Append("|" + action);
+                        }
+                        if (unit.Differences.Count != 0)
+                        {
+                            unit.Differences.Clear();
+                        }
+                        
+                        // finish
+                        msg.Append(",");
                         unit.Updated = false;
                         needSend = true;
                     }

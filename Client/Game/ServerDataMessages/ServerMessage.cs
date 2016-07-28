@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Client
 {
@@ -31,24 +27,31 @@ namespace Client
             foreach (string unitString in unitStrings)
             {
                 string[] unitParts = unitString.Split('|');
-                if (unitParts.Length != 4)
-                    continue;
 
                 string name = unitParts[0];
-
                 int spec = Convert.ToInt32(unitParts[1]);
-                int x = Convert.ToInt32(unitParts[2]);
-                int y = Convert.ToInt32(unitParts[3]);
 
                 if (name == Character.Name)
                 {
-                    //Character.Location.X = x;
-                    //Character.Location.Y = y;
                     continue;
                 }
                 else
                 {
-                    AddOrUpdateUnit(name, spec, x, y);
+                    for (int currentIndex = 2; currentIndex < unitParts.Length; currentIndex++)
+                    {
+                        string[] unitPart = unitParts[currentIndex].Split(':');
+                        if (unitPart[0] == "L")
+                        {
+                            int x = Convert.ToInt32(unitPart[1]);
+                            int y = Convert.ToInt32(unitPart[2]);
+                            AddOrUpdateUnit(name, spec, x, y);
+                        }
+                        else if(unitPart[0] == "S")
+                        {
+                            int x = Convert.ToInt32(unitPart[1]);
+                            int y = Convert.ToInt32(unitPart[2]);
+                        }
+                    }
                 }
             }
         }

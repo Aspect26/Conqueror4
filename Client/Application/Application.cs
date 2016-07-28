@@ -15,13 +15,15 @@ namespace Client
         public Account Account { get; set; }
         public ServerConnection server { get; set; }
 
-        public static int HEIGHT;
-        public static int WIDTH;
+        public static int HEIGHT { get; private set; }
+        public static int WIDTH { get; private set; }
+        public static Point MIDDLE { get; private set; }
 
         public Application(int height, int width, BufferedGraphics graphics)
         {
             HEIGHT = height;
             WIDTH = width;
+            MIDDLE = new Point(width / 2, height / 2);
 
             this.graphics = graphics;
             this.server = new ServerConnection(this);

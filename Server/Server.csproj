@@ -51,6 +51,7 @@
     <Compile Include="Data\Structures\Account.cs" />
     <Compile Include="Data\Data.cs" />
     <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\PlayerActions\CharacterShootAction.cs" />
     <Compile Include="Game\Units\Abstract\GenericUnit.cs" />
     <Compile Include="Game\MapInstance.cs" />
     <Compile Include="Game\PlayerActions\CharacterEnterLocationAction.cs" />
