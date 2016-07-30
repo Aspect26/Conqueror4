@@ -46,12 +46,18 @@ namespace Client
         // *************************************************
         int previousDownKey = 0;
 
+        // TODO: in this function -> player.Shoot, nevytvarat strelu v screene -_-
         public override void OnMouseLeftDown(Point location)
         {
             int x = location.X - Application.MIDDLE.X;
             int y = location.Y - Application.MIDDLE.Y;
             double length = Math.Sqrt(x*x + y*y);
-            server.SendPlayerShoot((int)((x / length)*100), (int)((y / length)*100));
+
+            int dirX = (int)((x / length) * 100);
+            int dirY = (int)((y / length) * 100);
+            server.SendPlayerShoot(dirX, dirY);
+            game.AddMissile(new Missile(game, GameData.GetDefaultMissileImage(), 
+                new Point(playerCharacter.Location.X, playerCharacter.Location.Y), new Point(dirX, dirY)));
         }
 
         public override void OnKeyDown(int key)

@@ -59,6 +59,12 @@ namespace Client
             }
         }
 
+        // GAME IMAGES
+        public static Image GetDefaultMissileImage()
+        {
+            return Image.FromFile("res/sprites/defaultMissile.png");
+        }
+
         // UI COMPONENTS
         public static Image GetLineInputBackgground()
         {

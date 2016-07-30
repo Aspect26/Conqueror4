@@ -2,10 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Server
 {
@@ -50,7 +48,7 @@ namespace Server
 
                         if (unit.Updated)
                         {
-                            msg.Append("|L:" + loc.X + ":" + loc.Y);
+                            msg.Append("|L&" + loc.X + "&" + loc.Y);
                         }
 
                         // other actions
@@ -58,6 +56,7 @@ namespace Server
                         {
                             msg.Append("|" + action);
                         }
+                        // TODO: unit differences this way is bullshit
                         if (unit.Differences.Count != 0)
                         {
                             unit.Differences.Clear();
@@ -79,7 +78,7 @@ namespace Server
                 {
                     try
                     {
-                        Console.WriteLine("Sendding: " + msg + ", " + delta);
+                        Console.WriteLine("Sending: " + msg + ", " + delta);
                         client.clientSocket.Send(byteDate, 0, byteDate.Length, SocketFlags.None);
                     }
                     catch (SocketException)

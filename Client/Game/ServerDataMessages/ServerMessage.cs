@@ -9,8 +9,6 @@ namespace Client
         public void ProcessServerMessage(string message)
         {
             string[] parts = message.Split(':');
-            if (parts.Length != 2) //TODO: Disconnect from server?
-                return;
 
             int cmdNumber = Convert.ToInt32(parts[0]);
             switch (cmdNumber)
@@ -22,7 +20,7 @@ namespace Client
 
         private void handleUnitsData(string arguments)
         {
-            string[] unitStrings = arguments.Split(',');
+            string[] unitStrings = arguments.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string unitString in unitStrings)
             {
@@ -39,7 +37,7 @@ namespace Client
                 {
                     for (int currentIndex = 2; currentIndex < unitParts.Length; currentIndex++)
                     {
-                        string[] unitPart = unitParts[currentIndex].Split(':');
+                        string[] unitPart = unitParts[currentIndex].Split('&');
                         if (unitPart[0] == "L")
                         {
                             int x = Convert.ToInt32(unitPart[1]);
@@ -50,6 +48,7 @@ namespace Client
                         {
                             int x = Convert.ToInt32(unitPart[1]);
                             int y = Convert.ToInt32(unitPart[2]);
+                            AddMissile(name, x, y);
                         }
                     }
                 }
