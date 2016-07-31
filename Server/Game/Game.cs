@@ -16,7 +16,9 @@ namespace Server
             Dictionary<int, string> maps = Data.GetMaps(); 
             foreach(int key in maps.Keys)
             {
-                mapInstances.Add(key, new MapInstance(key, sendActions));
+                MapInstance map = new MapInstance(key, sendActions);
+                MapInstanceGen.GenerateUnits(map, key);
+                mapInstances.Add(key, map);
             }
 
             this.sendActions = sendActions;
