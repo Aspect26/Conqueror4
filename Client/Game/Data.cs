@@ -60,9 +60,29 @@ namespace Client
         }
 
         // GAME IMAGES
-        public static Image GetDefaultMissileImage()
+       /* public static Image GetDefaultMissileImage()
         {
-            return Image.FromFile("res/sprites/defaultMissile.png");
+            return Image.FromFile("res/sprites/missiles/default.png");
+        }*/
+
+        public static Image GetMissileImage(int id)
+        {
+            string path = "res/sprites/missiles/";
+            switch (id)
+            {
+                case 1:
+                    path += "demonhunter"; break;
+                case 2:
+                    path += "mage"; break;
+                case 3:
+                    path += "priest"; break;
+                case 4:
+                    path += "warlock"; break;
+                default:
+                    path += "default"; break;
+            }
+            path += ".png";
+            return Image.FromFile(path);
         }
 
         // UI COMPONENTS

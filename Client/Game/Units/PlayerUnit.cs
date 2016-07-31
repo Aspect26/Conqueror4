@@ -9,7 +9,7 @@ namespace Client
         private Game game;
 
         public PlayerUnit(Game game, string name, int id, int x, int y)
-            : base(game, GameData.GetCharacterBasePath(id), new Location(x, y))
+            : base(game, id, new Location(x, y))
         {
             this.name = name;
             this.game = game;

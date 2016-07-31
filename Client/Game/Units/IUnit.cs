@@ -9,7 +9,9 @@ namespace Client
         void DrawUnit(Graphics g);
         Image GetCurrentImage();
         void SetLocation(int x, int y);
+
         Location Location { get; set; }
+        int ID { get;  }
 
         void StartMovingUp();
         void StartMovingRight();

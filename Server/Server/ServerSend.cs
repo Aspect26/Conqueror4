@@ -78,7 +78,7 @@ namespace Server
                 {
                     try
                     {
-                        Console.WriteLine("Sending: " + msg + ", " + delta);
+                        Console.WriteLine("Sending: " + msg);
                         client.clientSocket.Send(byteDate, 0, byteDate.Length, SocketFlags.None);
                     }
                     catch (SocketException)

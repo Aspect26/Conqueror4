@@ -73,7 +73,7 @@ namespace Client
             IUnit unit = units[unitName];
             Point position = new Point(unit.Location.X, unit.Location.Y);
             lock (missiles)
-                this.missiles.Add(new Missile(this, GameData.GetDefaultMissileImage(), position, new Point(dirX, dirY)));
+                this.missiles.Add(new Missile(this, GameData.GetMissileImage(unit.ID), position, new Point(dirX, dirY)));
         }
 
         public void AddMissile(Missile missile)

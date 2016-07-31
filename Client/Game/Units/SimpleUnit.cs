@@ -8,7 +8,9 @@ namespace Client
         public int UnitSize { get; private set; }
 
         protected UnitAnimation animation;
+
         public Location Location { get; set; }
+        public int ID { get; protected set; }
 
         public MovingDirection Direction { get; private set; }
         protected int movingSpeed;
@@ -16,13 +18,14 @@ namespace Client
 
         protected const int SLOWING_CONSTANT = 5;
 
-        public SimpleUnit(Game game, string baseImagePath, Location location)
+        public SimpleUnit(Game game, int id, Location location)
         {
             this.Location = location;
             this.UnitSize = 50;
             this.moved = false;
+            this.ID = id;
 
-            animation = new UnitAnimation(game, this, baseImagePath);
+            animation = new UnitAnimation(game, this, GameData.GetCharacterBasePath(id));
 
             Direction = MovingDirection.None;
             movingSpeed = 1;

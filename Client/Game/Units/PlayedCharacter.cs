@@ -7,7 +7,7 @@ namespace Client
     {
         public string Name { get; set; }
         public int Level { get; set; }
-        public int Spec { get; set; }
+        public int Spec { get { return ID; }  }
         private ServerConnection server;
 
         public PlayedCharacter(ServerConnection server, string name, int level, int spec) 
@@ -15,8 +15,8 @@ namespace Client
         {
             this.Name = name;
             this.Level = level;
-            this.Spec = spec;
             this.server = server;
+            this.ID = spec;
             this.animation = new CentreUnitAnimation(this, GameData.GetCharacterBasePath(spec));
         }
 
