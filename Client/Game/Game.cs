@@ -7,7 +7,7 @@ namespace Client
     {
         public Map Map { get; set; }
         public PlayedCharacter Character { get; set; }
-        private Dictionary<string, IUnit> units;
+        private Dictionary<int, IUnit> units;
         private List<Missile> missiles;
 
         public Game(PlayedCharacter character)
@@ -15,7 +15,7 @@ namespace Client
             this.Character = character;
             this.CreateMap();
 
-            this.units = new Dictionary<string, IUnit>();
+            this.units = new Dictionary<int, IUnit>();
             this.missiles = new List<Missile>();
         }
 
@@ -42,7 +42,7 @@ namespace Client
             Map.Render(g, Character.Location);
 
             // other units
-            foreach (KeyValuePair<string, IUnit> unit in units)
+            foreach (KeyValuePair<int, IUnit> unit in units)
                 unit.Value.DrawUnit(g);
 
             // player
@@ -56,24 +56,27 @@ namespace Client
             }
         }
 
-        public void AddOrUpdateUnit(string name, int id, int x, int y)
+        public void AddOrUpdateUnit(string name, int unitId, int uniqueId, int x, int y)
         {
-            if (units.ContainsKey(name))
+            if (units.ContainsKey(uniqueId))
             {
-                units[name].SetLocation(x, y);
+                units[uniqueId].SetLocation(x, y);
             }
             else
             {
-                units.Add(name, new PlayerUnit(this, name, id, x, y));
+                if(GameData.IsPlayerUnit(unitId))
+                    units.Add(uniqueId, new PlayerUnit(this, name, unitId, uniqueId, x, y));
+                else
+                    units.Add(uniqueId, new SimpleUnit(this, unitId, uniqueId, new Shared.Location(x, y)));
             }
         }
 
-        public void AddMissile(string unitName, int dirX, int dirY)
+        public void AddMissile(int uniqueId, int dirX, int dirY)
         {
-            IUnit unit = units[unitName];
+            IUnit unit = units[uniqueId];
             Point position = new Point(unit.Location.X, unit.Location.Y);
             lock (missiles)
-                this.missiles.Add(new Missile(this, GameData.GetMissileImage(unit.ID), position, new Point(dirX, dirY)));
+                this.missiles.Add(new Missile(this, GameData.GetMissileImage(unit.UnitID), position, new Point(dirX, dirY)));
         }
 
         public void AddMissile(Missile missile)

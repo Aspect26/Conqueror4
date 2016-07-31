@@ -59,12 +59,6 @@ namespace Client
             }
         }
 
-        // GAME IMAGES
-       /* public static Image GetDefaultMissileImage()
-        {
-            return Image.FromFile("res/sprites/missiles/default.png");
-        }*/
-
         public static Image GetMissileImage(int id)
         {
             string path = "res/sprites/missiles/";
@@ -169,6 +163,11 @@ namespace Client
         public static bool IsValidUsername(string name)
         {
             return nicknamePattern.IsMatch(name);
+        }
+
+        public static bool IsPlayerUnit(int unitId)
+        {
+            return unitId > 0 && unitId < 7;
         }
 
         // FONT

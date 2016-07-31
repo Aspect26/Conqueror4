@@ -6,6 +6,7 @@ namespace Client
     {
         // direction vector
         private Point direction;
+
         private Point location;
         private Image image;
         private Game game;

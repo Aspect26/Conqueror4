@@ -4,7 +4,7 @@ namespace Server
 {
     public partial class Character : GenericUnit
     {
-        public int Spec { get { return id; } set { this.id = value; } }
+        public int Spec { get { return UnitID; } set { this.UnitID = value; } }
         public int Level { get; set; }
 
         public Character(string name, int spec, Location location) : base(name, spec, location)

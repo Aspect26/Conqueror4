@@ -10,6 +10,10 @@ namespace Server
     public partial class Server
     {
         private const int SEND_UPDATE_INTERVAL = 30;
+
+        public const int MSG_CHARACTERS_IN_MAP = 5;
+
+
         private void SendClients()
         {
 
@@ -35,7 +39,7 @@ namespace Server
         {
             lock (mapInstance)
             {
-                StringBuilder msg = new StringBuilder(SendCommands.MSG_CHARACTERS_IN_MAP + ":");
+                StringBuilder msg = new StringBuilder(MSG_CHARACTERS_IN_MAP + ":");
                 bool needSend = false;
 
                 foreach (IUnit unit in mapInstance.GetUnits())
@@ -44,7 +48,7 @@ namespace Server
                     {
                         // location
                         Location loc = unit.GetLocation();
-                        msg.Append(unit.GetName() + "|" + unit.GetId());
+                        msg.Append(unit.GetName() + "|" + unit.UnitID + "|" + unit.UniqueID);
 
                         if (unit.Updated)
                         {

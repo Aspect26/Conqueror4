@@ -5,6 +5,9 @@ namespace Server
 {
     public class GenericUnit : IUnit
     {
+        public int UnitID { get; protected set; }
+        public int UniqueID { get; protected set; }
+
         public Location Location { get; set; }
         public MovingDirection Direction { get; private set; }
         public bool Updated { get; set; }
@@ -12,19 +15,23 @@ namespace Server
 
         protected int movingSpeed;
         protected const int SLOWING_CONSTANT = 5;
-        protected int id;
 
         public string Name { get; set; }
 
-        public GenericUnit(int id, Location location)
+        public GenericUnit(int unitID, Location location)
         {
             this.Location = location;
-            this.id = id;
+            this.UnitID = unitID;
             this.Name = "Unknown";
             this.Differences = new List<string>();
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
+        }
+
+        public void SetUniqueID(int uniqueId)
+        {
+            this.UniqueID = uniqueId;
         }
 
         public GenericUnit(string name, int id, Location location): this(id, location)
@@ -202,11 +209,6 @@ namespace Server
                 default:
                     Direction = MovingDirection.None; break;
             }
-        }
-
-        public int GetId()
-        {
-            return id;
         }
 
         public Location GetLocation()

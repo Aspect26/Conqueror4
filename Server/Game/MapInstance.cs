@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server
 {
@@ -13,6 +9,7 @@ namespace Server
         private List<IUnit> units;
         private Queue<IPlayerAction> playerActions;
         private Queue<ISendAction> sendActions;
+        private int lastUniqueId = 1;
 
         private long lastTimeStamp;
         private const int PLAYERACTIONS_PROCESSED_IN_ONE_CYCLE = 5;
@@ -30,7 +27,12 @@ namespace Server
 
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
-        
+
+        public int GetNextUniqueID()
+        {
+            return lastUniqueId++;
+        }
+
         public List<IUnit> GetUnits()
         {
             return this.units;

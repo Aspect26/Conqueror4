@@ -27,7 +27,8 @@ namespace Client
                 string[] unitParts = unitString.Split('|');
 
                 string name = unitParts[0];
-                int spec = Convert.ToInt32(unitParts[1]);
+                int unitId = Convert.ToInt32(unitParts[1]);
+                int uniqueId = Convert.ToInt32(unitParts[2]);
 
                 if (name == Character.Name)
                 {
@@ -35,20 +36,20 @@ namespace Client
                 }
                 else
                 {
-                    for (int currentIndex = 2; currentIndex < unitParts.Length; currentIndex++)
+                    for (int currentIndex = 3; currentIndex < unitParts.Length; currentIndex++)
                     {
                         string[] unitPart = unitParts[currentIndex].Split('&');
                         if (unitPart[0] == "L")
                         {
                             int x = Convert.ToInt32(unitPart[1]);
                             int y = Convert.ToInt32(unitPart[2]);
-                            AddOrUpdateUnit(name, spec, x, y);
+                            AddOrUpdateUnit(name, unitId, uniqueId, x, y);
                         }
                         else if(unitPart[0] == "S")
                         {
                             int x = Convert.ToInt32(unitPart[1]);
                             int y = Convert.ToInt32(unitPart[2]);
-                            AddMissile(name, x, y);
+                            AddMissile(uniqueId, x, y);
                         }
                     }
                 }

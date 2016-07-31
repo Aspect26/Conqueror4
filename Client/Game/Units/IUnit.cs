@@ -5,13 +5,15 @@ namespace Client
 {
     public interface IUnit
     {
+        int UnitID { get; }
+        int UniqueID { get; }
+
         void PlayCycle(int timeSpan);
         void DrawUnit(Graphics g);
         Image GetCurrentImage();
         void SetLocation(int x, int y);
 
         Location Location { get; set; }
-        int ID { get;  }
 
         void StartMovingUp();
         void StartMovingRight();

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Server
-{ 
+﻿namespace Server
+{
     public class CharacterEnterLocationAction : IPlayerAction
     {
         Character character;
@@ -26,8 +20,9 @@ namespace Server
 
         public ISendAction Process(long timeStamp)
         {
-            MapInstance mapInstance = game.AddPlayer(clientState, character);
-            return new CharactersInMap(mapInstance);
+            //MapInstance mapInstance = game.AddPlayer(clientState, character);
+            //return new CharactersInMap(mapInstance);
+            return null;
         }
     }
 }

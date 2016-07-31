@@ -21,7 +21,7 @@ namespace Client
                 }
             }
 
-            this.PlayCharacter = new PlayedCharacter(server, character.Name, character.Level, character.Spec);
+            this.PlayCharacter = new PlayedCharacter(server, character.Name, character.Level, character.Spec, -1);
         }
 
         public void AddCharacter(string name, int level, int spec)

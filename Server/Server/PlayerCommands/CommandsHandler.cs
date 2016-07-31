@@ -79,13 +79,11 @@ namespace Server
             client.PlayingCharacter = character;
 
             // send data back
-            string msg = character.Location.MapID + "," + character.Location.X + "," + character.Location.Y + "\n";
+            int uid = game.AddPlayer(client, character);
+            string msg = uid + "," + character.Location.MapID + "," + character.Location.X + "," + character.Location.Y + "\n";
             byte[] byteData = Encoding.ASCII.GetBytes(msg);
             client.clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(SendCallback), 
                 client.clientSocket);
-
-            // add character to game
-            server.AddPlayerActionToGameQueue(new CharacterEnterLocationAction(game, client, character));
         }
 
         // ************************************************

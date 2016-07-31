@@ -14,20 +14,22 @@ namespace Client
                 return false;
 
             string[] parts = message.Split(',');
-            if (parts.Length != 3)
+            if (parts.Length != 4)
                 return false;
 
-            int mapID, mapY, mapX;
+            int mapID, mapY, mapX, uid;
             try {
-                mapID = Convert.ToInt32(parts[0]);
-                mapX = Convert.ToInt32(parts[1]);
-                mapY = Convert.ToInt32(parts[2]);
+                uid = Convert.ToInt32(parts[0]);
+                mapID = Convert.ToInt32(parts[1]);
+                mapX = Convert.ToInt32(parts[2]);
+                mapY = Convert.ToInt32(parts[3]);
             }
             catch (FormatException)
             {
                 return false;
             }
 
+            character.SetUniqueID(uid);
             character.Location.MapID = mapID;
             character.Location.X = mapX;
             character.Location.Y = mapY;

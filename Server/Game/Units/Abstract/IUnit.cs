@@ -9,7 +9,8 @@ namespace Server
 {
     public interface IUnit
     {
-        int GetId();
+        int UnitID { get; }
+        int UniqueID { get; }
         Location GetLocation();
         string GetName();
         bool IsPlayer();

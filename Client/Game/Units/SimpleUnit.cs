@@ -5,12 +5,14 @@ namespace Client
 {
     public class SimpleUnit : IUnit
     {
+        public int UnitID { get; protected set; }
+        public int UniqueID { get; protected set; }
+
         public int UnitSize { get; private set; }
 
         protected UnitAnimation animation;
 
         public Location Location { get; set; }
-        public int ID { get; protected set; }
 
         public MovingDirection Direction { get; private set; }
         protected int movingSpeed;
@@ -18,23 +20,18 @@ namespace Client
 
         protected const int SLOWING_CONSTANT = 5;
 
-        public SimpleUnit(Game game, int id, Location location)
+        public SimpleUnit(Game game, int unitID, int uniqueId, Location location)
         {
             this.Location = location;
             this.UnitSize = 50;
             this.moved = false;
-            this.ID = id;
+            this.UnitID = unitID;
+            this.UniqueID = uniqueId;
 
-            animation = new UnitAnimation(game, this, GameData.GetCharacterBasePath(id));
+            animation = new UnitAnimation(game, this, GameData.GetCharacterBasePath(UnitID));
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
-        }
-
-        public void SetLocation(int x, int y)
-        {
-            this.Location.X = x;
-            this.Location.Y = y;
         }
 
         public SimpleUnit(Location location)
@@ -44,6 +41,17 @@ namespace Client
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
+        }
+
+        public void SetUniqueID(int uniqueId)
+        {
+            this.UniqueID = uniqueId;
+        }
+
+        public void SetLocation(int x, int y)
+        {
+            this.Location.X = x;
+            this.Location.Y = y;
         }
 
         public virtual void PlayCycle(int timeSpan)
