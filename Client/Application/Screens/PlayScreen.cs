@@ -17,9 +17,7 @@ namespace Client
             this.server = server;
 
             playerCharacter = application.Account.PlayCharacter;
-            application.server.LoadCharacter(playerCharacter);
-
-            game = new Game(application.Account.PlayCharacter);
+            application.server.LoadGame(out game, playerCharacter);
 
             lastTimeStamp = Stopwatch.GetTimestamp();
         }

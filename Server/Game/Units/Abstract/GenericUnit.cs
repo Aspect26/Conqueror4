@@ -18,10 +18,11 @@ namespace Server
 
         public string Name { get; set; }
 
-        public GenericUnit(int unitID, Location location)
+        public GenericUnit(int unitID, int uniqueId, Location location)
         {
             this.Location = location;
             this.UnitID = unitID;
+            this.UniqueID = uniqueId;
             this.Name = "Unknown";
             this.Differences = new List<string>();
 
@@ -29,14 +30,14 @@ namespace Server
             movingSpeed = 1;
         }
 
+        public GenericUnit(string name, int unitId, int uniqueId, Location location) : this(unitId, uniqueId, location)
+        {
+            this.Name = name;
+        }
+
         public void SetUniqueID(int uniqueId)
         {
             this.UniqueID = uniqueId;
-        }
-
-        public GenericUnit(string name, int id, Location location): this(id, location)
-        {
-            this.Name = name;
         }
 
         public virtual void PlayCycle(int timeSpan)

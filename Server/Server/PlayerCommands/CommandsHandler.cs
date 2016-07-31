@@ -79,8 +79,9 @@ namespace Server
             client.PlayingCharacter = character;
 
             // send data back
-            int uid = game.AddPlayer(client, character);
-            string msg = uid + "," + character.Location.MapID + "," + character.Location.X + "," + character.Location.Y + "\n";
+            MapInstance map = game.AddPlayer(client, character);
+            string msg = character.UniqueID + "," + character.Location.MapID + "," + character.Location.X + "," + character.Location.Y + ",";
+            msg += map.GetMessageCodedData() + "\n";
             byte[] byteData = Encoding.ASCII.GetBytes(msg);
             client.clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(SendCallback), 
                 client.clientSocket);

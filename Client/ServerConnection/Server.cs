@@ -18,15 +18,14 @@ namespace Client
         private StreamReader input;
         private StreamWriter output;
 
-        //private object streaming = new object();
-        private Application game;
+        private Application application;
 
         public bool Connected { get; set; }
 
-        public ServerConnection(Application game)
+        public ServerConnection(Application application)
         {
             Connected = false;
-            this.game = game;
+            this.application = application;
         }
 
         public bool Connect()

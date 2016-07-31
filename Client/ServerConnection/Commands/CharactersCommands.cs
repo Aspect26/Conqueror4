@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Client
+﻿namespace Client
 {
     public partial class ServerConnection
     {
-        public int LoadCharacter(PlayedCharacter character)
+        public int LoadGame(out Game game, PlayedCharacter character)
         {
+            game = null;
             int res = trySend(CMD_LOADCHAR, new string[] { character.Name });
             if (res != RESULT_OK)
                 return res;
 
-            if (!parseResponseCharacterLoad(ReceiveOne(), character))
+            if (!parseResponseCharacterLoad(ReceiveOne(), out game, character))
                 return RESULT_FALSE;
 
             return RESULT_OK;

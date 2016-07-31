@@ -43,7 +43,7 @@ namespace Server
             if (!accountData.ContainsKey(username))
                 return null;
 
-            Character newChar = new Character(name, spec, GetStartingLocation(spec));
+            Character newChar = new Character(name, spec, -1, GetStartingLocation(spec));
             characterData.Add(name, newChar);
             accountData[username].AddCharacter(newChar);
 

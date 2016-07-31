@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Shared;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Server
@@ -28,6 +29,11 @@ namespace Server
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
 
+        public void CreateNPC(int unitId, int x, int y)
+        {
+            this.units.Add(new GenericUnit(unitId, GetNextUniqueID(), new Location(x, y)));
+        }
+
         public int GetNextUniqueID()
         {
             return lastUniqueId++;
@@ -41,6 +47,20 @@ namespace Server
         public List<StateObject> GetClients()
         {
             return clientStates;
+        }
+
+        // THIS IS CALLED FROM RECEIVING TASK
+        public string GetMessageCodedData()
+        {
+            string data = "";
+
+            foreach(IUnit unit in units)
+            {
+                data += unit.UniqueID + "|" + unit.UnitID + "|" + unit.GetName() + "|" 
+                    + unit.GetLocation().X + "|" + unit.GetLocation().Y + ",";
+            }
+
+            return data;
         }
 
         // THIS IS CALLED FROM RECEIVING TASK

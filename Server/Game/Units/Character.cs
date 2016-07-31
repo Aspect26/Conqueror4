@@ -7,7 +7,7 @@ namespace Server
         public int Spec { get { return UnitID; } set { this.UnitID = value; } }
         public int Level { get; set; }
 
-        public Character(string name, int spec, Location location) : base(name, spec, location)
+        public Character(string name, int spec, int uid, Location location) : base(name, spec, uid, location)
         {
             this.Level = 1;
         }

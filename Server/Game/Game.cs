@@ -48,7 +48,7 @@ namespace Server
             }
         }
 
-        public int AddPlayer(StateObject state, Character character)
+        public MapInstance AddPlayer(StateObject state, Character character)
         {
             int mapId = character.Location.MapID;
             int uniqueId = -1;
@@ -60,12 +60,7 @@ namespace Server
                 mapInstances[mapId].AddPlayer(state, character);
             }
 
-            return uniqueId;
-        }
-
-        public MapInstance GetMapInstanceOfCharacter(Character character)
-        {
-            return mapInstances[character.Location.MapID];
+            return mapInstances[mapId];
         }
     }
 }

@@ -8,31 +8,49 @@ namespace Client
 {
     public partial class ServerConnection
     {
-        private bool parseResponseCharacterLoad(string message, PlayedCharacter character)
+        private bool parseResponseCharacterLoad(string message, out Game game, PlayedCharacter character)
         {
+            game = null;
             if (message == "")
                 return false;
 
-            string[] parts = message.Split(',');
-            if (parts.Length != 4)
-                return false;
+            string[] parts = message.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
-            int mapID, mapY, mapX, uid;
+            int myUid = -1;
             try {
-                uid = Convert.ToInt32(parts[0]);
-                mapID = Convert.ToInt32(parts[1]);
-                mapX = Convert.ToInt32(parts[2]);
-                mapY = Convert.ToInt32(parts[3]);
+                int uid = Convert.ToInt32(parts[0]);
+                int mapID = Convert.ToInt32(parts[1]);
+                int mapX = Convert.ToInt32(parts[2]);
+                int mapY = Convert.ToInt32(parts[3]);
+
+                myUid = uid;
+                character.SetUniqueID(uid);
+                character.Location.MapID = mapID;
+                character.Location.X = mapX;
+                character.Location.Y = mapY;
+
+                game = new Game(character);
             }
             catch (FormatException)
             {
                 return false;
             }
 
-            character.SetUniqueID(uid);
-            character.Location.MapID = mapID;
-            character.Location.X = mapX;
-            character.Location.Y = mapY;
+            for(int i = 4; i<parts.Length; i++)
+            {
+                string[] unitParts = parts[i].Split('|');
+
+                int uid = Convert.ToInt32(unitParts[0]);
+                if (uid == myUid)
+                    continue;
+
+                int id = Convert.ToInt32(unitParts[1]);
+                string name = unitParts[2];
+                int xLoc = Convert.ToInt32(unitParts[3]);
+                int yLoc = Convert.ToInt32(unitParts[4]);
+
+                game.AddOrUpdateUnit(name, id, uid, xLoc, yLoc);
+            }
 
             return true;
         }
