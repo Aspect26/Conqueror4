@@ -47,6 +47,7 @@ namespace Client
             switch (spec)
             {
                 case DEMON_HUNTER:
+                    return "res/units/demonhunter/demonhunter";
                 case MAGE:
                 case PRIEST:
                     return "res/units/priest/priest";

@@ -74,6 +74,7 @@ namespace Server
             d.CreateCharacter("aspect", "earthbound", 3);
             d.CreateCharacter("aspect", "nightbringer", 4);
             d.CreateCharacter("aspect", "heavenstar", 5);
+            d.CreateCharacter("aspect", "magmaspike", 6);
             d.CreateCharacter("tester", "tester", 6);
             d.CreateCharacter("tester", "testertwo", 1);
             d.CreateCharacter("warlock", "warlock", 4);
