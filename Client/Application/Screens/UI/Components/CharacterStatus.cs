@@ -35,7 +35,7 @@ namespace Client
             float ratio = (float)character.HitPoints / character.MaxHitPoints;
             g.FillRectangle(Brushes.DarkGreen, x + size, currentY, w, height / 3);
             g.FillRectangle(Brushes.Green, x + size, currentY, w * ratio, height / 3);
-            g.DrawString(character.HitPoints + "/" + character.MaxHitPoints, GameData.GetFont(STATUS_FONT_SIZE),
+            g.DrawString("HP: " + character.HitPoints + "/" + character.MaxHitPoints, GameData.GetFont(STATUS_FONT_SIZE),
                 Brushes.White, x + size + 5, currentY + 2);
 
             // ManaPoints
@@ -43,7 +43,7 @@ namespace Client
             ratio = (float)character.ManaPoints / character.MaxManaPoints;
             g.FillRectangle(Brushes.DarkBlue, x + size, currentY, w, height / 3);
             g.FillRectangle(Brushes.Blue, x + size, currentY, w * ratio, height / 3);
-            g.DrawString(character.ManaPoints + "/" + character.MaxManaPoints, GameData.GetFont(STATUS_FONT_SIZE),
+            g.DrawString("MP: " + character.ManaPoints + "/" + character.MaxManaPoints, GameData.GetFont(STATUS_FONT_SIZE),
                 Brushes.White, x + size + 5, currentY + 2);
 
             // Experience
@@ -51,7 +51,7 @@ namespace Client
             ratio = (float)character.Experience / GameData.GetNextLevelXPRequired(character.Level);
             g.FillRectangle(Brushes.DarkViolet, x + size, currentY, w, height / 3);
             g.FillRectangle(Brushes.Violet, x + size, currentY, w * ratio, height / 3);
-            g.DrawString(character.Experience + "/" + GameData.GetNextLevelXPRequired(character.Level), 
+            g.DrawString("XP: " + character.Experience + "/" + GameData.GetNextLevelXPRequired(character.Level), 
                 GameData.GetFont(STATUS_FONT_SIZE), Brushes.White, x + size + 5, currentY + 2);
         }
     }

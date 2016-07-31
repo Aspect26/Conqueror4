@@ -31,6 +31,21 @@ namespace Client
             { 2, Image.FromFile("res/tiles/stone.png") }
         };
 
+        public static int GetTileId(Color color)
+        {
+            // STONE
+            if (color.R == 128 && color.G == 128 && color.B == 128)
+                return 2;
+            // GRASS
+            else if (color.R == 192 && color.G == 224 && color.B == 0)
+                return 0;
+            // DIRT
+            else if (color.R == 192 && color.G == 128 && color.B == 64)
+                return 1;
+
+            return 0;
+        }
+
         // GET DATA
         public static string GetMapFilePath(int mapId)
         {
