@@ -5,8 +5,15 @@ namespace Client
 {
     public interface IUnit
     {
+        // IDs
         int UnitID { get; }
         int UniqueID { get; }
+
+        // STATUS
+        int HitPoints { get; }
+        int MaxHitPoints { get; }
+        int ManaPoints { get; }
+        int MaxManaPoints { get; }
 
         void PlayCycle(int timeSpan);
         void DrawUnit(Graphics g);

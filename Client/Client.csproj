@@ -50,6 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Application\Character.cs" />
+    <Compile Include="Application\Screens\UI\Components\Abstract\StaticAbstractComponent.cs" />
+    <Compile Include="Application\Screens\UI\Components\CharacterStatus.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Game\Animations\IAnimation.cs" />
     <Compile Include="Game\Animations\CentreUnitAnimation.cs" />

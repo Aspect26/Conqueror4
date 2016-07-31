@@ -5,8 +5,15 @@ namespace Client
 {
     public class SimpleUnit : IUnit
     {
+        // IDs
         public int UnitID { get; protected set; }
         public int UniqueID { get; protected set; }
+
+        // STATUS
+        public int HitPoints { get; protected set; }
+        public int MaxHitPoints { get; protected set; }
+        public int ManaPoints { get; protected set; }
+        public int MaxManaPoints { get; protected set; }
 
         public int UnitSize { get; private set; }
 

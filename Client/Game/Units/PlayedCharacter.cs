@@ -10,6 +10,13 @@ namespace Client
         public int Spec { get { return UnitID; }  }
         private ServerConnection server;
 
+        // TODO !!!!!! remove this -> mock data
+        public int HitPoints { get { return 68; } }
+        public int MaxHitPoints { get { return 125; } }
+        public int ManaPoints { get { return 25; } }
+        public int MaxManaPoints { get { return 100; } }
+        public int Experience { get { return 145; } }
+
         public PlayedCharacter(ServerConnection server, string name, int level, int spec, int uniqueId) 
             : base(null, spec, uniqueId, new Location())
         {

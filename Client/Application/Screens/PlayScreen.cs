@@ -19,12 +19,15 @@ namespace Client
             playerCharacter = application.Account.PlayCharacter;
             application.server.LoadGame(out game, playerCharacter);
 
+            userInterface.AddComponent(new CharacterStatus(application.Account.PlayCharacter));
+
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
 
         public override void Render(Graphics g)
         {
-            base.Render(g);
+            // TODO: remove this
+            g.Clear(Color.Black);
 
             long now = Stopwatch.GetTimestamp();
             int elapsedMilis = (int)((1000 * (now - lastTimeStamp)) / Stopwatch.Frequency);
@@ -37,6 +40,8 @@ namespace Client
             }
 
             game.RunCycle(g, elapsedMilis);
+
+            userInterface.Render(g);
         }
 
         // *************************************************
