@@ -117,17 +117,22 @@ namespace Client
             return Image.FromFile("res/textures/panel.png");
         }
 
-        public static Image GetCharacterImage(int spec)
+        public static Image GetUnitImage(int spec)
         {
             switch (spec)
             {
+                // HEROES
                 case 1: return Image.FromFile("res/units/demonhunter/demonhunter_none.png");
                 case 2: return Image.FromFile("res/units/mage/mage_none.png");
                 case 3: return Image.FromFile("res/units/priest/priest_none.png");
 
                 case 4: return Image.FromFile("res/units/warlock/warlock_none.png");
-                case 5:
-                case 6:
+                case 5: return Image.FromFile("res/units/warlock/warlock_none.png");
+                case 6: return Image.FromFile("res/units/warlock/warlock_none.png");
+
+                // UNITS
+                case 7: return Image.FromFile("res/units/wolf.png");
+                case 8: return Image.FromFile("res/units/wolf_pack_leader.png");
 
                 default: return Image.FromFile("res/units/warlock/warlock_none.png");
             }

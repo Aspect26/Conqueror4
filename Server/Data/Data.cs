@@ -34,13 +34,13 @@ namespace Server
         // spec id -> spec starting location
         static Dictionary<int, Location> startingLocations = new Dictionary<int, Location>()
         {
-            { DEMON_HUNTER,  new Location(0, 286, 2929) },
-            { MAGE, new Location(0,286,2929) },
-            { PRIEST, new Location(0,286,2929) },
+            { DEMON_HUNTER,  new Location(MAP_KINGDOM, 286, 2929) },
+            { MAGE, new Location(MAP_KINGDOM,286,2929) },
+            { PRIEST, new Location(MAP_KINGDOM,286,2929) },
 
-            { WARLOCK, new Location(1,100,100) },
-            { UNK_1, new Location(1,20,20) },
-            { UNK_2, new Location(1,20,20) },
+            { WARLOCK, new Location(MAP_FORTRESS,100,100) },
+            { UNK_1, new Location(MAP_FORTRESS,20,20) },
+            { UNK_2, new Location(MAP_FORTRESS,20,20) },
         };
 
         // getters
@@ -54,6 +54,12 @@ namespace Server
         {
             return mapNames;
         }
+
+        /*****************************/
+        /* IDs                       */
+        /*****************************/
+        public const int MAP_KINGDOM = 0;
+        public const int MAP_FORTRESS = 1;
 
         /*****************************/
         /* MOCK DATA                 */

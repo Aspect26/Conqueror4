@@ -26,7 +26,7 @@ namespace Client
 
             // CHAR IMAGE
             g.FillRectangle(Brushes.Black, x, y, size, size);
-            g.DrawImage(GameData.GetCharacterImage(character.Spec), x, y, size, size);
+            g.DrawImage(GameData.GetUnitImage(character.Spec), x, y, size, size);
 
             // STATUS
             int w = width - size;

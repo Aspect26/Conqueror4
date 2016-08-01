@@ -27,7 +27,7 @@ namespace Client
             this.UnitID = unitID;
             this.UniqueID = uniqueId;
             this.game = game;
-            this.unitImage = GameData.GetCharacterImage(unitID);
+            this.unitImage = GameData.GetUnitImage(unitID);
         }
 
         public void SetUniqueID(int uniqueId)

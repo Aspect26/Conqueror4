@@ -24,7 +24,7 @@ namespace Client
             font = GameData.GetFont(position.Height - 20);
 
             this.backgroundImage = GameData.GetCharacterButtonBackground();
-            this.characterImage = GameData.GetCharacterImage(character.Spec);
+            this.characterImage = GameData.GetUnitImage(character.Spec);
         }
 
         public override void SetFocused(bool focused)
