@@ -6,7 +6,7 @@ namespace Client
     public class UnitAnimation : IAnimation
     {
         protected string baseImagePath;
-        protected SimpleUnit unit;
+        protected PlayedCharacter unit;
 
         protected const int FRONT = 0;
         protected const int RIGHT = 1;
@@ -26,7 +26,7 @@ namespace Client
 
         protected Game game;
 
-        public UnitAnimation(Game game, SimpleUnit unit, string baseImagePath)
+        public UnitAnimation(Game game, PlayedCharacter unit, string baseImagePath)
         {
             this.unit = unit;
             this.baseImagePath = baseImagePath;
@@ -35,7 +35,7 @@ namespace Client
             createImages();
         }
 
-        public UnitAnimation(SimpleUnit unit, string baseImagePath)
+        public UnitAnimation(PlayedCharacter unit, string baseImagePath)
         {
             this.unit = unit;
             this.baseImagePath = baseImagePath;
@@ -89,13 +89,13 @@ namespace Client
         {
             lastChangeBefore += timeSpan;
 
-            if(unit.Direction != lastDirection)
+            if(!AnimationEquals(lastDirection, unit.MovingDirection))
             {
                 changeSide();
                 return;
             }
 
-            if (unit.Direction == MovingDirection.None)
+            if (unit.MovingDirection == MovingDirection.None)
             {
                 moving = false;
                 return;
@@ -109,30 +109,65 @@ namespace Client
             }
         }
 
+        private bool AnimationEquals(MovingDirection left, MovingDirection right)
+        {
+            if (left == right)
+                return true;
+
+            // UP && UP_RIGHT
+            if ( (left == MovingDirection.Up && right.HasFlag(MovingDirection.Up) && right.HasFlag(MovingDirection.Right)) ||
+                 (right == MovingDirection.Up && left.HasFlag(MovingDirection.Up) && left.HasFlag(MovingDirection.Right)) )
+                return true;
+
+            // RIGHT && BOTTOM_RIGHT
+            if ((left == MovingDirection.Right && right.HasFlag(MovingDirection.Right) && right.HasFlag(MovingDirection.Bottom)) ||
+                (right == MovingDirection.Right && left.HasFlag(MovingDirection.Right) && left.HasFlag(MovingDirection.Bottom)))
+                return true;
+
+            // BOTTOM && BOTTOM_LEFT
+            if ((left == MovingDirection.Bottom && right.HasFlag(MovingDirection.Bottom) && right.HasFlag(MovingDirection.Left)) ||
+                (right == MovingDirection.Bottom && left.HasFlag(MovingDirection.Bottom) && left.HasFlag(MovingDirection.Left)))
+                return true;
+
+            // LEFT && UP_LEFT
+            if ((left == MovingDirection.Left && right.HasFlag(MovingDirection.Left) && right.HasFlag(MovingDirection.Up)) ||
+                (right == MovingDirection.Left && left.HasFlag(MovingDirection.Left) && left.HasFlag(MovingDirection.Up)))
+                return true;
+
+            return false;
+        }
+
         private void changeSide()
         {
             lastChangeBefore = 499;
             currentImageIndex = 0;
             moving = true;
 
-            switch (unit.Direction)
+            if (unit.MovingDirection.HasFlag(MovingDirection.Up))
             {
-                case MovingDirection.Right:
-                    currentImageSide = RIGHT; break;
-
-                case MovingDirection.Bottom:
-                    currentImageSide = FRONT; break;
-
-                case MovingDirection.Left:
-                    currentImageSide = LEFT; break;
-
-                case MovingDirection.Up:
-                    currentImageSide = BACK; break;
-
-                default:
-                    moving = false; break;
+                if (unit.MovingDirection.HasFlag(MovingDirection.Left))
+                    currentImageSide = LEFT;
+                else
+                    currentImageSide = BACK;
             }
-            lastDirection = unit.Direction;
+            else if (unit.MovingDirection.HasFlag(MovingDirection.Right))
+            {
+                currentImageSide = RIGHT;
+            }
+            else if (unit.MovingDirection.HasFlag(MovingDirection.Bottom))
+            {
+                currentImageSide = FRONT;
+            }
+            else if (unit.MovingDirection.HasFlag(MovingDirection.Left))
+            {
+                currentImageSide = LEFT;
+            }
+            else
+            {
+                moving = false;
+            }
+
+            lastDirection = unit.MovingDirection;
         }
 
         public Image GetCurrentImage()

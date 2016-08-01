@@ -10,7 +10,7 @@ namespace Client
     public class CentreUnitAnimation : UnitAnimation
     {
 
-        public CentreUnitAnimation(SimpleUnit unit, string baseImagePath)
+        public CentreUnitAnimation(PlayedCharacter unit, string baseImagePath)
             :base(unit, baseImagePath)
         {
 

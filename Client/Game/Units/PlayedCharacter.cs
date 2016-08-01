@@ -1,9 +1,10 @@
 ﻿using System.Drawing;
 using Shared;
+using System;
 
 namespace Client
 {
-    public class PlayedCharacter : SimpleUnit
+    public sealed class PlayedCharacter : SimpleUnit
     {
         public string Name { get; set; }
         public int Level { get; set; }
@@ -17,6 +18,17 @@ namespace Client
         public int MaxManaPoints { get { return 100; } }
         public int Experience { get { return 145; } }
 
+        // moving
+        private bool movingUp = false;
+        private bool movingRight = false;
+        private bool movingBottom = false;
+        private bool movingLeft = false;
+        public MovingDirection MovingDirection { get; private set; }
+
+        private bool moved;
+        private const int SLOWING_CONSTANT = 4;
+        private UnitAnimation animation;
+
         public PlayedCharacter(ServerConnection server, string name, int level, int spec, int uniqueId) 
             : base(null, spec, uniqueId, new Location())
         {
@@ -24,14 +36,15 @@ namespace Client
             this.Level = level;
             this.server = server;
             this.animation = new CentreUnitAnimation(this, GameData.GetCharacterBasePath(spec));
-        }
+            this.moved = false;
+            this.MovingDirection = MovingDirection.None;
+    }
 
         // RENDERING
         private int playerSize = 50;
         public override void DrawUnit(Graphics g)
         {
-            base.DrawUnit(g);
-
+            animation.Render(g);
             g.DrawString(Name, GameData.GetFont(8), Brushes.Black,
                 Application.WIDTH / 2 - playerSize / 2, Application.HEIGHT / 2 - playerSize / 2 - 20);
         }
@@ -39,6 +52,74 @@ namespace Client
         public override void PlayCycle(int timeSpan)
         {
             base.PlayCycle(timeSpan);
+
+            animation.AnimateCycle(timeSpan);
+            int movePoints = timeSpan / SLOWING_CONSTANT;
+
+            bool movingHorizontally = (movingLeft && !movingRight) || (!movingLeft && movingRight);
+            bool movingVertically = (movingUp && !movingBottom) || (!movingUp && movingBottom);
+
+            if(movingHorizontally && movingVertically)
+            {
+                movePoints = (int)Math.Sqrt( (movePoints * movePoints)/2d );
+                moved = true;
+
+                if (movingUp)
+                {
+                    Location.Y -= movePoints;
+                    MovingDirection = MovingDirection.Up;
+                }
+                else
+                {
+                    Location.Y += movePoints;
+                    MovingDirection = MovingDirection.Bottom;
+                }
+
+                if (movingLeft)
+                {
+                    Location.X -= movePoints;
+                    MovingDirection = MovingDirection | MovingDirection.Left;
+                }
+                else
+                {
+                    Location.X += movePoints;
+                    MovingDirection = MovingDirection | MovingDirection.Right;
+                }
+            }
+            else if (movingHorizontally)
+            {
+                moved = true;
+                if (movingLeft)
+                {
+                    Location.X -= movePoints;
+                    MovingDirection = MovingDirection.Left;
+                }
+                else
+                {
+                    Location.X += movePoints;
+                    MovingDirection = MovingDirection.Right;
+                }
+            }
+            else if (movingVertically)
+            {
+                moved = true;
+                if (movingUp)
+                {
+                    Location.Y -= movePoints;
+                    MovingDirection = MovingDirection.Up;
+                }
+                else
+                {
+                    Location.Y += movePoints;
+                    MovingDirection = MovingDirection.Bottom;
+                }
+            }
+            else
+            {
+                moved = false;
+                MovingDirection = MovingDirection.None;
+            }
+
             if (moved)
             {
                 server.SendPlayerLocation(this);
@@ -48,45 +129,45 @@ namespace Client
 
         // MOVING COMMANDS
         // Start
-        public override void StartMovingBottom()
+        public void StartMovingUp()
         {
-            base.StartMovingBottom();
+            movingUp = true;
         }
 
-        public override void StartMovingRight()
+        public void StartMovingRight()
         {
-            base.StartMovingRight();
+            movingRight = true;
         }
 
-        public override void StartMovingUp()
+        public void StartMovingBottom()
         {
-            base.StartMovingUp();
+            movingBottom = true;
         }
 
-        public override void StartMovingLeft()
+        public void StartMovingLeft()
         {
-            base.StartMovingLeft();
+            movingLeft = true;
         }
 
-        // Stop
-        public override void StopMovingBottom()
+        // stop
+        public void StopMovingUp()
         {
-            base.StopMovingBottom();
+            movingUp = false;
         }
 
-        public override void StopMovingLeft()
+        public void StopMovingRight()
         {
-            base.StopMovingLeft();
+            movingRight = false;
         }
 
-        public override void StopMovingUp()
+        public void StopMovingBottom()
         {
-            base.StopMovingUp();
+            movingBottom = false;
         }
 
-        public override void StopMovingRight()
+        public void StopMovingLeft()
         {
-            base.StopMovingRight();
+            movingLeft = false;
         }
     }
 }

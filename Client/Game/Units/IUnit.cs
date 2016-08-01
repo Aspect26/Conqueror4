@@ -21,15 +21,5 @@ namespace Client
         void SetLocation(int x, int y);
 
         Location Location { get; set; }
-
-        void StartMovingUp();
-        void StartMovingRight();
-        void StartMovingBottom();
-        void StartMovingLeft();
-
-        void StopMovingUp();
-        void StopMovingRight();
-        void StopMovingBottom();
-        void StopMovingLeft();
     }
 }

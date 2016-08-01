@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Shared;
 
 namespace Server
@@ -18,15 +14,5 @@ namespace Server
 
         bool Updated { get; set; }
         List<string> Differences { get; set; }
-
-        void StartMovingUp();
-        void StartMovingRight();
-        void StartMovingBottom();
-        void StartMovingLeft();
-
-        void StopMovingUp();
-        void StopMovingRight();
-        void StopMovingBottom();
-        void StopMovingLeft();
     }
 }

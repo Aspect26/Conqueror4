@@ -5,20 +5,13 @@ using System.Text;
 
 namespace Shared
 {
+    [Flags]
     public enum MovingDirection
     {
         None,
-
         Up,
-        UpRight,
-
         Right,
-        BottomRight,
-
-        Bottom,
-        BottomLeft,
-
-        Left,
-        UpLeft
+        Bottom = 4,
+        Left = 8,
     }
 }
