@@ -56,9 +56,9 @@ namespace Server
                         }
 
                         // other actions
-                        foreach(string action in unit.Differences)
+                        foreach(IUnitDifference diff in unit.Differences)
                         {
-                            msg.Append("|" + action);
+                            msg.Append("|" + diff.GetString());
                         }
                         // TODO: unit differences this way is bullshit
                         if (unit.Differences.Count != 0)

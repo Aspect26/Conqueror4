@@ -15,7 +15,7 @@ namespace Server
         public Location Location { get; set; }
         public MovingDirection Direction { get; private set; }
         public bool Updated { get; set; }
-        public List<string> Differences { get; set; }
+        public List<IUnitDifference> Differences { get; protected set; }
 
         protected int movingSpeed;
         protected const int SLOWING_CONSTANT = 5;
@@ -30,7 +30,7 @@ namespace Server
             this.Name = "Unknown";
             this.MapInstance = mapInstance;
             this.HitRange = 30;
-            this.Differences = new List<string>();
+            this.Differences = new List<IUnitDifference>();
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
@@ -58,7 +58,7 @@ namespace Server
         {
             if (timeStamp > lastShoot + ShootCooldown)
             {
-                this.Differences.Add("S&" + x + "&" + y);
+                this.Differences.Add(new PlayerShootDifference(x, y));
                 return new Missile(this, new Point(Location.X, Location.Y), new Point(x, y));
             }
 
@@ -91,7 +91,7 @@ namespace Server
 
             if (distance <= HitRange)
             {
-                Console.WriteLine("Missile hit: (" + missile.source.GetName() + "=>" + this.GetName() + ").");
+                missile.HitUnit(this);
             }
         }
     }

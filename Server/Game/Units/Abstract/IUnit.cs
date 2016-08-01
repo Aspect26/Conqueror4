@@ -17,6 +17,6 @@ namespace Server
         void TryHitByMissile(Missile missile);
 
         bool Updated { get; set; }
-        List<string> Differences { get; set; }
+        List<IUnitDifference> Differences { get; }
     }
 }
