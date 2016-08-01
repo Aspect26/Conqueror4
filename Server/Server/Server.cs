@@ -9,9 +9,8 @@ namespace Server
 {
     public partial class Server
     {
-        private Data gameData = new Data();
+        private Data gameData;
         private Game game;
-        private Queue<ISendAction> sendActions;
 
         private static int PORT = 26270;
         private IPEndPoint localEndPoint;
@@ -22,6 +21,7 @@ namespace Server
         public Server()
         {
             game = new Game();
+            gameData = new Data(game);
             commandsHandler = new CommandsHandler(this, game);
         }
 
@@ -31,12 +31,9 @@ namespace Server
             serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             Console.WriteLine("Loading accounts database...");
-            gameData = Data.createMockData();
+            gameData = Data.createMockData(game);
 
             Console.WriteLine("Starting server...");
-
-            // initialize game
-            sendActions = new Queue<ISendAction>();
 
             // then start game task, receiving commands task and sending data task
 
@@ -47,7 +44,6 @@ namespace Server
             //Task sendingTask = gameInitializationTask.ContinueWith((parent) => SendClients(), TaskContinuationOptions.LongRunning);
 
             // THREADS
-            game.Initialize(sendActions);
             new Thread(game.Start).Start();
             new Thread(AcceptAndReceiveClients).Start();
             new Thread(SendClients).Start();

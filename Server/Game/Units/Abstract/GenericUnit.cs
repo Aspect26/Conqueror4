@@ -1,5 +1,7 @@
 ﻿using Shared;
 using System.Collections.Generic;
+using System.Drawing;
+using System;
 
 namespace Server
 {
@@ -8,6 +10,8 @@ namespace Server
         public int UnitID { get; protected set; }
         public int UniqueID { get; protected set; }
 
+        public int HitRange { get; protected set; }
+        public MapInstance MapInstance { get; protected set; }
         public Location Location { get; set; }
         public MovingDirection Direction { get; private set; }
         public bool Updated { get; set; }
@@ -18,19 +22,22 @@ namespace Server
 
         public string Name { get; set; }
 
-        public GenericUnit(int unitID, int uniqueId, Location location)
+        public GenericUnit(int unitID, int uniqueId, Location location, MapInstance mapInstance)
         {
             this.Location = location;
             this.UnitID = unitID;
             this.UniqueID = uniqueId;
             this.Name = "Unknown";
+            this.MapInstance = mapInstance;
+            this.HitRange = 30;
             this.Differences = new List<string>();
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
         }
 
-        public GenericUnit(string name, int unitId, int uniqueId, Location location) : this(unitId, uniqueId, location)
+        public GenericUnit(string name, int unitId, int uniqueId, Location location, MapInstance mapInstance) 
+            : this(unitId, uniqueId, location, mapInstance)
         {
             this.Name = name;
         }
@@ -46,12 +53,16 @@ namespace Server
 
         private int ShootCooldown = 400;
         private long lastShoot = long.MinValue;
-        public void Shoot(long timeSpan, int x, int y)
+
+        public Missile Shoot(long timeStamp, int x, int y)
         {
-            if (timeSpan > lastShoot + ShootCooldown)
+            if (timeStamp > lastShoot + ShootCooldown)
             {
                 this.Differences.Add("S&" + x + "&" + y);
+                return new Missile(this, new Point(Location.X, Location.Y), new Point(x, y));
             }
+
+            return null;
         }
 
         public Location GetLocation()
@@ -67,6 +78,21 @@ namespace Server
         public virtual bool IsPlayer()
         {
             return false;
+        }
+
+        public void TryHitByMissile(Missile missile)
+        {
+            if (missile.source == this)
+                return;
+
+            Point missilePoint = missile.GetLocation();
+            Point myPoint = new Point(this.Location.X, this.Location.Y);
+            int distance = myPoint.DistanceFrom(missilePoint);
+
+            if (distance <= HitRange)
+            {
+                Console.WriteLine("Missile hit: (" + missile.source.GetName() + "=>" + this.GetName() + ").");
+            }
         }
     }
 }

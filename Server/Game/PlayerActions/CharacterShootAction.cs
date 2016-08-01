@@ -17,10 +17,10 @@
             return character;
         }
 
-        public ISendAction Process(long timeStamp)
+        public void Process(long timeStamp)
         {
-            character.Shoot(timeStamp, x,y);
-            return null;
+            lock (character.MapInstance) 
+                character.MapInstance.PlayerShoot(character, timeStamp, x, y);
         }
     }
 }

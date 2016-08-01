@@ -7,21 +7,23 @@ namespace Server
         private bool running = false;
 
         private Dictionary<int, MapInstance> mapInstances;
-        private Queue<ISendAction> sendActions;
 
-        public void Initialize(Queue<ISendAction> sendActions)
+        public Game()
         {
             mapInstances = new Dictionary<int, MapInstance>();
 
             Dictionary<int, string> maps = Data.GetMaps(); 
             foreach(int key in maps.Keys)
             {
-                MapInstance map = new MapInstance(key, sendActions);
+                MapInstance map = new MapInstance(key);
                 MapInstanceGen.GenerateUnits(map, key);
                 mapInstances.Add(key, map);
             }
+        }
 
-            this.sendActions = sendActions;
+        public MapInstance GetMapInstance(int mapId)
+        {
+            return mapInstances[mapId];
         }
 
         public Dictionary<int, MapInstance> GetMapInstances()

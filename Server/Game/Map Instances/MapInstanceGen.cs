@@ -55,7 +55,7 @@ namespace Server
             {
                 foreach(UnitInfo unit in units)
                 {
-                    map.CreateNPC(unit.ID, unit.X, unit.Y);
+                    map.SpawnNPC(unit.ID, unit.X, unit.Y);
                 }
             }
         }

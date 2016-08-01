@@ -64,9 +64,9 @@ namespace Server
         /*****************************/
         /* MOCK DATA                 */
         /*****************************/
-        public static Data createMockData()
+        public static Data createMockData(Game game)
         {
-            Data d = new Data();
+            Data d = new Data(game);
 
             // "load" accounts
             d.RegisterAccount("aspect", "asdfg");

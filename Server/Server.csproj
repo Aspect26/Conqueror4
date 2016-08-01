@@ -50,8 +50,10 @@
     <Compile Include="Data\EditData.cs" />
     <Compile Include="Data\Structures\Account.cs" />
     <Compile Include="Data\Data.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\Map Instances\MapInstanceGen.cs" />
+    <Compile Include="Game\Missile\Missile.cs" />
     <Compile Include="Game\PlayerActions\CharacterEnterLocationAction.cs" />
     <Compile Include="Game\PlayerActions\CharacterShootAction.cs" />
     <Compile Include="Game\Units\Abstract\GenericUnit.cs" />

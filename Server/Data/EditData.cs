@@ -4,6 +4,13 @@ namespace Server
 {
     public partial class Data
     {
+        private Game game;
+
+        public Data(Game game)
+        {
+            this.game = game;
+        }
+
         public bool RegisterAccount(string username, string password)
         {
             username = username.ToLower();
@@ -43,7 +50,9 @@ namespace Server
             if (!accountData.ContainsKey(username))
                 return null;
 
-            Character newChar = new Character(name, spec, -1, GetStartingLocation(spec));
+            Location startingLocation = GetStartingLocation(spec);
+            Character newChar = new Character(name, spec, -1, startingLocation, 
+                game.GetMapInstance(startingLocation.MapID));
             characterData.Add(name, newChar);
             accountData[username].AddCharacter(newChar);
 

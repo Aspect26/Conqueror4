@@ -9,7 +9,7 @@ namespace Server
         private List<StateObject> clientStates;
         private List<IUnit> units;
         private Queue<IPlayerAction> playerActions;
-        private Queue<ISendAction> sendActions;
+        private List<Missile> missiles;
         private int lastUniqueId = 1;
 
         private long lastTimeStamp;
@@ -17,10 +17,10 @@ namespace Server
 
         private int mapId;
 
-        public MapInstance(int mapId, Queue<ISendAction> sendActions)
+        public MapInstance(int mapId)
         {
             this.mapId = mapId;
-            this.sendActions = sendActions;
+            this.missiles = new List<Missile>();
 
             clientStates = new List<StateObject>();
             units = new List<IUnit>();
@@ -29,9 +29,9 @@ namespace Server
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
 
-        public void CreateNPC(int unitId, int x, int y)
+        public void SpawnNPC(int unitId, int x, int y)
         {
-            this.units.Add(new GenericUnit(unitId, GetNextUniqueID(), new Location(x, y)));
+            this.units.Add(new GenericUnit(unitId, GetNextUniqueID(), new Location(x, y), this));
         }
 
         public int GetNextUniqueID()
@@ -47,6 +47,16 @@ namespace Server
         public List<StateObject> GetClients()
         {
             return clientStates;
+        }
+
+        // THIS IS CALLED FROM GAME TASK
+        public void PlayerShoot(Character character, long timeStamp, int x, int y)
+        {
+            Missile missile = character.Shoot(timeStamp, x, y);
+            if(missile != null)
+            {
+                this.missiles.Add(missile);
+            }
         }
 
         // THIS IS CALLED FROM RECEIVING TASK
@@ -92,6 +102,10 @@ namespace Server
             long now = Stopwatch.GetTimestamp();
             long timeSpan = (1000*(Stopwatch.GetTimestamp() - lastTimeStamp) / Stopwatch.Frequency);
 
+            if (timeSpan < 30)
+                return;
+            lastTimeStamp = now;
+
             // process all players' actions
             lock (playerActions)
             {
@@ -105,15 +119,20 @@ namespace Server
                 }
             }
 
-            lastTimeStamp = now;
-            if (timeSpan < 30)
-                return;
-
             // move all units
             foreach (IUnit unit in units)
             {
                 unit.PlayCycle((int)timeSpan);
             }
+
+            // move all missiles and check player collision
+            foreach(Missile missile in missiles)
+            {
+                missile.PlayCycle(timeSpan);
+                foreach (IUnit unit in units)
+                    unit.TryHitByMissile(missile);
+            }
+            missiles.RemoveAll((Missile m) => m.IsDead);
         }
     }
 }
