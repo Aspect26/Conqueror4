@@ -29,7 +29,11 @@ namespace Client
         {
             Character.PlayCycle(timeSpan);
             foreach (Missile missile in missiles)
+            {
                 missile.PlayCycle(timeSpan);
+                foreach (KeyValuePair<int, IUnit> pair in units)
+                    pair.Value.TryHitByMissile(missile);
+            }
 
             missiles.RemoveAll((Missile m) => m.IsDead);
 
@@ -67,7 +71,7 @@ namespace Client
                 if(GameData.IsPlayerUnit(unitId))
                     units.Add(uniqueId, new PlayerUnit(this, name, unitId, uniqueId, x, y));
                 else
-                    units.Add(uniqueId, new SimpleUnit(this, unitId, uniqueId, new Shared.Location(x, y)));
+                    units.Add(uniqueId, new GenericUnit(this, unitId, uniqueId, new Shared.Location(x, y)));
             }
         }
 
@@ -76,7 +80,8 @@ namespace Client
             IUnit unit = units[uniqueId];
             Point position = new Point(unit.Location.X, unit.Location.Y);
             lock (missiles)
-                this.missiles.Add(new Missile(this, GameData.GetMissileImage(unit.UnitID), position, new Point(dirX, dirY)));
+                this.missiles.Add(new Missile(this, unit, GameData.GetMissileImage(unit.UnitID), position, 
+                    new Point(dirX, dirY)));
         }
 
         public void AddMissile(Missile missile)

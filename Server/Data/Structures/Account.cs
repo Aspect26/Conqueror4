@@ -11,13 +11,14 @@ namespace Server
         public string Password { get; set; }
         public bool LoggedIn { get; set; }
 
-        private List<Character> characters = new List<Character>();
+        private List<Character> characters;
 
         public Account(string Username, string Password)
         {
             this.Username = Username;
             this.Password = Password;
 
+            this.characters = new List<Character>();
             this.LoggedIn = false;
         }
 

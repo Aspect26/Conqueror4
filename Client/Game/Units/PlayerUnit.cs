@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Client
 {
-    public class PlayerUnit : SimpleUnit
+    public class PlayerUnit : GenericUnit
     {
         private string name;
         private Game game;

@@ -24,11 +24,18 @@ namespace Server
         // GAME DATA
         // *****************************************
 
+        // unit id -> base stats (max hp, ...)
+        static Dictionary<int, BaseStats> unitInitialStats = new Dictionary<int, BaseStats>()
+        {
+            { UNIT_WOLF, new BaseStats(100) },
+            { UNIT_WOLF_PACK_LEADER, new BaseStats(250) }
+        };
+
         // map id -> map name
         static Dictionary<int, string> mapNames = new Dictionary<int, string>()
         {
-            { 0, "Kingdom of ___" },
-            { 1, "The DarkFortress" }
+            { MAP_KINGDOM, "Kingdom of ___" },
+            { MAP_FORTRESS, "The DarkFortress" }
         };
 
         // spec id -> spec starting location
@@ -58,8 +65,13 @@ namespace Server
         /*****************************/
         /* IDs                       */
         /*****************************/
+        // maps
         public const int MAP_KINGDOM = 0;
         public const int MAP_FORTRESS = 1;
+
+        // units
+        public const int UNIT_WOLF = 7;
+        public const int UNIT_WOLF_PACK_LEADER = 8;
 
         /*****************************/
         /* MOCK DATA                 */

@@ -63,7 +63,7 @@
     <Compile Include="Game\Units\PlayedCharacter.cs" />
     <Compile Include="Game\Units\IUnit.cs" />
     <Compile Include="Game\Units\PlayerUnit.cs" />
-    <Compile Include="Game\Units\SimpleUnit.cs" />
+    <Compile Include="Game\Units\GenericUnit.cs" />
     <Compile Include="Application\Screens\CharactersScreen.cs" />
     <Compile Include="Application\Screens\PlayScreen.cs" />
     <Compile Include="Application\Screens\UI\Components\Abstract\Panel.cs" />

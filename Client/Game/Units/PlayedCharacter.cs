@@ -4,7 +4,7 @@ using System;
 
 namespace Client
 {
-    public sealed class PlayedCharacter : SimpleUnit
+    public sealed class PlayedCharacter : GenericUnit
     {
         public string Name { get; set; }
         public int Level { get; set; }

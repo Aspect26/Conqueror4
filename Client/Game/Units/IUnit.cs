@@ -20,6 +20,8 @@ namespace Client
         Image GetCurrentImage();
         void SetLocation(int x, int y);
 
+        void TryHitByMissile(Missile missile);
+
         Location Location { get; set; }
     }
 }

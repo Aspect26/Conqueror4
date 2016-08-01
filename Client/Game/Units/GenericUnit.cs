@@ -3,7 +3,7 @@ using Shared;
 
 namespace Client
 {
-    public class SimpleUnit : IUnit
+    public class GenericUnit : IUnit
     {
         // IDs
         public int UnitID { get; protected set; }
@@ -15,12 +15,15 @@ namespace Client
         public int ManaPoints { get; protected set; }
         public int MaxManaPoints { get; protected set; }
 
+        // OTHER STATS
+        public int HitRange { get { return 30; } }
+
         public int UnitSize { get; private set; }
         protected Image unitImage;
         public Location Location { get; set; }
         private Game game;
 
-        public SimpleUnit(Game game, int unitID, int uniqueId, Location location)
+        public GenericUnit(Game game, int unitID, int uniqueId, Location location)
         {
             this.Location = location;
             this.UnitSize = 50;
@@ -53,6 +56,21 @@ namespace Client
         public Image GetCurrentImage()
         {
             return this.unitImage;
+        }
+
+        public void TryHitByMissile(Missile missile)
+        {
+            if (missile.Source == this)
+                return;
+
+            Point missilePoint = missile.GetLocation();
+            Point myPoint = new Point(this.Location.X, this.Location.Y);
+            int distance = myPoint.DistanceFrom(missilePoint);
+
+            if (distance <= HitRange)
+            {
+                missile.HitUnit(this);
+            }
         }
     }
 }

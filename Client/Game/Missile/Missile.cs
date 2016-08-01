@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Shared;
+using System.Drawing;
 
 namespace Client
 {
@@ -11,18 +12,27 @@ namespace Client
         private Image image;
         private Game game;
         private int lifeSpan;
+
+        public IUnit Source { get; protected set; }
         public bool IsDead { get; private set; }
 
         private const int IMPLIICT_LIFE_SPAN = 333;
 
-        public Missile(Game game, Image image, Point location, Point direction, int lifeSpan = IMPLIICT_LIFE_SPAN)
+        public Missile(Game game, IUnit source, Image image, Point location, Point direction, 
+            int lifeSpan = IMPLIICT_LIFE_SPAN)
         {
             this.game = game;
+            this.Source = source;
             this.image = image;
             this.location = location;
             this.lifeSpan = lifeSpan;
             this.direction = direction;
             this.IsDead = false;
+        }
+
+        public Point GetLocation()
+        {
+            return this.location;
         }
 
         public void PlayCycle(long timeSpan)
@@ -37,6 +47,11 @@ namespace Client
             this.location.X += (int)(movePoints * (direction.X / 100f));
             this.location.Y += (int)(movePoints * (direction.Y / 100f));
             this.lifeSpan -= movePoints;
+        }
+
+        public void HitUnit(GenericUnit unit)
+        {
+            this.IsDead = true;
         }
 
         public void Render(Graphics g)
