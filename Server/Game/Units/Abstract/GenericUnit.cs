@@ -71,7 +71,7 @@ namespace Server
         {
             if (timeStamp > lastShoot + ShootCooldown)
             {
-                this.Differences.Add(new PlayerShootDifference(x, y));
+                this.Differences.Add(new PlayerShootDifference(UniqueID, x, y));
                 return new Missile(this, new Point(Location.X, Location.Y), new Point(x, y));
             }
 
@@ -117,7 +117,7 @@ namespace Server
             if(!HittedBy.Contains(missile.Source))
                 HittedBy.Add(missile.Source);
 
-            this.Differences.Add(new ActualHPDifference(this.ActualStats.HitPoints));
+            this.Differences.Add(new ActualHPDifference(UniqueID, ActualStats.HitPoints));
         }
 
         public virtual void AddExperience(int xp) { }

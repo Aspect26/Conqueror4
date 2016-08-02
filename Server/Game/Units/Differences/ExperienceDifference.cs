@@ -1,15 +1,15 @@
 ﻿namespace Server
 {
-    public class ExperienceDifference : IUnitDifference
+    public class ExperienceDifference : GenericDifference
     {
         private int xp;
 
-        public ExperienceDifference(int xp)
+        public ExperienceDifference(int uid, int xp) : base(uid)
         {
             this.xp = xp;
         }
 
-        public string GetString()
+        public override string GetString()
         {
             return "X&" + xp;
         }

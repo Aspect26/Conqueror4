@@ -61,6 +61,10 @@ namespace Client
                         int level = Convert.ToInt32(unitPart[1]);
                         ChangePlayerLevel(level);
                     }
+                    else if(unitPart[0] == "D")
+                    {
+                        KillUnit(uniqueId);
+                    }
                 }
             }
         }

@@ -2,16 +2,16 @@
 
 namespace Server
 {
-    public class UnitDiedDifference : IUnitDifference
+    public class UnitDiedDifference : GenericDifference
     {
         private IUnit unit;
 
-        public UnitDiedDifference(IUnit unit)
+        public UnitDiedDifference(IUnit unit) : base(unit.UniqueID)
         {
             this.unit = unit;
         }
 
-        public string GetString()
+        public override string GetString()
         {
             return "D";
         }

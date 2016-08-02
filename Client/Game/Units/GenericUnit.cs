@@ -14,6 +14,7 @@ namespace Client
         public BaseStats ActualStats { get; protected set; }
         public int ManaPoints { get; protected set; }
         public int MaxManaPoints { get; protected set; }
+        public bool IsDead { get; protected set; }
 
         // OTHER STATS
         public int HitRange { get { return 30; } }
@@ -33,12 +34,18 @@ namespace Client
             this.game = game;
             this.MaxStats = maxStats;
             this.ActualStats = actualStats;
+            this.IsDead = false;
             this.unitImage = GameData.GetUnitImage(unitID);
         }
 
         public void SetUniqueID(int uniqueId)
         {
             this.UniqueID = uniqueId;
+        }
+
+        public void Kill()
+        {
+            this.IsDead = true;
         }
 
         public void SetLocation(int x, int y)

@@ -1,15 +1,15 @@
 ﻿namespace Server
 {
-    public class ActualHPDifference : IUnitDifference
+    public class ActualHPDifference : GenericDifference
     {
         private int actualHp;
 
-        public ActualHPDifference(int actualHp)
+        public ActualHPDifference(int uid, int actualHp) : base(uid)
         {
             this.actualHp = actualHp;
         }
 
-        public string GetString()
+        public override string GetString()
         {
             return "H&" + actualHp;
         }

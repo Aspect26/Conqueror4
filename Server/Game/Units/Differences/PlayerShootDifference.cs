@@ -1,17 +1,17 @@
 ﻿namespace Server
 {
-    public class PlayerShootDifference : IUnitDifference
+    public class PlayerShootDifference : GenericDifference
     {
         private int xDir;
         private int yDir;
 
-        public PlayerShootDifference(int x, int y)
+        public PlayerShootDifference(int uid, int x, int y) : base(uid)
         {
             this.xDir = x;
             this.yDir = y;
         }
 
-        public string GetString()
+        public override string GetString()
         {
             return "S&" + xDir + "&" + yDir;
         }

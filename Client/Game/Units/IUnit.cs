@@ -14,6 +14,7 @@ namespace Client
         BaseStats ActualStats { get; }
         int ManaPoints { get; }
         int MaxManaPoints { get; }
+        bool IsDead { get; }
 
         void PlayCycle(int timeSpan);
         void DrawUnit(Graphics g);
@@ -21,6 +22,7 @@ namespace Client
         void SetLocation(int x, int y);
 
         void TryHitByMissile(Missile missile);
+        void Kill();
 
         Location Location { get; set; }
     }

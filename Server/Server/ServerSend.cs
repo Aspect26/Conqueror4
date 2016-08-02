@@ -47,11 +47,11 @@ namespace Server
                 {
                     if (unit.Updated || unit.Differences.Count != 0)
                     {
-                        msg.Append(/*unit.GetName() + "|" + unit.UnitID + "|" + */unit.UniqueID);
+                        msg.Append(unit.UniqueID);
 
                         if (unit.Updated)
                         {
-                            // location
+                            // location TODO: move this to differences
                             Location loc = unit.GetLocation();
                             msg.Append("|L&" + loc.X + "&" + loc.Y);
                         }
@@ -75,11 +75,13 @@ namespace Server
                 }
 
                 // add map general differences
-                /*foreach(IUnitDifference diff in mapInstance.GetGeneralDifferencesAndReset())
+                foreach(IUnitDifference diff in mapInstance.GetGeneralDifferencesAndReset())
                 {
-                    IUnit 
-                    msg.Append(unit.GetName() + "|" + unit.UnitID + "|" + unit.UniqueID);
-                }*/
+                    int uid = diff.UnitUID;
+                    msg.Append(uid + "|" + diff.GetString());
+                    msg.Append(",");
+                    needSend = true;
+                }
 
                 msg.Append("\r\n");
 

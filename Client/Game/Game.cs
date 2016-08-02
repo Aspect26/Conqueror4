@@ -28,15 +28,30 @@ namespace Client
 
         public void RunCycle(Graphics g, int timeSpan)
         {
+            // played character
             Character.PlayCycle(timeSpan);
+
+            // missiles & units
+            var killedUnits = new List<IUnit>();
             foreach (Missile missile in missiles)
             {
                 missile.PlayCycle(timeSpan);
                 foreach (KeyValuePair<int, IUnit> pair in units)
+                {
                     pair.Value.TryHitByMissile(missile);
+                    if (pair.Value.IsDead)
+                        killedUnits.Add(pair.Value);
+                }
+            }
+
+            foreach(var killedUnit in killedUnits)
+            {
+                units.Remove(killedUnit.UniqueID);
             }
 
             missiles.RemoveAll((Missile m) => m.IsDead);
+
+            // units
 
             RenderAll(g);
         }
@@ -84,6 +99,9 @@ namespace Client
         public void AddUnit(string name, int unitId, int uniqueId, int xLoc, int yLoc, BaseStats maxStats, 
             BaseStats actualStats)
         {
+            if (uniqueId == Character.UniqueID)
+                return;
+
             if (GameData.IsPlayerUnit(unitId))
                 units.Add(uniqueId, new PlayerUnit(this, name, unitId, uniqueId, xLoc, yLoc, maxStats, actualStats));
             else
@@ -131,6 +149,11 @@ namespace Client
         public void ChangePlayerLevel(int level)
         {
             Character.Level = level;
+        }
+
+        public void KillUnit(int uid)
+        {
+            units[uid].Kill();
         }
     }
 }

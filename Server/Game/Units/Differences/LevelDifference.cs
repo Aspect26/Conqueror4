@@ -2,16 +2,16 @@
 
 namespace Server
 {
-    public class LevelDifference : IUnitDifference
+    public class LevelDifference : GenericDifference
     {
         private int level;
 
-        public LevelDifference(int level)
+        public LevelDifference(int uid, int level) : base(uid)
         {
             this.level = level;
         }
 
-        public string GetString()
+        public override string GetString()
         {
             return "LV&" + level;
         }
