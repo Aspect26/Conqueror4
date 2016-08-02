@@ -69,26 +69,26 @@ namespace Client
             }
         }
 
-        public void AddOrUpdateUnit(string name, int unitId, int uniqueId, int x, int y, BaseStats maxStats,
-            BaseStats actualStats)
+        public void UpdateUnitLocation(int uniqueId, int x, int y)
         {
             if(uniqueId == Character.UniqueID)
             {
-                Character.SetMaxStats(maxStats);
-                Character.SetActualStats(actualStats);
+                return;
             }
             else if (units.ContainsKey(uniqueId))
             {
                 units[uniqueId].SetLocation(x, y);
             }
+        }
+
+        public void AddUnit(string name, int unitId, int uniqueId, int xLoc, int yLoc, BaseStats maxStats, 
+            BaseStats actualStats)
+        {
+            if (GameData.IsPlayerUnit(unitId))
+                units.Add(uniqueId, new PlayerUnit(this, name, unitId, uniqueId, xLoc, yLoc, maxStats, actualStats));
             else
-            {
-                if(GameData.IsPlayerUnit(unitId))
-                    units.Add(uniqueId, new PlayerUnit(this, name, unitId, uniqueId, x, y, maxStats, actualStats));
-                else
-                    units.Add(uniqueId, new GenericUnit(this, unitId, uniqueId, new Location(x, y), maxStats,
-                        actualStats));
-            }
+                units.Add(uniqueId, new GenericUnit(this, unitId, uniqueId, new Location(xLoc, yLoc), maxStats,
+                    actualStats));
         }
 
         public void AddMissile(int uniqueId, int dirX, int dirY)

@@ -42,16 +42,17 @@ namespace Server
                 StringBuilder msg = new StringBuilder(MSG_CHARACTERS_IN_MAP + ":");
                 bool needSend = false;
 
+                // add unit differences
                 foreach (IUnit unit in mapInstance.GetUnits())
                 {
                     if (unit.Updated || unit.Differences.Count != 0)
                     {
-                        // location
-                        Location loc = unit.GetLocation();
-                        msg.Append(unit.GetName() + "|" + unit.UnitID + "|" + unit.UniqueID);
+                        msg.Append(/*unit.GetName() + "|" + unit.UnitID + "|" + */unit.UniqueID);
 
                         if (unit.Updated)
                         {
+                            // location
+                            Location loc = unit.GetLocation();
                             msg.Append("|L&" + loc.X + "&" + loc.Y);
                         }
 
@@ -72,6 +73,14 @@ namespace Server
                         needSend = true;
                     }
                 }
+
+                // add map general differences
+                /*foreach(IUnitDifference diff in mapInstance.GetGeneralDifferencesAndReset())
+                {
+                    IUnit 
+                    msg.Append(unit.GetName() + "|" + unit.UnitID + "|" + unit.UniqueID);
+                }*/
+
                 msg.Append("\r\n");
 
                 if (!needSend)

@@ -27,18 +27,18 @@ namespace Client
             {
                 string[] unitParts = unitString.Split('|');
 
-                string name = unitParts[0];
-                int unitId = Convert.ToInt32(unitParts[1]);
-                int uniqueId = Convert.ToInt32(unitParts[2]);
+                /*string name = unitParts[0];
+                int unitId = Convert.ToInt32(unitParts[1]);*/
+                int uniqueId = Convert.ToInt32(unitParts[0]);
 
-                for (int currentIndex = 3; currentIndex < unitParts.Length; currentIndex++)
+                for (int currentIndex = 1; currentIndex < unitParts.Length; currentIndex++)
                 {
                     string[] unitPart = unitParts[currentIndex].Split('&');
                     if (unitPart[0] == "L" && uniqueId != Character.UniqueID)
                     {
                         int x = Convert.ToInt32(unitPart[1]);
                         int y = Convert.ToInt32(unitPart[2]);
-                        AddOrUpdateUnit(name, unitId, uniqueId, x, y, new BaseStats(0), new BaseStats(0));
+                        UpdateUnitLocation(uniqueId, x, y);
                     }
                     else if (unitPart[0] == "S" && uniqueId != Character.UniqueID)
                     {

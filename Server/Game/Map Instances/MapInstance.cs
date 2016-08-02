@@ -9,6 +9,7 @@ namespace Server
         private List<StateObject> clientStates;
         private List<IUnit> units;
         private Queue<IPlayerAction> playerActions;
+        private List<IUnitDifference> mapGeneralDifferenes;
         private List<Missile> missiles;
         private int lastUniqueId = 1;
 
@@ -21,10 +22,10 @@ namespace Server
         {
             this.mapId = mapId;
             this.missiles = new List<Missile>();
-
-            clientStates = new List<StateObject>();
-            units = new List<IUnit>();
-            playerActions = new Queue<IPlayerAction>();
+            this.mapGeneralDifferenes = new List<IUnitDifference>();
+            this.clientStates = new List<StateObject>();
+            this.units = new List<IUnit>();
+            this.playerActions = new Queue<IPlayerAction>();
 
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
@@ -57,6 +58,19 @@ namespace Server
             {
                 this.missiles.Add(missile);
             }
+        }
+
+        // THIS IS CALLED FROM SENDING TASK
+        public List<IUnitDifference> GetGeneralDifferencesAndReset()
+        {
+            List<IUnitDifference> diffs = null;
+            lock (mapGeneralDifferenes)
+            {
+                diffs = mapGeneralDifferenes;
+                mapGeneralDifferenes = new List<IUnitDifference>();
+            }
+
+            return diffs;
         }
 
         // THIS IS CALLED FROM RECEIVING TASK
@@ -129,7 +143,17 @@ namespace Server
                 }
             }
             // remove kied units
-            units.RemoveAll((IUnit u) => u.IsDead);
+            units.RemoveAll(
+                (IUnit u) =>
+                {
+                    if (u.IsDead)
+                    {
+                        lock(mapGeneralDifferenes)
+                            mapGeneralDifferenes.Add(new UnitDiedDifference(u));
+                    }
+
+                    return u.IsDead;
+                });
 
             // move all missiles and check player collision
             foreach(Missile missile in missiles)

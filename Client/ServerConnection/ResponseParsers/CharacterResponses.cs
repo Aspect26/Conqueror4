@@ -1,9 +1,5 @@
 ﻿using Shared;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Client
 {
@@ -56,7 +52,7 @@ namespace Client
                 BaseStats maxStats = new BaseStats(maxHp);
                 BaseStats actualStats = new BaseStats(actualHp);
 
-                game.AddOrUpdateUnit(name, id, uid, xLoc, yLoc, maxStats, actualStats);
+                game.AddUnit(name, id, uid, xLoc, yLoc, maxStats, actualStats);
             }
 
             return true;
