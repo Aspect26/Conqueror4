@@ -23,7 +23,7 @@ namespace Server
             this.IsDead = false;
 
             // TODO: get from character
-            this.Damage = 20;
+            this.Damage = 10;
         }
 
         public Point GetLocation()
@@ -34,7 +34,7 @@ namespace Server
         public void HitUnit(IUnit unit)
         {
             IsDead = true;
-            Console.WriteLine("I hit: (" + this.source.GetName() + "=>" + unit.GetName() + ").");
+            unit.HitByMissile(this);
         }
 
         public void PlayCycle(long timeSpan)

@@ -27,6 +27,12 @@ namespace Server
         // unit id -> base stats (max hp, ...)
         static Dictionary<int, BaseStats> unitInitialStats = new Dictionary<int, BaseStats>()
         {
+            { UNIT_DEMONHUNTER, new BaseStats(120) },
+            { UNIT_MAGE, new BaseStats(90) },
+            { UNIT_PRIEST, new BaseStats(80) },
+            { UNIT_WARLOCK, new BaseStats(70) },
+            { UNIT_UNKHERO1, new BaseStats(110) },
+            { UNIT_UNKHERO2, new BaseStats(85) },
             { UNIT_WOLF, new BaseStats(100) },
             { UNIT_WOLF_PACK_LEADER, new BaseStats(250) }
         };
@@ -62,6 +68,10 @@ namespace Server
             return mapNames;
         }
 
+        public static BaseStats GetBaseStats(int unitId)
+        {
+            return unitInitialStats[unitId];
+        }
         /*****************************/
         /* IDs                       */
         /*****************************/
@@ -70,6 +80,13 @@ namespace Server
         public const int MAP_FORTRESS = 1;
 
         // units
+        public const int UNIT_DEMONHUNTER = 1;
+        public const int UNIT_MAGE = 2;
+        public const int UNIT_PRIEST = 3;
+        public const int UNIT_WARLOCK = 4;
+        public const int UNIT_UNKHERO1 = 5;
+        public const int UNIT_UNKHERO2 = 6;
+
         public const int UNIT_WOLF = 7;
         public const int UNIT_WOLF_PACK_LEADER = 8;
 

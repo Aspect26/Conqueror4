@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseStats.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MovingDirection.cs" />
     <Compile Include="Program.cs" />

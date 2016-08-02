@@ -10,8 +10,8 @@ namespace Client
         int UniqueID { get; }
 
         // STATUS
-        int HitPoints { get; }
-        int MaxHitPoints { get; }
+        BaseStats MaxStats { get; }
+        BaseStats ActualStats { get; }
         int ManaPoints { get; }
         int MaxManaPoints { get; }
 

@@ -10,6 +10,9 @@ namespace Server
         public int UnitID { get; protected set; }
         public int UniqueID { get; protected set; }
 
+        public BaseStats MaxStats { get; protected set; }
+        public BaseStats ActualStats { get; protected set; }
+
         public int HitRange { get; protected set; }
         public MapInstance MapInstance { get; protected set; }
         public Location Location { get; set; }
@@ -22,7 +25,7 @@ namespace Server
 
         public string Name { get; set; }
 
-        public GenericUnit(int unitID, int uniqueId, Location location, MapInstance mapInstance)
+        public GenericUnit(int unitID, int uniqueId, Location location, MapInstance mapInstance, BaseStats maxStats)
         {
             this.Location = location;
             this.UnitID = unitID;
@@ -31,13 +34,16 @@ namespace Server
             this.MapInstance = mapInstance;
             this.HitRange = 30;
             this.Differences = new List<IUnitDifference>();
+            this.MaxStats = maxStats.Copy();
+            this.ActualStats = maxStats.Copy();
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
         }
 
-        public GenericUnit(string name, int unitId, int uniqueId, Location location, MapInstance mapInstance) 
-            : this(unitId, uniqueId, location, mapInstance)
+        public GenericUnit(string name, int unitId, int uniqueId, Location location, MapInstance mapInstance, 
+            BaseStats maxStats) 
+            : this(unitId, uniqueId, location, mapInstance, maxStats)
         {
             this.Name = name;
         }
@@ -93,6 +99,12 @@ namespace Server
             {
                 missile.HitUnit(this);
             }
+        }
+
+        public void HitByMissile(Missile missile)
+        {
+            this.ActualStats.HitPoints -= missile.Damage;
+            this.Differences.Add(new ActualHPDifference(this.ActualStats.HitPoints));
         }
     }
 }

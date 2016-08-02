@@ -29,8 +29,9 @@ namespace Client
         private const int SLOWING_CONSTANT = 4;
         private UnitAnimation animation;
 
-        public PlayedCharacter(ServerConnection server, string name, int level, int spec, int uniqueId) 
-            : base(null, spec, uniqueId, new Location())
+        public PlayedCharacter(ServerConnection server, string name, int level, int spec, int uniqueId, BaseStats maxStats,
+            BaseStats actualStats) 
+            : base(null, spec, uniqueId, new Location(), maxStats, actualStats)
         {
             this.Name = name;
             this.Level = level;

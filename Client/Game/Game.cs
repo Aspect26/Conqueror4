@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Shared;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Client
@@ -60,7 +61,16 @@ namespace Client
             }
         }
 
-        public void AddOrUpdateUnit(string name, int unitId, int uniqueId, int x, int y)
+        public void UpdateUnitActualHitPoints(int uniqueId, int hitPoints)
+        {
+            if (units.ContainsKey(uniqueId))
+            {
+                units[uniqueId].ActualStats.HitPoints = hitPoints;
+            }
+        }
+
+        public void AddOrUpdateUnit(string name, int unitId, int uniqueId, int x, int y, BaseStats maxStats,
+            BaseStats actualStats)
         {
             if (units.ContainsKey(uniqueId))
             {
@@ -69,9 +79,10 @@ namespace Client
             else
             {
                 if(GameData.IsPlayerUnit(unitId))
-                    units.Add(uniqueId, new PlayerUnit(this, name, unitId, uniqueId, x, y));
+                    units.Add(uniqueId, new PlayerUnit(this, name, unitId, uniqueId, x, y, maxStats, actualStats));
                 else
-                    units.Add(uniqueId, new GenericUnit(this, unitId, uniqueId, new Shared.Location(x, y)));
+                    units.Add(uniqueId, new GenericUnit(this, unitId, uniqueId, new Location(x, y), maxStats,
+                        actualStats));
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,7 +50,13 @@ namespace Client
                 int xLoc = Convert.ToInt32(unitParts[3]);
                 int yLoc = Convert.ToInt32(unitParts[4]);
 
-                game.AddOrUpdateUnit(name, id, uid, xLoc, yLoc);
+                int maxHp = Convert.ToInt32(unitParts[5]);
+                int actualHp = Convert.ToInt32(unitParts[6]);
+
+                BaseStats maxStats = new BaseStats(maxHp);
+                BaseStats actualStats = new BaseStats(actualHp);
+
+                game.AddOrUpdateUnit(name, id, uid, xLoc, yLoc, maxStats, actualStats);
             }
 
             return true;

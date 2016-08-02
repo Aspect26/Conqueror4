@@ -31,7 +31,7 @@ namespace Server
 
         public void SpawnNPC(int unitId, int x, int y)
         {
-            this.units.Add(new GenericUnit(unitId, GetNextUniqueID(), new Location(x, y), this));
+            this.units.Add(new GenericUnit(unitId, GetNextUniqueID(), new Location(x, y), this, Data.GetBaseStats(unitId)));
         }
 
         public int GetNextUniqueID()
@@ -67,7 +67,8 @@ namespace Server
             foreach(IUnit unit in units)
             {
                 data += unit.UniqueID + "|" + unit.UnitID + "|" + unit.GetName() + "|" 
-                    + unit.GetLocation().X + "|" + unit.GetLocation().Y + ",";
+                    + unit.GetLocation().X + "|" + unit.GetLocation().Y + "|" 
+                    + unit.MaxStats.HitPoints + "|" + unit.ActualStats.HitPoints + ",";
             }
 
             return data;

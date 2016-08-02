@@ -8,7 +8,7 @@ namespace Server
         public int Level { get; set; }
 
         public Character(string name, int spec, int uid, Location location, MapInstance map) 
-            : base(name, spec, uid, location, map)
+            : base(name, spec, uid, location, map, Data.GetBaseStats(spec))
         {
             this.Level = 1;
         }

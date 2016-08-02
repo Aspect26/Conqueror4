@@ -10,8 +10,8 @@ namespace Client
         public int UniqueID { get; protected set; }
 
         // STATUS
-        public int HitPoints { get; protected set; }
-        public int MaxHitPoints { get; protected set; }
+        public BaseStats MaxStats { get; protected set; }
+        public BaseStats ActualStats { get; protected set; }
         public int ManaPoints { get; protected set; }
         public int MaxManaPoints { get; protected set; }
 
@@ -23,13 +23,16 @@ namespace Client
         public Location Location { get; set; }
         private Game game;
 
-        public GenericUnit(Game game, int unitID, int uniqueId, Location location)
+        public GenericUnit(Game game, int unitID, int uniqueId, Location location, BaseStats maxStats, 
+            BaseStats actualStats)
         {
             this.Location = location;
             this.UnitSize = 50;
             this.UnitID = unitID;
             this.UniqueID = uniqueId;
             this.game = game;
+            this.MaxStats = maxStats;
+            this.ActualStats = actualStats;
             this.unitImage = GameData.GetUnitImage(unitID);
         }
 
@@ -50,7 +53,17 @@ namespace Client
 
         public virtual void DrawUnit(Graphics g)
         {
-            g.DrawImageAt(unitImage, game.MapPositionToScreenPosition(Location.X, Location.Y), 50, 50);
+            // unit
+            Point mapLocation = game.MapPositionToScreenPosition(Location.X, Location.Y);
+            g.DrawImageAt(unitImage, mapLocation, UnitSize, UnitSize);
+
+            // HP bar
+            Point barLocation = new Point(mapLocation.X - UnitSize/2, mapLocation.Y - UnitSize/2);
+            float hpRatio = (float)ActualStats.HitPoints / MaxStats.HitPoints;
+            Brush hpBrush = (hpRatio < 0.25f) ? Brushes.Red : Brushes.LightGreen;
+
+            g.FillRectangle(Brushes.DarkGreen, barLocation.X, barLocation.Y, UnitSize, 5);
+            g.FillRectangle(hpBrush, barLocation.X, barLocation.Y, UnitSize * hpRatio, 5);
         }
 
         public Image GetCurrentImage()

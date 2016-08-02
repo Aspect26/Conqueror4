@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared;
+using System;
 
 namespace Client
 {
@@ -43,13 +44,18 @@ namespace Client
                         {
                             int x = Convert.ToInt32(unitPart[1]);
                             int y = Convert.ToInt32(unitPart[2]);
-                            AddOrUpdateUnit(name, unitId, uniqueId, x, y);
+                            AddOrUpdateUnit(name, unitId, uniqueId, x, y, new BaseStats(0), new BaseStats(0));
                         }
                         else if(unitPart[0] == "S")
                         {
                             int x = Convert.ToInt32(unitPart[1]);
                             int y = Convert.ToInt32(unitPart[2]);
                             AddMissile(uniqueId, x, y);
+                        }
+                        else if(unitPart[0] == "H")
+                        {
+                            int hp = Convert.ToInt32(unitPart[1]);
+                            UpdateUnitActualHitPoints(uniqueId, hp);
                         }
                     }
                 }
