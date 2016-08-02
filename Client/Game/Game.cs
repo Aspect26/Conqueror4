@@ -72,7 +72,12 @@ namespace Client
         public void AddOrUpdateUnit(string name, int unitId, int uniqueId, int x, int y, BaseStats maxStats,
             BaseStats actualStats)
         {
-            if (units.ContainsKey(uniqueId))
+            if(uniqueId == Character.UniqueID)
+            {
+                Character.SetMaxStats(maxStats);
+                Character.SetActualStats(actualStats);
+            }
+            else if (units.ContainsKey(uniqueId))
             {
                 units[uniqueId].SetLocation(x, y);
             }
@@ -88,6 +93,10 @@ namespace Client
 
         public void AddMissile(int uniqueId, int dirX, int dirY)
         {
+            if (uniqueId == Character.UniqueID)
+                return;
+
+
             IUnit unit = units[uniqueId];
             Point position = new Point(unit.Location.X, unit.Location.Y);
             lock (missiles)
@@ -112,6 +121,16 @@ namespace Client
         public Point MapPositionToScreenPosition(Point p)
         {
             return MapPositionToScreenPosition(p.X, p.Y);
+        }
+
+        public void ChangePlayerXp(int xp)
+        {
+            Character.Experience = xp;
+        }
+
+        public void ChangePlayerLevel(int level)
+        {
+            Character.Level = level;
         }
     }
 }

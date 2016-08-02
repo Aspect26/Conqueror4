@@ -21,29 +21,29 @@ namespace Client
             try {
                 int uid = Convert.ToInt32(parts[0]);
                 int mapID = Convert.ToInt32(parts[1]);
-                int mapX = Convert.ToInt32(parts[2]);
-                int mapY = Convert.ToInt32(parts[3]);
+                int experience = Convert.ToInt32(parts[2]);
+                int mapX = Convert.ToInt32(parts[3]);
+                int mapY = Convert.ToInt32(parts[4]);
 
                 myUid = uid;
                 character.SetUniqueID(uid);
                 character.Location.MapID = mapID;
+                character.Experience = experience;
                 character.Location.X = mapX;
                 character.Location.Y = mapY;
 
                 game = new Game(character);
             }
-            catch (FormatException)
+            catch (FormatException e)
             {
                 return false;
             }
 
-            for(int i = 4; i<parts.Length; i++)
+            for(int i = 5; i<parts.Length; i++)
             {
                 string[] unitParts = parts[i].Split('|');
 
                 int uid = Convert.ToInt32(unitParts[0]);
-                if (uid == myUid)
-                    continue;
 
                 int id = Convert.ToInt32(unitParts[1]);
                 string name = unitParts[2];

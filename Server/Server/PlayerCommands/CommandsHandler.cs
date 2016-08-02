@@ -80,7 +80,8 @@ namespace Server
 
             // send data back
             MapInstance map = game.AddPlayer(client, character);
-            string msg = character.UniqueID + "," + character.Location.MapID + "," + character.Location.X + "," + character.Location.Y + ",";
+            string msg = character.UniqueID + "," + character.Location.MapID + "," + character.Experience + "," +
+                character.Location.X + "," + character.Location.Y + ",";
             msg += map.GetMessageCodedData() + "\n";
             byte[] byteData = Encoding.ASCII.GetBytes(msg);
             client.clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(SendCallback), 

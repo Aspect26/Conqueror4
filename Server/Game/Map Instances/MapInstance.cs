@@ -31,7 +31,7 @@ namespace Server
 
         public void SpawnNPC(int unitId, int x, int y)
         {
-            this.units.Add(new GenericUnit(unitId, GetNextUniqueID(), new Location(x, y), this, Data.GetBaseStats(unitId)));
+            this.units.Add(new GenericUnit(unitId, GetNextUniqueID(), new Location(x, y), this, Data.GetInitialData(unitId)));
         }
 
         public int GetNextUniqueID()
@@ -113,10 +113,6 @@ namespace Server
                 while (playerActions.Count != 0)
                 {
                     playerActions.Dequeue().Process(now);
-                    /*lock (sendActions)
-                    {
-                        sendActions.Enqueue(playerActions.Dequeue().Process());
-                    }*/
                 }
             }
 
@@ -124,7 +120,16 @@ namespace Server
             foreach (IUnit unit in units)
             {
                 unit.PlayCycle((int)timeSpan);
+                if (unit.IsDead)
+                {
+                    foreach(IUnit hitted in unit.HittedBy)
+                    {
+                        hitted.AddExperience(Data.GetXPReward(unit.Level));
+                    }
+                }
             }
+            // remove kied units
+            units.RemoveAll((IUnit u) => u.IsDead);
 
             // move all missiles and check player collision
             foreach(Missile missile in missiles)

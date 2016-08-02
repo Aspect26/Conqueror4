@@ -12,6 +12,7 @@ namespace Server
 
         BaseStats MaxStats { get; }
         BaseStats ActualStats { get; }
+        int Level { get; }
 
         Location GetLocation();
         string GetName();
@@ -20,8 +21,12 @@ namespace Server
 
         void TryHitByMissile(Missile missile);
         void HitByMissile(Missile missile);
+        bool IsDead { get; }
+
+        void AddExperience(int xp);
 
         bool Updated { get; set; }
         List<IUnitDifference> Differences { get; }
+        List<IUnit> HittedBy { get; }
     }
 }

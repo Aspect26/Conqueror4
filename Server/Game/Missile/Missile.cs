@@ -8,7 +8,7 @@ namespace Server
         private Point direction;
         private int lifeSpan;
         private Point location;
-        public IUnit source { get; protected set; }
+        public IUnit Source { get; protected set; }
         public bool IsDead { get; protected set; }
         public int Damage { get; protected set; }
 
@@ -16,7 +16,7 @@ namespace Server
 
         public Missile(IUnit source, Point location, Point direction, int lifeSpan = IMPLIICT_LIFE_SPAN)
         {
-            this.source = source;
+            this.Source = source;
             this.lifeSpan = lifeSpan;
             this.location = location;
             this.direction = direction;

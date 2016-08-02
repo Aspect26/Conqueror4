@@ -25,16 +25,49 @@ namespace Server
         // *****************************************
 
         // unit id -> base stats (max hp, ...)
-        static Dictionary<int, BaseStats> unitInitialStats = new Dictionary<int, BaseStats>()
+        static Dictionary<int, InitialData> unitInitialStats = new Dictionary<int, InitialData>()
         {
-            { UNIT_DEMONHUNTER, new BaseStats(120) },
-            { UNIT_MAGE, new BaseStats(90) },
-            { UNIT_PRIEST, new BaseStats(80) },
-            { UNIT_WARLOCK, new BaseStats(70) },
-            { UNIT_UNKHERO1, new BaseStats(110) },
-            { UNIT_UNKHERO2, new BaseStats(85) },
-            { UNIT_WOLF, new BaseStats(100) },
-            { UNIT_WOLF_PACK_LEADER, new BaseStats(250) }
+            { UNIT_WOLF, new InitialData(new BaseStats(100), 1) },
+            { UNIT_WOLF_PACK_LEADER, new InitialData(new BaseStats(250), 2) }
+        };
+
+        static Dictionary<int, BaseStats[]> characterBaseStats = new Dictionary<int, BaseStats[]>()
+        {
+            { UNIT_DEMONHUNTER, new BaseStats[3] {
+                new BaseStats(120),
+                new BaseStats(140),
+                new BaseStats(165)
+            } },
+
+            { UNIT_MAGE, new BaseStats[3] {
+                new BaseStats(90),
+                new BaseStats(100),
+                new BaseStats(115)
+            } },
+
+            { UNIT_PRIEST, new BaseStats[3] {
+                new BaseStats(80),
+                new BaseStats(90),
+                new BaseStats(105)
+            } },
+
+            { UNIT_WARLOCK, new BaseStats[3] {
+                new BaseStats(70),
+                new BaseStats(80),
+                new BaseStats(90)
+            } },
+
+            { UNIT_UNKHERO1, new BaseStats[3] {
+                new BaseStats(110),
+                new BaseStats(135),
+                new BaseStats(155)
+            } },
+
+            { UNIT_UNKHERO2, new BaseStats[3] {
+                new BaseStats(85),
+                new BaseStats(100),
+                new BaseStats(115)
+            } },
         };
 
         // map id -> map name
@@ -56,6 +89,12 @@ namespace Server
             { UNK_2, new Location(MAP_FORTRESS,20,20) },
         };
 
+        // xp rewards
+        public static int GetXPReward(int level)
+        {
+            return (int)(level * 2.5f + 7.5f);
+        }
+
         // getters
         public static Location GetStartingLocation(int spec)
         {
@@ -68,9 +107,14 @@ namespace Server
             return mapNames;
         }
 
-        public static BaseStats GetBaseStats(int unitId)
+        public static InitialData GetInitialData(int unitId)
         {
             return unitInitialStats[unitId];
+        }
+
+        public static BaseStats GetCharacterBaseStats(int id, int level)
+        {
+            return characterBaseStats[id][level];
         }
         /*****************************/
         /* IDs                       */

@@ -31,32 +31,35 @@ namespace Client
                 int unitId = Convert.ToInt32(unitParts[1]);
                 int uniqueId = Convert.ToInt32(unitParts[2]);
 
-                if (name == Character.Name)
+                for (int currentIndex = 3; currentIndex < unitParts.Length; currentIndex++)
                 {
-                    continue;
-                }
-                else
-                {
-                    for (int currentIndex = 3; currentIndex < unitParts.Length; currentIndex++)
+                    string[] unitPart = unitParts[currentIndex].Split('&');
+                    if (unitPart[0] == "L" && uniqueId != Character.UniqueID)
                     {
-                        string[] unitPart = unitParts[currentIndex].Split('&');
-                        if (unitPart[0] == "L")
-                        {
-                            int x = Convert.ToInt32(unitPart[1]);
-                            int y = Convert.ToInt32(unitPart[2]);
-                            AddOrUpdateUnit(name, unitId, uniqueId, x, y, new BaseStats(0), new BaseStats(0));
-                        }
-                        else if(unitPart[0] == "S")
-                        {
-                            int x = Convert.ToInt32(unitPart[1]);
-                            int y = Convert.ToInt32(unitPart[2]);
-                            AddMissile(uniqueId, x, y);
-                        }
-                        else if(unitPart[0] == "H")
-                        {
-                            int hp = Convert.ToInt32(unitPart[1]);
-                            UpdateUnitActualHitPoints(uniqueId, hp);
-                        }
+                        int x = Convert.ToInt32(unitPart[1]);
+                        int y = Convert.ToInt32(unitPart[2]);
+                        AddOrUpdateUnit(name, unitId, uniqueId, x, y, new BaseStats(0), new BaseStats(0));
+                    }
+                    else if (unitPart[0] == "S" && uniqueId != Character.UniqueID)
+                    {
+                        int x = Convert.ToInt32(unitPart[1]);
+                        int y = Convert.ToInt32(unitPart[2]);
+                        AddMissile(uniqueId, x, y);
+                    }
+                    else if (unitPart[0] == "H")
+                    {
+                        int hp = Convert.ToInt32(unitPart[1]);
+                        UpdateUnitActualHitPoints(uniqueId, hp);
+                    }
+                    else if (unitPart[0] == "X")
+                    {
+                        int xp = Convert.ToInt32(unitPart[1]);
+                        ChangePlayerXp(xp);
+                    }
+                    else if (unitPart[0] == "LV")
+                    {
+                        int level = Convert.ToInt32(unitPart[1]);
+                        ChangePlayerLevel(level);
                     }
                 }
             }

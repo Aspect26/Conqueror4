@@ -95,17 +95,6 @@ namespace Client
             return Image.FromFile(path);
         }
 
-        public static int GetNextLevelXPRequired(int level)
-        {
-            switch (level)
-            {
-                case 1: return 250;
-                case 2: return 360;
-                case 3: return 500;
-                default: return 2000000;
-            }
-        }
-
         // UI COMPONENTS
         public static Image GetLineInputBackgground()
         {

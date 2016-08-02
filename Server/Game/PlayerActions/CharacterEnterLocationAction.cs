@@ -1,5 +1,6 @@
 ﻿namespace Server
 {
+    // TODO: remove this class?
     public class CharacterEnterLocationAction : IPlayerAction
     {
         Character character;

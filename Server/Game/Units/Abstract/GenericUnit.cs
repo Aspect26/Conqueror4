@@ -12,8 +12,12 @@ namespace Server
 
         public BaseStats MaxStats { get; protected set; }
         public BaseStats ActualStats { get; protected set; }
+        public int Level { get; protected set; }
 
         public int HitRange { get; protected set; }
+        public List<IUnit> HittedBy { get; protected set; }
+        public bool IsDead { get; protected set; }
+
         public MapInstance MapInstance { get; protected set; }
         public Location Location { get; set; }
         public MovingDirection Direction { get; private set; }
@@ -25,7 +29,7 @@ namespace Server
 
         public string Name { get; set; }
 
-        public GenericUnit(int unitID, int uniqueId, Location location, MapInstance mapInstance, BaseStats maxStats)
+        public GenericUnit(int unitID, int uniqueId, Location location, MapInstance mapInstance, InitialData data)
         {
             this.Location = location;
             this.UnitID = unitID;
@@ -34,16 +38,19 @@ namespace Server
             this.MapInstance = mapInstance;
             this.HitRange = 30;
             this.Differences = new List<IUnitDifference>();
-            this.MaxStats = maxStats.Copy();
-            this.ActualStats = maxStats.Copy();
+            this.HittedBy = new List<IUnit>();
+            this.IsDead = false;
+            this.MaxStats = data.MaxStats.Copy();
+            this.ActualStats = data.MaxStats.Copy();
+            this.Level = data.Level;
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
         }
 
         public GenericUnit(string name, int unitId, int uniqueId, Location location, MapInstance mapInstance, 
-            BaseStats maxStats) 
-            : this(unitId, uniqueId, location, mapInstance, maxStats)
+            InitialData data) 
+            : this(unitId, uniqueId, location, mapInstance, data)
         {
             this.Name = name;
         }
@@ -88,7 +95,7 @@ namespace Server
 
         public void TryHitByMissile(Missile missile)
         {
-            if (missile.source == this)
+            if (missile.Source == this)
                 return;
 
             Point missilePoint = missile.GetLocation();
@@ -104,7 +111,15 @@ namespace Server
         public void HitByMissile(Missile missile)
         {
             this.ActualStats.HitPoints -= missile.Damage;
+            if (ActualStats.HitPoints <= 0)
+                IsDead = true;
+
+            if(!HittedBy.Contains(missile.Source))
+                HittedBy.Add(missile.Source);
+
             this.Differences.Add(new ActualHPDifference(this.ActualStats.HitPoints));
         }
+
+        public virtual void AddExperience(int xp) { }
     }
 }

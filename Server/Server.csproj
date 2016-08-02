@@ -62,8 +62,11 @@
     <Compile Include="Game\Units\Character.cs" />
     <Compile Include="Game\Units\Abstract\IUnit.cs" />
     <Compile Include="Game\Units\Differences\ActualHPDifference.cs" />
+    <Compile Include="Game\Units\Differences\ExperienceDifference.cs" />
     <Compile Include="Game\Units\Differences\IUnitDifference.cs" />
+    <Compile Include="Game\Units\Differences\LevelDifference.cs" />
     <Compile Include="Game\Units\Differences\PlayerShootDifference.cs" />
+    <Compile Include="Game\Units\Structures\InitialData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\PlayerCommands\CommandsHandler.cs" />

@@ -12,11 +12,9 @@ namespace Client
         private ServerConnection server;
 
         // TODO !!!!!! remove this -> mock data
-        public int HitPoints { get { return 68; } }
-        public int MaxHitPoints { get { return 125; } }
         public int ManaPoints { get { return 25; } }
         public int MaxManaPoints { get { return 100; } }
-        public int Experience { get { return 145; } }
+        public int Experience { get; set; }
 
         // moving
         private bool movingUp = false;
@@ -39,7 +37,17 @@ namespace Client
             this.animation = new CentreUnitAnimation(this, GameData.GetCharacterBasePath(spec));
             this.moved = false;
             this.MovingDirection = MovingDirection.None;
-    }
+        }
+
+        public void SetMaxStats(BaseStats maxStats)
+        {
+            this.MaxStats = maxStats;
+        }
+
+        public void SetActualStats(BaseStats actualStats)
+        {
+            this.ActualStats = actualStats;
+        }
 
         // RENDERING
         private int playerSize = 50;

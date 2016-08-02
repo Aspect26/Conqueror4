@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using Shared;
+using System.Drawing;
 
 namespace Client
 {
@@ -28,15 +29,18 @@ namespace Client
             g.FillRectangle(Brushes.Black, x, y, size, size);
             g.DrawImage(GameData.GetUnitImage(character.Spec), x, y, size, size);
 
+            // LEVEL
+            g.DrawString(character.Level.ToString(), GameData.GetFont(STATUS_FONT_SIZE), Brushes.Yellow, x + 2, y + 2);
+
             // STATUS
             int w = width - size;
             int currentY = y;
             // HitPoints
-            float ratio = (float)character.HitPoints / character.MaxHitPoints;
+            float ratio = (float)character.ActualStats.HitPoints / character.MaxStats.HitPoints;
             g.FillRectangle(Brushes.DarkGreen, x + size, currentY, w, height / 3);
             g.FillRectangle(Brushes.Green, x + size, currentY, w * ratio, height / 3);
-            g.DrawString("HP: " + character.HitPoints + "/" + character.MaxHitPoints, GameData.GetFont(STATUS_FONT_SIZE),
-                Brushes.White, x + size + 5, currentY + 2);
+            g.DrawString("HP: " + character.ActualStats.HitPoints + "/" + character.MaxStats.HitPoints, 
+                GameData.GetFont(STATUS_FONT_SIZE), Brushes.White, x + size + 5, currentY + 2);
 
             // ManaPoints
             currentY += height / 3;
@@ -48,10 +52,10 @@ namespace Client
 
             // Experience
             currentY += height / 3;
-            ratio = (float)character.Experience / GameData.GetNextLevelXPRequired(character.Level);
+            ratio = (float)character.Experience / SharedData.GetNextLevelXPRequired(character.Level);
             g.FillRectangle(Brushes.DarkViolet, x + size, currentY, w, height / 3);
             g.FillRectangle(Brushes.Violet, x + size, currentY, w * ratio, height / 3);
-            g.DrawString("XP: " + character.Experience + "/" + GameData.GetNextLevelXPRequired(character.Level), 
+            g.DrawString("XP: " + character.Experience + "/" + SharedData.GetNextLevelXPRequired(character.Level), 
                 GameData.GetFont(STATUS_FONT_SIZE), Brushes.White, x + size + 5, currentY + 2);
         }
     }
