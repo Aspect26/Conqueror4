@@ -31,27 +31,29 @@ namespace Client
             // played character
             Character.PlayCycle(timeSpan);
 
-            // missiles & units
-            var killedUnits = new List<IUnit>();
+            // missiles
             foreach (Missile missile in missiles)
             {
                 missile.PlayCycle(timeSpan);
                 foreach (KeyValuePair<int, IUnit> pair in units)
                 {
                     pair.Value.TryHitByMissile(missile);
-                    if (pair.Value.IsDead)
-                        killedUnits.Add(pair.Value);
                 }
             }
 
-            foreach(var killedUnit in killedUnits)
+            // units
+            var killedUnits = new List<IUnit>();
+            foreach (KeyValuePair<int, IUnit> pair in units)
+            {
+                if (pair.Value.IsDead)
+                    killedUnits.Add(pair.Value);
+            }
+            foreach (var killedUnit in killedUnits)
             {
                 units.Remove(killedUnit.UniqueID);
             }
 
             missiles.RemoveAll((Missile m) => m.IsDead);
-
-            // units
 
             RenderAll(g);
         }
@@ -81,6 +83,10 @@ namespace Client
             if (units.ContainsKey(uniqueId))
             {
                 units[uniqueId].ActualStats.HitPoints = hitPoints;
+            } 
+            else if(uniqueId == Character.UniqueID)
+            {
+                Character.ActualStats.HitPoints = hitPoints;
             }
         }
 

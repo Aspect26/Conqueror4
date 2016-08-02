@@ -20,6 +20,8 @@ namespace Client
                 int experience = Convert.ToInt32(parts[2]);
                 int mapX = Convert.ToInt32(parts[3]);
                 int mapY = Convert.ToInt32(parts[4]);
+                int maxHp = Convert.ToInt32(parts[5]);
+                int actualHp = Convert.ToInt32(parts[6]);
 
                 myUid = uid;
                 character.SetUniqueID(uid);
@@ -27,6 +29,8 @@ namespace Client
                 character.Experience = experience;
                 character.Location.X = mapX;
                 character.Location.Y = mapY;
+                character.MaxStats.HitPoints = maxHp;
+                character.ActualStats.HitPoints = actualHp;
 
                 game = new Game(character);
             }
@@ -35,7 +39,7 @@ namespace Client
                 return false;
             }
 
-            for(int i = 5; i<parts.Length; i++)
+            for(int i = 7; i<parts.Length; i++)
             {
                 string[] unitParts = parts[i].Split('|');
 

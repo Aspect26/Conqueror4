@@ -27,8 +27,6 @@ namespace Client
             {
                 string[] unitParts = unitString.Split('|');
 
-                /*string name = unitParts[0];
-                int unitId = Convert.ToInt32(unitParts[1]);*/
                 int uniqueId = Convert.ToInt32(unitParts[0]);
 
                 for (int currentIndex = 1; currentIndex < unitParts.Length; currentIndex++)
