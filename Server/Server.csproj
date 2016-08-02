@@ -53,6 +53,8 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\Map Instances\MapInstanceGen.cs" />
+    <Compile Include="Game\Map Instances\Timed Actions\ITimedAction.cs" />
+    <Compile Include="Game\Map Instances\Timed Actions\RespawnUnitAction.cs" />
     <Compile Include="Game\Missile\Missile.cs" />
     <Compile Include="Game\PlayerActions\CharacterEnterLocationAction.cs" />
     <Compile Include="Game\PlayerActions\CharacterShootAction.cs" />
@@ -68,6 +70,7 @@
     <Compile Include="Game\Units\Differences\LevelDifference.cs" />
     <Compile Include="Game\Units\Differences\PlayerShootDifference.cs" />
     <Compile Include="Game\Units\Differences\UnitDiedDifference.cs" />
+    <Compile Include="Game\Units\Differences\UnitSpawnedDifference.cs" />
     <Compile Include="Game\Units\Structures\InitialData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

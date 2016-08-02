@@ -10,6 +10,7 @@ namespace Server
         private List<IUnit> units;
         private Queue<IPlayerAction> playerActions;
         private List<IUnitDifference> mapGeneralDifferenes;
+        private SortedList<long, ITimedAction> timedActions;
         private List<Missile> missiles;
         private int lastUniqueId = 1;
 
@@ -26,13 +27,18 @@ namespace Server
             this.clientStates = new List<StateObject>();
             this.units = new List<IUnit>();
             this.playerActions = new Queue<IPlayerAction>();
+            this.timedActions = new SortedList<long, ITimedAction>();
 
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
 
-        public void SpawnNPC(int unitId, int x, int y)
+        public IUnit SpawnNPC(int unitId, int x, int y)
         {
-            this.units.Add(new GenericUnit(unitId, GetNextUniqueID(), new Location(x, y), this, Data.GetInitialData(unitId)));
+            IUnit newUnit = new GenericUnit(unitId, GetNextUniqueID(), new Location(x, y), 
+                this, Data.GetInitialData(unitId));
+            units.Add(newUnit);
+
+            return newUnit;
         }
 
         public int GetNextUniqueID()
@@ -48,6 +54,12 @@ namespace Server
         public List<StateObject> GetClients()
         {
             return clientStates;
+        }
+
+        public void AddTimedAction(ITimedAction action, int afterSeconds)
+        {
+            lock(timedActions)
+                timedActions.Add(Extensions.GetCurrentMillis() + afterSeconds*1000, action);
         }
 
         // THIS IS CALLED FROM GAME TASK
@@ -89,7 +101,7 @@ namespace Server
         }
 
         // THIS IS CALLED FROM RECEIVING TASK
-        public void AddAction(IPlayerAction action)
+        public void AddPlayerAction(IPlayerAction action)
         {
             lock (playerActions)
             {
@@ -130,6 +142,27 @@ namespace Server
                 }
             }
 
+            // process timed actions
+            lock (timedActions)
+            {
+                while (true)
+                {
+                    if (timedActions.Count == 0)
+                        break;
+
+                    long firstKey = timedActions.Keys[0];
+                    if (firstKey > (now * 1000) / Stopwatch.Frequency)
+                        break;
+
+                    // OUCH THIS :'(
+                    lock (this)
+                    {
+                        timedActions[firstKey].Process(this);
+                        timedActions.Remove(firstKey);
+                    }
+                }
+            }
+
             // move all units
             foreach (IUnit unit in units)
             {
@@ -142,7 +175,7 @@ namespace Server
                     }
                 }
             }
-            // remove kied units
+            // remove killed units and create respawn action
             units.RemoveAll(
                 (IUnit u) =>
                 {
@@ -150,6 +183,8 @@ namespace Server
                     {
                         lock(mapGeneralDifferenes)
                             mapGeneralDifferenes.Add(new UnitDiedDifference(u));
+
+                        AddTimedAction(new RespawnUnitAction(u), 10);
                     }
 
                     return u.IsDead;

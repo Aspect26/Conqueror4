@@ -121,5 +121,10 @@ namespace Server
         }
 
         public virtual void AddExperience(int xp) { }
+
+        public void AddDifference(IUnitDifference difference)
+        {
+            this.Differences.Add(difference);
+        }
     }
 }

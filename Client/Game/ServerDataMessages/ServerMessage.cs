@@ -63,6 +63,17 @@ namespace Client
                     {
                         KillUnit(uniqueId);
                     }
+                    else if(unitPart[0] == "R")
+                    {
+                        string name = unitPart[1];
+                        int unitId = Convert.ToInt32(unitPart[2]);
+                        int xLoc = Convert.ToInt32(unitPart[3]);
+                        int yLoc = Convert.ToInt32(unitPart[4]);
+                        int maxHp = Convert.ToInt32(unitPart[5]);
+                        int actualHp = Convert.ToInt32(unitPart[6]);
+
+                        AddUnit(name, unitId, uniqueId, xLoc, yLoc, new BaseStats(maxHp), new BaseStats(actualHp));
+                    }
                 }
             }
         }

@@ -28,5 +28,6 @@ namespace Server
         bool Updated { get; set; }
         List<IUnitDifference> Differences { get; }
         List<IUnit> HittedBy { get; }
+        void AddDifference(IUnitDifference difference);
     }
 }

@@ -34,7 +34,7 @@ namespace Server
         public void AddPlayerAction(IPlayerAction action)
         {
             Character c = action.GetCharacter();
-            mapInstances[c.Location.MapID].AddAction(action);
+            mapInstances[c.Location.MapID].AddPlayerAction(action);
         }
 
         public void Start()

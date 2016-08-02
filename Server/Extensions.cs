@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace Server
@@ -9,6 +10,11 @@ namespace Server
         {
             Point distancePoint = new Point(host.X - source.X, host.Y - source.Y);
             return (int)Math.Sqrt(distancePoint.X * distancePoint.X + distancePoint.Y * distancePoint.Y);
+        }
+
+        public static long GetCurrentMillis()
+        {
+            return (Stopwatch.GetTimestamp() * 1000) / Stopwatch.Frequency;
         }
     }
 }
