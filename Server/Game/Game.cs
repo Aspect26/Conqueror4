@@ -61,6 +61,7 @@ namespace Server
             {
                 uniqueId = mapInstances[mapId].GetNextUniqueID();
                 character.SetUniqueID(uniqueId);
+                character.AddDifference(new UnitSpawnedDifference(character));
                 mapInstances[mapId].AddPlayer(state, character);
             }
 

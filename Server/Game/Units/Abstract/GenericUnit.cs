@@ -14,6 +14,9 @@ namespace Server
         public BaseStats ActualStats { get; protected set; }
         public int Level { get; protected set; }
 
+        // TODO: respawn time
+        public int RespawnTime { get { return 120; } }
+
         public int HitRange { get; protected set; }
         public List<IUnit> HittedBy { get; protected set; }
         public bool IsDead { get; protected set; }

@@ -120,7 +120,6 @@ namespace Client
             if (uniqueId == Character.UniqueID)
                 return;
 
-
             IUnit unit = units[uniqueId];
             Point position = new Point(unit.Location.X, unit.Location.Y);
             lock (missiles)
@@ -159,6 +158,9 @@ namespace Client
 
         public void KillUnit(int uid)
         {
+            // TODO: what to do after my death?
+            if(uid == Character.UniqueID) { }
+
             units[uid].Kill();
         }
     }

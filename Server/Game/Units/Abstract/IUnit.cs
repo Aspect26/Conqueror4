@@ -14,6 +14,8 @@ namespace Server
         BaseStats ActualStats { get; }
         int Level { get; }
 
+        int RespawnTime { get; }
+
         Location GetLocation();
         string GetName();
         bool IsPlayer();

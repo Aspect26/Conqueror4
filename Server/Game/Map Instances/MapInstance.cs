@@ -175,6 +175,7 @@ namespace Server
                     }
                 }
             }
+            
             // remove killed units and create respawn action
             units.RemoveAll(
                 (IUnit u) =>
@@ -184,7 +185,7 @@ namespace Server
                         lock(mapGeneralDifferenes)
                             mapGeneralDifferenes.Add(new UnitDiedDifference(u));
 
-                        AddTimedAction(new RespawnUnitAction(u), 10);
+                        AddTimedAction(new RespawnUnitAction(u), u.RespawnTime);
                     }
 
                     return u.IsDead;
