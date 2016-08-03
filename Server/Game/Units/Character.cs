@@ -8,7 +8,7 @@ namespace Server
         public int Experience { get; protected set; }
 
         public Character(string name, int spec, int uid, Location location, MapInstance map) 
-            : base(name, spec, uid, location, map, new InitialData(Data.GetCharacterBaseStats(spec, 1), 1))
+            : base(name, spec, uid, location, map, Data.GetCharacterBaseStats(spec, 1))
         {
             this.Level = 1;
             this.Experience = 0;

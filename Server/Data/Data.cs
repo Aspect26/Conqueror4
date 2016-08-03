@@ -27,47 +27,29 @@ namespace Server
         // unit id -> base stats (max hp, ...)
         static Dictionary<int, InitialData> unitInitialStats = new Dictionary<int, InitialData>()
         {
-            { UNIT_WOLF, new InitialData(new BaseStats(100), 1) },
-            { UNIT_WOLF_PACK_LEADER, new InitialData(new BaseStats(250), 2) }
+            { UNIT_WOLF, new InitialData(new BaseStats(100), 1, SharedData.FRACTION_HOSTILE_UNITS) },
+            { UNIT_WOLF_PACK_LEADER, new InitialData(new BaseStats(250), 2, SharedData.FRACTION_HOSTILE_UNITS) }
         };
 
-        static Dictionary<int, BaseStats[]> characterBaseStats = new Dictionary<int, BaseStats[]>()
+        static Dictionary<int, CharacterInitialData> characterBaseStats = new Dictionary<int, CharacterInitialData>()
         {
-            { UNIT_DEMONHUNTER, new BaseStats[3] {
-                new BaseStats(120),
-                new BaseStats(140),
-                new BaseStats(165)
-            } },
+            { UNIT_DEMONHUNTER, new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
+                { new BaseStats(120), new BaseStats(140), new BaseStats(165) } ) },
 
-            { UNIT_MAGE, new BaseStats[3] {
-                new BaseStats(90),
-                new BaseStats(100),
-                new BaseStats(115)
-            } },
+            { UNIT_MAGE, new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
+                { new BaseStats(90), new BaseStats(100), new BaseStats(115) } ) },
 
-            { UNIT_PRIEST, new BaseStats[3] {
-                new BaseStats(80),
-                new BaseStats(90),
-                new BaseStats(105)
-            } },
+            { UNIT_PRIEST, new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
+                { new BaseStats(80), new BaseStats(90), new BaseStats(105) } ) },
 
-            { UNIT_WARLOCK, new BaseStats[3] {
-                new BaseStats(70),
-                new BaseStats(80),
-                new BaseStats(90)
-            } },
+            { UNIT_WARLOCK, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
+                { new BaseStats(70), new BaseStats(80), new BaseStats(90) } ) },
 
-            { UNIT_UNKHERO1, new BaseStats[3] {
-                new BaseStats(110),
-                new BaseStats(135),
-                new BaseStats(155)
-            } },
+            { UNIT_UNKHERO1, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
+                { new BaseStats(110), new BaseStats(135), new BaseStats(155) } ) },
 
-            { UNIT_UNKHERO2, new BaseStats[3] {
-                new BaseStats(85),
-                new BaseStats(100),
-                new BaseStats(115)
-            } },
+            { UNIT_UNKHERO2, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
+                { new BaseStats(85), new BaseStats(100), new BaseStats(115) } ) },
         };
 
         // map id -> map name
@@ -112,9 +94,10 @@ namespace Server
             return unitInitialStats[unitId];
         }
 
-        public static BaseStats GetCharacterBaseStats(int id, int level)
+        public static InitialData GetCharacterBaseStats(int id, int level)
         {
-            return characterBaseStats[id][level];
+            InitialData data = new InitialData(characterBaseStats[id].GetData(level), level, characterBaseStats[id].Fraction);
+            return data;
         }
         /*****************************/
         /* IDs                       */

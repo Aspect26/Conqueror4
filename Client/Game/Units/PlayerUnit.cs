@@ -9,8 +9,8 @@ namespace Client
         private Game game;
 
         public PlayerUnit(Game game, string name, int unitId, int uniqueId, int x, int y, BaseStats maxStats,
-            BaseStats actualStats)
-            : base(game, unitId, uniqueId, new Location(x, y), maxStats, actualStats)
+            BaseStats actualStats, int fraction)
+            : base(game, unitId, uniqueId, new Location(x, y), maxStats, actualStats, fraction)
         {
             this.name = name;
             this.game = game;

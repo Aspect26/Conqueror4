@@ -16,6 +16,7 @@ namespace Server
 
         // TODO: respawn time
         public int RespawnTime { get { return 120; } }
+        public int Fraction { get; }
 
         public int HitRange { get; protected set; }
         public List<IUnit> HittedBy { get; protected set; }
@@ -46,6 +47,7 @@ namespace Server
             this.MaxStats = data.MaxStats.Copy();
             this.ActualStats = data.MaxStats.Copy();
             this.Level = data.Level;
+            this.Fraction = data.Fraction;
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
@@ -99,6 +101,9 @@ namespace Server
         public void TryHitByMissile(Missile missile)
         {
             if (missile.Source == this)
+                return;
+
+            if (missile.Source.Fraction == this.Fraction)
                 return;
 
             Point missilePoint = missile.GetLocation();

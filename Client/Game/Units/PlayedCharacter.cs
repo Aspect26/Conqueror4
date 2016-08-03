@@ -28,8 +28,8 @@ namespace Client
         private UnitAnimation animation;
 
         public PlayedCharacter(ServerConnection server, string name, int level, int spec, int uniqueId, BaseStats maxStats,
-            BaseStats actualStats) 
-            : base(null, spec, uniqueId, new Location(), maxStats, actualStats)
+            BaseStats actualStats, int fraction) 
+            : base(null, spec, uniqueId, new Location(), maxStats, actualStats, fraction)
         {
             this.Name = name;
             this.Level = level;
@@ -47,6 +47,11 @@ namespace Client
         public void SetActualStats(BaseStats actualStats)
         {
             this.ActualStats = actualStats;
+        }
+
+        public void SetFraction(int fraction)
+        {
+            this.Fraction = fraction;
         }
 
         // RENDERING

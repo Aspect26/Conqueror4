@@ -18,6 +18,7 @@ namespace Client
 
         // OTHER STATS
         public int HitRange { get { return 30; } }
+        public int Fraction { get; protected set; }
 
         public int UnitSize { get; private set; }
         protected Image unitImage;
@@ -25,7 +26,7 @@ namespace Client
         private Game game;
 
         public GenericUnit(Game game, int unitID, int uniqueId, Location location, BaseStats maxStats, 
-            BaseStats actualStats)
+            BaseStats actualStats, int fraction)
         {
             this.Location = location;
             this.UnitSize = 50;
@@ -34,6 +35,7 @@ namespace Client
             this.game = game;
             this.MaxStats = maxStats;
             this.ActualStats = actualStats;
+            this.Fraction = fraction;
             this.IsDead = false;
             this.unitImage = GameData.GetUnitImage(unitID);
         }
@@ -81,6 +83,9 @@ namespace Client
         public void TryHitByMissile(Missile missile)
         {
             if (missile.Source == this)
+                return;
+
+            if (missile.Source.Fraction == this.Fraction)
                 return;
 
             Point missilePoint = missile.GetLocation();

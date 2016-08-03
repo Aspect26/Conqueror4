@@ -94,7 +94,8 @@ namespace Server
             {
                 data += unit.UniqueID + "|" + unit.UnitID + "|" + unit.GetName() + "|" 
                     + unit.GetLocation().X + "|" + unit.GetLocation().Y + "|" 
-                    + unit.MaxStats.HitPoints + "|" + unit.ActualStats.HitPoints + ",";
+                    + unit.MaxStats.HitPoints + "|" + unit.ActualStats.HitPoints + "|" 
+                    + unit.Fraction + ",";
             }
 
             return data;

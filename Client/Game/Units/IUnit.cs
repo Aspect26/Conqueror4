@@ -16,6 +16,8 @@ namespace Client
         int MaxManaPoints { get; }
         bool IsDead { get; }
 
+        int Fraction { get; }
+
         void PlayCycle(int timeSpan);
         void DrawUnit(Graphics g);
         Image GetCurrentImage();

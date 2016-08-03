@@ -14,6 +14,7 @@ namespace Server
         BaseStats ActualStats { get; }
         int Level { get; }
 
+        int Fraction { get; }
         int RespawnTime { get; }
 
         Location GetLocation();

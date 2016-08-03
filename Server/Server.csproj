@@ -58,7 +58,7 @@
     <Compile Include="Game\Missile\Missile.cs" />
     <Compile Include="Game\PlayerActions\CharacterEnterLocationAction.cs" />
     <Compile Include="Game\PlayerActions\CharacterShootAction.cs" />
-    <Compile Include="Game\Units\Abstract\GenericUnit.cs" />
+    <Compile Include="Game\Units\GenericUnit.cs" />
     <Compile Include="Game\Map Instances\MapInstance.cs" />
     <Compile Include="Game\PlayerActions\IPlayerAction.cs" />
     <Compile Include="Game\Units\Character.cs" />

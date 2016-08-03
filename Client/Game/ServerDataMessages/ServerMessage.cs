@@ -71,8 +71,10 @@ namespace Client
                         int yLoc = Convert.ToInt32(unitPart[4]);
                         int maxHp = Convert.ToInt32(unitPart[5]);
                         int actualHp = Convert.ToInt32(unitPart[6]);
+                        int fraction = Convert.ToInt32(unitPart[7]);
 
-                        AddUnit(name, unitId, uniqueId, xLoc, yLoc, new BaseStats(maxHp), new BaseStats(actualHp));
+                        AddUnit(name, unitId, uniqueId, xLoc, yLoc, new BaseStats(maxHp), new BaseStats(actualHp),
+                            fraction);
                     }
                 }
             }

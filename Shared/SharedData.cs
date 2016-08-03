@@ -12,5 +12,9 @@ namespace Shared
                 default: return 2000000;
             }
         }
+
+        public const int FRACTION_HUMAN_REALM = 1;
+        public const int FRACTION_DEMON_KINGDOM = 2;
+        public const int FRACTION_HOSTILE_UNITS = 3;
     }
 }

@@ -103,16 +103,17 @@ namespace Client
         }
 
         public void AddUnit(string name, int unitId, int uniqueId, int xLoc, int yLoc, BaseStats maxStats, 
-            BaseStats actualStats)
+            BaseStats actualStats, int fraction)
         {
             if (uniqueId == Character.UniqueID)
                 return;
 
             if (GameData.IsPlayerUnit(unitId))
-                units.Add(uniqueId, new PlayerUnit(this, name, unitId, uniqueId, xLoc, yLoc, maxStats, actualStats));
+                units.Add(uniqueId, new PlayerUnit(this, name, unitId, uniqueId, xLoc, yLoc, maxStats, actualStats,
+                    fraction));
             else
                 units.Add(uniqueId, new GenericUnit(this, unitId, uniqueId, new Location(xLoc, yLoc), maxStats,
-                    actualStats));
+                    actualStats, fraction));
         }
 
         public void AddMissile(int uniqueId, int dirX, int dirY)

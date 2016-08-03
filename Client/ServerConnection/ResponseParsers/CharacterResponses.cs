@@ -22,6 +22,7 @@ namespace Client
                 int mapY = Convert.ToInt32(parts[4]);
                 int maxHp = Convert.ToInt32(parts[5]);
                 int actualHp = Convert.ToInt32(parts[6]);
+                int fraction = Convert.ToInt32(parts[7]);
 
                 myUid = uid;
                 character.SetUniqueID(uid);
@@ -31,6 +32,7 @@ namespace Client
                 character.Location.Y = mapY;
                 character.MaxStats.HitPoints = maxHp;
                 character.ActualStats.HitPoints = actualHp;
+                character.SetFraction(fraction);
 
                 game = new Game(character);
             }
@@ -39,7 +41,7 @@ namespace Client
                 return false;
             }
 
-            for(int i = 7; i<parts.Length; i++)
+            for(int i = 8; i<parts.Length; i++)
             {
                 string[] unitParts = parts[i].Split('|');
 
@@ -53,10 +55,12 @@ namespace Client
                 int maxHp = Convert.ToInt32(unitParts[5]);
                 int actualHp = Convert.ToInt32(unitParts[6]);
 
+                int fraction = Convert.ToInt32(unitParts[7]);
+
                 BaseStats maxStats = new BaseStats(maxHp);
                 BaseStats actualStats = new BaseStats(actualHp);
 
-                game.AddUnit(name, id, uid, xLoc, yLoc, maxStats, actualStats);
+                game.AddUnit(name, id, uid, xLoc, yLoc, maxStats, actualStats, fraction);
             }
 
             return true;
