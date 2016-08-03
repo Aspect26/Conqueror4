@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Shared;
+using System.Collections.Generic;
 
 namespace Server
 {
@@ -26,25 +27,25 @@ namespace Server
 
             // kingdom
             var units = new List<UnitInfo>();
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 3 * 50, 46 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 10 * 50, 46 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 12 * 50, 44 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 7 * 50, 44 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 5 * 50, 42 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 10 * 50, 41 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 3 * 50, 38 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 7 * 50, 39 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 10 * 50, 35 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 6 * 50, 35 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 3 * 50, 33 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 8 * 50, 32 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 6 * 50, 30 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 10 * 50, 28  * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 3 * 50, 27 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 5 * 50, 23 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF, 7 * 50, 23 * 50));
-            units.Add(new UnitInfo(Data.UNIT_WOLF_PACK_LEADER, 6 * 50, 22 * 50));
-            unitsData.Add(Data.MAP_KINGDOM, units);
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 3 * 50, 46 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 10 * 50, 46 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 12 * 50, 44 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 7 * 50, 44 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 5 * 50, 42 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 10 * 50, 41 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 3 * 50, 38 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 7 * 50, 39 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 10 * 50, 35 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 6 * 50, 35 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 3 * 50, 33 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 8 * 50, 32 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 6 * 50, 30 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 10 * 50, 28  * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 3 * 50, 27 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 5 * 50, 23 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF, 7 * 50, 23 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WOLF_PACK_LEADER, 6 * 50, 22 * 50));
+            unitsData.Add(SharedData.MAP_KINGDOM, units);
         }
 
         public static void GenerateUnits(MapInstance map, int mapId)

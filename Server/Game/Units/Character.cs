@@ -6,12 +6,14 @@ namespace Server
     {
         public int Spec { get { return UnitID; } set { this.UnitID = value; } }
         public int Experience { get; protected set; }
+        public IQuest CurrentQuest { get; protected set; }
 
         public Character(string name, int spec, int uid, Location location, MapInstance map) 
             : base(name, spec, uid, location, map, Data.GetCharacterBaseStats(spec, 1))
         {
             this.Level = 1;
             this.Experience = 0;
+            this.CurrentQuest = Data.GetInitialQuest(spec);
         }
 
         public override void AddExperience(int xp)

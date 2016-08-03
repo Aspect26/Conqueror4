@@ -21,54 +21,108 @@ namespace Server
         }
 
         // *****************************************
+        // QUESTS DATA
+        // *****************************************
+        public static IQuest GetInitialQuest(int spec)
+        {
+            switch (spec)
+            {
+                case SharedData.UNIT_DEMONHUNTER:
+                case SharedData.UNIT_MAGE:
+                case SharedData.UNIT_PRIEST:
+                    return GetQuest(SharedData.QUEST_CALL_TO_ARMS);
+
+                case SharedData.UNIT_WARLOCK:
+                case SharedData.UNIT_UNKHERO1:
+                case SharedData.UNIT_UNKHERO2:
+                    return null;
+
+                default:
+                    return null;
+            }
+        }
+
+        public static IQuest GetQuest(int id)
+        {
+            switch (id)
+            {
+                case SharedData.QUEST_CALL_TO_ARMS:
+                    return new Quest(new IQuestObjective[] 
+                    {
+                        new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
+                    });
+
+                case SharedData.QUEST_WOLFPACK:
+                    return new Quest(new IQuestObjective[]
+                    {
+                        new UnitKillObjective(SharedData.UNIT_WOLF, 10),
+                        new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
+                    });
+
+                case SharedData.QUEST_SLAY_THEIR_LEADER:
+                    return new Quest(new IQuestObjective[]
+                    {
+                        new UnitKillObjective(SharedData.UNIT_WOLF_PACK_LEADER, 1),
+                        new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
+                    });
+                default:
+                    return null;
+            }
+        }
+
+        // *****************************************
         // GAME DATA
         // *****************************************
 
         // unit id -> base stats (max hp, ...)
         static Dictionary<int, InitialData> unitInitialStats = new Dictionary<int, InitialData>()
         {
-            { UNIT_WOLF, new InitialData(new BaseStats(100), 1, SharedData.FRACTION_HOSTILE_UNITS) },
-            { UNIT_WOLF_PACK_LEADER, new InitialData(new BaseStats(250), 2, SharedData.FRACTION_HOSTILE_UNITS) }
+            { SharedData.UNIT_WOLF,
+                new InitialData(new BaseStats(100), 1, SharedData.FRACTION_HOSTILE_UNITS) },
+            { SharedData.UNIT_WOLF_PACK_LEADER,
+                new InitialData(new BaseStats(250), 2, SharedData.FRACTION_HOSTILE_UNITS) },
+            { SharedData.UNIT_LIEUTENANT_LANDAX,
+                new InitialData(new BaseStats(15200), 10, SharedData.FRACTION_HUMAN_REALM) }
         };
 
         static Dictionary<int, CharacterInitialData> characterBaseStats = new Dictionary<int, CharacterInitialData>()
         {
-            { UNIT_DEMONHUNTER, new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
+            { SharedData.UNIT_DEMONHUNTER,new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
                 { new BaseStats(120), new BaseStats(140), new BaseStats(165) } ) },
 
-            { UNIT_MAGE, new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
+            { SharedData.UNIT_MAGE, new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
                 { new BaseStats(90), new BaseStats(100), new BaseStats(115) } ) },
 
-            { UNIT_PRIEST, new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
+            { SharedData.UNIT_PRIEST, new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
                 { new BaseStats(80), new BaseStats(90), new BaseStats(105) } ) },
 
-            { UNIT_WARLOCK, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
+            { SharedData.UNIT_WARLOCK, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
                 { new BaseStats(70), new BaseStats(80), new BaseStats(90) } ) },
 
-            { UNIT_UNKHERO1, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
+            { SharedData.UNIT_UNKHERO1, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
                 { new BaseStats(110), new BaseStats(135), new BaseStats(155) } ) },
 
-            { UNIT_UNKHERO2, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
+            { SharedData.UNIT_UNKHERO2, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
                 { new BaseStats(85), new BaseStats(100), new BaseStats(115) } ) },
         };
 
         // map id -> map name
         static Dictionary<int, string> mapNames = new Dictionary<int, string>()
         {
-            { MAP_KINGDOM, "Kingdom of ___" },
-            { MAP_FORTRESS, "The DarkFortress" }
+            { SharedData.MAP_KINGDOM, "Kingdom of ___" },
+            { SharedData.MAP_FORTRESS, "The DarkFortress" }
         };
 
         // spec id -> spec starting location
         static Dictionary<int, Location> startingLocations = new Dictionary<int, Location>()
         {
-            { DEMON_HUNTER,  new Location(MAP_KINGDOM, 286, 2929) },
-            { MAGE, new Location(MAP_KINGDOM,286,2929) },
-            { PRIEST, new Location(MAP_KINGDOM,286,2929) },
+            { DEMON_HUNTER,  new Location(SharedData.MAP_KINGDOM, 286, 2929) },
+            { MAGE, new Location(SharedData.MAP_KINGDOM,286,2929) },
+            { PRIEST, new Location(SharedData.MAP_KINGDOM,286,2929) },
 
-            { WARLOCK, new Location(MAP_FORTRESS,100,100) },
-            { UNK_1, new Location(MAP_FORTRESS,20,20) },
-            { UNK_2, new Location(MAP_FORTRESS,20,20) },
+            { WARLOCK, new Location(SharedData.MAP_FORTRESS,100,100) },
+            { UNK_1, new Location(SharedData.MAP_FORTRESS,20,20) },
+            { UNK_2, new Location(SharedData.MAP_FORTRESS,20,20) },
         };
 
         // xp rewards
@@ -99,23 +153,6 @@ namespace Server
             InitialData data = new InitialData(characterBaseStats[id].GetData(level), level, characterBaseStats[id].Fraction);
             return data;
         }
-        /*****************************/
-        /* IDs                       */
-        /*****************************/
-        // maps
-        public const int MAP_KINGDOM = 0;
-        public const int MAP_FORTRESS = 1;
-
-        // units
-        public const int UNIT_DEMONHUNTER = 1;
-        public const int UNIT_MAGE = 2;
-        public const int UNIT_PRIEST = 3;
-        public const int UNIT_WARLOCK = 4;
-        public const int UNIT_UNKHERO1 = 5;
-        public const int UNIT_UNKHERO2 = 6;
-
-        public const int UNIT_WOLF = 7;
-        public const int UNIT_WOLF_PACK_LEADER = 8;
 
         /*****************************/
         /* MOCK DATA                 */
