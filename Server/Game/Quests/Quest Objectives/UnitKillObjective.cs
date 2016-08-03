@@ -14,5 +14,10 @@
             this.unitsRequired = killCount;
             this.unitsKilled = 0;
         }
+
+        public string GetCodedData()
+        {
+            return "K^" + unitId + "^" + unitsRequired;
+        }
     }
 }

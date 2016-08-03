@@ -50,23 +50,32 @@ namespace Server
                     return new Quest(new IQuestObjective[] 
                     {
                         new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
-                    });
+                    }, GetQuestDescription(SharedData.QUEST_CALL_TO_ARMS));
 
                 case SharedData.QUEST_WOLFPACK:
                     return new Quest(new IQuestObjective[]
                     {
                         new UnitKillObjective(SharedData.UNIT_WOLF, 10),
                         new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
-                    });
+                    }, GetQuestDescription(SharedData.QUEST_WOLFPACK));
 
                 case SharedData.QUEST_SLAY_THEIR_LEADER:
                     return new Quest(new IQuestObjective[]
                     {
                         new UnitKillObjective(SharedData.UNIT_WOLF_PACK_LEADER, 1),
                         new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
-                    });
+                    }, GetQuestDescription(SharedData.QUEST_SLAY_THEIR_LEADER));
                 default:
                     return null;
+            }
+        }
+
+        public static string GetQuestDescription(int id)
+        {
+            switch (id)
+            {
+                default:
+                    return "No text!";
             }
         }
 

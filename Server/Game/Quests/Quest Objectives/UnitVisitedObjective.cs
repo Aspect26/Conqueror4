@@ -12,5 +12,10 @@ namespace Server
         {
             this.unitId = unitId;
         }
+
+        public string GetCodedData()
+        {
+            return "V^" + unitId;
+        }
     }
 }

@@ -5,5 +5,7 @@
         int QuestID { get; }
 
         bool IsCompleted();
+
+        string GetCodedData();
     }
 }

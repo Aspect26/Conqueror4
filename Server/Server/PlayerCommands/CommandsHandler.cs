@@ -82,7 +82,8 @@ namespace Server
             MapInstance map = game.AddPlayer(client, character);
             string msg = character.UniqueID + "," + character.Location.MapID + "," + character.Experience + "," +
                 character.Location.X + "," + character.Location.Y + "," + character.MaxStats.HitPoints + "," + 
-                character.ActualStats.HitPoints + "," + character.Fraction + ",";
+                character.ActualStats.HitPoints + "," + character.Fraction + "," + 
+                character.CurrentQuest.GetCodedData() + ",";
             msg += map.GetMessageCodedData() + "\n";
             byte[] byteData = Encoding.ASCII.GetBytes(msg);
             client.clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(SendCallback), 

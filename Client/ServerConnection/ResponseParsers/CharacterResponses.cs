@@ -23,6 +23,7 @@ namespace Client
                 int maxHp = Convert.ToInt32(parts[5]);
                 int actualHp = Convert.ToInt32(parts[6]);
                 int fraction = Convert.ToInt32(parts[7]);
+                string questData = parts[8];
 
                 myUid = uid;
                 character.SetUniqueID(uid);
@@ -41,7 +42,7 @@ namespace Client
                 return false;
             }
 
-            for(int i = 8; i<parts.Length; i++)
+            for(int i = 9; i<parts.Length; i++)
             {
                 string[] unitParts = parts[i].Split('|');
 
