@@ -47,35 +47,38 @@ namespace Server
             switch (id)
             {
                 case SharedData.QUEST_CALL_TO_ARMS:
-                    return new Quest(new IQuestObjective[] 
-                    {
-                        new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
-                    }, GetQuestDescription(SharedData.QUEST_CALL_TO_ARMS));
+                    return new Quest(new QuestData(
+                        new IQuestObjective[]
+                        {
+                            new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
+                        },
+                        "Call to Arms!",
+                        "No Description"
+                        ));
 
                 case SharedData.QUEST_WOLFPACK:
-                    return new Quest(new IQuestObjective[]
-                    {
-                        new UnitKillObjective(SharedData.UNIT_WOLF, 10),
-                        new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
-                    }, GetQuestDescription(SharedData.QUEST_WOLFPACK));
+                    return new Quest(new QuestData(
+                        new IQuestObjective[]
+                        {
+                            new UnitKillObjective(SharedData.UNIT_WOLF, 10),
+                            new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
+                        },
+                        "Wolfpack",
+                        "No Description"
+                        ));
 
                 case SharedData.QUEST_SLAY_THEIR_LEADER:
-                    return new Quest(new IQuestObjective[]
-                    {
-                        new UnitKillObjective(SharedData.UNIT_WOLF_PACK_LEADER, 1),
-                        new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
-                    }, GetQuestDescription(SharedData.QUEST_SLAY_THEIR_LEADER));
+                    return new Quest(new QuestData(
+                        new IQuestObjective[]
+                        {
+                            new UnitKillObjective(SharedData.UNIT_WOLF_PACK_LEADER, 1),
+                            new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
+                        },
+                        "Slay their leader",
+                        "No Description"
+                        ));
                 default:
                     return null;
-            }
-        }
-
-        public static string GetQuestDescription(int id)
-        {
-            switch (id)
-            {
-                default:
-                    return "No text!";
             }
         }
 

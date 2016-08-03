@@ -63,6 +63,7 @@
     <Compile Include="Game\Quests\Quest Objectives\UnitKillObjective.cs" />
     <Compile Include="Game\Quests\Quest Objectives\UnitVisitedObjective.cs" />
     <Compile Include="Game\Quests\Quest.cs" />
+    <Compile Include="Game\Quests\QuestData.cs" />
     <Compile Include="Game\Units\GenericUnit.cs" />
     <Compile Include="Game\Map Instances\MapInstance.cs" />
     <Compile Include="Game\PlayerActions\IPlayerAction.cs" />

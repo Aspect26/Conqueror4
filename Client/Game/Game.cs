@@ -102,6 +102,16 @@ namespace Client
             }
         }
 
+        public void UpdateQuest(IQuest quest)
+        {
+            Character.SetCurrentQuest(quest);
+        }
+
+        public void UpdateQuestObjectives(QuestObjective[] objectives)
+        {
+            Character.Quest.UpdateObjectives(objectives);
+        }
+
         public void AddUnit(string name, int unitId, int uniqueId, int xLoc, int yLoc, BaseStats maxStats, 
             BaseStats actualStats, int fraction)
         {

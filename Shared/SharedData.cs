@@ -13,6 +13,17 @@ namespace Shared
             }
         }
 
+        public static string GetUnitName(int unitId)
+        {
+            switch (unitId)
+            {
+                case UNIT_WOLF: return "Wolf";
+                case UNIT_WOLF_PACK_LEADER: return "Wolf Pack Leader";
+                case UNIT_LIEUTENANT_LANDAX: return "Lieutenant Landax";
+
+                default: return "Unknown";
+            }
+        }
         /*****************************/
         /* IDs                       */
         /*****************************/

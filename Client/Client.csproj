@@ -59,6 +59,9 @@
     <Compile Include="Game\Game.cs" />
     <Compile Include="Application\Account.cs" />
     <Compile Include="Game\Missile\Missile.cs" />
+    <Compile Include="Game\Quests\IQuest.cs" />
+    <Compile Include="Game\Quests\Quest.cs" />
+    <Compile Include="Game\Quests\QuestObjective.cs" />
     <Compile Include="Game\ServerDataMessages\ServerMessage.cs" />
     <Compile Include="Game\Units\PlayedCharacter.cs" />
     <Compile Include="Game\Units\IUnit.cs" />

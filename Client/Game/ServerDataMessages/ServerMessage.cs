@@ -76,6 +76,14 @@ namespace Client
                         AddUnit(name, unitId, uniqueId, xLoc, yLoc, new BaseStats(maxHp), new BaseStats(actualHp),
                             fraction);
                     }
+                    else if(unitPart[0] == "Q")
+                    {
+                        UpdateQuest(Quest.CreateQuest(unitParts[currentIndex]));
+                    }
+                    else if(unitPart[0] == "QO")
+                    {
+                        UpdateQuestObjectives(Quest.createObjectives(unitPart, 1));
+                    }
                 }
             }
         }

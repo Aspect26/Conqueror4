@@ -23,7 +23,7 @@ namespace Client
                 int maxHp = Convert.ToInt32(parts[5]);
                 int actualHp = Convert.ToInt32(parts[6]);
                 int fraction = Convert.ToInt32(parts[7]);
-                string questData = parts[8];
+                IQuest quest = Quest.CreateQuest(parts[8]);
 
                 myUid = uid;
                 character.SetUniqueID(uid);
@@ -34,6 +34,7 @@ namespace Client
                 character.MaxStats.HitPoints = maxHp;
                 character.ActualStats.HitPoints = actualHp;
                 character.SetFraction(fraction);
+                character.SetCurrentQuest(quest);
 
                 game = new Game(character);
             }

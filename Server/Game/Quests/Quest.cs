@@ -6,13 +6,15 @@ namespace Server
     {
         public int QuestID { get; protected set; }
 
+        private string title;
         private IQuestObjective[] objectives;
         private string description;
 
-        public Quest(IQuestObjective[] objectives, string description)
+        public Quest(QuestData data)
         {
-            this.objectives = objectives;
-            this.description = description;
+            this.title = data.Title;
+            this.objectives = data.Objectives;
+            this.description = data.Description;
         }
 
         public bool IsCompleted()
@@ -31,6 +33,7 @@ namespace Server
             StringBuilder msg = new StringBuilder();
 
             msg.Append("Q&");
+            msg.Append(title + "&");
             msg.Append(description);
             foreach (IQuestObjective objective in objectives)
                 msg.Append("&" + objective.GetCodedData());

@@ -9,6 +9,7 @@ namespace Client
         public string Name { get; set; }
         public int Level { get; set; }
         public int Spec { get { return UnitID; }  }
+        public IQuest Quest { get; private set; }
         private ServerConnection server;
 
         // TODO !!!!!! remove this -> mock data
@@ -37,6 +38,11 @@ namespace Client
             this.animation = new CentreUnitAnimation(this, GameData.GetCharacterBasePath(spec));
             this.moved = false;
             this.MovingDirection = MovingDirection.None;
+        }
+
+        public void SetCurrentQuest(IQuest quest)
+        {
+            this.Quest = quest;
         }
 
         public void SetMaxStats(BaseStats maxStats)
