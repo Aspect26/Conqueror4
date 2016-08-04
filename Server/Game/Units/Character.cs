@@ -16,6 +16,11 @@ namespace Server
             this.CurrentQuest = Data.GetInitialQuest(spec);
         }
 
+        public void SetQuest(IQuest quest)
+        {
+            this.CurrentQuest = quest;
+        }
+
         public override void AddExperience(int xp)
         {
             this.Experience += xp;

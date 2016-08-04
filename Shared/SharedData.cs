@@ -37,6 +37,7 @@ namespace Shared
         public const int MAP_FORTRESS = 1;
 
         // quests
+        public const int QUEST_NO_QUEST = 0;
         public const int QUEST_CALL_TO_ARMS = 1;
         public const int QUEST_WOLFPACK = 2;
         public const int QUEST_SLAY_THEIR_LEADER = 3;

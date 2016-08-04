@@ -1,4 +1,6 @@
-﻿namespace Server
+﻿using System;
+
+namespace Server
 {
     public class UnitKillObjective : IQuestObjective
     {
@@ -19,5 +21,7 @@
         {
             return "K^" + unitId + "^" + unitsRequired;
         }
+
+        public void Visited(int unitId) { }
     }
 }

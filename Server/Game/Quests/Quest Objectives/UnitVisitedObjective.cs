@@ -1,4 +1,5 @@
-﻿using Shared;
+﻿using System;
+using Shared;
 
 namespace Server
 {
@@ -16,6 +17,14 @@ namespace Server
         public string GetCodedData()
         {
             return "V^" + unitId;
+        }
+
+        public void Visited(int unitId)
+        {
+            if(unitId == this.unitId)
+            {
+                IsCompleted = true;
+            }
         }
     }
 }

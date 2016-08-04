@@ -5,6 +5,7 @@ namespace Server
     public class Quest : IQuest
     {
         public int QuestID { get; protected set; }
+        public int NextQuestID { get; protected set; }
 
         private string title;
         private IQuestObjective[] objectives;
@@ -12,6 +13,7 @@ namespace Server
 
         public Quest(QuestData data)
         {
+            this.NextQuestID = data.NextQuestID;
             this.title = data.Title;
             this.objectives = data.Objectives;
             this.description = data.Description;
@@ -28,6 +30,14 @@ namespace Server
             return true;
         }
 
+        public void Visited(int unitId)
+        {
+            foreach(IQuestObjective objective in objectives)
+            {
+                objective.Visited(unitId);
+            }
+        }
+
         public string GetCodedData()
         {
             StringBuilder msg = new StringBuilder();
@@ -35,10 +45,18 @@ namespace Server
             msg.Append("Q&");
             msg.Append(title + "&");
             msg.Append(description);
-            foreach (IQuestObjective objective in objectives)
-                msg.Append("&" + objective.GetCodedData());
+            msg.Append(GetObjectivesCodedData());
 
             return msg.ToString();
+        }
+
+        public string GetObjectivesCodedData()
+        {
+            StringBuilder data = new StringBuilder();
+            foreach (IQuestObjective objective in objectives)
+                data.Append("&" + objective.GetCodedData());
+
+            return data.ToString();
         }
     }
 }

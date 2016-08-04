@@ -1,7 +1,4 @@
-﻿using Shared;
-using System;
-
-namespace Server
+﻿namespace Server
 {
     public class CharacterVisitedUnitAction : IPlayerAction
     {
@@ -21,7 +18,12 @@ namespace Server
 
         public void Process(long timeStamp)
         {
-            Console.WriteLine(character.GetName() + " visited " + SharedData.GetUnitName(host.UnitID));
+            character.CurrentQuest.Visited(host.UnitID);
+            if (character.CurrentQuest.IsCompleted())
+            {
+                character.SetQuest(Data.GetQuest(character.CurrentQuest.NextQuestID));
+                character.AddDifference(new NewQuestDifference(character.UniqueID, character.CurrentQuest));
+            }
         }
     }
 }
