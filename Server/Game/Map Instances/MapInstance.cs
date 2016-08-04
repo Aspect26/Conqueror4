@@ -171,9 +171,15 @@ namespace Server
                 unit.PlayCycle((int)timeSpan);
                 if (unit.IsDead)
                 {
-                    foreach(IUnit hitted in unit.HittedBy)
+                    foreach(IUnit hittedBy in unit.HittedBy)
                     {
-                        hitted.AddExperience(Data.GetXPReward(unit.Level));
+                        hittedBy.AddExperience(Data.GetXPReward(unit.Level));
+                        if (hittedBy is Character)
+                        {
+                            Character c = (Character)hittedBy;
+                            if (c.CurrentQuest.Killed(unit.UnitID))
+                                c.AddDifference(new QuestObjectiveDifference(c.UniqueID, c.CurrentQuest));
+                        }
                     }
                 }
             }
@@ -184,8 +190,10 @@ namespace Server
                 {
                     if (u.IsDead)
                     {
-                        lock(mapGeneralDifferenes)
+                        lock (mapGeneralDifferenes)
+                        {
                             mapGeneralDifferenes.Add(new UnitDiedDifference(u));
+                        }
 
                         AddTimedAction(new RespawnUnitAction(u), u.RespawnTime);
                     }

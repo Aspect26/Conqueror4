@@ -5,6 +5,7 @@
         bool IsCompleted { get; }
         string GetCodedData();
 
-        void Visited(int unitId);
+        bool Visited(int unitId);
+        bool Killed(int unitId);
     }
 }

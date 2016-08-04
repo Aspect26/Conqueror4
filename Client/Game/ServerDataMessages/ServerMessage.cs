@@ -82,7 +82,7 @@ namespace Client
                     }
                     else if(unitPart[0] == "QO")
                     {
-                        UpdateQuestObjectives(Quest.createObjectives(unitPart, 1));
+                        UpdateQuestObjectives(Quest.CreateObjectives(unitPart, 1));
                     }
                 }
             }

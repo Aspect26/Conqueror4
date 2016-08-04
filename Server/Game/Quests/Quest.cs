@@ -30,12 +30,28 @@ namespace Server
             return true;
         }
 
-        public void Visited(int unitId)
+        public bool Visited(int unitId)
         {
+            bool visited = false;
             foreach(IQuestObjective objective in objectives)
             {
-                objective.Visited(unitId);
+                if (objective.Visited(unitId))
+                    visited = true;
             }
+
+            return visited;
+        }
+
+        public bool Killed(int unitId)
+        {
+            bool killed = false;
+            foreach (IQuestObjective objective in objectives)
+            {
+                if (objective.Killed(unitId))
+                    killed = true;
+            }
+
+            return killed;
         }
 
         public string GetCodedData()

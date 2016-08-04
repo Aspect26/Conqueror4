@@ -19,7 +19,8 @@ namespace Client
             }
             else if(parts[0] == "K")
             {
-                Text = "Kill " + Convert.ToInt32(parts[1]) + " " + SharedData.GetUnitName(Convert.ToInt32(parts[2]));
+                Text = "Kill " + Convert.ToInt32(parts[2]) + "/" + Convert.ToInt32(parts[3])
+                    + " " + SharedData.GetUnitName(Convert.ToInt32(parts[1]));
             }
         }
     }

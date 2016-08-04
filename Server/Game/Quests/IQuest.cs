@@ -10,6 +10,7 @@
         string GetCodedData();
         string GetObjectivesCodedData();
 
-        void Visited(int unitId);
+        bool Visited(int unitId);
+        bool Killed(int unitId);
     }
 }

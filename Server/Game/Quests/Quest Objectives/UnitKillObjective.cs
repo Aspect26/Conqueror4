@@ -8,7 +8,7 @@ namespace Server
         private int unitsKilled;
         private int unitsRequired;
 
-        public bool IsCompleted { get; protected set; }
+        public bool IsCompleted { get { return unitsKilled >= unitsRequired; } }
 
         public UnitKillObjective(int unitId, int killCount)
         {
@@ -19,9 +19,19 @@ namespace Server
 
         public string GetCodedData()
         {
-            return "K^" + unitId + "^" + unitsRequired;
+            return "K^" + unitId + "^" + unitsKilled + "^" + unitsRequired;
         }
 
-        public void Visited(int unitId) { }
+        public bool Killed(int unitId)
+        {
+            if(unitId == this.unitId && unitsRequired > unitsKilled)
+            {
+                unitsKilled++;
+                return true;
+            }
+            return false;
+        }
+
+        public bool Visited(int unitId) { return false; }
     }
 }

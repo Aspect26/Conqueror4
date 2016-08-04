@@ -29,12 +29,12 @@ namespace Client
 
             string title = parts[1];
             string description = parts[2];
-            QuestObjective[] objectives = createObjectives(parts, 3);
+            QuestObjective[] objectives = CreateObjectives(parts, 3);
 
             return new Quest(objectives, title, description);
         }
 
-        public static QuestObjective[] createObjectives(string[] data, int startIndex)
+        public static QuestObjective[] CreateObjectives(string[] data, int startIndex)
         {
             var objectives = new List<QuestObjective>();
             for (int i = startIndex; i < data.Length; i++)

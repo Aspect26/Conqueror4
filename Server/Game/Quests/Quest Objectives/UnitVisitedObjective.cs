@@ -19,12 +19,17 @@ namespace Server
             return "V^" + unitId;
         }
 
-        public void Visited(int unitId)
+        public bool Visited(int unitId)
         {
             if(unitId == this.unitId)
             {
                 IsCompleted = true;
+                return true;
             }
+
+            return false;
         }
+
+        public bool Killed(int unitId) { return false; }
     }
 }

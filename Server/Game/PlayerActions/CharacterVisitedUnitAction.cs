@@ -18,11 +18,17 @@
 
         public void Process(long timeStamp)
         {
-            character.CurrentQuest.Visited(host.UnitID);
-            if (character.CurrentQuest.IsCompleted())
+            if (character.CurrentQuest.Visited(host.UnitID))
             {
-                character.SetQuest(Data.GetQuest(character.CurrentQuest.NextQuestID));
-                character.AddDifference(new NewQuestDifference(character.UniqueID, character.CurrentQuest));
+                if (character.CurrentQuest.IsCompleted())
+                {
+                    character.SetQuest(Data.GetQuest(character.CurrentQuest.NextQuestID));
+                    character.AddDifference(new NewQuestDifference(character.UniqueID, character.CurrentQuest));
+                }
+                else
+                {
+                    character.AddDifference(new QuestObjectiveDifference(character.UniqueID, character.CurrentQuest));
+                }
             }
         }
     }

@@ -86,7 +86,7 @@ namespace Server
                         "Good job out there young one. You managed to repel their attack. But they are still " +
                         "still out there waiting for their chance. We need to end this once and for all if we " +
                         "are to sleep safely. You ought to kill their leader. You will recognize him easily - " +
-                        "it's the one with big white claws, violet eyes and with significant textures on his " +
+                        "it's the one with big white claws violet eyes and with significant textures on his " +
                         "body.",
                         SharedData.QUEST_NO_QUEST
                         ));
