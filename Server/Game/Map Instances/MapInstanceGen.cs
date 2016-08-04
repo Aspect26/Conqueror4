@@ -45,6 +45,7 @@ namespace Server
             units.Add(new UnitInfo(SharedData.UNIT_WOLF, 5 * 50, 23 * 50));
             units.Add(new UnitInfo(SharedData.UNIT_WOLF, 7 * 50, 23 * 50));
             units.Add(new UnitInfo(SharedData.UNIT_WOLF_PACK_LEADER, 6 * 50, 22 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_LIEUTENANT_LANDAX, 5 * 50, 57 * 50));
             unitsData.Add(SharedData.MAP_KINGDOM, units);
         }
 

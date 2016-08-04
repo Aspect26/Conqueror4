@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -122,6 +123,7 @@ namespace Client
                 // UNITS
                 case 7: return Image.FromFile("res/units/wolf.png");
                 case 8: return Image.FromFile("res/units/wolf_pack_leader.png");
+                case SharedData.UNIT_LIEUTENANT_LANDAX: return Image.FromFile("res/units/lieutenant_landax.png");
 
                 default: return Image.FromFile("res/units/warlock/warlock_none.png");
             }

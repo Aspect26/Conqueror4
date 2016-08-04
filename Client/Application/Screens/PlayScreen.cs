@@ -12,14 +12,18 @@ namespace Client
         private Game game;
         private long lastTimeStamp;
 
+        private QuestLog questLog;
+
         public PlayScreen(Application application, ServerConnection server) : base(application, server)
         {
             this.server = server;
 
             playerCharacter = application.Account.PlayCharacter;
             application.server.LoadGame(out game, playerCharacter);
+            questLog = new QuestLog(new Rectangle(10, 80, 200, 250), playerCharacter);
 
             userInterface.AddComponent(new CharacterStatus(application.Account.PlayCharacter));
+            userInterface.AddComponent(questLog);
 
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
@@ -89,6 +93,10 @@ namespace Client
             {
                 playerCharacter.StartMovingUp();
                 Console.WriteLine("START UP");
+            } 
+            else if(key == 81)
+            {
+                questLog.SetShown(!questLog.Shown);
             }
         }
 

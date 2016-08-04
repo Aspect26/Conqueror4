@@ -14,6 +14,11 @@ namespace Client
 
         protected IComponent neighbour;
 
+        public StaticAbstractComponent(bool shown = true)
+        {
+            this.Shown = shown;
+        }
+
         public void ChangeHeight(int height)
         {
             return;

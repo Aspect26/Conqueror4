@@ -37,7 +37,8 @@ namespace Client
             this.backgroundBrush = new SolidBrush(background);
         }
 
-        public RectangleComponent(Point parentPosition, Rectangle position, Image background, IComponent neighbour = null)
+        public RectangleComponent(Point parentPosition, Rectangle position, Image background, 
+            IComponent neighbour = null, bool shown = true)
         {
             this.position = position;
             this.position.X += parentPosition.X;
@@ -45,6 +46,7 @@ namespace Client
 
             this.backgroundImage = background;
             this.neighbour = neighbour;
+            this.Shown = shown;
         }
 
         public virtual void Render(Graphics g)

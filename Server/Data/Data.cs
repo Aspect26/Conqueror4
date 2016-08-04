@@ -53,7 +53,11 @@ namespace Server
                             new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
                         },
                         "Call to Arms!",
-                        "No Description"
+                        "War! Those demons on the other shore of Crystal River appeared just two days ago." +
+                        "They have started pillaging our villages and butchering out people." +
+                        "It is already too late for those on the other side of river but we can still at least " +
+                        "save those who survived this initial purge. #NAME go and meet Lieutenant Landax up " +
+                        "ahead. He will give you next instructions."
                         ));
 
                 case SharedData.QUEST_WOLFPACK:
