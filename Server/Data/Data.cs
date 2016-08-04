@@ -89,6 +89,7 @@ namespace Server
         // *****************************************
         // GAME DATA
         // *****************************************
+        public const int VisitDistance = 100;
 
         // unit id -> base stats (max hp, ...)
         static Dictionary<int, InitialData> unitInitialStats = new Dictionary<int, InitialData>()

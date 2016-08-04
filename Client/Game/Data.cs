@@ -112,17 +112,17 @@ namespace Client
             switch (spec)
             {
                 // HEROES
-                case 1: return Image.FromFile("res/units/demonhunter/demonhunter_none.png");
-                case 2: return Image.FromFile("res/units/mage/mage_none.png");
-                case 3: return Image.FromFile("res/units/priest/priest_none.png");
+                case SharedData.UNIT_DEMONHUNTER: return Image.FromFile("res/units/demonhunter/demonhunter_none.png");
+                case SharedData.UNIT_MAGE: return Image.FromFile("res/units/mage/mage_none.png");
+                case SharedData.UNIT_PRIEST: return Image.FromFile("res/units/priest/priest_none.png");
 
-                case 4: return Image.FromFile("res/units/warlock/warlock_none.png");
-                case 5: return Image.FromFile("res/units/warlock/warlock_none.png");
-                case 6: return Image.FromFile("res/units/warlock/warlock_none.png");
+                case SharedData.UNIT_WARLOCK: return Image.FromFile("res/units/warlock/warlock_none.png");
+                case SharedData.UNIT_UNKHERO1: return Image.FromFile("res/units/warlock/warlock_none.png");
+                case SharedData.UNIT_UNKHERO2: return Image.FromFile("res/units/warlock/warlock_none.png");
 
                 // UNITS
-                case 7: return Image.FromFile("res/units/wolf.png");
-                case 8: return Image.FromFile("res/units/wolf_pack_leader.png");
+                case SharedData.UNIT_WOLF: return Image.FromFile("res/units/wolf.png");
+                case SharedData.UNIT_WOLF_PACK_LEADER: return Image.FromFile("res/units/wolf_pack_leader.png");
                 case SharedData.UNIT_LIEUTENANT_LANDAX: return Image.FromFile("res/units/lieutenant_landax.png");
 
                 default: return Image.FromFile("res/units/warlock/warlock_none.png");

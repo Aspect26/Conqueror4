@@ -45,11 +45,11 @@ namespace Server
                 // add unit differences
                 foreach (IUnit unit in mapInstance.GetUnits())
                 {
-                    if (unit.Updated || unit.Differences.Count != 0)
+                    if (unit.Moved || unit.Differences.Count != 0)
                     {
                         msg.Append(unit.UniqueID);
 
-                        if (unit.Updated)
+                        if (unit.Moved)
                         {
                             // location TODO: move this to differences
                             Location loc = unit.GetLocation();
@@ -69,7 +69,7 @@ namespace Server
                         
                         // finish
                         msg.Append(",");
-                        unit.Updated = false;
+                        unit.Moved = false;
                         needSend = true;
                     }
                 }

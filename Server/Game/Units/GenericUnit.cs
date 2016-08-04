@@ -25,8 +25,9 @@ namespace Server
         public MapInstance MapInstance { get; protected set; }
         public Location Location { get; set; }
         public MovingDirection Direction { get; private set; }
-        public bool Updated { get; set; }
+        public bool Moved { get; set; }
         public List<IUnitDifference> Differences { get; protected set; }
+        public List<IUnit> CurrentlyVisited { get; protected set; }
 
         protected int movingSpeed;
         protected const int SLOWING_CONSTANT = 5;
@@ -43,6 +44,7 @@ namespace Server
             this.HitRange = 30;
             this.Differences = new List<IUnitDifference>();
             this.HittedBy = new List<IUnit>();
+            this.CurrentlyVisited = new List<IUnit>();
             this.IsDead = false;
             this.MaxStats = data.MaxStats.Copy();
             this.ActualStats = data.MaxStats.Copy();

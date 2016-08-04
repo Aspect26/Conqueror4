@@ -1,6 +1,7 @@
 ﻿using Shared;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace Server
 {
@@ -200,6 +201,29 @@ namespace Server
                     unit.TryHitByMissile(missile);
             }
             missiles.RemoveAll((Missile m) => m.IsDead);
+
+            // check visiteds
+            foreach(IUnit unit in units)
+            {
+                Point unitPoint = new Point(unit.GetLocation().X, unit.GetLocation().Y);
+                foreach (IUnit host in units)
+                {
+                    if (unit == host || !unit.IsPlayer())
+                        continue;
+
+                    bool isVisited = unit.CurrentlyVisited.Contains(host);
+                    Point hostPoint = new Point(host.GetLocation().X, host.GetLocation().Y);
+
+                    if (isVisited && !(unitPoint.DistanceFrom(hostPoint) < Data.VisitDistance))
+                        unit.CurrentlyVisited.Remove(host);
+
+                    if (!isVisited && (unitPoint.DistanceFrom(hostPoint) < Data.VisitDistance))
+                    {
+                        unit.CurrentlyVisited.Add(host);
+                        AddPlayerAction(new CharacterVisitedUnitAction((Character)unit, host));
+                    }
+                }
+            }
         }
     }
 }

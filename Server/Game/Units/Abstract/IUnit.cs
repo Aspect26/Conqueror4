@@ -28,9 +28,10 @@ namespace Server
 
         void AddExperience(int xp);
 
-        bool Updated { get; set; }
+        bool Moved { get; set; }
         List<IUnitDifference> Differences { get; }
         List<IUnit> HittedBy { get; }
+        List<IUnit> CurrentlyVisited { get; }
         void AddDifference(IUnitDifference difference);
     }
 }

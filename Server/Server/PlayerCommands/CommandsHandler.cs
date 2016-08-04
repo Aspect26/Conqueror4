@@ -45,14 +45,7 @@ namespace Server
                 case CMD_CHARACTERLOAD:
                     handleCharacterLoad(clientState, arguments[0].ToLower()); break;
                 case CMD_CHANGELOCATION:
-                    int x = Convert.ToInt32(arguments[0]);
-                    int y = Convert.ToInt32(arguments[1]);
-                    lock (clientState.PlayingCharacter)
-                    {
-                        clientState.PlayingCharacter.Location.X = x;
-                        clientState.PlayingCharacter.Location.Y = y;
-                        clientState.PlayingCharacter.Updated = true;
-                    }
+                    handleCharacterMove(clientState, Convert.ToInt32(arguments[0]), Convert.ToInt32(arguments[1]));
                     break;
                 case CMD_SHOOT:
                     handleCharacterShoot(clientState, Convert.ToInt32(arguments[0]), Convert.ToInt32(arguments[1]));
@@ -65,6 +58,11 @@ namespace Server
         // ************************************************
         // SPECIFIC HANDLERS
         // ************************************************
+        private void handleCharacterMove(StateObject client, int x, int y)
+        {
+            server.AddPlayerActionToGameQueue(new CharacterMovedAction(client.PlayingCharacter, x, y));
+        }
+
         private void handleCharacterShoot(StateObject client, int x, int y)
         {
             server.AddPlayerActionToGameQueue(new CharacterShootAction(client.PlayingCharacter, x, y));
