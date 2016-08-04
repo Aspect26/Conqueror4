@@ -65,7 +65,10 @@ namespace Client
         {
             foreach(IComponent c in components)
             {
-                c.Render(g);
+                if (c.Shown)
+                {
+                    c.Render(g);
+                }
             }
 
             if (messageBox != null)

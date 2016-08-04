@@ -10,6 +10,8 @@ namespace Client
         public int X { get; protected set; }
         public int Y { get; protected set; }
 
+        public bool Shown { get; protected set; }
+
         protected IComponent neighbour;
 
         public void ChangeHeight(int height)
@@ -45,6 +47,11 @@ namespace Client
         public void MoveY(int Y)
         {
             this.Y += Y;
+        }
+
+        public void SetShown(bool shown)
+        {
+            this.Shown = shown;
         }
 
         public void OnKeyDown(int key) { }

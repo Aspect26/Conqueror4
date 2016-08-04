@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+﻿using System.Drawing;
 
 namespace Client
 {
@@ -22,7 +18,10 @@ namespace Client
         public int X { get { return position.X; } }
         public int Y { get { return position.Y; } }
 
-        public LineText(Point parentPosition, string text, Color color, Point position, int size, IComponent neighbour = null)
+        public bool Shown { get; protected set; }
+
+        public LineText(Point parentPosition, string text, Color color, Point position, int size, 
+            IComponent neighbour = null, bool shown = true)
         {
             this.text = text;
             this.position = position;
@@ -30,6 +29,7 @@ namespace Client
             this.position.Y += parentPosition.Y;
             this.size = size;
             this.neighbour = neighbour;
+            this.Shown = shown;
 
             this.brush = new SolidBrush(color);
             this.font = new Font(FontFamily.GenericMonospace, size);
@@ -47,6 +47,11 @@ namespace Client
             }
 
             g.DrawString(text, font, brush, position);
+        }
+
+        public void SetShown(bool shown)
+        {
+            this.Shown = shown;
         }
 
         public IComponent GetNeighbour()

@@ -19,13 +19,18 @@ namespace Client
         public int X { get { return position.X; }  }
         public int Y { get { return position.Y; } }
 
+        public bool Shown { get; protected set; }
+
         protected bool focused = false;
 
-        public RectangleComponent(Point parentPosition, Rectangle position, Color background, IComponent neighbour = null)
+        public RectangleComponent(Point parentPosition, Rectangle position, Color background, 
+            IComponent neighbour = null, bool shown = true)
         {
             this.position = position;
             this.position.X += parentPosition.X;
             this.position.Y += parentPosition.Y;
+
+            this.Shown = shown;
 
             this.backgroundColor = background;
             this.neighbour = neighbour;
@@ -48,6 +53,11 @@ namespace Client
                 g.FillRectangle(backgroundBrush, position);
             else
                 g.DrawImage(backgroundImage, position);
+        }
+
+        public virtual void SetShown(bool shown)
+        {
+            this.Shown = shown;
         }
 
         public virtual void SetFocused(bool focused)

@@ -34,5 +34,8 @@ namespace Client
         int X { get; }
         int Y { get; }
         Rectangle GetClientArea();
+
+        void SetShown(bool shown);
+        bool Shown { get; }
     }
 }
