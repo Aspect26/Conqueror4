@@ -42,6 +42,18 @@ namespace Server
             return visited;
         }
 
+        public bool MovedTo(int x, int y)
+        {
+            bool moved = false;
+            foreach(IQuestObjective objective in objectives)
+            {
+                if(objective.MovedTo(x, y))
+                    moved = true;
+            }
+
+            return moved;
+        }
+
         public bool Killed(int unitId)
         {
             bool killed = false;

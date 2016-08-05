@@ -6,6 +6,7 @@
         string GetCodedData();
 
         bool Visited(int unitId);
+        bool MovedTo(int x, int y);
         bool Killed(int unitId);
     }
 }

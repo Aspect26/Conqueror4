@@ -25,6 +25,19 @@ namespace Server
             character.Location.X = x;
             character.Location.Y = y;
             character.Moved = true;
+
+            if (character.CurrentQuest.MovedTo(x, y))
+            {
+                if (character.CurrentQuest.IsCompleted())
+                {
+                    character.SetQuest(Data.GetQuest(character.CurrentQuest.NextQuestID));
+                    character.AddDifference(new NewQuestDifference(character.UniqueID, character.CurrentQuest));
+                }
+                else
+                {
+                    character.AddDifference(new QuestObjectiveDifference(character.UniqueID, character.CurrentQuest));
+                }
+            }
         }
     }
 }

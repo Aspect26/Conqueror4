@@ -22,6 +22,10 @@ namespace Client
                 Text = "Kill " + Convert.ToInt32(parts[2]) + "/" + Convert.ToInt32(parts[3])
                     + " " + SharedData.GetUnitName(Convert.ToInt32(parts[1]));
             }
+            else if(parts[0] == "R")
+            {
+                Text = "Investigate " + parts[1];
+            }
         }
     }
 }
