@@ -19,7 +19,11 @@ namespace Shared
             {
                 case UNIT_WOLF: return "Wolf";
                 case UNIT_WOLF_PACK_LEADER: return "Wolf Pack Leader";
+                case UNIT_WARLOCK_SPAWNER: return "Warlock Spawner";
+                case UNIT_AWAKENED_SOUL: return "Awakened Soul";
+
                 case UNIT_LIEUTENANT_LANDAX: return "Lieutenant Landax";
+                case UNIT_BERLOC_PYRESTEEL: return "Berloc Pyresteel";
 
                 default: return "Unknown";
             }

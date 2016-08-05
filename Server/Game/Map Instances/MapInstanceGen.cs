@@ -46,6 +46,17 @@ namespace Server
             units.Add(new UnitInfo(SharedData.UNIT_WOLF, 7 * 50, 23 * 50));
             units.Add(new UnitInfo(SharedData.UNIT_WOLF_PACK_LEADER, 6 * 50, 22 * 50));
             units.Add(new UnitInfo(SharedData.UNIT_LIEUTENANT_LANDAX, 5 * 50, 57 * 50));
+
+            units.Add(new UnitInfo(SharedData.UNIT_WARLOCK_SPAWNER, 7 * 50, 7 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WARLOCK_SPAWNER, 14 * 50, 3 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WARLOCK_SPAWNER, 15 * 50, 10 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WARLOCK_SPAWNER, 22 * 50, 6 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WARLOCK_SPAWNER, 27 * 50, 2 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_WARLOCK_SPAWNER, 3 * 50, 2 * 50));
+
+            units.Add(new UnitInfo(SharedData.UNIT_BERLOC_PYRESTEEL, 40 * 50, 58 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 42 * 50, 44 * 50));
+
             unitsData.Add(SharedData.MAP_KINGDOM, units);
         }
 

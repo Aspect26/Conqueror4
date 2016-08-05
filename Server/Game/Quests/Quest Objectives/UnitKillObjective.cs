@@ -1,28 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Server
 {
-    public class UnitKillObjective : IQuestObjective
+    public class UnitKillObjective : QuestObjective
     {
         private int unitId;
         private int unitsKilled;
         private int unitsRequired;
 
-        public bool IsCompleted { get { return unitsKilled >= unitsRequired; } }
+        public override bool IsCompleted {
+            get {
+                if (!checkRequisities())
+                    return false;
 
-        public UnitKillObjective(int unitId, int killCount)
+                return unitsKilled >= unitsRequired;
+            }
+            protected set { }
+        }
+
+        public UnitKillObjective(int unitId, int killCount, IQuestObjective[] preRequisities = null)
+            :base(preRequisities)
         {
             this.unitId = unitId;
             this.unitsRequired = killCount;
             this.unitsKilled = 0;
         }
 
-        public string GetCodedData()
+        public override string GetCodedData()
         {
             return "K^" + unitId + "^" + unitsKilled + "^" + unitsRequired;
         }
 
-        public bool Killed(int unitId)
+        public override bool Killed(int unitId)
         {
             if(unitId == this.unitId && unitsRequired > unitsKilled)
             {
@@ -31,9 +41,5 @@ namespace Server
             }
             return false;
         }
-
-        public bool Visited(int unitId) { return false; }
-
-        public bool MovedTo(int x, int y) { return false; }
     }
 }

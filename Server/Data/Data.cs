@@ -63,12 +63,12 @@ namespace Server
                         ));
 
                 case SharedData.QUEST_WOLFPACK:
+                    IQuestObjective kills = new UnitKillObjective(SharedData.UNIT_WOLF, 10);
+                    IQuestObjective visit = new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX, 
+                        new IQuestObjective []{ kills });
+
                     return new Quest(new QuestData(
-                        new IQuestObjective[]
-                        {
-                            new UnitKillObjective(SharedData.UNIT_WOLF, 10),
-                            new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
-                        },
+                        new IQuestObjective[] { kills, visit },
                         "Wolfpack",
                         "Welcome #NAME to the front. Do you hear that howling? They are not just ordinary wolves." +
                         "It's a pack of spawned beasts by those filthy demons occuping our lands. We need to stop " +
@@ -77,12 +77,12 @@ namespace Server
                         ));
 
                 case SharedData.QUEST_SLAY_THEIR_LEADER:
+                    kills = new UnitKillObjective(SharedData.UNIT_WOLF_PACK_LEADER, 1);
+                    visit = new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX,
+                        new IQuestObjective[] { kills });
+
                     return new Quest(new QuestData(
-                        new IQuestObjective[]
-                        {
-                            new UnitKillObjective(SharedData.UNIT_WOLF_PACK_LEADER, 1),
-                            new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
-                        },
+                        new IQuestObjective[] { kills, visit },
                         "Slay their leader",
                         "Good job out there young one. You managed to repel their attack. But they are still " +
                         "still out there waiting for their chance. We need to end this once and for all if we " +
@@ -93,12 +93,12 @@ namespace Server
                         ));
 
                 case SharedData.QUEST_KILL_THEM_ALL:
+                    kills = new UnitKillObjective(SharedData.UNIT_WOLF, 15);
+                    visit = new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX,
+                        new IQuestObjective[] { kills });
+
                     return new Quest(new QuestData(
-                        new IQuestObjective[]
-                        {
-                            new UnitKillObjective(SharedData.UNIT_WOLF, 15),
-                            new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
-                        },
+                        new IQuestObjective[] { kills, visit },
                         "Kill them all!",
                         "They went berserk #NAME! They think they can break us by sending so many of their spawns. "+
                         "Go and take care of it. Kill as many as you can. Show them that quantity does not go "+
@@ -107,12 +107,12 @@ namespace Server
                         ));
 
                 case SharedData.QUEST_PLAN_OF_HOPE:
+                    kills = new UnitKillObjective(SharedData.UNIT_WARLOCK_SPAWNER, 5);
+                    visit = new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX,
+                        new IQuestObjective[] { kills });
+
                     return new Quest(new QuestData(
-                        new IQuestObjective[]
-                        {
-                            new UnitKillObjective(SharedData.UNIT_WARLOCK_SPAWNER, 5),
-                            new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
-                        },
+                        new IQuestObjective[] { kills, visit },
                         "A plan of hope",
                         "Good news #NAME! Just a moment ago our scouts gave us the most valuable information to "+
                         "our case. These wolves or whatever they are are being spawned by enemy's warlocks which "+
@@ -136,12 +136,12 @@ namespace Server
                         ));
 
                 case SharedData.QUEST_PYREWOOD:
+                    IQuestObjective region = new RegionVisitedObjective(new Point(52 * 50, 37 * 50), 500);
+                    visit = new UnitVisitedObjective(SharedData.UNIT_BERLOC_PYRESTEEL, 
+                        new IQuestObjective[] { region });
+
                     return new Quest(new QuestData(
-                        new IQuestObjective[]
-                        {
-                            new RegionVisitedObjective(new Point(52*50,37*50), 500),
-                            new UnitVisitedObjective(SharedData.UNIT_BERLOC_PYRESTEEL)
-                        },
+                        new IQuestObjective[] { region, visit },
                         "Pyrewood",
                         "You carry Lieutenant Landax's token I see. That's a worthy one lad. If you are here "+
                         "already you can len me a helping hand I suppose. Do you see that forest up ahead? "+
@@ -152,12 +152,12 @@ namespace Server
                         ));
 
                 case SharedData.QUEST_FOREST_OF_SOULS:
+                    kills = new UnitKillObjective(SharedData.UNIT_AWAKENED_SOUL, 15);
+                    visit = new UnitVisitedObjective(SharedData.UNIT_BERLOC_PYRESTEEL,
+                        new IQuestObjective[] { kills });
+
                     return new Quest(new QuestData(
-                        new IQuestObjective[]
-                        {
-                            new UnitKillObjective(SharedData.UNIT_AWAKENED_SOUL, 15),
-                            new UnitVisitedObjective(SharedData.UNIT_BERLOC_PYRESTEEL)
-                        },
+                        new IQuestObjective[] { kills, visit },
                         "Forest of souls",
                         "So they were saying the truth. That is an unpleasant one. I cannot supply our troops "+
                         "in the battlefield if someone won't take care of this. Could you please clear the "+
@@ -194,8 +194,15 @@ namespace Server
                 new InitialData(new BaseStats(100), 1, SharedData.FRACTION_HOSTILE_UNITS) },
             { SharedData.UNIT_WOLF_PACK_LEADER,
                 new InitialData(new BaseStats(250), 2, SharedData.FRACTION_HOSTILE_UNITS) },
+            { SharedData.UNIT_WARLOCK_SPAWNER,
+                new InitialData(new BaseStats(150), 2, SharedData.FRACTION_HOSTILE_UNITS) },
+            { SharedData.UNIT_AWAKENED_SOUL,
+                new InitialData(new BaseStats(150), 2, SharedData.FRACTION_HOSTILE_UNITS) },
+
             { SharedData.UNIT_LIEUTENANT_LANDAX,
-                new InitialData(new BaseStats(15200), 10, SharedData.FRACTION_HUMAN_REALM) }
+                new InitialData(new BaseStats(15200), 10, SharedData.FRACTION_HUMAN_REALM) },
+            { SharedData.UNIT_BERLOC_PYRESTEEL,
+                new InitialData(new BaseStats(5350), 7, SharedData.FRACTION_HUMAN_REALM) }
         };
 
         static Dictionary<int, CharacterInitialData> characterBaseStats = new Dictionary<int, CharacterInitialData>()

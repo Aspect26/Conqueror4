@@ -1,26 +1,31 @@
 ﻿using System;
 using Shared;
+using System.Collections.Generic;
 
 namespace Server
 {
-    public class UnitVisitedObjective : IQuestObjective
+    public class UnitVisitedObjective : QuestObjective
     {
         private int unitId;
 
-        public bool IsCompleted { get; protected set; }
+        public override bool IsCompleted { get; protected set; }
 
-        public UnitVisitedObjective(int unitId)
+        public UnitVisitedObjective(int unitId, IQuestObjective[] preRequisites = null)
+            :base(preRequisites)
         {
             this.unitId = unitId;
         }
 
-        public string GetCodedData()
+        public override string GetCodedData()
         {
             return "V^" + unitId;
         }
 
-        public bool Visited(int unitId)
+        public override bool Visited(int unitId)
         {
+            if (!checkRequisities())
+                return false;
+
             if(unitId == this.unitId)
             {
                 IsCompleted = true;
@@ -29,9 +34,5 @@ namespace Server
 
             return false;
         }
-
-        public bool Killed(int unitId) { return false; }
-
-        public bool MovedTo(int x, int y) { return false; }
     }
 }

@@ -1,28 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Server
 {
-    public sealed class RegionVisitedObjective : IQuestObjective
+    public sealed class RegionVisitedObjective : QuestObjective
     {
         private Point regionCenter;
         private int centerDistance;
 
-        public bool IsCompleted { get; private set; }
+        public override bool IsCompleted { get; protected set; }
 
-        public RegionVisitedObjective(Point regionCenter, int centerDistance)
+        public RegionVisitedObjective(Point regionCenter, int centerDistance, IQuestObjective[] requisities = null)
+            :base(requisities)
         {
             this.regionCenter = regionCenter;
             this.centerDistance = centerDistance;
         }
 
-        public string GetCodedData()
+        public override string GetCodedData()
         {
             return "R^Whiteleaf Forest";
         }
 
-        public bool MovedTo(int x, int y)
+        public override bool MovedTo(int x, int y)
         {
+            if (!checkRequisities())
+                return false;
+
             if (IsCompleted)
                 return false; 
 
@@ -35,9 +40,5 @@ namespace Server
 
             return false;
         }
-
-        public bool Killed(int unitId) { return false; }
-
-        public bool Visited(int unitId) { return false; }
     }
 }

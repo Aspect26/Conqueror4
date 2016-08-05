@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Client
@@ -30,7 +28,7 @@ namespace Client
             { 0, Image.FromFile("res/tiles/grass.png") },
             { 1, Image.FromFile("res/tiles/dirt.png") },
             { 2, Image.FromFile("res/tiles/stone.png") },
-            { 3, Image.FromFile("res/tiles/forest.png") }
+            { 3, Image.FromFile("res/tiles/forest.png") },
         };
 
         public static int GetTileId(Color color)
@@ -129,7 +127,11 @@ namespace Client
                 // UNITS
                 case SharedData.UNIT_WOLF: return Image.FromFile("res/units/wolf.png");
                 case SharedData.UNIT_WOLF_PACK_LEADER: return Image.FromFile("res/units/wolf_pack_leader.png");
+                case SharedData.UNIT_WARLOCK_SPAWNER: return Image.FromFile("res/units/warlock_spawner.png");
+                case SharedData.UNIT_AWAKENED_SOUL: return Image.FromFile("res/units/awakened_soul.png");
+
                 case SharedData.UNIT_LIEUTENANT_LANDAX: return Image.FromFile("res/units/lieutenant_landax.png");
+                case SharedData.UNIT_BERLOC_PYRESTEEL: return Image.FromFile("res/units/berloc_pyresteel.png");
 
                 // DEFAULT
                 default: return Image.FromFile("res/units/unknown.png");

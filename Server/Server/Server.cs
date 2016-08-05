@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Server
 {
@@ -27,7 +26,7 @@ namespace Server
 
         public void Start()
         {
-            localEndPoint = new IPEndPoint(IPAddress.Loopback, PORT);
+            localEndPoint = new IPEndPoint(IPAddress.Any, PORT);
             serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             Console.WriteLine("Loading accounts database...");
