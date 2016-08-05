@@ -33,5 +33,7 @@ namespace Server
         }
 
         public bool Visited(int unitId) { return false; }
+
+        public bool MovedTo(int x, int y) { return false; }
     }
 }

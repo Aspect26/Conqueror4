@@ -31,5 +31,7 @@ namespace Server
         }
 
         public bool Killed(int unitId) { return false; }
+
+        public bool MovedTo(int x, int y) { return false; }
     }
 }

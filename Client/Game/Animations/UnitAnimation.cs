@@ -72,16 +72,15 @@ namespace Client
 
         public virtual void Render(Graphics g)
         {
-            int size = unit.UnitSize;
             Point position = game.MapPositionToScreenPosition((int)unit.Location.X, (int)unit.Location.Y);
 
             if (!moving)
             {
-                g.DrawImageAt(noAnimationImage, position.X, position.Y, size, size);
+                g.DrawImageAt(noAnimationImage, position.X, position.Y);
             }
             else
             {
-                g.DrawImageAt(images[currentImageSide][currentImageIndex], position.X, position.Y, size, size);
+                g.DrawImageAt(images[currentImageSide][currentImageIndex], position.X, position.Y);
             }
         }
 

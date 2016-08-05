@@ -14,14 +14,7 @@ namespace Client
         {
             this.name = name;
             this.game = game;
-        }
-
-        public override void DrawUnit(Graphics g)
-        {
-            base.DrawUnit(g);
-
-            Point p = game.MapPositionToScreenPosition((int)Location.X, (int)Location.Y);
-            g.DrawString(name, GameData.GetFont(8), Brushes.Black, p.X - UnitSize/2, p.Y - UnitSize/2 - 20);
+            this.nameBrush = Brushes.Blue;
         }
     }
 }

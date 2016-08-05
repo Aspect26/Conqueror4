@@ -18,16 +18,15 @@ namespace Client
 
         public override void Render(Graphics g)
         {
-            int size = unit.UnitSize;
 
             if (!moving)
             {
-                g.DrawImageAt(noAnimationImage, Application.WIDTH / 2, Application.HEIGHT / 2, size, size);
+                g.DrawImageAt(noAnimationImage, Application.WIDTH / 2, Application.HEIGHT / 2);
             }
             else
             {
                 g.DrawImageAt(images[currentImageSide][currentImageIndex],
-                    Application.WIDTH / 2, Application.HEIGHT / 2, size, size);
+                    Application.WIDTH / 2, Application.HEIGHT / 2);
             }
         }
     }

@@ -29,7 +29,8 @@ namespace Client
         {
             { 0, Image.FromFile("res/tiles/grass.png") },
             { 1, Image.FromFile("res/tiles/dirt.png") },
-            { 2, Image.FromFile("res/tiles/stone.png") }
+            { 2, Image.FromFile("res/tiles/stone.png") },
+            { 3, Image.FromFile("res/tiles/forest.png") }
         };
 
         public static int GetTileId(Color color)
@@ -43,6 +44,11 @@ namespace Client
             // DIRT
             else if (color.R == 192 && color.G == 128 && color.B == 64)
                 return 1;
+            //FOREST
+            else if (color.R == 32 && color.G == 192 && color.B == 64)
+                return 3;
+
+            Console.WriteLine("UNKNOWN MAP TILE: " + color.R + "," + color.G + "," + color.B);
 
             return 0;
         }

@@ -41,6 +41,12 @@ namespace Shared
         public const int QUEST_CALL_TO_ARMS = 1;
         public const int QUEST_WOLFPACK = 2;
         public const int QUEST_SLAY_THEIR_LEADER = 3;
+        public const int QUEST_KILL_THEM_ALL = 4;
+        public const int QUEST_PLAN_OF_HOPE = 5;
+        public const int QUEST_PYRESTEEL = 6;
+        public const int QUEST_PYREWOOD = 7;
+        public const int QUEST_FOREST_OF_SOULS = 8;
+        public const int QUEST_INFORM_THE_LIEUTENANT = 9;
 
         // units
         public const int UNIT_DEMONHUNTER = 1;
@@ -53,5 +59,8 @@ namespace Shared
         public const int UNIT_WOLF = 7;
         public const int UNIT_WOLF_PACK_LEADER = 8;
         public const int UNIT_LIEUTENANT_LANDAX = 9;
+        public const int UNIT_WARLOCK_SPAWNER = 10;
+        public const int UNIT_BERLOC_PYRESTEEL = 11;
+        public const int UNIT_AWAKENED_SOUL = 12;
     }
 }

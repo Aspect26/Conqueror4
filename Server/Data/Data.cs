@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Shared;
+using System.Drawing;
 
 namespace Server
 {
@@ -88,6 +89,92 @@ namespace Server
                         "are to sleep safely. You ought to kill their leader. You will recognize him easily - " +
                         "it's the one with big white claws violet eyes and with significant textures on his " +
                         "body.",
+                        SharedData.QUEST_KILL_THEM_ALL
+                        ));
+
+                case SharedData.QUEST_KILL_THEM_ALL:
+                    return new Quest(new QuestData(
+                        new IQuestObjective[]
+                        {
+                            new UnitKillObjective(SharedData.UNIT_WOLF, 15),
+                            new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
+                        },
+                        "Kill them all!",
+                        "They went berserk #NAME! They think they can break us by sending so many of their spawns. "+
+                        "Go and take care of it. Kill as many as you can. Show them that quantity does not go "+
+                        "before quality. Meanwhile I'll think of a way to stop them once and for all.",
+                        SharedData.QUEST_PLAN_OF_HOPE
+                        ));
+
+                case SharedData.QUEST_PLAN_OF_HOPE:
+                    return new Quest(new QuestData(
+                        new IQuestObjective[]
+                        {
+                            new UnitKillObjective(SharedData.UNIT_WARLOCK_SPAWNER, 5),
+                            new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
+                        },
+                        "A plan of hope",
+                        "Good news #NAME! Just a moment ago our scouts gave us the most valuable information to "+
+                        "our case. These wolves or whatever they are are being spawned by enemy's warlocks which "+
+                        "reside just north of here. Travel there and kill them #NAME. Hopefully it will put an "+
+                        "end to this madness.",
+                        SharedData.QUEST_PYRESTEEL
+                        ));
+
+                case SharedData.QUEST_PYRESTEEL:
+                    return new Quest(new QuestData(
+                        new IQuestObjective[]
+                        {
+                            new UnitVisitedObjective(SharedData.UNIT_BERLOC_PYRESTEEL)
+                        },
+                        "Pyresteel",
+                        "You have done very well out there young one. You sure deserve a reward for your service "+
+                        "to the Realm of Men. Take this token and bring it to Berloc Pyresteel. He is out smith "+
+                        "in the front. Just follow this path to the east and it will lead you to him. Oh and "+
+                        "please don't forget to send him my regards.",
+                        SharedData.QUEST_PYREWOOD
+                        ));
+
+                case SharedData.QUEST_PYREWOOD:
+                    return new Quest(new QuestData(
+                        new IQuestObjective[]
+                        {
+                            new RegionVisitedObjective(new Point(52*50,37*50), 500),
+                            new UnitVisitedObjective(SharedData.UNIT_BERLOC_PYRESTEEL)
+                        },
+                        "Pyrewood",
+                        "You carry Lieutenant Landax's token I see. That's a worthy one lad. If you are here "+
+                        "already you can len me a helping hand I suppose. Do you see that forest up ahead? "+
+                        "I need wood from there to fuel my forges. The problem is that my workers refuse to go "+
+                        "there since they saw some foul creatures there as they said. Can you please have "+
+                        "a look in there? It's just north from here.",
+                        SharedData.QUEST_FOREST_OF_SOULS
+                        ));
+
+                case SharedData.QUEST_FOREST_OF_SOULS:
+                    return new Quest(new QuestData(
+                        new IQuestObjective[]
+                        {
+                            new UnitKillObjective(SharedData.UNIT_AWAKENED_SOUL, 15),
+                            new UnitVisitedObjective(SharedData.UNIT_BERLOC_PYRESTEEL)
+                        },
+                        "Forest of souls",
+                        "So they were saying the truth. That is an unpleasant one. I cannot supply our troops "+
+                        "in the battlefield if someone won't take care of this. Could you please clear the "+
+                        "forest from those poor souls for me? I'll be much grteful to you.",
+                        SharedData.QUEST_INFORM_THE_LIEUTENANT
+                        ));
+
+                case SharedData.QUEST_INFORM_THE_LIEUTENANT:
+                    return new Quest(new QuestData(
+                        new IQuestObjective[]
+                        {
+                            new UnitVisitedObjective(SharedData.UNIT_LIEUTENANT_LANDAX)
+                        },
+                        "Inform the lieutenant",
+                        "They are very strange these souls my lad. I've never seen something like that before. "+
+                        "It sure is work of that demons. They appeared at the same time. I think it is best "+
+                        "that you inform the lieutenant lad.",
                         SharedData.QUEST_NO_QUEST
                         ));
                 default:

@@ -62,6 +62,7 @@
     <Compile Include="Game\PlayerActions\CharacterVisitedUnitAction.cs" />
     <Compile Include="Game\Quests\IQuest.cs" />
     <Compile Include="Game\Quests\Quest Objectives\IQuestObjective.cs" />
+    <Compile Include="Game\Quests\Quest Objectives\RegionVisitedObjective.cs" />
     <Compile Include="Game\Quests\Quest Objectives\UnitKillObjective.cs" />
     <Compile Include="Game\Quests\Quest Objectives\UnitVisitedObjective.cs" />
     <Compile Include="Game\Quests\Quest.cs" />

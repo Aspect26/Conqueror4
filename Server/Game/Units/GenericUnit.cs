@@ -71,7 +71,7 @@ namespace Server
         {
         }
 
-        private int ShootCooldown = 400;
+        private int ShootCooldown = 300;
         private long lastShoot = long.MinValue;
 
         public Missile Shoot(long timeStamp, int x, int y)

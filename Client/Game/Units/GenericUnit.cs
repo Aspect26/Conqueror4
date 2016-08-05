@@ -20,16 +20,17 @@ namespace Client
         public int HitRange { get { return 30; } }
         public int Fraction { get; protected set; }
 
-        public int UnitSize { get; private set; }
         protected Image unitImage;
         public Location Location { get; set; }
+
         private Game game;
+        private Font font;
+        protected Brush nameBrush = Brushes.Black;
 
         public GenericUnit(Game game, int unitID, int uniqueId, Location location, BaseStats maxStats, 
             BaseStats actualStats, int fraction)
         {
             this.Location = location;
-            this.UnitSize = 50;
             this.UnitID = unitID;
             this.UniqueID = uniqueId;
             this.game = game;
@@ -38,6 +39,7 @@ namespace Client
             this.Fraction = fraction;
             this.IsDead = false;
             this.unitImage = GameData.GetUnitImage(unitID);
+            this.font = GameData.GetFont(8);
         }
 
         public void SetUniqueID(int uniqueId)
@@ -64,15 +66,23 @@ namespace Client
         {
             // unit
             Point mapLocation = game.MapPositionToScreenPosition(Location.X, Location.Y);
-            g.DrawImageAt(unitImage, mapLocation, UnitSize, UnitSize);
+            g.DrawImageAt(unitImage, mapLocation);
+
+            Point helpPoint = mapLocation; helpPoint.X++;
+            g.DrawLine(Pens.Red, mapLocation, helpPoint);
 
             // HP bar
-            Point barLocation = new Point(mapLocation.X - UnitSize/2, mapLocation.Y - UnitSize/2);
+            Point barLocation = new Point(mapLocation.X - unitImage.Width/2, mapLocation.Y - unitImage.Height / 2 - 11);
             float hpRatio = (float)ActualStats.HitPoints / MaxStats.HitPoints;
             Brush hpBrush = (hpRatio < 0.25f) ? Brushes.Red : Brushes.LightGreen;
 
-            g.FillRectangle(Brushes.DarkGreen, barLocation.X, barLocation.Y, UnitSize, 5);
-            g.FillRectangle(hpBrush, barLocation.X, barLocation.Y, UnitSize * hpRatio, 5);
+            g.FillRectangle(Brushes.DarkGreen, barLocation.X, barLocation.Y, unitImage.Width, 6);
+            g.FillRectangle(hpBrush, barLocation.X, barLocation.Y, unitImage.Width * hpRatio, 6);
+
+            // name
+            Point p = new Point(mapLocation.X - (int)g.MeasureString(SharedData.GetUnitName(UnitID), font).Width / 2, 
+                mapLocation.Y - unitImage.Height / 2 - 25);
+            g.DrawString(SharedData.GetUnitName(UnitID), font, nameBrush, p);
         }
 
         public Image GetCurrentImage()
