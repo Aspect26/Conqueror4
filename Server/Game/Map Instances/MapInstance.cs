@@ -140,7 +140,7 @@ namespace Server
             {
                 while (playerActions.Count != 0)
                 {
-                    playerActions.Dequeue().Process(now);
+                    playerActions.Dequeue().Process((now*1000)/Stopwatch.Frequency);
                 }
             }
 

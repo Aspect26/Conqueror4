@@ -78,6 +78,7 @@ namespace Server
         {
             if (timeStamp > lastShoot + ShootCooldown)
             {
+                lastShoot = timeStamp;
                 this.Differences.Add(new PlayerShootDifference(UniqueID, x, y));
                 return new Missile(this, new Point(Location.X, Location.Y), new Point(x, y));
             }

@@ -63,8 +63,9 @@ namespace Client
             int dirX = (int)((x / length) * 100);
             int dirY = (int)((y / length) * 100);
             server.SendPlayerShoot(dirX, dirY);
+            /*
             game.AddMissile(new Missile(game, playerCharacter, GameData.GetMissileImage(playerCharacter.UnitID), 
-                new Point(playerCharacter.Location.X, playerCharacter.Location.Y), new Point(dirX, dirY)));
+                new Point(playerCharacter.Location.X, playerCharacter.Location.Y), new Point(dirX, dirY)));*/
         }
 
         public override void OnKeyDown(int key)
@@ -94,7 +95,7 @@ namespace Client
                 playerCharacter.StartMovingUp();
                 Console.WriteLine("START UP");
             } 
-            else if(key == 81)
+            else if(key == 81) // Q
             {
                 questLog.SetShown(!questLog.Shown);
             }

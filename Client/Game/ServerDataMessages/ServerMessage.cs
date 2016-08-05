@@ -38,7 +38,7 @@ namespace Client
                         int y = Convert.ToInt32(unitPart[2]);
                         UpdateUnitLocation(uniqueId, x, y);
                     }
-                    else if (unitPart[0] == "S" && uniqueId != Character.UniqueID)
+                    else if (unitPart[0] == "S")
                     {
                         int x = Convert.ToInt32(unitPart[1]);
                         int y = Convert.ToInt32(unitPart[2]);

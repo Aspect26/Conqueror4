@@ -128,10 +128,12 @@ namespace Client
 
         public void AddMissile(int uniqueId, int dirX, int dirY)
         {
+            IUnit unit;
             if (uniqueId == Character.UniqueID)
-                return;
+                unit = Character;
+            else
+                unit = units[uniqueId];
 
-            IUnit unit = units[uniqueId];
             Point position = new Point(unit.Location.X, unit.Location.Y);
             lock (missiles)
                 this.missiles.Add(new Missile(this, unit, GameData.GetMissileImage(unit.UnitID), position, 
