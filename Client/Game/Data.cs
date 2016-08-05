@@ -125,7 +125,7 @@ namespace Client
                 case SharedData.UNIT_WOLF_PACK_LEADER: return Image.FromFile("res/units/wolf_pack_leader.png");
                 case SharedData.UNIT_LIEUTENANT_LANDAX: return Image.FromFile("res/units/lieutenant_landax.png");
 
-                default: return Image.FromFile("res/units/warlock/warlock_none.png");
+                default: return Image.FromFile("res/units/unknown.png");
             }
         }
 
