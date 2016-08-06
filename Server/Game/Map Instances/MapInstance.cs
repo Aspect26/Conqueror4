@@ -58,6 +58,11 @@ namespace Server
             return clientStates;
         }
 
+        public void AddMissile(Missile m)
+        {
+            this.missiles.Add(m);
+        }
+
         public void AddTimedAction(ITimedAction action, int afterSeconds)
         {
             lock(timedActions)

@@ -1,5 +1,7 @@
 ﻿using Shared;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace Server
@@ -71,6 +73,20 @@ namespace Server
 
         public virtual void PlayCycle(int timeSpan)
         {
+            if(InCombatWith.Count > 0)
+            {
+                Point location = new Point(InCombatWith[0].GetLocation().X, InCombatWith[0].GetLocation().Y);
+                int x = location.X - Location.X;
+                int y = location.Y - Location.Y;
+                double length = Math.Sqrt(x * x + y * y);
+
+                int dirX = (int)((x / length) * 100);
+                int dirY = (int)((y / length) * 100);
+
+                Missile m = Shoot((Stopwatch.GetTimestamp() * 1000) / Stopwatch.Frequency, dirX, dirY);
+                if (m != null)
+                    MapInstance.AddMissile(m);
+            }
         }
 
         private int ShootCooldown = 300;

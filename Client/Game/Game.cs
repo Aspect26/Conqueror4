@@ -39,6 +39,7 @@ namespace Client
                 {
                     pair.Value.TryHitByMissile(missile);
                 }
+                Character.TryHitByMissile(missile);
             }
 
             // units
