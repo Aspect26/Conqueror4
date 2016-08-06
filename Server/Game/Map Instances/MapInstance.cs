@@ -34,11 +34,25 @@ namespace Server
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
 
+        public void RemoveClient(StateObject client)
+        {
+            lock(clientStates)
+                clientStates.Remove(client);
+
+            lock(units)
+                units.Remove(client.PlayingCharacter);
+
+            lock(mapGeneralDifferenes)
+                mapGeneralDifferenes.Add(new UnitDiedDifference(client.PlayingCharacter));
+        }
+
         public IUnit SpawnNPC(int unitId, int x, int y)
         {
             IUnit newUnit = new GenericUnit(unitId, GetNextUniqueID(), new Location(x, y), 
                 this, Data.GetInitialData(unitId));
-            units.Add(newUnit);
+
+            lock (units)
+                units.Add(newUnit);
 
             return newUnit;
         }
@@ -103,12 +117,15 @@ namespace Server
         {
             string data = "";
 
-            foreach(IUnit unit in units)
+            lock (units)
             {
-                data += unit.UniqueID + "|" + unit.UnitID + "|" + unit.GetName() + "|" 
-                    + unit.GetLocation().X + "|" + unit.GetLocation().Y + "|" 
-                    + unit.MaxStats.HitPoints + "|" + unit.ActualStats.HitPoints + "|" 
-                    + unit.Fraction + ",";
+                foreach (IUnit unit in units)
+                {
+                    data += unit.UniqueID + "|" + unit.UnitID + "|" + unit.GetName() + "|"
+                        + unit.GetLocation().X + "|" + unit.GetLocation().Y + "|"
+                        + unit.MaxStats.HitPoints + "|" + unit.ActualStats.HitPoints + "|"
+                        + unit.Fraction + ",";
+                }
             }
 
             return data;
@@ -180,91 +197,94 @@ namespace Server
             }
 
             // move all units
-            foreach (IUnit unit in units)
+            lock (units)
             {
-                unit.PlayCycle((int)timeSpan);
-                if (unit.IsDead)
+                foreach (IUnit unit in units)
                 {
-                    foreach(IUnit hittedBy in unit.HittedBy)
+                    unit.PlayCycle((int)timeSpan);
+                    if (unit.IsDead)
                     {
-                        hittedBy.AddExperience(Data.GetXPReward(unit.Level));
-                        if (hittedBy is Character)
+                        foreach (IUnit hittedBy in unit.HittedBy)
                         {
-                            Character c = (Character)hittedBy;
-                            if (c.CurrentQuest.Killed(unit.UnitID))
-                                c.AddDifference(new QuestObjectiveDifference(c.UniqueID, c.CurrentQuest));
+                            hittedBy.AddExperience(Data.GetXPReward(unit.Level));
+                            if (hittedBy is Character)
+                            {
+                                Character c = (Character)hittedBy;
+                                if (c.CurrentQuest.Killed(unit.UnitID))
+                                    c.AddDifference(new QuestObjectiveDifference(c.UniqueID, c.CurrentQuest));
+                            }
                         }
                     }
                 }
-            }
-            
-            // remove killed units and create respawn action
-            units.RemoveAll(
-                (IUnit u) =>
-                {
-                    if (u.IsDead)
+
+                // remove killed units and create respawn action
+                units.RemoveAll(
+                    (IUnit u) =>
                     {
-                        lock (mapGeneralDifferenes)
+                        if (u.IsDead)
                         {
-                            mapGeneralDifferenes.Add(new UnitDiedDifference(u));
+                            lock (mapGeneralDifferenes)
+                            {
+                                mapGeneralDifferenes.Add(new UnitDiedDifference(u));
+                            }
+
+                            AddTimedAction(new RespawnUnitAction(u), u.RespawnTime);
                         }
 
-                        AddTimedAction(new RespawnUnitAction(u), u.RespawnTime);
-                    }
+                        return u.IsDead;
+                    });
 
-                    return u.IsDead;
-                });
-
-            // move all missiles and check player collision
-            foreach(Missile missile in missiles)
-            {
-                missile.PlayCycle(timeSpan);
-                foreach (IUnit unit in units)
-                    unit.TryHitByMissile(missile);
-            }
-            missiles.RemoveAll((Missile m) => m.IsDead);
-
-            // check visited ranges
-            foreach(IUnit unit in units)
-            {
-                Point unitPoint = new Point(unit.GetLocation().X, unit.GetLocation().Y);
-                foreach (IUnit host in units)
+                // move all missiles and check player collision
+                foreach (Missile missile in missiles)
                 {
-                    if (unit == host || !unit.IsPlayer())
-                        continue;
+                    missile.PlayCycle(timeSpan);
+                    foreach (IUnit unit in units)
+                        unit.TryHitByMissile(missile);
+                }
+                missiles.RemoveAll((Missile m) => m.IsDead);
 
-                    Point hostPoint = new Point(host.GetLocation().X, host.GetLocation().Y);
-                    // visit -> for quests
-                    bool isVisited = unit.CurrentlyVisited.Contains(host);
-
-                    if (isVisited && !(unitPoint.DistanceFrom(hostPoint) < Data.VisitDistance))
-                        unit.CurrentlyVisited.Remove(host);
-
-                    if (!isVisited && (unitPoint.DistanceFrom(hostPoint) < Data.VisitDistance))
+                // check visited ranges
+                foreach (IUnit unit in units)
+                {
+                    Point unitPoint = new Point(unit.GetLocation().X, unit.GetLocation().Y);
+                    foreach (IUnit host in units)
                     {
-                        unit.CurrentlyVisited.Add(host);
-                        AddPlayerAction(new CharacterVisitedUnitAction((Character)unit, host));
-                    }
+                        if (unit == host || !unit.IsPlayer())
+                            continue;
 
-                    // enter combat range 
-                    if (host.IsPlayer())
-                        continue;
+                        Point hostPoint = new Point(host.GetLocation().X, host.GetLocation().Y);
+                        // visit -> for quests
+                        bool isVisited = unit.CurrentlyVisited.Contains(host);
 
-                    if (host.Fraction == unit.Fraction)
-                        continue;
+                        if (isVisited && !(unitPoint.DistanceFrom(hostPoint) < Data.VisitDistance))
+                            unit.CurrentlyVisited.Remove(host);
 
-                    bool isInCombat = host.InCombatWith.Contains(unit);
-                    if (isInCombat && unitPoint.DistanceFrom(host.SpawnPosition) > Data.LeaveCombatDistance)
-                    {
-                        host.LeaveCombatWith(unit);
-                        unit.LeaveCombatWith(host);
-                        Console.WriteLine(host.GetName() + " left combat with " + unit.GetName());
-                    }
-                    if(!isInCombat && unitPoint.DistanceFrom(host.SpawnPosition) < Data.EnterCombatDistance)
-                    {
-                        host.EnterCombatWith(unit);
-                        unit.EnterCombatWith(host);
-                        Console.WriteLine(host.GetName() + " entered combat with " + unit.GetName());
+                        if (!isVisited && (unitPoint.DistanceFrom(hostPoint) < Data.VisitDistance))
+                        {
+                            unit.CurrentlyVisited.Add(host);
+                            AddPlayerAction(new CharacterVisitedUnitAction((Character)unit, host));
+                        }
+
+                        // enter combat range 
+                        if (host.IsPlayer())
+                            continue;
+
+                        if (host.Fraction == unit.Fraction)
+                            continue;
+
+                        bool isInCombat = host.InCombatWith.Contains(unit);
+                        if (isInCombat && unitPoint.DistanceFrom(host.SpawnPosition) > Data.LeaveCombatDistance)
+                        {
+                            host.LeaveCombatWith(unit);
+                            unit.LeaveCombatWith(host);
+                            Console.WriteLine(host.GetName() + " left combat with " + unit.GetName());
+                        }
+                        if (!isInCombat && unitPoint.DistanceFrom(host.SpawnPosition) < Data.EnterCombatDistance)
+                        {
+                            host.EnterCombatWith(unit);
+                            unit.EnterCombatWith(host);
+                            Console.WriteLine(host.GetName() + " entered combat with " + unit.GetName());
+                        }
                     }
                 }
             }

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace Client
 {
@@ -52,6 +49,19 @@ namespace Client
             userInterface.AddComponent(usernameText);
             userInterface.AddComponent(charactersPanel);
             userInterface.AddComponent(enterButton);
+        }
+
+        public override void Render(Graphics g)
+        {
+            base.Render(g);
+            Character chr = charactersPanel.GetSelectedCharacter();
+
+            if (chr == null)
+                return;
+
+            Image img = GameData.GetUnitImage(chr.Spec);
+            g.DrawImage(img, Application.WIDTH / 2, charactersPanel.Y, 
+                Application.WIDTH / 2 - 50, charactersPanel.HEIGHT - 50);
         }
 
         private void OnEnterWorldClicked(Button button, EventArgs e)

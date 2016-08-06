@@ -35,7 +35,8 @@ namespace Client
             // quest requirements
             foreach(QuestObjective objective in quest.Objectives)
             {
-                g.DrawString(objective.Text, descriptionFont, Brushes.Black, new RectangleF(x+10, y, width, 12));
+                Brush brush = objective.Completed ? Brushes.LightGreen : Brushes.Red;
+                g.DrawString(objective.Text, descriptionFont, brush, new RectangleF(x+10, y, width, 12));
                 y += 12;
             }
             y += 2*PADDING;

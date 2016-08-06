@@ -43,62 +43,74 @@ namespace Server
                 bool needSend = false;
 
                 // add unit differences
-                foreach (IUnit unit in mapInstance.GetUnits())
+                List<IUnit> units = mapInstance.GetUnits();
+                lock (units)
                 {
-                    if (unit.Moved || unit.Differences.Count != 0)
+                    foreach (IUnit unit in units)
                     {
-                        msg.Append(unit.UniqueID);
+                        if (unit.Moved || unit.Differences.Count != 0)
+                        {
+                            msg.Append(unit.UniqueID);
 
-                        if (unit.Moved)
-                        {
-                            // location TODO: move this to differences
-                            Location loc = unit.GetLocation();
-                            msg.Append("|L&" + loc.X + "&" + loc.Y);
-                        }
+                            if (unit.Moved)
+                            {
+                                // location TODO: move this to differences
+                                Location loc = unit.GetLocation();
+                                msg.Append("|L&" + loc.X + "&" + loc.Y);
+                            }
 
-                        // other actions
-                        foreach(IUnitDifference diff in unit.Differences)
-                        {
-                            msg.Append("|" + diff.GetString());
+                            // other actions
+                            foreach (IUnitDifference diff in unit.Differences)
+                            {
+                                msg.Append("|" + diff.GetString());
+                            }
+                            // TODO: unit differences this way is bullshit
+                            if (unit.Differences.Count != 0)
+                            {
+                                unit.Differences.Clear();
+                            }
+
+                            // finish
+                            msg.Append(",");
+                            unit.Moved = false;
+                            needSend = true;
                         }
-                        // TODO: unit differences this way is bullshit
-                        if (unit.Differences.Count != 0)
-                        {
-                            unit.Differences.Clear();
-                        }
-                        
-                        // finish
-                        msg.Append(",");
-                        unit.Moved = false;
-                        needSend = true;
                     }
-                }
 
-                // add map general differences
-                foreach(IUnitDifference diff in mapInstance.GetGeneralDifferencesAndReset())
-                {
-                    int uid = diff.UnitUID;
-                    msg.Append(uid + "|" + diff.GetString());
-                    msg.Append(",");
-                    needSend = true;
-                }
-
-                msg.Append("\r\n");
-
-                if (!needSend)
-                    return;
-
-                byte[] byteDate = Encoding.ASCII.GetBytes(msg.ToString());
-                foreach (StateObject client in mapInstance.GetClients())
-                {
-                    try
+                    // add map general differences
+                    List<IUnitDifference> unitDiffs = mapInstance.GetGeneralDifferencesAndReset();
+                    lock (unitDiffs)
                     {
-                        Console.WriteLine("Sending: " + msg);
-                        client.clientSocket.Send(byteDate, 0, byteDate.Length, SocketFlags.None);
+                        foreach (IUnitDifference diff in unitDiffs)
+                        {
+                            int uid = diff.UnitUID;
+                            msg.Append(uid + "|" + diff.GetString());
+                            msg.Append(",");
+                            needSend = true;
+                        }
                     }
-                    catch (SocketException)
+
+                    msg.Append("\r\n");
+
+                    if (!needSend)
+                        return;
+
+                    byte[] byteDate = Encoding.ASCII.GetBytes(msg.ToString());
+                    var clients = mapInstance.GetClients();
+                    lock (clients)
                     {
-                        DisconnectClient(client);
+                        foreach (StateObject client in clients)
+                        {
+                            try
+                            {
+                                Console.WriteLine("Sending: " + msg);
+                                client.clientSocket.Send(byteDate, 0, byteDate.Length, SocketFlags.None);
+                            }
+                            catch (SocketException)
+                            {
+                                DisconnectClient(client);
+                            }
+                        }
                     }
                 }
             }

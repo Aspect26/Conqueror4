@@ -21,6 +21,9 @@ namespace Server
 
         public bool IsCompleted()
         {
+            if (objectives.Length == 0)
+                return false;
+
             foreach(IQuestObjective objective in objectives)
             {
                 if (!objective.IsCompleted)
@@ -82,9 +85,32 @@ namespace Server
         {
             StringBuilder data = new StringBuilder();
             foreach (IQuestObjective objective in objectives)
+            {
                 data.Append("&" + objective.GetCodedData());
+                if (objective.IsCompleted)
+                    data.Append("^CMP");
+            }
 
             return data.ToString();
+        }
+
+        // *********************************
+        // no quest singleton
+        // *********************************
+        private static Quest noQuest;
+
+        public static Quest NoQuestSingleton {
+            get
+            {
+                if (noQuest == null)
+                    noQuest = new Quest(new QuestData(
+                        new IQuestObjective[] { }, 
+                        "No Quest", 
+                        "You have completed all your quests!",
+                        -1));
+
+                return noQuest;
+            }
         }
     }
 }

@@ -45,7 +45,9 @@ namespace Server
             StateObject clientState = new StateObject();
             clientState.clientSocket = clientSocket;
 
-            clients.Add(clientState);
+            lock(clients)
+                clients.Add(clientState);
+
             Console.WriteLine("New connection from: " + clientSocket.LocalEndPoint);
             clientSocket.BeginReceive(clientState.buffer, 0, StateObject.BufferSize, SocketFlags.None, new AsyncCallback(FirstClientMessage), clientState);
         }
@@ -171,7 +173,7 @@ namespace Server
             {
                 Console.WriteLine("Lost connection with: " + state.Account.Username);
                 state.Account.LoggedIn = false;
-                clients.Remove(state);
+                DisconnectClient(state);
             }
 
             if (bytesRead > 0)

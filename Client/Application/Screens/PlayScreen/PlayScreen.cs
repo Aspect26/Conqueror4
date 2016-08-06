@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 
@@ -11,6 +12,8 @@ namespace Client
         private PlayedCharacter playerCharacter;
         private Game game;
         private long lastTimeStamp;
+        private CenterMessages centerMessages;
+        private Font centerMessagesFont;
 
         private QuestLog questLog;
 
@@ -25,12 +28,24 @@ namespace Client
             userInterface.AddComponent(new CharacterStatus(application.Account.PlayCharacter));
             userInterface.AddComponent(questLog);
 
+            // actively wait for game to load :(
+            while (game == null) ;
+            game.NewQuestAcquired += PlayerAquiredQuestMessage;
+
+            centerMessages = new CenterMessages();
+            centerMessagesFont = GameData.GetFont(12);
+
             lastTimeStamp = Stopwatch.GetTimestamp();
+        }
+
+        public void PlayerAquiredQuestMessage(IQuest quest)
+        {
+            centerMessages.AddMessage("New quest acquired: " + quest.Title);
         }
 
         public override void Render(Graphics g)
         {
-            // TODO: remove this
+            // TODO: remove this when ready
             g.Clear(Color.Black);
 
             long now = Stopwatch.GetTimestamp();
@@ -46,6 +61,21 @@ namespace Client
             game.RunCycle(g, elapsedMilis);
 
             userInterface.Render(g);
+
+            // center messages
+            IList<string> messages = centerMessages.GetMessages();
+            int y = 65;
+            lock (messages)
+            {
+                foreach (string message in messages)
+                {
+                    float width = g.MeasureString(message, centerMessagesFont).Width;
+                    g.DrawString(message, centerMessagesFont, Brushes.Yellow,
+                        Application.WIDTH / 2 - width / 2, y);
+
+                    y += 20;
+                }
+            }
         }
 
         // *************************************************

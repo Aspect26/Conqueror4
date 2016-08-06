@@ -12,6 +12,10 @@ namespace Client
         private Dictionary<int, IUnit> units;
         private List<Missile> missiles;
 
+        // EVENTS
+        public delegate void NewQuestDelegate (IQuest qiest);
+        public event NewQuestDelegate NewQuestAcquired;
+
         public Game(PlayedCharacter character)
         {
             this.Character = character;
@@ -107,6 +111,7 @@ namespace Client
         public void UpdateQuest(IQuest quest)
         {
             Character.SetCurrentQuest(quest);
+            NewQuestAcquired(quest);
         }
 
         public void UpdateQuestObjectives(QuestObjective[] objectives)

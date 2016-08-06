@@ -39,6 +39,9 @@ namespace Client
             passText = new LineText(position, "Password:", Color.Yellow, new Point(
                 passInput.X - 150, passInput.Y + 5), 20);
 
+            LineText buildText = new LineText(position, "Build: 68", Color.Wheat, new Point(
+                700, 600), 15);
+
             nickInput.SetNeighbour(passInput);
             passInput.SetNeighbour(loginButton);
             loginButton.SetNeighbour(registerButton);
@@ -50,6 +53,7 @@ namespace Client
             userInterface.AddComponent(registerButton);
             userInterface.AddComponent(loginText);
             userInterface.AddComponent(passText);
+            userInterface.AddComponent(buildText);
 
             userInterface.SetFocusedComponent(nickInput);
         }

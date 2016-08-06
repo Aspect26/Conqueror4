@@ -21,6 +21,12 @@ namespace Server
             }
         }
 
+        public void RemoveClient(StateObject client)
+        {
+            MapInstance map = client.PlayingCharacter.MapInstance;
+            map.RemoveClient(client);
+        }
+
         public MapInstance GetMapInstance(int mapId)
         {
             return mapInstances[mapId];

@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Server
 {
@@ -34,18 +35,10 @@ namespace Server
 
             Console.WriteLine("Starting server...");
 
-            // then start game task, receiving commands task and sending data task
-
-            // TASKS
-            //Task gameInitializationTask = Task.Factory.StartNew(() => game.Initialize(sendActions));
-            //Task gameTask = gameInitializationTask.ContinueWith((parent) => game.Start(), TaskContinuationOptions.LongRunning);
-            //Task receivingTask = gameInitializationTask.ContinueWith((parent) => AcceptAndReceiveClients(), TaskContinuationOptions.LongRunning);
-            //Task sendingTask = gameInitializationTask.ContinueWith((parent) => SendClients(), TaskContinuationOptions.LongRunning);
-
             // THREADS
             new Thread(game.Start).Start();
             new Thread(AcceptAndReceiveClients).Start();
-            new Thread(SendClients).Start();
+            SendClients();
 
             Console.WriteLine("Server ended. Press any key to terminate.");
             Console.ReadKey(true);
@@ -54,7 +47,8 @@ namespace Server
 
         public void DisconnectClient(StateObject client)
         {
-            // TODO: this function
+            clients.Remove(client);
+            game.RemoveClient(client);
         }
 
         public void AddPlayerActionToGameQueue(IPlayerAction action)

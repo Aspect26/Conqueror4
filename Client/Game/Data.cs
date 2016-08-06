@@ -93,6 +93,11 @@ namespace Client
                     path += "priest"; break;
                 case 4:
                     path += "warlock"; break;
+
+                case SharedData.UNIT_WARLOCK_SPAWNER:
+                    path += "warlock"; break;
+                case SharedData.UNIT_AWAKENED_SOUL:
+                    path += "soul"; break;
                 default:
                     path += "default"; break;
             }

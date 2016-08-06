@@ -36,7 +36,7 @@ namespace Server
                 case SharedData.UNIT_WARLOCK:
                 case SharedData.UNIT_UNKHERO1:
                 case SharedData.UNIT_UNKHERO2:
-                    return null;
+                    return GetQuest(SharedData.QUEST_NO_QUEST);
 
                 default:
                     return null;
@@ -178,7 +178,7 @@ namespace Server
                         SharedData.QUEST_NO_QUEST
                         ));
                 default:
-                    return null;
+                    return Quest.NoQuestSingleton;
             }
         }
 

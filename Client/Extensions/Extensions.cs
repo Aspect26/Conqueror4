@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
@@ -70,6 +71,11 @@ namespace Client
 
             //return the image
             return bmp;
+        }
+
+        public static long GetCurrentMillis()
+        {
+            return (Stopwatch.GetTimestamp() * 1000) / Stopwatch.Frequency;
         }
     }
 }

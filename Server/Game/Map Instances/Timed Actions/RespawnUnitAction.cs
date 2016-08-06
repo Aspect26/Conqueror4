@@ -10,9 +10,8 @@
         {
             this.unitId = unit.UnitID;
 
-            // TODO: initial location instead of dying location
-            this.xLoc = unit.GetLocation().X;
-            this.yLoc = unit.GetLocation().Y;
+            this.xLoc = unit.SpawnPosition.X;
+            this.yLoc = unit.SpawnPosition.Y;
         }
 
         public void Process(MapInstance map)

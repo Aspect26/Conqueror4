@@ -10,8 +10,6 @@ namespace Client
 
         public QuestObjective(string data)
         {
-            this.Completed = false;
-
             string[] parts = data.Split('^');
             if(parts[0] == "V")
             {
@@ -26,6 +24,8 @@ namespace Client
             {
                 Text = "Investigate " + parts[1];
             }
+
+            Completed = (parts[parts.Length - 1] == "CMP") ? true : false;
         }
     }
 }
