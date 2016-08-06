@@ -32,7 +32,7 @@ namespace Server
         public List<IUnit> InCombatWith { get; protected set; }
 
         protected int movingSpeed;
-        protected const int SLOWING_CONSTANT = 5;
+        protected int shootCooldown;
 
         public string Name { get; set; }
 
@@ -53,6 +53,7 @@ namespace Server
             this.ActualStats = data.MaxStats.Copy();
             this.Level = data.Level;
             this.Fraction = data.Fraction;
+            this.shootCooldown = 800;
             this.SpawnPosition = new Point(location.X, location.Y);
 
             Direction = MovingDirection.None;
@@ -123,20 +124,25 @@ namespace Server
                     int moveX = (int)(movePoints * (x / length));
                     int moveY = (int)(movePoints * (y / length));
 
-                   GetLocation().X += moveX;
-                   GetLocation().Y += moveY;
+                    GetLocation().X += moveX;
+                    GetLocation().Y += moveY;
 
                     Moved = true;
+
+                    if (myPoint.DistanceFrom(SpawnPosition) <= 10)
+                    {
+                        this.ActualStats.HitPoints = this.MaxStats.HitPoints;
+                        this.Differences.Add(new ActualHPDifference(UniqueID, ActualStats.HitPoints));
+                    }
                 }
             }
         }
 
-        private int ShootCooldown = 300;
         private long lastShoot = long.MinValue;
 
         public Missile Shoot(long timeStamp, int x, int y)
         {
-            if (timeStamp > lastShoot + ShootCooldown)
+            if (timeStamp > lastShoot + shootCooldown)
             {
                 lastShoot = timeStamp;
                 this.Differences.Add(new PlayerShootDifference(UniqueID, x, y));
@@ -183,7 +189,10 @@ namespace Server
         {
             this.ActualStats.HitPoints -= missile.Damage;
             if (ActualStats.HitPoints <= 0)
-                IsDead = true;
+            {
+                missile.Source.InCombatWith.Remove(this);
+                this.IsDead = true;
+            }
 
             if(!HittedBy.Contains(missile.Source))
                 HittedBy.Add(missile.Source);

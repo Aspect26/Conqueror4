@@ -33,7 +33,7 @@ namespace Server
 
         public void HitUnit(IUnit unit)
         {
-            IsDead = true;
+            this.IsDead = true;
             unit.HitByMissile(this);
         }
 

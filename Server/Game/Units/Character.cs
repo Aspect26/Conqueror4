@@ -14,6 +14,7 @@ namespace Server
             this.Level = 1;
             this.Experience = 0;
             this.CurrentQuest = Data.GetInitialQuest(spec);
+            this.shootCooldown = 300;
         }
 
         public override void PlayCycle(int timeSpan)
