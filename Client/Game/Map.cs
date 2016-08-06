@@ -54,7 +54,7 @@ namespace Client
 
                             graphics.DrawImage(GameData.GetTile(tiles[x][y].Id),
                                 drawPoint.X, drawPoint.Y,
-                                Tile.TILE_SIZE, Tile.TILE_SIZE);
+                                Tile.TILE_SIZE + 1, Tile.TILE_SIZE + 1);
 
                             //BlendTile(graphics, x, y, drawPoint);
                         }
