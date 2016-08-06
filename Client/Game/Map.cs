@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
+﻿using System.Drawing;
 using Shared;
 
 namespace Client
@@ -9,7 +7,7 @@ namespace Client
     {
         // X x Y
         private Tile[][] tiles;
-        private const int VISIBILITY = 16;
+        private const int VISIBILITY = 20;
 
         public Map() { }
 

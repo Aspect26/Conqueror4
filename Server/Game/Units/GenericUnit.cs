@@ -126,6 +126,7 @@ namespace Server
 
                     GetLocation().X += moveX;
                     GetLocation().Y += moveY;
+                    myPoint = new Point(Location.X, Location.Y);
 
                     Moved = true;
 

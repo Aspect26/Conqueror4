@@ -21,6 +21,10 @@ namespace Client
         public MainWindow()
         {
             InitializeComponent();
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.StartPosition = FormStartPosition.CenterScreen;
 
             this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
             context = BufferedGraphicsManager.Current;

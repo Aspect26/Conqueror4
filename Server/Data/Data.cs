@@ -186,9 +186,10 @@ namespace Server
         // GAME DATA
         // *****************************************
         public const int VisitDistance = 100;
-        public const int LeaveCombatDistance = 450;
-        public const int EnterCombatDistance = 300;
+
         public const int CombatRange = 175;
+        public const int EnterCombatDistance = 300;
+        public const int LeaveCombatDistance = 650;
 
         // unit id -> base stats (max hp, ...)
         static Dictionary<int, InitialData> unitInitialStats = new Dictionary<int, InitialData>()

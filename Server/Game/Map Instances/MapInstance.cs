@@ -12,7 +12,7 @@ namespace Server
         private List<IUnit> units;
         private Queue<IPlayerAction> playerActions;
         private List<IUnitDifference> mapGeneralDifferenes;
-        private SortedList<long, ITimedAction> timedActions;
+        private SortedList<long, List<ITimedAction>> timedActions;
         private List<Missile> missiles;
         private int lastUniqueId = 1;
 
@@ -29,7 +29,7 @@ namespace Server
             this.clientStates = new List<StateObject>();
             this.units = new List<IUnit>();
             this.playerActions = new Queue<IPlayerAction>();
-            this.timedActions = new SortedList<long, ITimedAction>();
+            this.timedActions = new SortedList<long, List<ITimedAction>>();
 
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
@@ -65,8 +65,14 @@ namespace Server
 
         public void AddTimedAction(ITimedAction action, int afterSeconds)
         {
-            lock(timedActions)
-                timedActions.Add(Extensions.GetCurrentMillis() + afterSeconds*1000, action);
+            lock (timedActions)
+            {
+                long key = Extensions.GetCurrentMillis() + afterSeconds * 1000;
+                if (!timedActions.Keys.Contains(key))
+                    timedActions.Add(key, new List<ITimedAction>());
+
+                timedActions[key].Add(action);
+            }
         }
 
         // THIS IS CALLED FROM GAME TASK
@@ -165,7 +171,9 @@ namespace Server
                     // OUCH THIS :'(
                     lock (this)
                     {
-                        timedActions[firstKey].Process(this);
+                        foreach (ITimedAction action in timedActions[firstKey])
+                            action.Process(this);
+
                         timedActions.Remove(firstKey);
                     }
                 }

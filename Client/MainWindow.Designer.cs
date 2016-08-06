@@ -34,7 +34,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 480);
+            this.ClientSize = new System.Drawing.Size(850, 640);
             this.Name = "MainWindow";
             this.Text = "Conqueror 4";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OnClose);
