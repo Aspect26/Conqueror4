@@ -1,4 +1,5 @@
 ﻿using Shared;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -210,7 +211,7 @@ namespace Server
             }
             missiles.RemoveAll((Missile m) => m.IsDead);
 
-            // check visiteds
+            // check visited ranges
             foreach(IUnit unit in units)
             {
                 Point unitPoint = new Point(unit.GetLocation().X, unit.GetLocation().Y);
@@ -219,8 +220,9 @@ namespace Server
                     if (unit == host || !unit.IsPlayer())
                         continue;
 
-                    bool isVisited = unit.CurrentlyVisited.Contains(host);
                     Point hostPoint = new Point(host.GetLocation().X, host.GetLocation().Y);
+                    // visit -> for quests
+                    bool isVisited = unit.CurrentlyVisited.Contains(host);
 
                     if (isVisited && !(unitPoint.DistanceFrom(hostPoint) < Data.VisitDistance))
                         unit.CurrentlyVisited.Remove(host);
@@ -229,6 +231,25 @@ namespace Server
                     {
                         unit.CurrentlyVisited.Add(host);
                         AddPlayerAction(new CharacterVisitedUnitAction((Character)unit, host));
+                    }
+
+                    // enter combat range 
+                    if (host.IsPlayer())
+                        continue;
+
+                    if (host.Fraction == unit.Fraction)
+                        continue;
+
+                    bool isInCombat = host.InCombatWith.Contains(unit);
+                    if (isInCombat && unitPoint.DistanceFrom(host.SpawnPosition) > Data.LeaveCombatDistance)
+                    {
+                        host.InCombatWith.Remove(unit);
+                        Console.WriteLine(host.GetName() + " left combat with " + unit.GetName());
+                    }
+                    if(!isInCombat && unitPoint.DistanceFrom(host.SpawnPosition) < Data.EnterCombatDistance)
+                    {
+                        host.InCombatWith.Add(unit);
+                        Console.WriteLine(host.GetName() + " entered combat with " + unit.GetName());
                     }
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Shared;
+using System.Drawing;
 
 namespace Server
 {
@@ -18,6 +19,7 @@ namespace Server
         int RespawnTime { get; }
 
         Location GetLocation();
+        Point SpawnPosition { get; }
         string GetName();
         bool IsPlayer();
         void PlayCycle(int timeSpan);
@@ -32,6 +34,7 @@ namespace Server
         List<IUnitDifference> Differences { get; }
         List<IUnit> HittedBy { get; }
         List<IUnit> CurrentlyVisited { get; }
+        List<IUnit> InCombatWith { get; }
         void AddDifference(IUnitDifference difference);
     }
 }

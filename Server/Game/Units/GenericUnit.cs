@@ -1,7 +1,6 @@
 ﻿using Shared;
 using System.Collections.Generic;
 using System.Drawing;
-using System;
 
 namespace Server
 {
@@ -14,7 +13,6 @@ namespace Server
         public BaseStats ActualStats { get; protected set; }
         public int Level { get; protected set; }
 
-        // TODO: respawn time
         public int RespawnTime { get { return 120; } }
         public int Fraction { get; }
 
@@ -24,10 +22,12 @@ namespace Server
 
         public MapInstance MapInstance { get; protected set; }
         public Location Location { get; set; }
+        public Point SpawnPosition { get; protected set; }
         public MovingDirection Direction { get; private set; }
         public bool Moved { get; set; }
         public List<IUnitDifference> Differences { get; protected set; }
         public List<IUnit> CurrentlyVisited { get; protected set; }
+        public List<IUnit> InCombatWith { get; protected set; }
 
         protected int movingSpeed;
         protected const int SLOWING_CONSTANT = 5;
@@ -45,11 +45,13 @@ namespace Server
             this.Differences = new List<IUnitDifference>();
             this.HittedBy = new List<IUnit>();
             this.CurrentlyVisited = new List<IUnit>();
+            this.InCombatWith = new List<IUnit>();
             this.IsDead = false;
             this.MaxStats = data.MaxStats.Copy();
             this.ActualStats = data.MaxStats.Copy();
             this.Level = data.Level;
             this.Fraction = data.Fraction;
+            this.SpawnPosition = new Point(location.X, location.Y);
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
