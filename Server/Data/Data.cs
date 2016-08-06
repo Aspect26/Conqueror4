@@ -191,6 +191,8 @@ namespace Server
         public const int EnterCombatDistance = 300;
         public const int LeaveCombatDistance = 650;
 
+        public const int HPRegenInterval = 2000;
+
         // unit id -> base stats (max hp, ...)
         static Dictionary<int, InitialData> unitInitialStats = new Dictionary<int, InitialData>()
         {

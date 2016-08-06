@@ -1,4 +1,5 @@
 ﻿using Shared;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -137,8 +138,11 @@ namespace Client
 
             Point position = new Point(unit.Location.X, unit.Location.Y);
             lock (missiles)
-                this.missiles.Add(new Missile(this, unit, GameData.GetMissileImage(unit.UnitID), position, 
-                    new Point(dirX, dirY)));
+            {
+                Image img = GameData.GetMissileImage(unit.UnitID);
+                img = Extensions.RotateImage(img, ((float)Math.Atan2(dirY, dirX))*(180.0f / (float)Math.PI));
+                this.missiles.Add(new Missile(this, unit, img, position, new Point(dirX, dirY)));
+            }
         }
 
         public void AddMissile(Missile missile)

@@ -28,6 +28,9 @@ namespace Server
         void HitByMissile(Missile missile);
         bool IsDead { get; }
 
+        void LeaveCombatWith(IUnit unit);
+        void EnterCombatWith(IUnit unit);
+
         void AddExperience(int xp);
 
         bool Moved { get; set; }

@@ -72,6 +72,16 @@ namespace Server
             this.UniqueID = uniqueId;
         }
 
+        public virtual void LeaveCombatWith(IUnit unit)
+        {
+            InCombatWith.Remove(unit);
+        }
+
+        public virtual void EnterCombatWith(IUnit unit)
+        {
+            InCombatWith.Add(unit);
+        }
+
         public virtual void PlayCycle(int timeSpan)
         {
             if(InCombatWith.Count > 0)
@@ -174,6 +184,9 @@ namespace Server
                 return;
 
             if (missile.Source.Fraction == this.Fraction)
+                return;
+
+            if (missile.IsDead)
                 return;
 
             Point missilePoint = missile.GetLocation();

@@ -256,12 +256,14 @@ namespace Server
                     bool isInCombat = host.InCombatWith.Contains(unit);
                     if (isInCombat && unitPoint.DistanceFrom(host.SpawnPosition) > Data.LeaveCombatDistance)
                     {
-                        host.InCombatWith.Remove(unit);
+                        host.LeaveCombatWith(unit);
+                        unit.LeaveCombatWith(host);
                         Console.WriteLine(host.GetName() + " left combat with " + unit.GetName());
                     }
                     if(!isInCombat && unitPoint.DistanceFrom(host.SpawnPosition) < Data.EnterCombatDistance)
                     {
-                        host.InCombatWith.Add(unit);
+                        host.EnterCombatWith(unit);
+                        unit.EnterCombatWith(host);
                         Console.WriteLine(host.GetName() + " entered combat with " + unit.GetName());
                     }
                 }

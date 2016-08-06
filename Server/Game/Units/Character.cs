@@ -1,4 +1,5 @@
 ﻿using Shared;
+using System.Diagnostics;
 
 namespace Server
 {
@@ -8,6 +9,8 @@ namespace Server
         public int Experience { get; protected set; }
         public IQuest CurrentQuest { get; protected set; }
 
+        private long lastHealed;
+
         public Character(string name, int spec, int uid, Location location, MapInstance map) 
             : base(name, spec, uid, location, map, Data.GetCharacterBaseStats(spec, 1))
         {
@@ -15,10 +18,40 @@ namespace Server
             this.Experience = 0;
             this.CurrentQuest = Data.GetInitialQuest(spec);
             this.shootCooldown = 300;
+            this.lastHealed = Extensions.GetCurrentMillis();
         }
 
         public override void PlayCycle(int timeSpan)
         {
+            // heal myself if not in combat
+            if (IsDead)
+                return;
+
+            if (InCombatWith.Count != 0)
+                return;
+
+            if (ActualStats.HitPoints == MaxStats.HitPoints)
+                return;
+
+            long now = Extensions.GetCurrentMillis();
+            if(now - lastHealed >= Data.HPRegenInterval)
+            {
+                lastHealed = now;
+                int toRegen = MaxStats.HitPoints / 15;
+
+                if (ActualStats.HitPoints + toRegen > MaxStats.HitPoints)
+                    ActualStats.HitPoints = MaxStats.HitPoints;
+                else
+                    ActualStats.HitPoints += toRegen;
+
+                this.AddDifference(new ActualHPDifference(UniqueID, ActualStats.HitPoints));
+            }
+        }
+
+        public override void LeaveCombatWith(IUnit unit)
+        {
+            base.LeaveCombatWith(unit);
+            this.lastHealed = Extensions.GetCurrentMillis();
         }
 
         public void SetQuest(IQuest quest)

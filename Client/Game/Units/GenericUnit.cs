@@ -98,6 +98,9 @@ namespace Client
             if (missile.Source.Fraction == this.Fraction)
                 return;
 
+            if (missile.IsDead)
+                return;
+
             Point missilePoint = missile.GetLocation();
             Point myPoint = new Point(this.Location.X, this.Location.Y);
             int distance = myPoint.DistanceFrom(missilePoint);
