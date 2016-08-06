@@ -75,9 +75,10 @@ namespace Server
         {
             if(InCombatWith.Count > 0)
             {
-                Point location = new Point(InCombatWith[0].GetLocation().X, InCombatWith[0].GetLocation().Y);
-                int x = location.X - Location.X;
-                int y = location.Y - Location.Y;
+                // shoot at combat target
+                Point targetLocation = new Point(InCombatWith[0].GetLocation().X, InCombatWith[0].GetLocation().Y);
+                int x = targetLocation.X - Location.X;
+                int y = targetLocation.Y - Location.Y;
                 double length = Math.Sqrt(x * x + y * y);
 
                 int dirX = (int)((x / length) * 100);
@@ -86,6 +87,47 @@ namespace Server
                 Missile m = Shoot((Stopwatch.GetTimestamp() * 1000) / Stopwatch.Frequency, dirX, dirY);
                 if (m != null)
                     MapInstance.AddMissile(m);
+
+                // check if move to combat target
+                int movePoints = timeSpan / SharedData.SlowingConstant;
+                Point myPoint = new Point(Location.X, Location.Y);
+                if (myPoint.DistanceFrom(targetLocation) < Data.CombatRange)
+                    return;
+
+                int moveX = (int)(movePoints * (x / length));
+                int moveY = (int)(movePoints * (y / length));
+
+                // move to combat target
+                if ( myPoint.DistanceFrom(targetLocation) > Data.CombatRange)
+                {
+                    GetLocation().X += moveX;
+                    GetLocation().Y += moveY;
+
+                    Moved = true;
+                }
+            }
+            else
+            {
+                // return to spawn location if needed
+                Point myPoint = new Point(Location.X, Location.Y);
+                if (myPoint.DistanceFrom(SpawnPosition) > 10)
+                {
+                    int x = SpawnPosition.X - Location.X;
+                    int y = SpawnPosition.Y - Location.Y;
+                    double length = Math.Sqrt(x * x + y * y);
+
+                    int dirX = (int)((x / length) * 100);
+                    int dirY = (int)((y / length) * 100);
+
+                    int movePoints = timeSpan / SharedData.SlowingConstant;
+                    int moveX = (int)(movePoints * (x / length));
+                    int moveY = (int)(movePoints * (y / length));
+
+                   GetLocation().X += moveX;
+                   GetLocation().Y += moveY;
+
+                    Moved = true;
+                }
             }
         }
 

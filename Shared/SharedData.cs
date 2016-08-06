@@ -28,6 +28,7 @@ namespace Shared
                 default: return "Unknown";
             }
         }
+
         /*****************************/
         /* IDs                       */
         /*****************************/
@@ -66,5 +67,10 @@ namespace Shared
         public const int UNIT_WARLOCK_SPAWNER = 10;
         public const int UNIT_BERLOC_PYRESTEEL = 11;
         public const int UNIT_AWAKENED_SOUL = 12;
+
+        /*****************************/
+        /* CONSTANTs                 */
+        /*****************************/
+        public const int SlowingConstant = 4;
     }
 }

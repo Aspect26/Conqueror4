@@ -16,6 +16,10 @@ namespace Server
             this.CurrentQuest = Data.GetInitialQuest(spec);
         }
 
+        public override void PlayCycle(int timeSpan)
+        {
+        }
+
         public void SetQuest(IQuest quest)
         {
             this.CurrentQuest = quest;

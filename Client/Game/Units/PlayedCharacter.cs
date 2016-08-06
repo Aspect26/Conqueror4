@@ -74,7 +74,7 @@ namespace Client
             base.PlayCycle(timeSpan);
 
             animation.AnimateCycle(timeSpan);
-            int movePoints = timeSpan / SLOWING_CONSTANT;
+            int movePoints = timeSpan / SharedData.SlowingConstant;
 
             bool movingHorizontally = (movingLeft && !movingRight) || (!movingLeft && movingRight);
             bool movingVertically = (movingUp && !movingBottom) || (!movingUp && movingBottom);
