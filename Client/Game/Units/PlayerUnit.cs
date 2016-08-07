@@ -16,5 +16,10 @@ namespace Client
             this.game = game;
             this.nameBrush = Brushes.Blue;
         }
+
+        public override bool Isplayer()
+        {
+            return true;
+        }
     }
 }

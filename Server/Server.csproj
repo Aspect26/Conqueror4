@@ -68,6 +68,8 @@
     <Compile Include="Game\Quests\Quest Objectives\UnitVisitedObjective.cs" />
     <Compile Include="Game\Quests\Quest.cs" />
     <Compile Include="Game\Quests\QuestData.cs" />
+    <Compile Include="Game\Units\Differences\ActualStatsDifference.cs" />
+    <Compile Include="Game\Units\Differences\CharacterForceMovedAction.cs" />
     <Compile Include="Game\Units\Differences\NewQuestDifference.cs" />
     <Compile Include="Game\Units\Differences\QuestObjectiveDifference.cs" />
     <Compile Include="Game\Units\GenericUnit.cs" />

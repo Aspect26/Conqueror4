@@ -27,5 +27,10 @@ namespace Client
 
             Completed = (parts[parts.Length - 1] == "CMP") ? true : false;
         }
+
+        public void Reset()
+        {
+            this.Completed = false;
+        }
     }
 }

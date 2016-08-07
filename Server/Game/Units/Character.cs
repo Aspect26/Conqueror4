@@ -1,5 +1,6 @@
 ﻿using Shared;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace Server
 {
@@ -46,6 +47,27 @@ namespace Server
 
                 this.AddDifference(new ActualHPDifference(UniqueID, ActualStats.HitPoints));
             }
+        }
+
+        public void Revive(Point location)
+        {
+            IsDead = false;
+
+            // change location
+            Location.X = location.X;
+            Location.Y = location.Y;
+
+            // reset q objectives
+            CurrentQuest.Reset();
+
+            // fill hp
+            ResetStats();
+
+            // set differences
+            AddDifference(new UnitDiedDifference(this));
+            AddDifference(new CharacterForceMovedAction(UniqueID, Location));
+            AddDifference(new QuestObjectiveDifference(UniqueID, CurrentQuest));
+            AddDifference(new ActualStatsDifference(this));
         }
 
         public override void LeaveCombatWith(IUnit unit)

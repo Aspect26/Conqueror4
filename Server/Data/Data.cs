@@ -193,6 +193,13 @@ namespace Server
 
         public const int HPRegenInterval = 2000;
 
+        // mapId -> revive location
+        static Dictionary<int, Point> reviveLocations = new Dictionary<int, Point>()
+        {
+            { SharedData.MAP_KINGDOM, new Point(86, 3131) },
+            { SharedData.MAP_FORTRESS, new Point() } // TODO: set revive point to fortress
+        };
+
         // unit id -> base stats (max hp, ...)
         static Dictionary<int, InitialData> unitInitialStats = new Dictionary<int, InitialData>()
         {
@@ -258,6 +265,11 @@ namespace Server
         }
 
         // getters
+        public static Point GetReviveLocation(int mapId)
+        {
+            return reviveLocations[mapId];
+        }
+
         public static Location GetStartingLocation(int spec)
         {
             Location l = startingLocations[spec];

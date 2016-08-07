@@ -41,5 +41,10 @@ namespace Server
             }
             return false;
         }
+
+        public override void Reset()
+        {
+            unitsKilled = 0;
+        }
     }
 }

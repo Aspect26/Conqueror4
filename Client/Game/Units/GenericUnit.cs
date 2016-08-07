@@ -42,6 +42,11 @@ namespace Client
             this.font = GameData.GetFont(8);
         }
 
+        public virtual bool Isplayer()
+        {
+            return false;
+        }
+
         public void SetUniqueID(int uniqueId)
         {
             this.UniqueID = uniqueId;
@@ -109,6 +114,11 @@ namespace Client
             {
                 missile.HitUnit(this);
             }
+        }
+
+        public void UpdateActualStats(BaseStats stats)
+        {
+            this.ActualStats.HitPoints = stats.HitPoints;
         }
     }
 }

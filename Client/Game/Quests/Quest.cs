@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Client
 {
@@ -43,6 +44,14 @@ namespace Client
             }
 
             return objectives.ToArray();
+        }
+
+        public void Reset()
+        {
+            foreach(QuestObjective objective in Objectives)
+            {
+                objective.Reset();
+            }
         }
     }
 }

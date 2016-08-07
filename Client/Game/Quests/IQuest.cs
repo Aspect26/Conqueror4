@@ -7,5 +7,6 @@
         string Description { get; }
 
         void UpdateObjectives(QuestObjective[] objectives);
+        void Reset();
     }
 }

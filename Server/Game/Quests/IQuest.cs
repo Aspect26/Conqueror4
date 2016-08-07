@@ -6,6 +6,7 @@
         int NextQuestID { get; }
 
         bool IsCompleted();
+        void Reset();
 
         string GetCodedData();
         string GetObjectivesCodedData();

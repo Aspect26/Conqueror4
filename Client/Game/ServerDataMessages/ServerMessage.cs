@@ -84,6 +84,18 @@ namespace Client
                     {
                         UpdateQuestObjectives(Quest.CreateObjectives(unitPart, 1));
                     }
+                    else if(unitPart[0] == "FM")
+                    {
+                        int mapId = Convert.ToInt32(unitPart[1]);
+                        int x = Convert.ToInt32(unitPart[2]);
+                        int y = Convert.ToInt32(unitPart[3]);
+                        UpdateUnitLocation(uniqueId, new Location(mapId, x, y));
+                    }
+                    else if(unitPart[0] == "A")
+                    {
+                        int hp = Convert.ToInt32(unitPart[1]);
+                        UpdateActualStats(uniqueId, new BaseStats(hp));
+                    }
                 }
             }
         }

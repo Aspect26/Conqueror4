@@ -67,6 +67,11 @@ namespace Server
             this.Name = name;
         }
 
+        public void ResetStats()
+        {
+            ActualStats.HitPoints = MaxStats.HitPoints;
+        }
+
         public void SetUniqueID(int uniqueId)
         {
             this.UniqueID = uniqueId;

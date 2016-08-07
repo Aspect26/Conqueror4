@@ -40,5 +40,10 @@ namespace Server
 
             return false;
         }
+
+        public override void Reset()
+        {
+            IsCompleted = false;
+        }
     }
 }

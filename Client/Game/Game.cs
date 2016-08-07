@@ -19,16 +19,20 @@ namespace Client
         public Game(PlayedCharacter character)
         {
             this.Character = character;
-            this.CreateMap();
+            this.CreateMap(character.Location.MapID);
 
             this.units = new Dictionary<int, IUnit>();
             this.missiles = new List<Missile>();
+
+            character.MapChanged += CreateMap;
         }
 
-        private  void CreateMap()
+        private  void CreateMap(int mapId)
         {
-            Map = new Map();
-            Map.Create(GameData.GetMapFilePath(Character.Location.MapID));
+            if(Map == null)
+                Map = new Map();
+
+            Map.Create(GameData.GetMapFilePath(mapId));
         }
 
         public void RunCycle(Graphics g, int timeSpan)
@@ -99,12 +103,30 @@ namespace Client
         public void UpdateUnitLocation(int uniqueId, int x, int y)
         {
             if(uniqueId == Character.UniqueID)
-            {
                 return;
-            }
-            else if (units.ContainsKey(uniqueId))
+
+            if (units.ContainsKey(uniqueId))
             {
                 units[uniqueId].SetLocation(x, y);
+            }
+        }
+
+        public void UpdateUnitLocation(int uid, Location l)
+        {
+            if(uid == Character.UniqueID)
+            {
+                Character.ChangeLocation(l);
+            }
+            else
+            {
+                if(l.MapID != Character.Location.MapID)
+                {
+                    KillUnit(uid);
+                }
+                else
+                {
+                    UpdateUnitLocation(uid, l.X, l.Y);
+                }
             }
         }
 
@@ -181,10 +203,22 @@ namespace Client
 
         public void KillUnit(int uid)
         {
-            // TODO: what to do after my death?
-            if(uid == Character.UniqueID) { }
+            if(uid == Character.UniqueID)
+            {
+                Character.Quest.Reset();
+                return;
+            }
 
-            units[uid].Kill();
+            if (!units[uid].Isplayer())
+            {
+                units[uid].Kill();
+            }
+        }
+
+        public void UpdateActualStats(int uid, BaseStats stats)
+        {
+            IUnit updatingUnit = (uid == Character.UniqueID) ? Character : units[uid];
+            updatingUnit.UpdateActualStats(stats);
         }
     }
 }

@@ -40,6 +40,26 @@ namespace Client
             this.MovingDirection = MovingDirection.None;
         }
 
+        public delegate void ChangeMap(int mapId);
+        public event ChangeMap MapChanged;
+
+        public void ChangeLocation(Location l)
+        {
+            int oldMapId = this.Location.MapID;
+
+            this.Location.X = l.X;
+            this.Location.Y = l.Y;
+            this.Location.MapID = l.MapID;
+
+            if (oldMapId != this.Location.MapID)
+                MapChanged(this.Location.MapID);
+        }
+
+        public override bool Isplayer()
+        {
+            return true;
+        }
+
         public void SetCurrentQuest(IQuest quest)
         {
             this.Quest = quest;

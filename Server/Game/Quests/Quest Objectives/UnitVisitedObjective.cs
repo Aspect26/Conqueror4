@@ -1,6 +1,4 @@
 ﻿using System;
-using Shared;
-using System.Collections.Generic;
 
 namespace Server
 {
@@ -33,6 +31,11 @@ namespace Server
             }
 
             return false;
+        }
+
+        public override void Reset()
+        {
+            IsCompleted = false;
         }
     }
 }

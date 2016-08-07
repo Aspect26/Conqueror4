@@ -13,6 +13,7 @@ namespace Server
 
         BaseStats MaxStats { get; }
         BaseStats ActualStats { get; }
+        void ResetStats();
         int Level { get; }
 
         int Fraction { get; }

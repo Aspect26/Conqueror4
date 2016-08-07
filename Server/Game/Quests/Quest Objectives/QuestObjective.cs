@@ -30,6 +30,8 @@ namespace Server
             return true;
         }
 
+        public abstract void Reset();
+
         public abstract string GetCodedData();
 
         public virtual bool Killed(int unitId) { return false; }

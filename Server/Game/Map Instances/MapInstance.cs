@@ -14,6 +14,7 @@ namespace Server
         private List<IUnitDifference> mapGeneralDifferenes;
         private SortedList<long, List<ITimedAction>> timedActions;
         private List<Missile> missiles;
+        private Point ReviveLocation;
         private int lastUniqueId = 1;
 
         private long lastTimeStamp;
@@ -30,6 +31,7 @@ namespace Server
             this.units = new List<IUnit>();
             this.playerActions = new Queue<IPlayerAction>();
             this.timedActions = new SortedList<long, List<ITimedAction>>();
+            this.ReviveLocation = Data.GetReviveLocation(mapId);
 
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
@@ -225,10 +227,17 @@ namespace Server
                         {
                             lock (mapGeneralDifferenes)
                             {
-                                mapGeneralDifferenes.Add(new UnitDiedDifference(u));
+                                if (!u.IsPlayer())
+                                {
+                                    mapGeneralDifferenes.Add(new UnitDiedDifference(u));
+                                    AddTimedAction(new RespawnUnitAction(u), u.RespawnTime);
+                                }
+                                else
+                                {
+                                    Character character = (Character)u;
+                                    character.Revive(this.ReviveLocation);
+                                }
                             }
-
-                            AddTimedAction(new RespawnUnitAction(u), u.RespawnTime);
                         }
 
                         return u.IsDead;

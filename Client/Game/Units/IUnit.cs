@@ -15,6 +15,9 @@ namespace Client
         int ManaPoints { get; }
         int MaxManaPoints { get; }
         bool IsDead { get; }
+        bool Isplayer();
+
+        void UpdateActualStats(BaseStats stats);
 
         int Fraction { get; }
 

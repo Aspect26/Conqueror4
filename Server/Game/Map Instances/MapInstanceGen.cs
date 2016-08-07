@@ -56,6 +56,17 @@ namespace Server
 
             units.Add(new UnitInfo(SharedData.UNIT_BERLOC_PYRESTEEL, 40 * 50, 58 * 50));
             units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 42 * 50, 44 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 38 * 50, 38 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 45 * 50, 36 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 53 * 50, 42 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 43 * 50, 29 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 49 * 50, 31 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 55 * 50, 27 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 54 * 50, 37 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 49 * 50, 48 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 60 * 50, 33 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 59 * 50, 40 * 50));
+            units.Add(new UnitInfo(SharedData.UNIT_AWAKENED_SOUL, 58 * 50, 47 * 50));
 
             unitsData.Add(SharedData.MAP_KINGDOM, units);
         }

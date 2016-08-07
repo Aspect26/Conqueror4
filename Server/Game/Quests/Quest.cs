@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace Server
 {
@@ -92,6 +93,14 @@ namespace Server
             }
 
             return data.ToString();
+        }
+
+        public void Reset()
+        {
+            foreach(IQuestObjective objective in objectives)
+            {
+                objective.Reset();
+            }
         }
 
         // *********************************
