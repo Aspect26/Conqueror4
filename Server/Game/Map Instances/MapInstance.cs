@@ -219,7 +219,7 @@ namespace Server
                     }
                 }
 
-                // remove killed units and create respawn action
+                // remove killed units, create respawn action, drop items
                 units.RemoveAll(
                     (IUnit u) =>
                     {
@@ -231,6 +231,11 @@ namespace Server
                                 {
                                     mapGeneralDifferenes.Add(new UnitDiedDifference(u));
                                     AddTimedAction(new RespawnUnitAction(u), u.RespawnTime);
+                                    IItem item = u.GetDroppedItem();
+                                    if(item != null)
+                                    {
+                                        mapGeneralDifferenes.Add(new ItemDroppedDifference(item, u));
+                                    }
                                 }
                                 else
                                 {

@@ -39,6 +39,7 @@ namespace Server
         List<IUnit> HittedBy { get; }
         List<IUnit> CurrentlyVisited { get; }
         List<IUnit> InCombatWith { get; }
+        IItem GetDroppedItem();
         void AddDifference(IUnitDifference difference);
     }
 }

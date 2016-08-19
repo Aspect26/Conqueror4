@@ -225,5 +225,10 @@ namespace Server
         {
             this.Differences.Add(difference);
         }
+
+        public IItem GetDroppedItem()
+        {
+            return Data.GenerateItemDropped(this);
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Shared;
 using System.Drawing;
+using System;
+using System.Linq;
 
 namespace Server
 {
@@ -22,6 +24,66 @@ namespace Server
         }
 
         // *****************************************
+        // ITEMS
+        // *****************************************
+        private static Random random = new Random();
+
+        private const byte ITEM_HITPOINTS = 1;
+        private const byte ITEM_MANAPOINTS = 2;
+        private const byte ITEM_ARMOR = 3;
+        private const byte ITEM_DAMAGE = 4;
+        private const byte ITEM_SPELLBONUS = 5;
+        private static readonly List<int> itemBonuses = new List<int>(){ ITEM_HITPOINTS, ITEM_MANAPOINTS,
+            ITEM_ARMOR, ITEM_DAMAGE, ITEM_DAMAGE };
+
+        private static readonly int ITEM_BONUS_BASE = 20;
+
+        public static IItem GenerateItemDropped(IUnit unit)
+        {
+            if (unit.IsPlayer())
+                return null;
+
+            // NOTE: drop chance -> from db maybe?
+            if (!(random.Next(1000) < 200))
+                return null;
+
+            // GENERATE THE ITEM
+            // get number of item bonuses
+            int itemBonusesCount = random.Next(itemBonuses.Count) + 1;
+            return generateItemDropped(unit.Level, itemBonusesCount);
+        }
+
+        private static IItem generateItemDropped(int level, int itemBonusesCount)
+        {
+            int bonusAmount = (ITEM_BONUS_BASE * level) / itemBonusesCount;
+            var actualBonuses = itemBonuses.OrderBy((x) => random.Next()).Take<int>(itemBonusesCount);
+
+            ItemStats itemStats = new ItemStats();
+            foreach(byte itemBonus in actualBonuses)
+            {
+                switch(itemBonus)
+                {
+                    case ITEM_HITPOINTS:
+                        itemStats.HitPoints = bonusAmount; break;
+                    case ITEM_MANAPOINTS:
+                        itemStats.ManaPoints = bonusAmount; break;
+                    case ITEM_ARMOR:
+                        itemStats.Armor = bonusAmount / 2; break;
+                    case ITEM_DAMAGE:
+                        itemStats.Damage = bonusAmount / 2; break;
+                    case ITEM_SPELLBONUS:
+                        itemStats.Armor = bonusAmount; break;
+                    default:
+                        throw new NotImplementedException("Not specified generating value of item stat!");
+                }
+            }
+
+            ItemType type = Enum.GetValues(typeof(ItemType)).Cast<ItemType>().OrderBy(x => random.Next()).First();
+            IItem item = new Item(itemStats, type);
+            return item;
+        } 
+
+        // *****************************************
         // QUESTS DATA
         // *****************************************
         public static IQuest GetInitialQuest(int spec)
@@ -35,7 +97,7 @@ namespace Server
 
                 case SharedData.UNIT_WARLOCK:
                 case SharedData.UNIT_UNKHERO1:
-                case SharedData.UNIT_UNKHERO2:
+                case SharedData.UNIT_SHAMAN:
                     return GetQuest(SharedData.QUEST_NO_QUEST);
 
                 default:
@@ -235,7 +297,7 @@ namespace Server
             { SharedData.UNIT_UNKHERO1, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
                 { new BaseStats(110), new BaseStats(135), new BaseStats(155) } ) },
 
-            { SharedData.UNIT_UNKHERO2, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
+            { SharedData.UNIT_SHAMAN, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
                 { new BaseStats(85), new BaseStats(100), new BaseStats(115) } ) },
         };
 
