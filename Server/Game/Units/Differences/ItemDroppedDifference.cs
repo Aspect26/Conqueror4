@@ -1,4 +1,5 @@
 ﻿using Shared;
+using System;
 using System.Text;
 
 namespace Server
@@ -18,7 +19,12 @@ namespace Server
         public override string GetString()
         {
             StringBuilder msg = new StringBuilder();
-            msg.Append("I");
+            msg.Append("I&");
+            msg.Append(location.X);
+            msg.Append("&");
+            msg.Append(location.Y);
+            msg.Append("&");
+            msg.Append(getTypeLetter(item.Type));
 
             if (item.Stats.HitPoints != 0)
                 msg.Append("&H^").Append(item.Stats.HitPoints);
@@ -36,6 +42,24 @@ namespace Server
                 msg.Append("&S^").Append(item.Stats.SpellBonus);
 
             return msg.ToString();
+        }
+
+        private string getTypeLetter(ItemType type)
+        {
+            switch(type)
+            {
+                case ItemType.CHEST:
+                    return "C";
+                case ItemType.WEAPON:
+                    return "W";
+                case ItemType.PANTS:
+                    return "P";
+                case ItemType.HEAD:
+                    return "H";
+                default:
+                    throw new NotImplementedException("Unimplemented ItemType -> String conversion for type: " +
+                        type.ToString() + ".");
+            }
         }
     }
 }
