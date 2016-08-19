@@ -1,5 +1,6 @@
 ﻿using Shared;
 using System;
+using System.Drawing;
 
 namespace Client
 {
@@ -21,6 +22,7 @@ namespace Client
 
         private void handleUnitsData(string arguments)
         {
+            // TODO: separate this into multiple functions
             string[] unitStrings = arguments.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string unitString in unitStrings)
@@ -96,8 +98,60 @@ namespace Client
                         int hp = Convert.ToInt32(unitPart[1]);
                         UpdateActualStats(uniqueId, new BaseStats(hp));
                     }
+                    else if(unitPart[0] == "I")
+                    {
+                        IItem item = parseItem(unitPart);
+                        Point location = new Point(Convert.ToInt32(unitPart[1]), 
+                            Convert.ToInt32(unitPart[2]));
+                        CreateItem(item, location);
+                    }
                 }
             }
+        }
+
+        private IItem parseItem(string[] parts)
+        {
+            // type
+            ItemType type = default(ItemType);
+            switch (parts[3])
+            {
+                case "W":
+                    type = ItemType.WEAPON; break;
+                case "C":
+                    type = ItemType.CHEST; break;
+                case "H":
+                    type = ItemType.HEAD; break;
+                case "P":
+                    type = ItemType.PANTS; break;
+                default:
+                    throw new NotImplementedException("Unknown item type got by server: " + parts[3] + ".");
+            }
+
+            // stats
+            ItemStats stats = new ItemStats();
+            for(int i = 4 ; i<parts.Length; i++)
+            {
+                string[] details = parts[i].Split('^');
+                int amount = Convert.ToInt32(details[1]);
+                switch (details[0])
+                {
+                    case "H":
+                        stats.HitPoints = amount; break;
+                    case "M":
+                        stats.ManaPoints = amount; break;
+                    case "A":
+                        stats.Armor = amount; break;
+                    case "D":
+                        stats.Damage = amount; break;
+                    case "S":
+                        stats.SpellBonus = amount; break;
+                    default:
+                        throw new NotImplementedException("Server send unknown item bonus value");
+                }
+            }
+
+            // actual item
+            return new Item(stats, type);
         }
     }
 }

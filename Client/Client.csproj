@@ -61,6 +61,11 @@
     <Compile Include="Game\Animations\UnitAnimation.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Application\Account.cs" />
+    <Compile Include="Game\GroundObjects\ChestObject.cs" />
+    <Compile Include="Game\GroundObjects\GroundObject.cs" />
+    <Compile Include="Game\GroundObjects\IGroundObject.cs" />
+    <Compile Include="Game\Items\IItem.cs" />
+    <Compile Include="Game\Items\Item.cs" />
     <Compile Include="Game\Missile\Missile.cs" />
     <Compile Include="Game\Quests\IQuest.cs" />
     <Compile Include="Game\Quests\Quest.cs" />

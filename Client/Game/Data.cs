@@ -100,6 +100,16 @@ namespace Client
             return Image.FromFile(path);
         }
 
+        public static Image GetUnknownGroundObjectImage()
+        {
+            return Image.FromFile("res/ground_objects/unknown.png");
+        }
+
+        public static Image GetChestImage()
+        {
+            return Image.FromFile("res/ground_objects/chest.png");
+        }
+
         // UI COMPONENTS
         public static Image GetLineInputBackgground()
         {

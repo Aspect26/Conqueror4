@@ -11,6 +11,7 @@ namespace Client
         public PlayedCharacter Character { get; set; }
         private Dictionary<int, IUnit> units;
         private List<Missile> missiles;
+        private List<IGroundObject> objects;
 
         // EVENTS
         public delegate void NewQuestDelegate (IQuest qiest);
@@ -23,6 +24,7 @@ namespace Client
 
             this.units = new Dictionary<int, IUnit>();
             this.missiles = new List<Missile>();
+            this.objects = new List<IGroundObject>();
 
             character.MapChanged += CreateMap;
         }
@@ -72,6 +74,10 @@ namespace Client
         {
             // map
             Map.Render(g, Character.Location);
+
+            // objects
+            foreach (IGroundObject obj in objects)
+                obj.Render(g);
 
             // other units
             foreach (KeyValuePair<int, IUnit> unit in units)
@@ -219,6 +225,11 @@ namespace Client
         {
             IUnit updatingUnit = (uid == Character.UniqueID) ? Character : units[uid];
             updatingUnit.UpdateActualStats(stats);
+        }
+
+        public void CreateItem(IItem item, Point location)
+        {
+            this.objects.Add(new ChestObject(this, item, location));
         }
     }
 }
