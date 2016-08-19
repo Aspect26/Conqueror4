@@ -8,14 +8,6 @@ namespace Client
 {
     public partial class GameData 
     {
-        private const int DEMON_HUNTER = 1;
-        private const int MAGE = 2;
-        private const int PRIEST = 3;
-
-        private const int WARLOCK = 4;
-        private const int UNK_CLS_1 = 5;
-        private const int UNK_CLS_2 = 6;
-
         private static Dictionary<int, string> mapIds = new Dictionary<int, string>()
         {
             { 0, "res/maps/kingdom.map" },
@@ -25,6 +17,7 @@ namespace Client
 
         private static Dictionary<int, Image> tileImages = new Dictionary<int, Image>()
         {
+            {-1, Image.FromFile("res/tiles/none.png") },
             { 0, Image.FromFile("res/tiles/grass.png") },
             { 1, Image.FromFile("res/tiles/dirt.png") },
             { 2, Image.FromFile("res/tiles/stone.png") },
@@ -48,7 +41,7 @@ namespace Client
 
             Console.WriteLine("UNKNOWN MAP TILE: " + color.R + "," + color.G + "," + color.B);
 
-            return 0;
+            return -1;
         }
 
         // GET DATA
@@ -66,15 +59,17 @@ namespace Client
         {
             switch (spec)
             {
-                case DEMON_HUNTER:
+                case SharedData.UNIT_DEMONHUNTER:
                     return "res/units/demonhunter/demonhunter";
-                case MAGE:
-                case PRIEST:
+                case SharedData.UNIT_MAGE:
+                    return "res/units/mage/mage";
+                case SharedData.UNIT_PRIEST:
                     return "res/units/priest/priest";
-                case WARLOCK:
-                case UNK_CLS_1:
-                case UNK_CLS_2:
+                case SharedData.UNIT_WARLOCK:
+                case SharedData.UNIT_UNKHERO1:
                     return "res/units/warlock/warlock";
+                case SharedData.UNIT_SHAMAN:
+                    return "res/units/shaman/shaman";
                 default:
                     return "res/units/warlock/warlock";
             }
@@ -85,13 +80,13 @@ namespace Client
             string path = "res/sprites/missiles/";
             switch (id)
             {
-                case 1:
+                case SharedData.UNIT_DEMONHUNTER:
                     path += "demonhunter"; break;
-                case 2:
+                case SharedData.UNIT_MAGE:
                     path += "mage"; break;
-                case 3:
+                case SharedData.UNIT_PRIEST:
                     path += "priest"; break;
-                case 4:
+                case SharedData.UNIT_WARLOCK:
                     path += "warlock"; break;
 
                 case SharedData.UNIT_WARLOCK_SPAWNER:
@@ -127,7 +122,7 @@ namespace Client
 
                 case SharedData.UNIT_WARLOCK: return Image.FromFile("res/units/warlock/warlock_none.png");
                 case SharedData.UNIT_UNKHERO1: return Image.FromFile("res/units/warlock/warlock_none.png");
-                case SharedData.UNIT_UNKHERO2: return Image.FromFile("res/units/warlock/warlock_none.png");
+                case SharedData.UNIT_SHAMAN: return Image.FromFile("res/units/shaman/shaman_none.png");
 
                 // UNITS
                 case SharedData.UNIT_WOLF: return Image.FromFile("res/units/wolf.png");
@@ -218,13 +213,13 @@ namespace Client
         {
             switch (spec)
             {
-                case DEMON_HUNTER: return "Demon Hunter";
-                case MAGE: return "Mage";
-                case PRIEST: return "Priest";
+                case SharedData.UNIT_DEMONHUNTER: return "Demon Hunter";
+                case SharedData.UNIT_MAGE: return "Mage";
+                case SharedData.UNIT_PRIEST: return "Priest";
 
-                case WARLOCK: return "Warlock";
-                case UNK_CLS_1: return "Unnamed";
-                case UNK_CLS_2: return "Unnamed";
+                case SharedData.UNIT_WARLOCK: return "Warlock";
+                case SharedData.UNIT_UNKHERO1: return "Unnamed";
+                case SharedData.UNIT_SHAMAN: return "Shaman";
 
                 default: return "Unknown";
             }

@@ -5,13 +5,13 @@ namespace Client
 {
     class LoginScreen : EmptyScreen
     {
-        static Point position = new Point(0, 0);
-        LineInput nickInput;
-        PasswordInput passInput;
-        Button loginButton;
-        Button registerButton;
-        LineText loginText;
-        LineText passText;
+        private static Point position = new Point(0, 0);
+        private LineInput nickInput;
+        private PasswordInput passInput;
+        private Button loginButton;
+        private Button registerButton;
+        private LineText loginText;
+        private LineText passText;
 
         public LoginScreen(Application game, ServerConnection server) : base(game, server, GameData.GetLoginBackground())
         {

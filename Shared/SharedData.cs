@@ -59,7 +59,7 @@ namespace Shared
         public const int UNIT_PRIEST = 3;
         public const int UNIT_WARLOCK = 4;
         public const int UNIT_UNKHERO1 = 5;
-        public const int UNIT_UNKHERO2 = 6;
+        public const int UNIT_SHAMAN = 6;
 
         public const int UNIT_WOLF = 7;
         public const int UNIT_WOLF_PACK_LEADER = 8;
