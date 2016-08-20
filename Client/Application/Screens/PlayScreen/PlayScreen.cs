@@ -28,8 +28,9 @@ namespace Client
             userInterface.AddComponent(new CharacterStatus(application.Account.PlayCharacter));
             userInterface.AddComponent(questLog);
 
-            // actively wait for game to load :(
+            // TODO: actively wait for game to load :( <- loading screen or something
             while (game == null) ;
+            userInterface.AddComponent(new BottomPlayOverlay(playerCharacter));
             game.NewQuestAcquired += PlayerAquiredQuestMessage;
 
             centerMessages = new CenterMessages();

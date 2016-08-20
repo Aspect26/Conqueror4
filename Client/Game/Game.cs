@@ -42,6 +42,16 @@ namespace Client
             // played character
             Character.PlayCycle(timeSpan);
 
+            // ground objects
+            foreach (IGroundObject obj in objects)
+            {
+                if(new Point(Character.Location.X, Character.Location.Y).DistanceFrom(obj.Location) <= 
+                    obj.GetCollisionDistance())
+                {
+                    obj.Collide();
+                }
+            }
+
             // missiles
             foreach (Missile missile in missiles)
             {

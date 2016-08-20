@@ -52,6 +52,7 @@
     <Compile Include="Application\Character.cs" />
     <Compile Include="Application\Screens\PlayScreen\CenterMessages.cs" />
     <Compile Include="Application\Screens\UI\Components\Abstract\StaticAbstractComponent.cs" />
+    <Compile Include="Application\Screens\UI\Components\BottomPlayOverlay.cs" />
     <Compile Include="Application\Screens\UI\Components\CharacterStatus.cs" />
     <Compile Include="Application\Screens\UI\Components\ImageComponent.cs" />
     <Compile Include="Application\Screens\UI\Components\QuestLog.cs" />

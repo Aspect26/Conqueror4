@@ -50,6 +50,16 @@ namespace Client
             return mapIds[mapId];
         }
 
+        public static Image GetMapImage(int mapId)
+        {
+            return Image.FromFile(mapIds[mapId]);
+        }
+
+        public static Image GetEquipSlotImage()
+        {
+            return Image.FromFile("res/textures/equip_slot.png");
+        }
+
         public static Image GetTile(int tileId)
         {
             return tileImages[tileId];

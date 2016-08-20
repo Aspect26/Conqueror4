@@ -6,6 +6,8 @@ namespace Client
     {
         void Render(Graphics g);
 
+        Point Location { get; }
+
         int GetCollisionDistance();
         void Collide();
     }

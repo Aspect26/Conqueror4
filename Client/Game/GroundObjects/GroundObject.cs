@@ -5,8 +5,9 @@ namespace Client
 {
     public abstract class GroundObject : IGroundObject
     {
+        public Point Location { get; protected set; }
+
         protected int collisionDistance;
-        protected Point location;
         protected Image image;
         protected Game game;
 
@@ -18,7 +19,7 @@ namespace Client
         public GroundObject(Game game, int collisionDistance, Image image, Point location)
         {
             this.image = image;
-            this.location = location;
+            this.Location = location;
             this.collisionDistance = collisionDistance;
             this.game = game;
         }
@@ -32,7 +33,7 @@ namespace Client
 
         public virtual void Render(Graphics g)
         {
-            g.DrawImageAt(image, game.MapPositionToScreenPosition(location));
+            g.DrawImageAt(image, game.MapPositionToScreenPosition(Location));
         }
     }
 }
