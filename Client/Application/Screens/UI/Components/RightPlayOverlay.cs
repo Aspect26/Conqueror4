@@ -2,7 +2,7 @@
 
 namespace Client
 {
-    public class BottomPlayOverlay : RectangleComponent
+    public class RightPlayOverlay : RectangleComponent
     {
         private const int OVERLAY_WIDTH = 150;
         private const int PADDING = 10;
@@ -25,7 +25,7 @@ namespace Client
         private Image mapImage;
         private Image equipSlotImage;
 
-        public BottomPlayOverlay(PlayedCharacter character)
+        public RightPlayOverlay(PlayedCharacter character)
             :base(new Point(0,0), new Rectangle(Application.WIDTH - OVERLAY_WIDTH, 0,
                 OVERLAY_WIDTH, Application.HEIGHT), Color.Black)
         {

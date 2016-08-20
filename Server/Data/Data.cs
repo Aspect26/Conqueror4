@@ -11,11 +11,12 @@ namespace Server
         // *****************************************
         // ACCOUNTS DATA
         // *****************************************
-        static Dictionary<string, Account> accountData = new Dictionary<string, Account>();
-        static Dictionary<string, Character> characterData = new Dictionary<string, Character>();
+        //TODO: change this to private when no mock data is needed;
+        public Dictionary<string, Account> accountData = new Dictionary<string, Account>();
+        public Dictionary<string, Character> characterData = new Dictionary<string, Character>();
 
         // getters
-        public static Character GetCharacter(string name)
+        public Character GetCharacter(string name)
         {
             Character rtrn;
             if (characterData.TryGetValue(name, out rtrn))
@@ -44,7 +45,7 @@ namespace Server
                 return null;
 
             // NOTE: drop chance -> from db maybe?
-            if (!(random.Next(1000) < 200))
+            if (!(random.Next(1000) < 1000))
                 return null;
 
             // GENERATE THE ITEM
@@ -378,7 +379,19 @@ namespace Server
             d.CreateCharacter("tester", "testertwo", 1);
             d.CreateCharacter("warlock", "warlock", 4);
 
+            // add items to aspect character
+            Equip eq = new Equip();
+            eq.Pants = new Item(new ItemStats() { HitPoints=15, Armor=10 }, ItemType.PANTS);
+            eq.Weapon = new Item(new ItemStats() { HitPoints = 15, Damage = 10 }, ItemType.WEAPON);
+            d.addEquipToCharacter("aspect", eq);
+
             return d;
+        }
+
+        // mock functions
+        private void addEquipToCharacter(string character, Equip eq)
+        {
+            this.characterData[character].SetEquip(eq);
         }
     }
 }

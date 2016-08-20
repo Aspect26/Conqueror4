@@ -55,5 +55,10 @@ namespace Server
         {
             game.AddPlayerAction(action);
         }
+
+        public Data GetGameData()
+        {
+            return gameData;
+        }
     }
 }

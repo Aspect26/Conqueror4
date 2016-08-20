@@ -9,6 +9,7 @@ namespace Server
         public int Spec { get { return UnitID; } set { this.UnitID = value; } }
         public int Experience { get; protected set; }
         public IQuest CurrentQuest { get; protected set; }
+        public Equip Equip { get; protected set; }
 
         private long lastHealed;
 
@@ -20,6 +21,8 @@ namespace Server
             this.CurrentQuest = Data.GetInitialQuest(spec);
             this.shootCooldown = 300;
             this.lastHealed = Extensions.GetCurrentMillis();
+            // TODO: load from database
+            this.Equip = new Equip();
         }
 
         public override void PlayCycle(int timeSpan)
@@ -79,6 +82,11 @@ namespace Server
         public void SetQuest(IQuest quest)
         {
             this.CurrentQuest = quest;
+        }
+
+        public void SetEquip(Equip equip)
+        {
+            this.Equip = equip;
         }
 
         public override void AddExperience(int xp)

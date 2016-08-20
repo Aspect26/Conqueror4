@@ -10,6 +10,7 @@ namespace Client
         public int Level { get; set; }
         public int Spec { get { return UnitID; }  }
         public IQuest Quest { get; private set; }
+        public Equip Equip { get; private set; }
         private ServerConnection server;
 
         // TODO !!!!!! remove this -> mock data
@@ -38,6 +39,7 @@ namespace Client
             this.animation = new CentreUnitAnimation(this, GameData.GetCharacterBasePath(spec));
             this.moved = false;
             this.MovingDirection = MovingDirection.None;
+            this.Equip = new Equip();
         }
 
         public delegate void ChangeMap(int mapId);

@@ -4,6 +4,8 @@
     {
         ItemStats Stats { get; }
         ItemType Type { get; }
+
+        string GetCodedData();
     }
 
     public enum ItemType

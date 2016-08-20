@@ -52,7 +52,7 @@
     <Compile Include="Application\Character.cs" />
     <Compile Include="Application\Screens\PlayScreen\CenterMessages.cs" />
     <Compile Include="Application\Screens\UI\Components\Abstract\StaticAbstractComponent.cs" />
-    <Compile Include="Application\Screens\UI\Components\BottomPlayOverlay.cs" />
+    <Compile Include="Application\Screens\UI\Components\RightPlayOverlay.cs" />
     <Compile Include="Application\Screens\UI\Components\CharacterStatus.cs" />
     <Compile Include="Application\Screens\UI\Components\ImageComponent.cs" />
     <Compile Include="Application\Screens\UI\Components\QuestLog.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="Game\Animations\IAnimation.cs" />
     <Compile Include="Game\Animations\CentreUnitAnimation.cs" />
     <Compile Include="Game\Animations\UnitAnimation.cs" />
+    <Compile Include="Game\Equip\Equip.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Application\Account.cs" />
     <Compile Include="Game\GroundObjects\ChestObject.cs" />

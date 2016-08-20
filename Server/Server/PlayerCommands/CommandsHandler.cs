@@ -70,7 +70,7 @@ namespace Server
 
         private void handleCharacterLoad(StateObject client, string characterName)
         {
-            Character character = Data.GetCharacter(characterName);
+            Character character = server.GetGameData().GetCharacter(characterName);
             if (character == null)
                 return;
 
@@ -81,7 +81,7 @@ namespace Server
             string msg = character.UniqueID + "," + character.Location.MapID + "," + character.Experience + "," +
                 character.Location.X + "," + character.Location.Y + "," + character.MaxStats.HitPoints + "," + 
                 character.ActualStats.HitPoints + "," + character.Fraction + "," + 
-                character.CurrentQuest.GetCodedData() + ",";
+                character.CurrentQuest.GetCodedData() + "," + character.Equip.GetCodedData() + ",";
             msg += map.GetMessageCodedData() + "\n";
             byte[] byteData = Encoding.ASCII.GetBytes(msg);
             client.clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(SendCallback), 

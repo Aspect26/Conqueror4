@@ -24,6 +24,7 @@ namespace Client
                 int actualHp = Convert.ToInt32(parts[6]);
                 int fraction = Convert.ToInt32(parts[7]);
                 IQuest quest = Quest.CreateQuest(parts[8]);
+                Equip equip = Equip.ParseEquip(parts[9]);
 
                 myUid = uid;
                 character.SetUniqueID(uid);
@@ -43,7 +44,7 @@ namespace Client
                 return false;
             }
 
-            for(int i = 9; i<parts.Length; i++)
+            for(int i = 10; i<parts.Length; i++)
             {
                 string[] unitParts = parts[i].Split('|');
 

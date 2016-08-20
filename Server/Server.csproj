@@ -51,7 +51,10 @@
     <Compile Include="Data\Structures\Account.cs" />
     <Compile Include="Data\Data.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Game\Equip\Equip.cs" />
     <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\Items\IItem.cs" />
+    <Compile Include="Game\Items\Item.cs" />
     <Compile Include="Game\Map Instances\MapInstanceGen.cs" />
     <Compile Include="Game\Map Instances\Timed Actions\ITimedAction.cs" />
     <Compile Include="Game\Map Instances\Timed Actions\RespawnUnitAction.cs" />
@@ -70,6 +73,7 @@
     <Compile Include="Game\Quests\QuestData.cs" />
     <Compile Include="Game\Units\Differences\ActualStatsDifference.cs" />
     <Compile Include="Game\Units\Differences\CharacterForceMovedAction.cs" />
+    <Compile Include="Game\Units\Differences\ItemDroppedDifference.cs" />
     <Compile Include="Game\Units\Differences\NewQuestDifference.cs" />
     <Compile Include="Game\Units\Differences\QuestObjectiveDifference.cs" />
     <Compile Include="Game\Units\GenericUnit.cs" />
