@@ -13,5 +13,6 @@ namespace Client
         void OnMouseLeftUp(Point location);
         void OnMouseRightDown(Point location);
         void OnMouseRightUp(Point location);
+        void OnMouseMove(int x, int y);
     }
 }

@@ -82,6 +82,11 @@ namespace Client
             this.Fraction = fraction;
         }
 
+        public void SetEquip(Equip equip)
+        {
+            this.Equip = equip;
+        }
+
         // RENDERING
         private int playerSize = 50;
         public override void DrawUnit(Graphics g)

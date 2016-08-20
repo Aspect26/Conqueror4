@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Client
 {
@@ -95,5 +96,15 @@ namespace Client
         public void OnMouseRightDown(Point position) { }
         public void OnMouseRightUp(Point position) { }
         public void SetFocused(bool focused) { }
+
+        public void RenderTooltip(Graphics g, Point position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool HasTooltip()
+        {
+            return false;
+        }
     }
 }

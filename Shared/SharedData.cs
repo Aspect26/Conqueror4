@@ -41,6 +41,14 @@ namespace Shared
         public const int MAP_KINGDOM = 0;
         public const int MAP_FORTRESS = 1;
 
+        // item slots
+        public const int ITEM_SLOT_WEAPON = 0;
+        public const int ITEM_SLOT_CHEST = 1;
+        public const int ITEM_SLOT_HEAD = 2;
+        public const int ITEM_SLOT_PANTS = 3;
+
+        public const int ITEM_SLOTS = 4;
+
         // quests
         public const int QUEST_NO_QUEST = 0;
         public const int QUEST_CALL_TO_ARMS = 1;

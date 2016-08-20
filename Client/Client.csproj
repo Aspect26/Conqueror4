@@ -52,6 +52,8 @@
     <Compile Include="Application\Character.cs" />
     <Compile Include="Application\Screens\PlayScreen\CenterMessages.cs" />
     <Compile Include="Application\Screens\UI\Components\Abstract\StaticAbstractComponent.cs" />
+    <Compile Include="Application\Screens\UI\Components\ItemDroppedSlotComponent.cs" />
+    <Compile Include="Application\Screens\UI\Components\ItemSlotComponent.cs" />
     <Compile Include="Application\Screens\UI\Components\RightPlayOverlay.cs" />
     <Compile Include="Application\Screens\UI\Components\CharacterStatus.cs" />
     <Compile Include="Application\Screens\UI\Components\ImageComponent.cs" />

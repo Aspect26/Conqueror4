@@ -60,6 +60,23 @@ namespace Client
             return Image.FromFile("res/textures/equip_slot.png");
         }
 
+        public static Image GetItemImage(int itemSlot)
+        {
+            switch (itemSlot)
+            {
+                case SharedData.ITEM_SLOT_WEAPON:
+                    return Image.FromFile("res/items/weapon.png");
+                case SharedData.ITEM_SLOT_CHEST:
+                    return Image.FromFile("res/items/chest.png");
+                case SharedData.ITEM_SLOT_HEAD:
+                    return Image.FromFile("res/items/head.png");
+                case SharedData.ITEM_SLOT_PANTS:
+                    return Image.FromFile("res/items/pants.png");
+                default:
+                    return null; //crash
+            }
+        }
+
         public static Image GetTile(int tileId)
         {
             return tileImages[tileId];
@@ -242,6 +259,23 @@ namespace Client
                 case SharedData.UNIT_SHAMAN: return "Shaman";
 
                 default: return "Unknown";
+            }
+        }
+
+        public static string GetItemName(ItemType type)
+        {
+            switch (type)
+            {
+                case ItemType.WEAPON:
+                    return "Weapon";
+                case ItemType.CHEST:
+                    return "Chest";
+                case ItemType.HEAD:
+                    return "Head";
+                case ItemType.PANTS:
+                    return "Pants";
+                default:
+                    return "Unknown";
             }
         }
     }

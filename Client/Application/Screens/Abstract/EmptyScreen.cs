@@ -58,5 +58,10 @@ namespace Client
         {
             userInterface.OnMouseRightUp(location);
         }
+
+        public virtual void OnMouseMove(int x, int y)
+        {
+            userInterface.OnMouseMove(x, y);
+        }
     }
 }

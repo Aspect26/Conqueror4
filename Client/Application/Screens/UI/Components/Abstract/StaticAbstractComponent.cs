@@ -79,5 +79,17 @@ namespace Client
         {
             this.neighbour = neighbour;
         }
+
+        public void RenderTooltip(Graphics g, Point position)
+        {
+            // TODO: too lazy to finish this
+            throw new NotImplementedException();
+        }
+
+        public bool HasTooltip()
+        {
+            // TODO: too lazy to finish this
+            return false;
+        }
     }
 }

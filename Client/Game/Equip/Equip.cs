@@ -1,32 +1,35 @@
-﻿using System;
+﻿using Shared;
+using System;
 
 namespace Client
 {
     public class Equip
     {
-        public IItem Weapon { get; protected set; }
-        public IItem Chest { get; protected set; }
-        public IItem Head { get; protected set; }
-        public IItem Pants { get; protected set; }
+        public IItem[] Items { get; protected set; }
+
+        public Equip()
+        {
+            this.Items = new IItem[SharedData.ITEM_SLOTS];
+        }
 
         public void SetWeapon(ItemStats stats)
         {
-            Weapon = new Item(stats, ItemType.WEAPON);
+            Items[SharedData.ITEM_SLOT_WEAPON] = new Item(stats, ItemType.WEAPON);
         }
 
         public void SetChest(ItemStats stats)
         {
-            Chest = new Item(stats, ItemType.CHEST);
+            Items[SharedData.ITEM_SLOT_CHEST] = new Item(stats, ItemType.CHEST);
         }
 
         public void SetHead(ItemStats stats)
         {
-            Head = new Item(stats, ItemType.HEAD);
+            Items[SharedData.ITEM_SLOT_HEAD] = new Item(stats, ItemType.HEAD);
         }
 
         public void SetPants(ItemStats stats)
         {
-            Pants = new Item(stats, ItemType.PANTS);
+            Items[SharedData.ITEM_SLOT_PANTS] = new Item(stats, ItemType.PANTS);
         }
 
         public static Equip ParseEquip(string data)
@@ -39,15 +42,16 @@ namespace Client
             for(int i=1; i<itemsData.Length; i++)
             {
                 string[] itemParts = itemsData[i].Split('&');
-                switch (itemParts[0])
+                int slot = Convert.ToInt32(itemParts[0]);
+                switch (slot)
                 {
-                    case "W":
+                    case SharedData.ITEM_SLOT_WEAPON:
                         equip.SetWeapon(ParseStats(itemParts)); break;
-                    case "C":
+                    case SharedData.ITEM_SLOT_CHEST:
                         equip.SetChest(ParseStats(itemParts)); break;
-                    case "H":
+                    case SharedData.ITEM_SLOT_HEAD:
                         equip.SetHead(ParseStats(itemParts)); break;
-                    case "P":
+                    case SharedData.ITEM_SLOT_PANTS:
                         equip.SetPants(ParseStats(itemParts)); break;
                     default: throw new NotImplementedException("Unknown item type from server: " + itemParts[0] + ".");
                 }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 
 namespace Client
 {
@@ -14,6 +12,14 @@ namespace Client
         protected Brush backgroundBrush;
         protected IComponent neighbour;
 
+        protected bool hasTooltip;
+        protected string tooltipText;
+        protected Font tooltipFont;
+        protected Brush tooltipBrush;
+        protected Brush tooltipRectangleBrush;
+        protected Pen tooltipBorderPen;
+        private const int TOOLTIP_FONT_SIZE = 8;
+
         public int WIDTH { get { return position.Width; } }
         public int HEIGHT { get { return position.Height; } }
         public int X { get { return position.X; }  }
@@ -24,29 +30,33 @@ namespace Client
         protected bool focused = false;
 
         public RectangleComponent(Point parentPosition, Rectangle position, Color background, 
-            IComponent neighbour = null, bool shown = true)
+            IComponent neighbour = null, bool shown = true, bool hasTooltip = false)
+            : this(parentPosition, position, neighbour, shown, hasTooltip)
         {
-            this.position = position;
-            this.position.X += parentPosition.X;
-            this.position.Y += parentPosition.Y;
-
-            this.Shown = shown;
-
             this.backgroundColor = background;
-            this.neighbour = neighbour;
             this.backgroundBrush = new SolidBrush(background);
         }
 
         public RectangleComponent(Point parentPosition, Rectangle position, Image background, 
-            IComponent neighbour = null, bool shown = true)
+            IComponent neighbour = null, bool shown = true, bool hasTooltip = false)
+            : this (parentPosition, position, neighbour, shown, hasTooltip)
+        {
+            this.backgroundImage = background;
+        }
+
+        private RectangleComponent(Point parentPosition, Rectangle position, IComponent neighbour = null,
+            bool shown = true, bool hasTooltip = false)
         {
             this.position = position;
             this.position.X += parentPosition.X;
             this.position.Y += parentPosition.Y;
-
-            this.backgroundImage = background;
             this.neighbour = neighbour;
             this.Shown = shown;
+            this.hasTooltip = hasTooltip;
+            this.tooltipFont = GameData.GetFont(TOOLTIP_FONT_SIZE);
+            this.tooltipBorderPen = Pens.White;
+            this.tooltipBrush = Brushes.White;
+            this.tooltipRectangleBrush = Brushes.Black;
         }
 
         public virtual void Render(Graphics g)
@@ -105,6 +115,34 @@ namespace Client
         public bool IsAt(Point location)
         {
             return position.Contains(location);
+        }
+
+        public virtual void RenderTooltip(Graphics g, Point position)
+        {
+            string[] tooltipLines = tooltipText.Split('\n');
+
+            // border
+            int height = tooltipLines.Length * (TOOLTIP_FONT_SIZE + 5) + 2;
+            int width = (int)g.MeasureString(tooltipLines.OrderByDescending(line => line.Length).First(), 
+                tooltipFont).Width + 5;
+            int y = position.Y - height;
+            int x = position.X;
+
+            g.FillRectangle(tooltipRectangleBrush, x, y, width, height);
+            g.DrawRectangle(tooltipBorderPen, x, y, width, height);
+
+            // text
+            int currentY = y + 4;
+            for(int i = 0; i<tooltipLines.Length; i++)
+            {
+                g.DrawString(tooltipLines[i], tooltipFont, tooltipBrush, x + 2, currentY);
+                currentY += TOOLTIP_FONT_SIZE + 2;
+            }
+        }
+
+        public virtual bool HasTooltip()
+        {
+            return hasTooltip;
         }
 
         public virtual void OnKeyDown(int key) { }

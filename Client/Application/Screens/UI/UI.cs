@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace Client
 {
@@ -19,11 +17,15 @@ namespace Client
         private List<IComponent> components;
         private MessageBoxComponent messageBox;
 
+        private Point mousePosition;
+        private object mousePositionLock = new object();
+
         public UI()
         {
             this.components = new List<IComponent>();
             this.focusedComponent = null;
             this.messageBox = null;
+            this.mousePosition = new Point(0, 0);
         }
 
         public void SetFocusedComponent(IComponent focusedComponent)
@@ -69,6 +71,13 @@ namespace Client
                 {
                     c.Render(g);
                 }
+                lock(mousePositionLock) {
+                    if (c.IsAt(mousePosition) && c.HasTooltip())
+                    {
+                        c.RenderTooltip(g, mousePosition);
+                    }
+                }
+
             }
 
             if (messageBox != null)
@@ -178,6 +187,15 @@ namespace Client
             if (messageBox == null && focusedComponent != null)
             {
                 focusedComponent.OnMouseRightUp(location);
+            }
+        }
+
+        public void OnMouseMove(int x, int y)
+        {
+            lock (mousePositionLock)
+            {
+                this.mousePosition.X = x;
+                this.mousePosition.Y = y;
             }
         }
     }

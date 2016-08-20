@@ -12,6 +12,7 @@ namespace Client
     public interface IComponent
     {
         void Render(Graphics g);
+        void RenderTooltip(Graphics g, Point position);
         void SetFocused(bool focused);
         bool IsAt(Point location);
         IComponent GetNeighbour();
@@ -37,5 +38,7 @@ namespace Client
 
         void SetShown(bool shown);
         bool Shown { get; }
+
+        bool HasTooltip();
     }
 }

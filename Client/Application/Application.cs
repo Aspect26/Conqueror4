@@ -78,5 +78,13 @@ namespace Client
         {
             gameScreen.OnMouseRightUp(location);
         }
+
+        public void OnMouseMove(int x, int y)
+        {
+            if (gameScreen != null)
+            {
+                gameScreen.OnMouseMove(x, y);
+            }
+        }
     }
 }

@@ -36,6 +36,7 @@ namespace Client
                 character.ActualStats.HitPoints = actualHp;
                 character.SetFraction(fraction);
                 character.SetCurrentQuest(quest);
+                character.SetEquip(equip);
 
                 game = new Game(character);
             }

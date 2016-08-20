@@ -381,8 +381,8 @@ namespace Server
 
             // add items to aspect character
             Equip eq = new Equip();
-            eq.Pants = new Item(new ItemStats() { HitPoints=15, Armor=10 }, ItemType.PANTS);
-            eq.Weapon = new Item(new ItemStats() { HitPoints = 15, Damage = 10 }, ItemType.WEAPON);
+            eq.Items[SharedData.ITEM_SLOT_PANTS] = new Item(new ItemStats() { HitPoints=15, Armor=10 }, ItemType.PANTS);
+            eq.Items[SharedData.ITEM_SLOT_WEAPON] = new Item(new ItemStats() { HitPoints = 15, Damage = 10 }, ItemType.WEAPON);
             d.addEquipToCharacter("aspect", eq);
 
             return d;

@@ -82,5 +82,10 @@ namespace Client
             else if (e.Button == MouseButtons.Right)
                 game.OnMouseRightUp(e.Location);
         }
+
+        private void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            game.OnMouseMove(e.X, e.Y);
+        }
     }
 }

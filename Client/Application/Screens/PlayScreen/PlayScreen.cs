@@ -30,7 +30,7 @@ namespace Client
 
             // TODO: actively wait for game to load :( <- loading screen or something
             while (game == null) ;
-            userInterface.AddComponent(new RightPlayOverlay(playerCharacter));
+            userInterface.AddComponent(new RightPlayOverlay(game, playerCharacter));
             game.NewQuestAcquired += PlayerAquiredQuestMessage;
 
             centerMessages = new CenterMessages();
