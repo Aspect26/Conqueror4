@@ -63,6 +63,11 @@ namespace Client
                         int hp = Convert.ToInt32(unitPart[1]);
                         UpdateUnitActualHitPoints(uniqueId, hp);
                     }
+                    else if (unitPart[0] == "MN" && uniqueId == Character.UniqueID)
+                    {
+                        int mp = Convert.ToInt32(unitPart[1]);
+                        Character.ActualStats.ManaPoints = mp;
+                    }
                     else if (unitPart[0] == "X")
                     {
                         int xp = Convert.ToInt32(unitPart[1]);
@@ -130,7 +135,7 @@ namespace Client
                     {
                         IItem item = parseItem(unitPart, 1);
                         EquipItem(item);
-                    }
+                    } 
                 }
             }
         }

@@ -29,6 +29,11 @@ namespace Client
             trySend(CMD_TAKEITEM, new string[] { uid.ToString() });
         }
 
+        public void TryUseAbility()
+        {
+            trySend(CMD_USEABILITY, new string[] { });
+        }
+
         private string directionToString(MovingDirection direction)
         {
             switch (direction)

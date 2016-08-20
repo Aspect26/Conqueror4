@@ -5,6 +5,7 @@ namespace Client
 {
     class LoginScreen : EmptyScreen
     {
+        private const int BUILD_NUMBER = 80;
         private static Point position = new Point(0, 0);
         private LineInput nickInput;
         private PasswordInput passInput;
@@ -39,7 +40,7 @@ namespace Client
             passText = new LineText(position, "Password:", Color.Yellow, new Point(
                 passInput.X - 150, passInput.Y + 5), 20);
 
-            LineText buildText = new LineText(position, "Build: 68", Color.Wheat, new Point(
+            LineText buildText = new LineText(position, "Build: " + BUILD_NUMBER, Color.Wheat, new Point(
                 700, 600), 15);
 
             nickInput.SetNeighbour(passInput);

@@ -157,9 +157,13 @@ namespace Client
                 playerCharacter.StopMovingUp();
                 Console.WriteLine("STOP UP");
             }
-            else if (key == 84)
+            else if (key == 84) // T
             {
                 game.TryTakeDroppeItem();
+            }
+            else if (key == 32) // SPACE
+            {
+                game.TryUseAbility();
             }
         }
     }

@@ -263,5 +263,11 @@ namespace Server
         {
             return ActualStats.Armor;
         }
+
+        public void DecreaseActualManaPoints(int amount)
+        {
+            this.ActualStats.ManaPoints -= amount;
+            this.Differences.Add(new ActualMPDifference(this.UniqueID, GetActualManaPoints()));
+        }
     }
 }

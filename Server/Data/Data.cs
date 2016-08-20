@@ -25,6 +25,14 @@ namespace Server
         }
 
         // *****************************************
+        // ABILITIES
+        // *****************************************
+        public static IAbility GetCharacterAbility(Character character)
+        {
+            return new EmptyAbility(character);
+        }
+
+        // *****************************************
         // ITEMS
         // *****************************************
         private static Random random = new Random();
@@ -256,6 +264,7 @@ namespace Server
         public const int LeaveCombatDistance = 650;
 
         public const int HPRegenInterval = 2000;
+        public const int MPRegenInterval = 5000;
 
         // mapId -> revive location
         static Dictionary<int, Point> reviveLocations = new Dictionary<int, Point>()

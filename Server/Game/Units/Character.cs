@@ -11,6 +11,7 @@ namespace Server
         public Equip Equip { get; protected set; }
 
         private long lastHealed;
+        private long lastManaRegenerated;
 
         public Character(string name, int spec, int uid, Location location, MapInstance map) 
             : base(name, spec, uid, location, map, Data.GetCharacterBaseStats(spec, 1))
@@ -20,6 +21,8 @@ namespace Server
             this.CurrentQuest = Data.GetInitialQuest(spec);
             this.shootCooldown = 300;
             this.lastHealed = Extensions.GetCurrentMillis();
+            this.lastManaRegenerated = Extensions.GetCurrentMillis();
+
             // TODO: load from database
             this.Equip = new Equip();
         }
@@ -30,14 +33,29 @@ namespace Server
             if (IsDead)
                 return;
 
+            long now = Extensions.GetCurrentMillis();
+
+            // mp regen
+            if (GetActualManaPoints() != GetMaxManaPoints()
+                && now - lastManaRegenerated >= Data.MPRegenInterval)
+            {
+                lastManaRegenerated = now;
+                int toRegen = 10;
+
+                if (GetActualManaPoints() + toRegen > GetMaxManaPoints())
+                    ActualStats.ManaPoints = GetMaxManaPoints();
+                else
+                    ActualStats.ManaPoints += toRegen;
+
+                this.AddDifference(new ActualMPDifference(UniqueID, GetActualManaPoints()));
+            }
+
             if (InCombatWith.Count != 0)
                 return;
 
-            if (GetActualHitPoints() == GetMaxHitPoints())
-                return;
-
-            long now = Extensions.GetCurrentMillis();
-            if(now - lastHealed >= Data.HPRegenInterval)
+            // hp regen - only if not in combat
+            if(GetActualHitPoints() != GetMaxHitPoints() 
+                && now - lastHealed >= Data.HPRegenInterval)
             {
                 lastHealed = now;
                 int toRegen = GetMaxHitPoints() / 15;

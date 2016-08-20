@@ -307,6 +307,11 @@ namespace Client
             server.TakeItem(droppedItem.UniqueID);
         }
 
+        public void TryUseAbility()
+        {
+            server.TryUseAbility();
+        }
+
         public void RemoveGameObject(int uid)
         {
             this.objects.RemoveAll(obj => obj.UniqueID == uid);

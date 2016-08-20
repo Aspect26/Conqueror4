@@ -23,6 +23,8 @@ namespace Server
         int GetDamage();
         int GetArmor();
 
+        void DecreaseActualManaPoints(int amount);
+
         int Fraction { get; }
         int RespawnTime { get; }
 

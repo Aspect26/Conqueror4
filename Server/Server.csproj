@@ -51,6 +51,9 @@
     <Compile Include="Data\Structures\Account.cs" />
     <Compile Include="Data\Data.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Game\Abilities\Ability.cs" />
+    <Compile Include="Game\Abilities\EmptyAbility.cs" />
+    <Compile Include="Game\Abilities\IAbility.cs" />
     <Compile Include="Game\Equip\Equip.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\Items\IItem.cs" />
@@ -64,6 +67,7 @@
     <Compile Include="Game\PlayerActions\CharacterMovedAction.cs" />
     <Compile Include="Game\PlayerActions\CharacterShootAction.cs" />
     <Compile Include="Game\PlayerActions\CharacterTakesItemAction.cs" />
+    <Compile Include="Game\PlayerActions\CharacterUseAbilityAction.cs" />
     <Compile Include="Game\PlayerActions\CharacterVisitedUnitAction.cs" />
     <Compile Include="Game\Quests\IQuest.cs" />
     <Compile Include="Game\Quests\Quest Objectives\IQuestObjective.cs" />
@@ -73,6 +77,7 @@
     <Compile Include="Game\Quests\Quest Objectives\UnitVisitedObjective.cs" />
     <Compile Include="Game\Quests\Quest.cs" />
     <Compile Include="Game\Quests\QuestData.cs" />
+    <Compile Include="Game\Units\Differences\ActualMPDifference.cs" />
     <Compile Include="Game\Units\Differences\ActualStatsDifference.cs" />
     <Compile Include="Game\Units\Differences\CharacterForceMovedAction.cs" />
     <Compile Include="Game\Units\Differences\MaxStatsDifference.cs" />
