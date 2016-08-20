@@ -206,7 +206,10 @@ namespace Server
 
         public void HitByMissile(Missile missile)
         {
-            this.ActualStats.HitPoints -= missile.Damage;
+            int damage = missile.Damage - GetArmor();
+            damage = (damage < 0) ? 0 : damage;
+
+            this.ActualStats.HitPoints -= damage;
             if (GetActualHitPoints() <= 0)
             {
                 missile.Source.InCombatWith.Remove(this);
@@ -239,6 +242,26 @@ namespace Server
         public virtual int GetMaxHitPoints()
         {
             return MaxStats.HitPoints;
+        }
+
+        public virtual int GetDamage()
+        {
+            return this.ActualStats.Damage;
+        }
+
+        public virtual int GetMaxManaPoints()
+        {
+            return MaxStats.ManaPoints;
+        }
+
+        public virtual int GetActualManaPoints()
+        {
+            return ActualStats.ManaPoints;
+        }
+
+        public virtual int GetArmor()
+        {
+            return ActualStats.Armor;
         }
     }
 }

@@ -84,11 +84,13 @@ namespace Client
                         int xLoc = Convert.ToInt32(unitPart[3]);
                         int yLoc = Convert.ToInt32(unitPart[4]);
                         int maxHp = Convert.ToInt32(unitPart[5]);
-                        int actualHp = Convert.ToInt32(unitPart[6]);
-                        int fraction = Convert.ToInt32(unitPart[7]);
+                        int maxMp = Convert.ToInt32(unitPart[6]);
+                        int actualHp = Convert.ToInt32(unitPart[7]);
+                        int actualMp = Convert.ToInt32(unitPart[8]);
+                        int fraction = Convert.ToInt32(unitPart[9]);
 
-                        AddUnit(name, unitId, uniqueId, xLoc, yLoc, new BaseStats(maxHp), new BaseStats(actualHp),
-                            fraction);
+                        AddUnit(name, unitId, uniqueId, xLoc, yLoc, new BaseStats(maxHp, maxMp, 0, 0), 
+                            new BaseStats(actualHp, actualMp, 0, 0), fraction);
                     }
                     else if(unitPart[0] == "Q")
                     {
@@ -108,12 +110,14 @@ namespace Client
                     else if(unitPart[0] == "A")
                     {
                         int hp = Convert.ToInt32(unitPart[1]);
-                        UpdateActualStats(uniqueId, new BaseStats(hp));
+                        int mp = Convert.ToInt32(unitPart[2]);
+                        UpdateActualStats(uniqueId, new BaseStats(hp, mp, 0, 0, 0));
                     }
                     else if(unitPart[0] == "M")
                     {
                         int hp = Convert.ToInt32(unitPart[1]);
-                        UpdateMaxStats(uniqueId, new BaseStats(hp));
+                        int mp = Convert.ToInt32(unitPart[2]);
+                        UpdateMaxStats(uniqueId, new BaseStats(hp, mp, 0, 0, 0));
                     }
                     else if(unitPart[0] == "I")
                     {

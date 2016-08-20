@@ -12,7 +12,7 @@
 
         public override string GetString()
         {
-            return "M&" + unit.GetMaxHitPoints();
+            return "M&" + unit.GetMaxHitPoints() + "&" + unit.GetMaxManaPoints();
         }
     }
 }

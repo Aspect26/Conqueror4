@@ -14,7 +14,9 @@ namespace Server
         public override string GetString()
         {
             return "R&" + unit.GetName() + "&" + unit.UnitID + "&" + unit.GetLocation().X + "&" + unit.GetLocation().Y 
-                + "&" + unit.GetMaxHitPoints() + "&" + unit.GetActualHitPoints() + "&" + unit.Fraction;
+                + "&" + unit.GetMaxHitPoints() + "&" + unit.GetMaxManaPoints() 
+                + "&" + unit.GetActualHitPoints() + "&" +unit.GetActualManaPoints() 
+                + "&" + unit.Fraction;
         }
     }
 }

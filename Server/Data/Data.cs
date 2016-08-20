@@ -268,39 +268,39 @@ namespace Server
         static Dictionary<int, InitialData> unitInitialStats = new Dictionary<int, InitialData>()
         {
             { SharedData.UNIT_WOLF,
-                new InitialData(new BaseStats(100), 1, SharedData.FRACTION_HOSTILE_UNITS) },
+                new InitialData(new BaseStats(100, 12, 1), 1, SharedData.FRACTION_HOSTILE_UNITS) },
             { SharedData.UNIT_WOLF_PACK_LEADER,
-                new InitialData(new BaseStats(250), 2, SharedData.FRACTION_HOSTILE_UNITS) },
+                new InitialData(new BaseStats(250, 16, 2), 2, SharedData.FRACTION_HOSTILE_UNITS) },
             { SharedData.UNIT_WARLOCK_SPAWNER,
-                new InitialData(new BaseStats(150), 2, SharedData.FRACTION_HOSTILE_UNITS) },
+                new InitialData(new BaseStats(150, 15, 0), 2, SharedData.FRACTION_HOSTILE_UNITS) },
             { SharedData.UNIT_AWAKENED_SOUL,
-                new InitialData(new BaseStats(150), 2, SharedData.FRACTION_HOSTILE_UNITS) },
+                new InitialData(new BaseStats(150, 20, 2), 2, SharedData.FRACTION_HOSTILE_UNITS) },
 
             { SharedData.UNIT_LIEUTENANT_LANDAX,
-                new InitialData(new BaseStats(15200), 10, SharedData.FRACTION_HUMAN_REALM) },
+                new InitialData(new BaseStats(15200, 100, 20), 10, SharedData.FRACTION_HUMAN_REALM) },
             { SharedData.UNIT_BERLOC_PYRESTEEL,
-                new InitialData(new BaseStats(5350), 7, SharedData.FRACTION_HUMAN_REALM) }
+                new InitialData(new BaseStats(5350, 56, 7), 7, SharedData.FRACTION_HUMAN_REALM) }
         };
 
         static Dictionary<int, CharacterInitialData> characterBaseStats = new Dictionary<int, CharacterInitialData>()
         {
             { SharedData.UNIT_DEMONHUNTER,new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
-                { new BaseStats(120), new BaseStats(140), new BaseStats(165) } ) },
+                { new BaseStats(120, 75, 18, 3), new BaseStats(140, 85, 20, 4), new BaseStats(165, 100, 24, 6) } ) },
 
             { SharedData.UNIT_MAGE, new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
-                { new BaseStats(90), new BaseStats(100), new BaseStats(115) } ) },
+                { new BaseStats(90, 90, 23, 1), new BaseStats(100, 100, 28, 1), new BaseStats(115, 115, 34, 3) } ) },
 
             { SharedData.UNIT_PRIEST, new CharacterInitialData(SharedData.FRACTION_HUMAN_REALM, new BaseStats[3]
-                { new BaseStats(80), new BaseStats(90), new BaseStats(105) } ) },
+                { new BaseStats(80, 95, 15, 0), new BaseStats(90, 115, 17, 1), new BaseStats(105, 135, 19, 1) } ) },
 
             { SharedData.UNIT_WARLOCK, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
-                { new BaseStats(70), new BaseStats(80), new BaseStats(90) } ) },
+                { new BaseStats(70, 95, 25, 0), new BaseStats(80, 105, 31, 0), new BaseStats(90, 120, 39, 1) } ) },
 
             { SharedData.UNIT_UNKHERO1, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
-                { new BaseStats(110), new BaseStats(135), new BaseStats(155) } ) },
+                { new BaseStats(110, 65, 15, 4), new BaseStats(135, 70, 18, 5), new BaseStats(155, 80, 21, 7) } ) },
 
             { SharedData.UNIT_SHAMAN, new CharacterInitialData(SharedData.FRACTION_DEMON_KINGDOM, new BaseStats[3]
-                { new BaseStats(85), new BaseStats(100), new BaseStats(115) } ) },
+                { new BaseStats(85, 90, 15, 1), new BaseStats(100, 105, 17, 2), new BaseStats(115, 130, 19, 3) } ) },
         };
 
         // map id -> map name

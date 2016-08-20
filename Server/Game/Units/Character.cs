@@ -1,5 +1,4 @@
 ﻿using Shared;
-using System.Diagnostics;
 using System.Drawing;
 
 namespace Server
@@ -52,14 +51,24 @@ namespace Server
             }
         }
 
-        public override int GetActualHitPoints()
-        {
-            return ActualStats.HitPoints;
-        }
-
         public override int GetMaxHitPoints()
         {
             return MaxStats.HitPoints + Equip.HitPoints;
+        }
+
+        public override int GetMaxManaPoints()
+        {
+            return MaxStats.ManaPoints + Equip.ManaPoints;
+        }
+
+        public override int GetDamage()
+        {
+            return this.ActualStats.Damage + Equip.Damage;
+        }
+
+        public override int GetArmor()
+        {
+            return this.ActualStats.Armor + Equip.Armor;
         }
 
         public void Revive(Point location)

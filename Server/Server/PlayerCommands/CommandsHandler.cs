@@ -88,7 +88,8 @@ namespace Server
             MapInstance map = game.AddPlayer(client, character);
             string msg = character.UniqueID + "," + character.Location.MapID + "," + character.Experience + "," +
                 character.Location.X + "," + character.Location.Y + "," + character.GetMaxHitPoints() + "," + 
-                character.GetActualHitPoints() + "," + character.Fraction + "," + 
+                character.GetMaxManaPoints() + "," +  character.GetActualHitPoints() + "," + 
+                character.GetActualManaPoints() + "," + character.Fraction + "," + 
                 character.CurrentQuest.GetCodedData() + "," + character.Equip.GetCodedData() + ",";
             msg += map.GetMessageCodedData() + "\n";
             byte[] byteData = Encoding.ASCII.GetBytes(msg);

@@ -35,20 +35,21 @@ namespace Client
             // STATUS
             int w = width - size;
             int currentY = y;
+            
             // HitPoints
-            float ratio = (float)character.GetActualHitpoints() / character.GetMaxHitPoints();
+            float ratio = (float)character.GetActualHitPoints() / character.GetMaxHitPoints();
             g.FillRectangle(Brushes.DarkGreen, x + size, currentY, w, height / 3);
             g.FillRectangle(Brushes.Green, x + size, currentY, w * ratio, height / 3);
-            g.DrawString("HP: " + character.GetActualHitpoints() + "/" + character.GetMaxHitPoints(), 
+            g.DrawString("HP: " + character.GetActualHitPoints() + "/" + character.GetMaxHitPoints(), 
                 GameData.GetFont(STATUS_FONT_SIZE), Brushes.White, x + size + 5, currentY + 2);
 
             // ManaPoints
             currentY += height / 3;
-            ratio = (float)character.ManaPoints / character.MaxManaPoints;
+            ratio = (float)character.GetActualManaPoints() / character.GetMaxManaPoints();
             g.FillRectangle(Brushes.DarkBlue, x + size, currentY, w, height / 3);
             g.FillRectangle(Brushes.Blue, x + size, currentY, w * ratio, height / 3);
-            g.DrawString("MP: " + character.ManaPoints + "/" + character.MaxManaPoints, GameData.GetFont(STATUS_FONT_SIZE),
-                Brushes.White, x + size + 5, currentY + 2);
+            g.DrawString("MP: " + character.GetActualManaPoints() + "/" + character.GetMaxManaPoints(), 
+                GameData.GetFont(STATUS_FONT_SIZE), Brushes.White, x + size + 5, currentY + 2);
 
             // Experience
             currentY += height / 3;

@@ -12,8 +12,6 @@ namespace Client
         // STATUS
         public BaseStats MaxStats { get; protected set; }
         public BaseStats ActualStats { get; protected set; }
-        public int ManaPoints { get; protected set; }
-        public int MaxManaPoints { get; protected set; }
         public bool IsDead { get; protected set; }
 
         // OTHER STATS
@@ -78,7 +76,7 @@ namespace Client
 
             // HP bar
             Point barLocation = new Point(mapLocation.X - unitImage.Width/2, mapLocation.Y - unitImage.Height / 2 - 11);
-            float hpRatio = (float)ActualStats.HitPoints / MaxStats.HitPoints;
+            float hpRatio = (float)GetActualHitPoints() / GetMaxHitPoints();
             Brush hpBrush = (hpRatio < 0.25f) ? Brushes.Red : Brushes.LightGreen;
 
             g.FillRectangle(Brushes.DarkGreen, barLocation.X, barLocation.Y, unitImage.Width, 6);
@@ -97,9 +95,6 @@ namespace Client
 
         public void TryHitByMissile(Missile missile)
         {
-            if (missile.Source == this)
-                return;
-
             if (missile.Source.Fraction == this.Fraction)
                 return;
 
@@ -119,11 +114,39 @@ namespace Client
         public void UpdateActualStats(BaseStats stats)
         {
             this.ActualStats.HitPoints = stats.HitPoints;
+            this.ActualStats.ManaPoints = stats.ManaPoints;
+            this.ActualStats.Armor = stats.Armor;
+            this.ActualStats.Damage = stats.Damage;
+            this.ActualStats.SpellBonus = stats.SpellBonus;
         }
 
         public void UpdateMaxStats(BaseStats stats)
         {
             this.MaxStats.HitPoints = stats.HitPoints;
+            this.MaxStats.ManaPoints = stats.ManaPoints;
+            this.MaxStats.Armor = stats.Armor;
+            this.MaxStats.Damage = stats.Damage;
+            this.MaxStats.SpellBonus = stats.SpellBonus;
+        }
+
+        public int GetActualHitPoints()
+        {
+            return this.ActualStats.HitPoints;
+        }
+
+        public int GetActualManaPoints()
+        {
+            return this.ActualStats.ManaPoints;
+        }
+
+        public int GetMaxHitPoints()
+        {
+            return this.MaxStats.HitPoints;
+        }
+
+        public int GetMaxManaPoints()
+        {
+            return this.MaxStats.ManaPoints;
         }
     }
 }

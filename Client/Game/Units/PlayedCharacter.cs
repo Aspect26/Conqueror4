@@ -13,9 +13,6 @@ namespace Client
         public Equip Equip { get; private set; }
         private ServerConnection server;
 
-        // TODO !!!!!! remove this -> mock data
-        public int ManaPoints { get { return 25; } }
-        public int MaxManaPoints { get { return 100; } }
         public int Experience { get; set; }
 
         // moving
@@ -30,7 +27,7 @@ namespace Client
         private UnitAnimation animation;
 
         public PlayedCharacter(ServerConnection server, string name, int level, int spec, int uniqueId, BaseStats maxStats,
-            BaseStats actualStats, int fraction) 
+            BaseStats actualStats, int fraction)
             : base(null, spec, uniqueId, new Location(), maxStats, actualStats, fraction)
         {
             this.Name = name;
@@ -40,16 +37,6 @@ namespace Client
             this.moved = false;
             this.MovingDirection = MovingDirection.None;
             this.Equip = new Equip();
-        }
-
-        public int GetActualHitpoints()
-        {
-            return this.ActualStats.HitPoints;
-        }
-
-        public int GetMaxHitPoints()
-        {
-            return this.MaxStats.HitPoints;
         }
 
         public delegate void ChangeMap(int mapId);

@@ -17,7 +17,11 @@ namespace Server
         int Level { get; }
 
         int GetActualHitPoints();
+        int GetActualManaPoints();
         int GetMaxHitPoints();
+        int GetMaxManaPoints();
+        int GetDamage();
+        int GetArmor();
 
         int Fraction { get; }
         int RespawnTime { get; }

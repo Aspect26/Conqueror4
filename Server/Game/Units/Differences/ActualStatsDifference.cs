@@ -12,7 +12,7 @@
 
         public override string GetString()
         {
-            return "A&" + unit.GetActualHitPoints();
+            return "A&" + unit.GetActualHitPoints() + "&" + unit.GetActualManaPoints();
         }
     }
 }

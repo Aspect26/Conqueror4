@@ -9,7 +9,7 @@ namespace Server
         private Point location;
         public IUnit Source { get; protected set; }
         public bool IsDead { get; protected set; }
-        public int Damage { get; protected set; }
+        public int Damage { get { return Source.GetDamage(); } }
 
         private const int IMPLIICT_LIFE_SPAN = 333;
 
@@ -20,9 +20,6 @@ namespace Server
             this.location = location;
             this.direction = direction;
             this.IsDead = false;
-
-            // TODO: get from character
-            this.Damage = 10;
         }
 
         public Point GetLocation()

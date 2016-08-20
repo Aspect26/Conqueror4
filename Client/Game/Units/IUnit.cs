@@ -12,8 +12,12 @@ namespace Client
         // STATUS
         BaseStats MaxStats { get; }
         BaseStats ActualStats { get; }
-        int ManaPoints { get; }
-        int MaxManaPoints { get; }
+
+        int GetActualHitPoints();
+        int GetActualManaPoints();
+        int GetMaxHitPoints();
+        int GetMaxManaPoints();
+
         bool IsDead { get; }
         bool Isplayer();
 

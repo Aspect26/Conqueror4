@@ -14,6 +14,8 @@ namespace Client
             string[] parts = message.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             int myUid = -1;
+            
+            // MYSELF
             try {
                 int uid = Convert.ToInt32(parts[0]);
                 int mapID = Convert.ToInt32(parts[1]);
@@ -21,10 +23,12 @@ namespace Client
                 int mapX = Convert.ToInt32(parts[3]);
                 int mapY = Convert.ToInt32(parts[4]);
                 int maxHp = Convert.ToInt32(parts[5]);
-                int actualHp = Convert.ToInt32(parts[6]);
-                int fraction = Convert.ToInt32(parts[7]);
-                IQuest quest = Quest.CreateQuest(parts[8]);
-                Equip equip = Equip.ParseEquip(parts[9]);
+                int maxMp = Convert.ToInt32(parts[6]);
+                int actualHp = Convert.ToInt32(parts[7]);
+                int actualMp = Convert.ToInt32(parts[8]);
+                int fraction = Convert.ToInt32(parts[9]);
+                IQuest quest = Quest.CreateQuest(parts[10]);
+                Equip equip = Equip.ParseEquip(parts[11]);
 
                 myUid = uid;
                 character.SetUniqueID(uid);
@@ -33,7 +37,9 @@ namespace Client
                 character.Location.X = mapX;
                 character.Location.Y = mapY;
                 character.MaxStats.HitPoints = maxHp;
+                character.MaxStats.ManaPoints = maxMp;
                 character.ActualStats.HitPoints = actualHp;
+                character.ActualStats.ManaPoints = actualMp;
                 character.SetFraction(fraction);
                 character.SetCurrentQuest(quest);
                 character.SetEquip(equip);
@@ -45,7 +51,8 @@ namespace Client
                 return false;
             }
 
-            for(int i = 10; i<parts.Length; i++)
+            // OTHER UNITS
+            for(int i = 12; i<parts.Length; i++)
             {
                 string[] unitParts = parts[i].Split('|');
 
@@ -61,8 +68,8 @@ namespace Client
 
                 int fraction = Convert.ToInt32(unitParts[7]);
 
-                BaseStats maxStats = new BaseStats(maxHp);
-                BaseStats actualStats = new BaseStats(actualHp);
+                BaseStats maxStats = new BaseStats(maxHp, 0, 0, 0, 0);
+                BaseStats actualStats = new BaseStats(actualHp, 0, 0, 0, 0);
 
                 game.AddUnit(name, id, uid, xLoc, yLoc, maxStats, actualStats, fraction);
             }
