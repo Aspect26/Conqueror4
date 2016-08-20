@@ -6,17 +6,19 @@ namespace Server
     public class Item : IItem
     {
         public ItemStats Stats { get; protected set; }
-        public ItemType Type { get; protected set; }
+        public int Slot { get; protected set; }
+        public int UniqueID { get; protected set; }
 
-        public Item(ItemStats stats, ItemType type)
+        public Item(ItemStats stats, int slot, int uid)
         {
             this.Stats = stats;
-            this.Type = type;
+            this.Slot = slot;
+            this.UniqueID = uid;
         }
 
         public string GetCodedData()
         {
-            StringBuilder str = new StringBuilder();
+            StringBuilder str = new StringBuilder(Slot + "&" + UniqueID);
 
             if (this.Stats.HitPoints != 0)
                 str.Append("&H^").Append(this.Stats.HitPoints);

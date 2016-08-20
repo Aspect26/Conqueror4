@@ -12,24 +12,24 @@ namespace Client
             this.Items = new IItem[SharedData.ITEM_SLOTS];
         }
 
-        public void SetWeapon(ItemStats stats)
+        public void SetWeapon(ItemStats stats, int uid)
         {
-            Items[SharedData.ITEM_SLOT_WEAPON] = new Item(stats, ItemType.WEAPON);
+            Items[SharedData.ITEM_SLOT_WEAPON] = new Item(stats, SharedData.ITEM_SLOT_WEAPON, uid);
         }
 
-        public void SetChest(ItemStats stats)
+        public void SetChest(ItemStats stats, int uid)
         {
-            Items[SharedData.ITEM_SLOT_CHEST] = new Item(stats, ItemType.CHEST);
+            Items[SharedData.ITEM_SLOT_CHEST] = new Item(stats, SharedData.ITEM_SLOT_CHEST, uid);
         }
 
-        public void SetHead(ItemStats stats)
+        public void SetHead(ItemStats stats, int uid)
         {
-            Items[SharedData.ITEM_SLOT_HEAD] = new Item(stats, ItemType.HEAD);
+            Items[SharedData.ITEM_SLOT_HEAD] = new Item(stats, SharedData.ITEM_SLOT_HEAD, uid);
         }
 
-        public void SetPants(ItemStats stats)
+        public void SetPants(ItemStats stats, int uid)
         {
-            Items[SharedData.ITEM_SLOT_PANTS] = new Item(stats, ItemType.PANTS);
+            Items[SharedData.ITEM_SLOT_PANTS] = new Item(stats, SharedData.ITEM_SLOT_PANTS, uid);
         }
 
         public static Equip ParseEquip(string data)
@@ -43,16 +43,17 @@ namespace Client
             {
                 string[] itemParts = itemsData[i].Split('&');
                 int slot = Convert.ToInt32(itemParts[0]);
+                int uid = Convert.ToInt32(itemParts[1]);
                 switch (slot)
                 {
                     case SharedData.ITEM_SLOT_WEAPON:
-                        equip.SetWeapon(ParseStats(itemParts)); break;
+                        equip.SetWeapon(ParseStats(itemParts), uid); break;
                     case SharedData.ITEM_SLOT_CHEST:
-                        equip.SetChest(ParseStats(itemParts)); break;
+                        equip.SetChest(ParseStats(itemParts), uid); break;
                     case SharedData.ITEM_SLOT_HEAD:
-                        equip.SetHead(ParseStats(itemParts)); break;
+                        equip.SetHead(ParseStats(itemParts), uid); break;
                     case SharedData.ITEM_SLOT_PANTS:
-                        equip.SetPants(ParseStats(itemParts)); break;
+                        equip.SetPants(ParseStats(itemParts), uid); break;
                     default: throw new NotImplementedException("Unknown item type from server: " + itemParts[0] + ".");
                 }
             }
@@ -65,7 +66,7 @@ namespace Client
         {
             ItemStats stats = new ItemStats();
 
-            for(int i = 1; i < data.Length; i++)
+            for(int i = 2; i < data.Length; i++)
             {
                 string[] datum = data[i].Split('^');
 

@@ -19,8 +19,13 @@ namespace Client
 
         protected override IItem getRenderingItem()
         {
-            //return game.DroppedItem;
-            return null;
+            IItem item = game.GetDroppedItem();
+            if (item != null)
+            {
+                this.itemImage = GameData.GetItemImage(item.Slot);
+            }
+
+            return game.GetDroppedItem();
         }
     }
 }

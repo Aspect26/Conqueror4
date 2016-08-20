@@ -24,7 +24,7 @@ namespace Server
                     if (addPlus)
                         str.Append("+");
 
-                    str.Append(i).Append(Items[i].GetCodedData());
+                    str.Append(Items[i].GetCodedData());
                     addPlus = true;
                 }
             }

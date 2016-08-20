@@ -9,22 +9,28 @@ namespace Client
     {
         public Map Map { get; set; }
         public PlayedCharacter Character { get; set; }
+        private ServerConnection server;
         private Dictionary<int, IUnit> units;
         private List<Missile> missiles;
         private List<IGroundObject> objects;
+        private List<IGroundObject> collidingObjects;
+        private IItem droppedItem;
 
         // EVENTS
         public delegate void NewQuestDelegate (IQuest qiest);
         public event NewQuestDelegate NewQuestAcquired;
 
-        public Game(PlayedCharacter character)
+        public Game(ServerConnection server, PlayedCharacter character)
         {
             this.Character = character;
+            this.server = server;
+
             this.CreateMap(character.Location.MapID);
 
             this.units = new Dictionary<int, IUnit>();
             this.missiles = new List<Missile>();
             this.objects = new List<IGroundObject>();
+            this.collidingObjects = new List<IGroundObject>();
 
             character.MapChanged += CreateMap;
         }
@@ -42,14 +48,35 @@ namespace Client
             // played character
             Character.PlayCycle(timeSpan);
 
-            // ground objects
+            // ground objects - collide
             foreach (IGroundObject obj in objects)
             {
                 if(new Point(Character.Location.X, Character.Location.Y).DistanceFrom(obj.Location) <= 
                     obj.GetCollisionDistance())
                 {
-                    obj.Collide();
+                    if (!collidingObjects.Contains(obj))
+                    {
+                        obj.Collide();
+                        collidingObjects.Add(obj);
+                    }
                 }
+            }
+
+            // ground objects - leave
+            List<IGroundObject> leftObjects = new List<IGroundObject>();
+            foreach(IGroundObject collidingObject in collidingObjects)
+            {
+                if (new Point(Character.Location.X, Character.Location.Y).DistanceFrom(collidingObject.Location) >
+                    collidingObject.GetCollisionDistance())
+                {
+                    leftObjects.Add(collidingObject);
+                }
+            }
+
+            foreach(IGroundObject leftObject in leftObjects)
+            {
+                leftObject.Leave();
+                collidingObjects.Remove(leftObject);
             }
 
             // missiles
@@ -240,6 +267,55 @@ namespace Client
         public void CreateItem(IItem item, Point location)
         {
             this.objects.Add(new ChestObject(this, item, location));
+        }
+
+        public void SetDroppedItem(IItem droppedItem)
+        {
+            if(this.droppedItem == null)
+            {
+                this.droppedItem = droppedItem;
+            }
+        }
+
+        public void TryRemoveDroppedItem(IItem leftItem)
+        {
+            if (droppedItem == null)
+                return;
+
+            if(leftItem.UniqueID == droppedItem.UniqueID)
+            {
+                this.droppedItem = null;
+            }
+        }
+
+        public IItem GetDroppedItem()
+        {
+            return this.droppedItem;
+        }
+
+        public void TryTakeDroppeItem()
+        {
+            if (droppedItem == null)
+                return;
+
+            server.TakeItem(droppedItem.UniqueID);
+        }
+
+        public void RemoveGameObject(int uid)
+        {
+            this.objects.RemoveAll(obj => obj.UniqueID == uid);
+
+            var colliding = this.collidingObjects.FindAll(obj => obj.UniqueID == uid);
+            foreach(IGroundObject collidingObj in colliding)
+            {
+                collidingObj.Leave();
+                this.objects.Remove(collidingObj);
+            }
+        }
+
+        public void EquipItem(IItem item)
+        {
+            this.Character.Equip.Items[item.Slot] = item;
         }
     }
 }

@@ -54,6 +54,7 @@ namespace Server
             return generateItemDropped(unit.Level, itemBonusesCount);
         }
 
+        private static int lastUID = 0;
         private static IItem generateItemDropped(int level, int itemBonusesCount)
         {
             int bonusAmount = (ITEM_BONUS_BASE * level) / itemBonusesCount;
@@ -79,8 +80,8 @@ namespace Server
                 }
             }
 
-            ItemType type = Enum.GetValues(typeof(ItemType)).Cast<ItemType>().OrderBy(x => random.Next()).First();
-            IItem item = new Item(itemStats, type);
+            int slot = random.Next(SharedData.ITEM_SLOTS);
+            IItem item = new Item(itemStats, slot, lastUID++);
             return item;
         } 
 
@@ -381,8 +382,8 @@ namespace Server
 
             // add items to aspect character
             Equip eq = new Equip();
-            eq.Items[SharedData.ITEM_SLOT_PANTS] = new Item(new ItemStats() { HitPoints=15, Armor=10 }, ItemType.PANTS);
-            eq.Items[SharedData.ITEM_SLOT_WEAPON] = new Item(new ItemStats() { HitPoints = 15, Damage = 10 }, ItemType.WEAPON);
+            eq.Items[SharedData.ITEM_SLOT_PANTS] = new Item(new ItemStats() { HitPoints=15, Armor=10 }, SharedData.ITEM_SLOT_PANTS, 12135);
+            eq.Items[SharedData.ITEM_SLOT_WEAPON] = new Item(new ItemStats() { HitPoints = 15, Damage = 10 }, SharedData.ITEM_SLOT_WEAPON, 978354);
             d.addEquipToCharacter("aspect", eq);
 
             return d;

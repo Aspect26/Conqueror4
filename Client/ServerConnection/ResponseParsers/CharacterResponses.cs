@@ -38,7 +38,7 @@ namespace Client
                 character.SetCurrentQuest(quest);
                 character.SetEquip(equip);
 
-                game = new Game(character);
+                game = new Game(this, character);
             }
             catch (FormatException e)
             {

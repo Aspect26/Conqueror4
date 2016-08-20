@@ -12,6 +12,7 @@ namespace Server
         private List<IUnit> units;
         private Queue<IPlayerAction> playerActions;
         private List<IUnitDifference> mapGeneralDifferenes;
+        private List<IItem> droppedItems;
         private SortedList<long, List<ITimedAction>> timedActions;
         private List<Missile> missiles;
         private Point ReviveLocation;
@@ -32,6 +33,7 @@ namespace Server
             this.playerActions = new Queue<IPlayerAction>();
             this.timedActions = new SortedList<long, List<ITimedAction>>();
             this.ReviveLocation = Data.GetReviveLocation(mapId);
+            this.droppedItems = new List<IItem>();
 
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
@@ -114,6 +116,19 @@ namespace Server
             return diffs;
         }
 
+        // THIS IS CALLED FROM GAME TASK
+        public IItem GetDroppedItem(int uid)
+        {
+            IItem item = droppedItems.Find(i => i.UniqueID == uid);
+            if(item != null)
+            {
+                droppedItems.Remove(item);
+                mapGeneralDifferenes.Add(new ItemRemovedDifference(item));
+            }
+
+            return item;
+        }
+
         // THIS IS CALLED FROM RECEIVING TASK
         public string GetMessageCodedData()
         {
@@ -171,7 +186,7 @@ namespace Server
             {
                 while (playerActions.Count != 0)
                 {
-                    playerActions.Dequeue().Process((now*1000)/Stopwatch.Frequency);
+                    playerActions.Dequeue().Process(this, (now*1000)/Stopwatch.Frequency);
                 }
             }
 
@@ -234,7 +249,9 @@ namespace Server
                                     IItem item = u.GetDroppedItem();
                                     if(item != null)
                                     {
+                                        droppedItems.Add(item);
                                         mapGeneralDifferenes.Add(new ItemDroppedDifference(item, u));
+                                        AddTimedAction(new RemoveItemAction(item.UniqueID), 45);
                                     }
                                 }
                                 else

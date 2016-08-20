@@ -16,7 +16,7 @@
             return character;
         }
 
-        public void Process(long timeStamp)
+        public void Process(MapInstance instance, long timeStamp)
         {
             if (character.CurrentQuest.Visited(host.UnitID))
             {

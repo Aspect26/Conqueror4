@@ -17,7 +17,7 @@
             return character;
         }
 
-        public void Process(long timeStamp)
+        public void Process(MapInstance instance, long timeStamp)
         {
             lock (character.MapInstance) 
                 character.MapInstance.PlayerShoot(character, timeStamp, x, y);

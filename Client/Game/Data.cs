@@ -76,7 +76,6 @@ namespace Client
                     return null; //crash
             }
         }
-
         public static Image GetTile(int tileId)
         {
             return tileImages[tileId];
@@ -262,17 +261,17 @@ namespace Client
             }
         }
 
-        public static string GetItemName(ItemType type)
+        public static string GetItemName(int slot)
         {
-            switch (type)
+            switch (slot)
             {
-                case ItemType.WEAPON:
+                case SharedData.ITEM_SLOT_WEAPON:
                     return "Weapon";
-                case ItemType.CHEST:
+                case SharedData.ITEM_SLOT_CHEST:
                     return "Chest";
-                case ItemType.HEAD:
+                case SharedData.ITEM_SLOT_HEAD:
                     return "Head";
-                case ItemType.PANTS:
+                case SharedData.ITEM_SLOT_PANTS:
                     return "Pants";
                 default:
                     return "Unknown";

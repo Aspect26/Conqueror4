@@ -3,15 +3,8 @@
     public interface IItem
     {
         ItemStats Stats { get; }
-        ItemType Type { get; }
-    }
-
-    public enum ItemType
-    {
-        WEAPON,
-        CHEST,
-        HEAD,
-        PANTS
+        int Slot { get; }
+        int UniqueID { get; }
     }
 
     public struct ItemStats

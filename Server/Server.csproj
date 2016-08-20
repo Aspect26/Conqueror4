@@ -57,11 +57,13 @@
     <Compile Include="Game\Items\Item.cs" />
     <Compile Include="Game\Map Instances\MapInstanceGen.cs" />
     <Compile Include="Game\Map Instances\Timed Actions\ITimedAction.cs" />
+    <Compile Include="Game\Map Instances\Timed Actions\RemoveItemAction.cs" />
     <Compile Include="Game\Map Instances\Timed Actions\RespawnUnitAction.cs" />
     <Compile Include="Game\Missile\Missile.cs" />
     <Compile Include="Game\PlayerActions\CharacterEnterLocationAction.cs" />
     <Compile Include="Game\PlayerActions\CharacterMovedAction.cs" />
     <Compile Include="Game\PlayerActions\CharacterShootAction.cs" />
+    <Compile Include="Game\PlayerActions\CharacterTakesItemAction.cs" />
     <Compile Include="Game\PlayerActions\CharacterVisitedUnitAction.cs" />
     <Compile Include="Game\Quests\IQuest.cs" />
     <Compile Include="Game\Quests\Quest Objectives\IQuestObjective.cs" />
@@ -73,7 +75,10 @@
     <Compile Include="Game\Quests\QuestData.cs" />
     <Compile Include="Game\Units\Differences\ActualStatsDifference.cs" />
     <Compile Include="Game\Units\Differences\CharacterForceMovedAction.cs" />
+    <Compile Include="Game\Units\Differences\NonUnitDifference.cs" />
     <Compile Include="Game\Units\Differences\ItemDroppedDifference.cs" />
+    <Compile Include="Game\Units\Differences\ItemEquipedDifference.cs" />
+    <Compile Include="Game\Units\Differences\ItemRemovedDifference.cs" />
     <Compile Include="Game\Units\Differences\NewQuestDifference.cs" />
     <Compile Include="Game\Units\Differences\QuestObjectiveDifference.cs" />
     <Compile Include="Game\Units\GenericUnit.cs" />

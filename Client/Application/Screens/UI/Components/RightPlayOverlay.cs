@@ -114,6 +114,11 @@ namespace Client
                     c.RenderTooltip(g, position);
                 }
             }
+
+            if(droppedItemComponent.IsAt(position))
+            {
+                droppedItemComponent.RenderTooltip(g, position);
+            }
         }
     }
 }

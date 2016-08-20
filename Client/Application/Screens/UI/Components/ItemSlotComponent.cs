@@ -28,7 +28,7 @@ namespace Client
         {
             base.Render(g);
 
-            if(getRenderingItem() != null)
+            if (getRenderingItem() != null)
             {
                 g.DrawImage(itemImage, position.X, position.Y, position.Width, position.Height);
             }
@@ -50,7 +50,7 @@ namespace Client
             if (item == null)
                 return "No item";
 
-            StringBuilder str = new StringBuilder(GameData.GetItemName(item.Type));
+            StringBuilder str = new StringBuilder(GameData.GetItemName(item.Slot));
 
             if (item.Stats.Armor != 0)
                 str.Append(Environment.NewLine).Append("Armor ").Append(item.Stats.Armor);

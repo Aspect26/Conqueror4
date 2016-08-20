@@ -31,6 +31,18 @@ namespace Client
 
                 int uniqueId = Convert.ToInt32(unitParts[0]);
 
+                // ITEM DIFERENCE
+                if(uniqueId == SharedData.DIFFERENCE_TYPE_ITEM)
+                {
+                    string[] itemPart = unitParts[1].Split('&');
+                    if (itemPart[0] == "R")
+                    {
+                        RemoveGameObject(Convert.ToInt32(itemPart[1]));
+                    }
+                    continue;
+                }
+
+                // UNIT DIFFERENCE
                 for (int currentIndex = 1; currentIndex < unitParts.Length; currentIndex++)
                 {
                     string[] unitPart = unitParts[currentIndex].Split('&');
@@ -100,36 +112,31 @@ namespace Client
                     }
                     else if(unitPart[0] == "I")
                     {
-                        IItem item = parseItem(unitPart);
+                        IItem item = parseItem(unitPart, 3);
                         Point location = new Point(Convert.ToInt32(unitPart[1]), 
                             Convert.ToInt32(unitPart[2]));
                         CreateItem(item, location);
+                    }
+                    else if(unitPart[0] == "IE" && uniqueId == Character.UniqueID)
+                    {
+                        IItem item = parseItem(unitPart, 1);
+                        EquipItem(item);
                     }
                 }
             }
         }
 
-        private IItem parseItem(string[] parts)
+        private IItem parseItem(string[] parts, int offset)
         {
             // type
-            ItemType type = default(ItemType);
-            switch (parts[3])
-            {
-                case "W":
-                    type = ItemType.WEAPON; break;
-                case "C":
-                    type = ItemType.CHEST; break;
-                case "H":
-                    type = ItemType.HEAD; break;
-                case "P":
-                    type = ItemType.PANTS; break;
-                default:
-                    throw new NotImplementedException("Unknown item type got by server: " + parts[3] + ".");
-            }
+            int slot = Convert.ToInt32(parts[offset]);
+
+            // uid
+            int uid = Convert.ToInt32(parts[offset+1]);
 
             // stats
             ItemStats stats = new ItemStats();
-            for(int i = 4 ; i<parts.Length; i++)
+            for(int i = offset+2; i<parts.Length; i++)
             {
                 string[] details = parts[i].Split('^');
                 int amount = Convert.ToInt32(details[1]);
@@ -151,7 +158,7 @@ namespace Client
             }
 
             // actual item
-            return new Item(stats, type);
+            return new Item(stats, slot, uid);
         }
     }
 }

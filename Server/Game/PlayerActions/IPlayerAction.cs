@@ -2,7 +2,7 @@
 {
     public interface IPlayerAction
     {
-        void Process(long timeStamp);
+        void Process(MapInstance mapInstance, long timeStamp);
         Character GetCharacter();
     }
 }

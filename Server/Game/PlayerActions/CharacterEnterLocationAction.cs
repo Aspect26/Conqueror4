@@ -19,10 +19,8 @@
             return character;
         }
 
-        public void Process(long timeStamp)
+        public void Process(MapInstance instance, long timeStamp)
         {
-            //MapInstance mapInstance = game.AddPlayer(clientState, character);
-            //return new CharactersInMap(mapInstance);
             return;
         }
     }

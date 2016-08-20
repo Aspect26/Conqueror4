@@ -15,6 +15,7 @@ namespace Server
         private const int CMD_STOPMOVING = 6;
         private const int CMD_CHANGELOCATION = 7;
         private const int CMD_SHOOT = 8;
+        private const int CMD_TAKEITEM = 9;
 
         public CommandsHandler(Server server, Game game)
         {
@@ -50,6 +51,8 @@ namespace Server
                 case CMD_SHOOT:
                     handleCharacterShoot(clientState, Convert.ToInt32(arguments[0]), Convert.ToInt32(arguments[1]));
                     break;
+                case CMD_TAKEITEM:
+                    handleTakeItem(clientState, Convert.ToInt32(arguments[0])); break;
                 default:
                     return;
             }
@@ -58,6 +61,11 @@ namespace Server
         // ************************************************
         // SPECIFIC HANDLERS
         // ************************************************
+        private void handleTakeItem(StateObject client, int itemUid)
+        {
+            server.AddPlayerActionToGameQueue(new CharacterTakesItemAction(client.PlayingCharacter, itemUid));
+        }
+
         private void handleCharacterMove(StateObject client, int x, int y)
         {
             server.AddPlayerActionToGameQueue(new CharacterMovedAction(client.PlayingCharacter, x, y));

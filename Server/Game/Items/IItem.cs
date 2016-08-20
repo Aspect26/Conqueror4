@@ -3,17 +3,10 @@
     public interface IItem
     {
         ItemStats Stats { get; }
-        ItemType Type { get; }
+        int Slot { get; }
 
+        int UniqueID { get; }
         string GetCodedData();
-    }
-
-    public enum ItemType
-    {
-        WEAPON,
-        CHEST,
-        HEAD,
-        PANTS
     }
 
     public struct ItemStats

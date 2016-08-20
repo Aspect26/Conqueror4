@@ -15,6 +15,7 @@ namespace Client
         private static int CMD_STOPMOVING = 6;
         private static int CMD_CHANGELOCATION = 7;
         private static int CMD_SHOOT = 8;
+        private static int CMD_TAKEITEM = 9;
 
         private int trySend(int commandNumber, string[] args)
         {

@@ -20,7 +20,7 @@ namespace Server
             return character;
         }
 
-        public void Process(long timeStamp)
+        public void Process(MapInstance instance, long timeStamp)
         {
             character.Location.X = x;
             character.Location.Y = y;
