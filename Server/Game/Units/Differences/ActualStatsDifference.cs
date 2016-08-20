@@ -12,7 +12,7 @@
 
         public override string GetString()
         {
-            return "A&" + unit.ActualStats.HitPoints;
+            return "A&" + unit.GetActualHitPoints();
         }
     }
 }

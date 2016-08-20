@@ -264,6 +264,12 @@ namespace Client
             updatingUnit.UpdateActualStats(stats);
         }
 
+        public void UpdateMaxStats(int uid, BaseStats stats)
+        {
+            IUnit updatingUnit = (uid == Character.UniqueID) ? Character : units[uid];
+            updatingUnit.UpdateMaxStats(stats);
+        }
+
         public void CreateItem(IItem item, Point location)
         {
             this.objects.Add(new ChestObject(this, item, location));

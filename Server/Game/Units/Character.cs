@@ -34,22 +34,32 @@ namespace Server
             if (InCombatWith.Count != 0)
                 return;
 
-            if (ActualStats.HitPoints == MaxStats.HitPoints)
+            if (GetActualHitPoints() == GetMaxHitPoints())
                 return;
 
             long now = Extensions.GetCurrentMillis();
             if(now - lastHealed >= Data.HPRegenInterval)
             {
                 lastHealed = now;
-                int toRegen = MaxStats.HitPoints / 15;
+                int toRegen = GetMaxHitPoints() / 15;
 
-                if (ActualStats.HitPoints + toRegen > MaxStats.HitPoints)
-                    ActualStats.HitPoints = MaxStats.HitPoints;
+                if (GetActualHitPoints() + toRegen > GetMaxHitPoints())
+                    ActualStats.HitPoints = GetMaxHitPoints();
                 else
                     ActualStats.HitPoints += toRegen;
 
-                this.AddDifference(new ActualHPDifference(UniqueID, ActualStats.HitPoints));
+                this.AddDifference(new ActualHPDifference(UniqueID, GetActualHitPoints()));
             }
+        }
+
+        public override int GetActualHitPoints()
+        {
+            return ActualStats.HitPoints;
+        }
+
+        public override int GetMaxHitPoints()
+        {
+            return MaxStats.HitPoints + Equip.HitPoints;
         }
 
         public void Revive(Point location)

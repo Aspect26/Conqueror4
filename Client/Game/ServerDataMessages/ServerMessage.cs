@@ -110,6 +110,11 @@ namespace Client
                         int hp = Convert.ToInt32(unitPart[1]);
                         UpdateActualStats(uniqueId, new BaseStats(hp));
                     }
+                    else if(unitPart[0] == "M")
+                    {
+                        int hp = Convert.ToInt32(unitPart[1]);
+                        UpdateMaxStats(uniqueId, new BaseStats(hp));
+                    }
                     else if(unitPart[0] == "I")
                     {
                         IItem item = parseItem(unitPart, 3);

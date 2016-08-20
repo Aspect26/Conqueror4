@@ -27,6 +27,7 @@ namespace Server
                 // TODO: remove item type totally .......... from server at least
                 character.Equip.Items[item.Slot] = item;
                 character.AddDifference(new ItemEquipedDifference(character, item));
+                character.AddDifference(new MaxStatsDifference(character));
             }
         }
     }

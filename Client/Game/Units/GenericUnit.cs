@@ -120,5 +120,10 @@ namespace Client
         {
             this.ActualStats.HitPoints = stats.HitPoints;
         }
+
+        public void UpdateMaxStats(BaseStats stats)
+        {
+            this.MaxStats.HitPoints = stats.HitPoints;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Shared;
 using System;
+using System.Linq;
 
 namespace Client
 {

@@ -69,7 +69,7 @@ namespace Server
 
         public void ResetStats()
         {
-            ActualStats.HitPoints = MaxStats.HitPoints;
+            ActualStats.HitPoints = GetMaxHitPoints();
         }
 
         public void SetUniqueID(int uniqueId)
@@ -147,8 +147,8 @@ namespace Server
 
                     if (myPoint.DistanceFrom(SpawnPosition) <= 10)
                     {
-                        this.ActualStats.HitPoints = this.MaxStats.HitPoints;
-                        this.Differences.Add(new ActualHPDifference(UniqueID, ActualStats.HitPoints));
+                        this.ActualStats.HitPoints = GetMaxHitPoints();
+                        this.Differences.Add(new ActualHPDifference(UniqueID, GetActualHitPoints()));
                     }
                 }
             }
@@ -207,7 +207,7 @@ namespace Server
         public void HitByMissile(Missile missile)
         {
             this.ActualStats.HitPoints -= missile.Damage;
-            if (ActualStats.HitPoints <= 0)
+            if (GetActualHitPoints() <= 0)
             {
                 missile.Source.InCombatWith.Remove(this);
                 this.IsDead = true;
@@ -216,7 +216,7 @@ namespace Server
             if(!HittedBy.Contains(missile.Source))
                 HittedBy.Add(missile.Source);
 
-            this.Differences.Add(new ActualHPDifference(UniqueID, ActualStats.HitPoints));
+            this.Differences.Add(new ActualHPDifference(UniqueID, GetActualHitPoints()));
         }
 
         public virtual void AddExperience(int xp) { }
@@ -229,6 +229,16 @@ namespace Server
         public IItem GetDroppedItem()
         {
             return Data.GenerateItemDropped(this);
+        }
+
+        public virtual int GetActualHitPoints()
+        {
+            return ActualStats.HitPoints;
+        }
+
+        public virtual int GetMaxHitPoints()
+        {
+            return MaxStats.HitPoints;
         }
     }
 }

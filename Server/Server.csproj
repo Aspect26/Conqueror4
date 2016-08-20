@@ -75,6 +75,7 @@
     <Compile Include="Game\Quests\QuestData.cs" />
     <Compile Include="Game\Units\Differences\ActualStatsDifference.cs" />
     <Compile Include="Game\Units\Differences\CharacterForceMovedAction.cs" />
+    <Compile Include="Game\Units\Differences\MaxStatsDifference.cs" />
     <Compile Include="Game\Units\Differences\NonUnitDifference.cs" />
     <Compile Include="Game\Units\Differences\ItemDroppedDifference.cs" />
     <Compile Include="Game\Units\Differences\ItemEquipedDifference.cs" />

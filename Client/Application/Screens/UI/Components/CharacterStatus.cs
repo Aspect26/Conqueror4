@@ -36,10 +36,10 @@ namespace Client
             int w = width - size;
             int currentY = y;
             // HitPoints
-            float ratio = (float)character.ActualStats.HitPoints / character.MaxStats.HitPoints;
+            float ratio = (float)character.GetActualHitpoints() / character.GetMaxHitPoints();
             g.FillRectangle(Brushes.DarkGreen, x + size, currentY, w, height / 3);
             g.FillRectangle(Brushes.Green, x + size, currentY, w * ratio, height / 3);
-            g.DrawString("HP: " + character.ActualStats.HitPoints + "/" + character.MaxStats.HitPoints, 
+            g.DrawString("HP: " + character.GetActualHitpoints() + "/" + character.GetMaxHitPoints(), 
                 GameData.GetFont(STATUS_FONT_SIZE), Brushes.White, x + size + 5, currentY + 2);
 
             // ManaPoints

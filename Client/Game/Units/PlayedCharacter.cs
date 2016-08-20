@@ -42,6 +42,16 @@ namespace Client
             this.Equip = new Equip();
         }
 
+        public int GetActualHitpoints()
+        {
+            return this.ActualStats.HitPoints;
+        }
+
+        public int GetMaxHitPoints()
+        {
+            return this.MaxStats.HitPoints;
+        }
+
         public delegate void ChangeMap(int mapId);
         public event ChangeMap MapChanged;
 

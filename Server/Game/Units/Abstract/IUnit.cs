@@ -16,6 +16,9 @@ namespace Server
         void ResetStats();
         int Level { get; }
 
+        int GetActualHitPoints();
+        int GetMaxHitPoints();
+
         int Fraction { get; }
         int RespawnTime { get; }
 

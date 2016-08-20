@@ -18,6 +18,7 @@ namespace Client
         bool Isplayer();
 
         void UpdateActualStats(BaseStats stats);
+        void UpdateMaxStats(BaseStats stats);
 
         int Fraction { get; }
 

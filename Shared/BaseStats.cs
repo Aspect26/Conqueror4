@@ -2,16 +2,11 @@
 {
     public class BaseStats
     {
-        public int HitPoints;
+        public int HitPoints { get; set; }
 
         public BaseStats(int hitPoints)
         {
             this.HitPoints = hitPoints;
-        }
-
-        public void ReduceHitPoints(int amount)
-        {
-            HitPoints -= amount;
         }
 
         public BaseStats Copy()

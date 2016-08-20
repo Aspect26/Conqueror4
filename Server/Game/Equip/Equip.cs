@@ -1,4 +1,5 @@
 ﻿using Shared;
+using System.Linq;
 using System.Text;
 
 namespace Server
@@ -10,6 +11,31 @@ namespace Server
         public Equip()
         {
             Items = new IItem[SharedData.ITEM_SLOTS];
+        }
+
+        public int HitPoints
+        {
+            get { return Items.Sum(i => (i != null) ? i.Stats.HitPoints : 0 ); }
+        }
+
+        public int ManaPoints
+        {
+            get { return Items.Sum(i => (i != null) ? i.Stats.ManaPoints : 0); }
+        }
+
+        public int Armor
+        {
+            get { return Items.Sum(i => (i != null) ? i.Stats.Armor : 0); }
+        }
+
+        public int Damage
+        {
+            get { return Items.Sum(i => (i != null) ? i.Stats.Damage : 0); }
+        }
+
+        public int SpellBonus
+        {
+            get { return Items.Sum(i => (i != null) ? i.Stats.SpellBonus : 0); }
         }
 
         public string GetCodedData()
