@@ -35,7 +35,7 @@ namespace Client
 
         public static Equip ParseEquip(string data)
         {
-            string[] itemsData = data.Split('+');
+            string[] itemsData = data.Split(new char[] { '+' }, StringSplitOptions.RemoveEmptyEntries);
             if (itemsData[0] != "E")
                 return null;
 

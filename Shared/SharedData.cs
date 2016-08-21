@@ -52,6 +52,9 @@ namespace Shared
         // non units differences
         public const int DIFFERENCE_TYPE_ITEM = -1;
 
+        // abilities
+        public const int ABILITY_PRIEST_HEAL = 1;
+
         // quests
         public const int QUEST_NO_QUEST = 0;
         public const int QUEST_CALL_TO_ARMS = 1;

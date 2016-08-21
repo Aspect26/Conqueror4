@@ -1,11 +1,19 @@
-﻿namespace Server
+﻿using System;
+
+namespace Server
 {
     public class EmptyAbility : Ability
     {
+        public override int ID { get { return -1; } }
+
         public EmptyAbility(IUnit source)
-            :base(source)
+            :base(source, 15)
         {
-            this.ManaCost = 25;
+        }
+
+        public override string GetCodedData()
+        {
+            return "";
         }
     }
 }

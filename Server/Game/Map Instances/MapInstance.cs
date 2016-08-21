@@ -93,6 +93,11 @@ namespace Server
             }
         }
 
+        public void AddGeneralDifference(IUnitDifference difference)
+        {
+            this.mapGeneralDifferenes.Add(difference);
+        }
+
         // THIS IS CALLED FROM GAME TASK
         public void PlayerShoot(Character character, long timeStamp, int x, int y)
         {

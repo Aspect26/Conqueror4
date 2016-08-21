@@ -22,6 +22,9 @@ namespace Server
         int GetMaxManaPoints();
         int GetDamage();
         int GetArmor();
+        int GetSpellBonus();
+
+        void Heal(int amount);
 
         void DecreaseActualManaPoints(int amount);
 

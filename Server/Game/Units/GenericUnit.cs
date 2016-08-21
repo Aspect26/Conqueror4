@@ -264,6 +264,23 @@ namespace Server
             return ActualStats.Armor;
         }
 
+        public virtual int GetSpellBonus()
+        {
+            return ActualStats.SpellBonus;
+        }
+
+        public virtual void Heal(int amount)
+        {
+            int actual = this.GetActualHitPoints();
+            int max = this.GetMaxHitPoints();
+            if (actual == max)
+                return;
+
+            amount = (max - actual < amount) ? max - actual : amount;
+            this.ActualStats.HitPoints += amount;
+            this.AddDifference(new ActualHPDifference(this.UniqueID, GetActualHitPoints()));
+        }
+
         public void DecreaseActualManaPoints(int amount)
         {
             this.ActualStats.ManaPoints -= amount;

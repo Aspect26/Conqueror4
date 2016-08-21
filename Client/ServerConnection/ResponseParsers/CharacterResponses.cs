@@ -48,6 +48,7 @@ namespace Client
             }
             catch (FormatException e)
             {
+                Console.WriteLine("COULD NOT LOAD GAME :(");
                 return false;
             }
 

@@ -29,7 +29,24 @@ namespace Server
         // *****************************************
         public static IAbility GetCharacterAbility(Character character)
         {
-            return new EmptyAbility(character);
+            switch (character.Spec)
+            {
+                case SharedData.UNIT_PRIEST:
+                    return CreateAbility(character, SharedData.ABILITY_PRIEST_HEAL);
+                default:
+                    return new EmptyAbility(character); 
+            }
+        }
+
+        public static IAbility CreateAbility(IUnit source, int id)
+        {
+            switch (id)
+            {
+                case SharedData.ABILITY_PRIEST_HEAL:
+                    return new PriestHealAbility(source);
+                default:
+                    return new EmptyAbility(source);
+            }
         }
 
         // *****************************************
@@ -265,6 +282,7 @@ namespace Server
 
         public const int HPRegenInterval = 2000;
         public const int MPRegenInterval = 5000;
+        public const int MPRegenOOCInterval = 1000; // Out Of Combat
 
         // mapId -> revive location
         static Dictionary<int, Point> reviveLocations = new Dictionary<int, Point>()

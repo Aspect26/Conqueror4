@@ -136,6 +136,11 @@ namespace Client
                         IItem item = parseItem(unitPart, 1);
                         EquipItem(item);
                     } 
+                    else if(unitPart[0] == "AB")
+                    {
+                        ISpecialEffect effect = SpecialEffect.ParseAbilityEffect(this, unitParts[1]);
+                        AddSpecialEffect(effect);
+                    }
                 }
             }
         }

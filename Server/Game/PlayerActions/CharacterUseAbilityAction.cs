@@ -23,6 +23,7 @@ namespace Server
                 return;
 
             ability.Process(mapInstance);
+            mapInstance.AddGeneralDifference(new UnitUsedAbilityDifference(character, ability));
         }
     }
 }

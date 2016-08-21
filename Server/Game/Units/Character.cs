@@ -35,38 +35,53 @@ namespace Server
 
             long now = Extensions.GetCurrentMillis();
 
-            // mp regen
-            if (GetActualManaPoints() != GetMaxManaPoints()
-                && now - lastManaRegenerated >= Data.MPRegenInterval)
+            // not in combat
+            if (InCombatWith.Count == 0)
             {
-                lastManaRegenerated = now;
-                int toRegen = 10;
-
-                if (GetActualManaPoints() + toRegen > GetMaxManaPoints())
-                    ActualStats.ManaPoints = GetMaxManaPoints();
-                else
-                    ActualStats.ManaPoints += toRegen;
-
-                this.AddDifference(new ActualMPDifference(UniqueID, GetActualManaPoints()));
+                // hp regen
+                if (GetActualHitPoints() != GetMaxHitPoints()
+                    && now - lastHealed >= Data.HPRegenInterval)
+                {
+                    regenHp(now);
+                }
             }
 
-            if (InCombatWith.Count != 0)
-                return;
-
-            // hp regen - only if not in combat
-            if(GetActualHitPoints() != GetMaxHitPoints() 
-                && now - lastHealed >= Data.HPRegenInterval)
+            // in combat
+            else
             {
-                lastHealed = now;
-                int toRegen = GetMaxHitPoints() / 15;
-
-                if (GetActualHitPoints() + toRegen > GetMaxHitPoints())
-                    ActualStats.HitPoints = GetMaxHitPoints();
-                else
-                    ActualStats.HitPoints += toRegen;
-
-                this.AddDifference(new ActualHPDifference(UniqueID, GetActualHitPoints()));
+                // mp regen
+                if (GetActualManaPoints() != GetMaxManaPoints()
+                    && now - lastManaRegenerated >= Data.MPRegenInterval)
+                {
+                    regenMp(now);
+                }
             }
+        }
+
+        private void regenMp(long now)
+        {
+            lastManaRegenerated = now;
+            int toRegen = 10;
+
+            if (GetActualManaPoints() + toRegen > GetMaxManaPoints())
+                ActualStats.ManaPoints = GetMaxManaPoints();
+            else
+                ActualStats.ManaPoints += toRegen;
+
+            this.AddDifference(new ActualMPDifference(UniqueID, GetActualManaPoints()));
+        }
+
+        private void regenHp(long now)
+        {
+            lastHealed = now;
+            int toRegen = GetMaxHitPoints() / 15;
+
+            if (GetActualHitPoints() + toRegen > GetMaxHitPoints())
+                ActualStats.HitPoints = GetMaxHitPoints();
+            else
+                ActualStats.HitPoints += toRegen;
+
+            this.AddDifference(new ActualHPDifference(UniqueID, GetActualHitPoints()));
         }
 
         public override int GetMaxHitPoints()
@@ -87,6 +102,11 @@ namespace Server
         public override int GetArmor()
         {
             return this.ActualStats.Armor + Equip.Armor;
+        }
+
+        public override int GetSpellBonus()
+        {
+            return this.ActualStats.SpellBonus + Equip.SpellBonus;
         }
 
         public void Revive(Point location)

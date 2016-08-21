@@ -27,6 +27,11 @@ namespace Client
             g.DrawImageAt(image, location.X, location.Y, image.Width, image.Height);
         }
 
+        public static void DrawCircleAt(this Graphics g, Pen pen, Point center, int r)
+        {
+            g.DrawEllipse(pen, center.X - r, center.Y - r, 2*r, 2*r);
+        }
+
         public static int DistanceFrom(this Point source, Point host)
         {
             Point distancePoint = new Point(host.X - source.X, host.Y - source.Y);

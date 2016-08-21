@@ -15,6 +15,7 @@ namespace Client
         private List<IGroundObject> objects;
         private List<IGroundObject> collidingObjects;
         private IItem droppedItem;
+        private List<ISpecialEffect> specialEffects;
 
         // EVENTS
         public delegate void NewQuestDelegate (IQuest qiest);
@@ -31,6 +32,7 @@ namespace Client
             this.missiles = new List<Missile>();
             this.objects = new List<IGroundObject>();
             this.collidingObjects = new List<IGroundObject>();
+            this.specialEffects = new List<ISpecialEffect>();
 
             character.MapChanged += CreateMap;
         }
@@ -90,6 +92,13 @@ namespace Client
                 Character.TryHitByMissile(missile);
             }
 
+            // special effects
+            foreach (ISpecialEffect effect in specialEffects)
+            {
+                effect.PlayCycle(timeSpan);
+            }
+            specialEffects.RemoveAll(e => e.IsDead);
+
             // units
             var killedUnits = new List<IUnit>();
             foreach (KeyValuePair<int, IUnit> pair in units)
@@ -129,6 +138,10 @@ namespace Client
                 foreach (Missile missile in missiles)
                     missile.Render(g);
             }
+
+            // special effects
+            foreach (ISpecialEffect effect in specialEffects)
+                effect.Render(g);
         }
 
         public void UpdateUnitActualHitPoints(int uniqueId, int hitPoints)
@@ -327,6 +340,11 @@ namespace Client
         public void EquipItem(IItem item)
         {
             this.Character.Equip.Items[item.Slot] = item;
+        }
+
+        public void AddSpecialEffect(ISpecialEffect specialEffect)
+        {
+            this.specialEffects.Add(specialEffect);
         }
     }
 }
