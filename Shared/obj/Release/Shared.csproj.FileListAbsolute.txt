@@ -1,5 +1,0 @@
-D:\Programming\School\C#\Conqueror4\Server\Shared\obj\Release\Shared.csprojResolveAssemblyReference.cache
-D:\Programming\School\C#\Conqueror4\Server\Shared\bin\Release\Shared.exe
-D:\Programming\School\C#\Conqueror4\Server\Shared\bin\Release\Shared.pdb
-D:\Programming\School\C#\Conqueror4\Server\Shared\obj\Release\Shared.exe
-D:\Programming\School\C#\Conqueror4\Server\Shared\obj\Release\Shared.pdb
