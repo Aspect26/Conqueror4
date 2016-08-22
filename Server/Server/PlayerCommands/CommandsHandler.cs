@@ -94,7 +94,8 @@ namespace Server
 
             // send data back
             MapInstance map = game.AddPlayer(client, character);
-            string msg = character.UniqueID + "," + character.Location.MapID + "," + character.Experience + "," +
+            string msg = character.UniqueID + "," + character.Location.MapID + "," + 
+                character.Experience + "," + Data.GetNextLevelXPRequired(character.Level) + "," + 
                 character.Location.X + "," + character.Location.Y + "," + character.GetMaxHitPoints() + "," + 
                 character.GetMaxManaPoints() + "," +  character.GetActualHitPoints() + "," + 
                 character.GetActualManaPoints() + "," + character.Fraction + "," + 

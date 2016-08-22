@@ -24,6 +24,7 @@ namespace Server
         private static Dictionary<int, IQuest> questsData = new Dictionary<int, IQuest>();
         private static Dictionary<int, MapInstance> mapInstances = new Dictionary<int, MapInstance>();
         private static Dictionary<int, Location> startingLocations = new Dictionary<int, Location>();
+        private static List<int> levelXpRequirements = new List<int>();
 
         private static Random random;
 
@@ -50,6 +51,7 @@ namespace Server
                 sqlConnection.LoadCharacters(out characterData, accountData);
                 sqlConnection.LoadMaps(out mapData, out mapInstances);
                 sqlConnection.LoadStartingLocations(out startingLocations);
+                sqlConnection.LoadLevelXpRequirements(out levelXpRequirements);
             }
 
             return true;
@@ -61,6 +63,11 @@ namespace Server
         public static int GetXPReward(int level)
         {
             return (int)(level * 2.5f + 7.5f);
+        }
+
+        public static int GetNextLevelXPRequired(int level)
+        {
+            return levelXpRequirements[--level];
         }
 
         // *****************************************

@@ -76,7 +76,8 @@ namespace Client
                     else if (unitPart[0] == "LV")
                     {
                         int level = Convert.ToInt32(unitPart[1]);
-                        ChangePlayerLevel(level);
+                        int xpRequired = Convert.ToInt32(unitPart[2]);
+                        ChangePlayerLevel(level, xpRequired);
                     }
                     else if(unitPart[0] == "D")
                     {

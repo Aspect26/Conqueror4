@@ -20,20 +20,22 @@ namespace Client
                 int uid = Convert.ToInt32(parts[0]);
                 int mapID = Convert.ToInt32(parts[1]);
                 int experience = Convert.ToInt32(parts[2]);
-                int mapX = Convert.ToInt32(parts[3]);
-                int mapY = Convert.ToInt32(parts[4]);
-                int maxHp = Convert.ToInt32(parts[5]);
-                int maxMp = Convert.ToInt32(parts[6]);
-                int actualHp = Convert.ToInt32(parts[7]);
-                int actualMp = Convert.ToInt32(parts[8]);
-                int fraction = Convert.ToInt32(parts[9]);
-                IQuest quest = Quest.CreateQuest(parts[10], character.Name);
-                Equip equip = Equip.ParseEquip(parts[11]);
+                int experienceRequired = Convert.ToInt32(parts[3]);
+                int mapX = Convert.ToInt32(parts[4]);
+                int mapY = Convert.ToInt32(parts[5]);
+                int maxHp = Convert.ToInt32(parts[6]);
+                int maxMp = Convert.ToInt32(parts[7]);
+                int actualHp = Convert.ToInt32(parts[8]);
+                int actualMp = Convert.ToInt32(parts[9]);
+                int fraction = Convert.ToInt32(parts[10]);
+                IQuest quest = Quest.CreateQuest(parts[11], character.Name);
+                Equip equip = Equip.ParseEquip(parts[12]);
 
                 myUid = uid;
                 character.SetUniqueID(uid);
                 character.Location.MapID = mapID;
                 character.Experience = experience;
+                character.ExperienceRequired = experienceRequired;
                 character.Location.X = mapX;
                 character.Location.Y = mapY;
                 character.MaxStats.HitPoints = maxHp;
@@ -53,7 +55,7 @@ namespace Client
             }
 
             // OTHER UNITS
-            for(int i = 12; i<parts.Length; i++)
+            for(int i = 13; i<parts.Length; i++)
             {
                 string[] unitParts = parts[i].Split('|');
 

@@ -306,6 +306,24 @@ namespace Server
             }
         }
 
+        public void LoadLevelXpRequirements(out List<int> requirements)
+        {
+            Console.WriteLine("Loading level xp requirements...");
+            requirements = new List<int>();
+            // TODO: generalize asc/desc in Select function
+            string query = "SELECT level, xp FROM level_xp_requirements ORDER BY level ASC";
+            var cmd = new MySqlCommand(query, connection);
+            var resultReader = cmd.ExecuteReader();
+
+            while(resultReader.Read())
+            {
+                // TODO: this conevrsions: really???
+                requirements.Add(Convert.ToInt32(resultReader["xp"].ToString()));
+            }
+
+            resultReader.Close();
+        }
+
         // DATABASE OBJECTIVES DATA GRAMMAR
         //  Objectives = Objective ["," Objective]
         //  Objective = Type [ ":" AdditionalInfo ]

@@ -53,10 +53,10 @@ namespace Client
 
             // Experience
             currentY += height / 3;
-            ratio = (float)character.Experience / SharedData.GetNextLevelXPRequired(character.Level);
+            ratio = (float)character.Experience / character.ExperienceRequired;
             g.FillRectangle(Brushes.DarkViolet, x + size, currentY, w, height / 3);
             g.FillRectangle(Brushes.Violet, x + size, currentY, w * ratio, height / 3);
-            g.DrawString("XP: " + character.Experience + "/" + SharedData.GetNextLevelXPRequired(character.Level), 
+            g.DrawString("XP: " + character.Experience + "/" + character.ExperienceRequired, 
                 GameData.GetFont(STATUS_FONT_SIZE), Brushes.White, x + size + 5, currentY + 2);
         }
     }

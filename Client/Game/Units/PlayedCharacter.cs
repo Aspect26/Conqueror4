@@ -14,6 +14,7 @@ namespace Client
         private ServerConnection server;
 
         public int Experience { get; set; }
+        public int ExperienceRequired { get; set; }
 
         // moving
         private bool movingUp = false;
@@ -37,6 +38,7 @@ namespace Client
             this.moved = false;
             this.MovingDirection = MovingDirection.None;
             this.Equip = new Equip();
+            this.ExperienceRequired = 42;
         }
 
         public delegate void ChangeMap(int mapId);

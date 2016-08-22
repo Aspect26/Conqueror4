@@ -252,9 +252,10 @@ namespace Client
             Character.Experience = xp;
         }
 
-        public void ChangePlayerLevel(int level)
+        public void ChangePlayerLevel(int level, int newXpRequirement)
         {
             Character.Level = level;
+            Character.ExperienceRequired = newXpRequirement;
         }
 
         public void KillUnit(int uid)

@@ -164,16 +164,16 @@ namespace Server
         public override void AddExperience(int xp)
         {
             this.Experience += xp;
-            if(!(Experience >= SharedData.GetNextLevelXPRequired(Level)))
+            if(!(Experience >= Data.GetNextLevelXPRequired(Level)))
             {
                 this.AddDifference(new ExperienceDifference(UniqueID, Experience));
             }
             else
             {
-                this.Experience = Experience % SharedData.GetNextLevelXPRequired(Level);
+                this.Experience = Experience % Data.GetNextLevelXPRequired(Level);
                 this.Level++;
                 this.AddDifference(new ExperienceDifference(UniqueID, Experience));
-                this.AddDifference(new LevelDifference(UniqueID, Level));
+                this.AddDifference(new LevelDifference(UniqueID, Level, Data.GetNextLevelXPRequired(Level)));
             }
         }
 
