@@ -23,7 +23,8 @@ namespace Client
                     return parsePriestHeal(game, parts);
 
                 default:
-                    throw new NotImplementedException();
+                    Console.WriteLine("Unimplemented ability: " + spellId + "!");
+                    return null;
             }
         }
 

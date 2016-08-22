@@ -12,7 +12,6 @@ namespace Server
             get { return unitsKilled >= unitsRequired; }
             protected set { }
         }
-
         public UnitKillObjective(int unitId, int killCount)
         {
             this.unitId = unitId;

@@ -27,7 +27,7 @@ namespace Client
                 int actualHp = Convert.ToInt32(parts[7]);
                 int actualMp = Convert.ToInt32(parts[8]);
                 int fraction = Convert.ToInt32(parts[9]);
-                IQuest quest = Quest.CreateQuest(parts[10]);
+                IQuest quest = Quest.CreateQuest(parts[10], character.Name);
                 Equip equip = Equip.ParseEquip(parts[11]);
 
                 myUid = uid;

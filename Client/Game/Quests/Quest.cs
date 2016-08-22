@@ -21,15 +21,16 @@ namespace Client
             this.Objectives = objectives;
         }
 
-        public static IQuest CreateQuest(string questData)
+        public static IQuest CreateQuest(string questData, string characterName)
         {
             string[] parts = questData.Split('&');
 
-            if (parts.Length < 4 || parts[0] != "Q")
+            if (parts.Length < 3 || parts[0] != "Q")
                 return null;
 
             string title = parts[1];
             string description = parts[2];
+            description.Replace("#NAME", characterName);
             QuestObjective[] objectives = CreateObjectives(parts, 3);
 
             return new Quest(objectives, title, description);

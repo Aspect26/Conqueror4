@@ -62,10 +62,10 @@ namespace Client
                 str.Append(Environment.NewLine).Append("+ ").Append(item.Stats.HitPoints).Append(" HP");
 
             if (item.Stats.ManaPoints != 0)
-                str.Append(Environment.NewLine).Append("+ ").Append(item.Stats.HitPoints).Append(" MP");
+                str.Append(Environment.NewLine).Append("+ ").Append(item.Stats.ManaPoints).Append(" MP");
 
             if (item.Stats.SpellBonus != 0)
-                str.Append(Environment.NewLine).Append("+ ").Append(item.Stats.HitPoints).Append(" SP");
+                str.Append(Environment.NewLine).Append("+ ").Append(item.Stats.SpellBonus).Append(" SP");
 
             return str.ToString();
         }

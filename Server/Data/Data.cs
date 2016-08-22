@@ -9,6 +9,8 @@ namespace Server
     public class Data
     {
         private static MySQLConnection sqlConnection;
+        //private static ASQLConnection sqlConnection;
+
         public static object SQLLock = new object();
 
         // data
@@ -28,6 +30,7 @@ namespace Server
         static Data()
         {
             sqlConnection = new MySQLConnection();
+            //sqlConnection = new ASQLConnection();
             random = new Random();
         }
 
@@ -238,6 +241,7 @@ namespace Server
                 return null;
 
             // NOTE: drop chance -> from db maybe?
+            // TODO: decrease to 170
             if (!(random.Next(1000) < 1000))
                 return null;
 
@@ -267,7 +271,7 @@ namespace Server
                     case ITEM_DAMAGE:
                         itemStats.Damage = bonusAmount / 2; break;
                     case ITEM_SPELLBONUS:
-                        itemStats.Armor = bonusAmount; break;
+                        itemStats.SpellBonus = bonusAmount; break;
                     default:
                         throw new NotImplementedException("Not specified generating value of item stat!");
                 }

@@ -173,6 +173,7 @@ namespace Server
                 this.Experience = Experience % SharedData.GetNextLevelXPRequired(Level);
                 this.Level++;
                 this.AddDifference(new ExperienceDifference(UniqueID, Experience));
+                this.AddDifference(new LevelDifference(UniqueID, Level));
             }
         }
 

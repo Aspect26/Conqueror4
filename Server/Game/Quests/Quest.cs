@@ -51,8 +51,8 @@ namespace Server
             if(unitId == questCompletionerId && RequirementsCompleted())
             {
                 IsCompleted = true;
+                return true;
             }
-
 
             return visited;
         }

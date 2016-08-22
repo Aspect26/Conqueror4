@@ -99,7 +99,7 @@ namespace Client
                     }
                     else if(unitPart[0] == "Q")
                     {
-                        UpdateQuest(Quest.CreateQuest(unitParts[currentIndex]));
+                        UpdateQuest(Quest.CreateQuest(unitParts[currentIndex], Character.Name));
                     }
                     else if(unitPart[0] == "QO")
                     {
@@ -139,7 +139,8 @@ namespace Client
                     else if(unitPart[0] == "AB")
                     {
                         ISpecialEffect effect = SpecialEffect.ParseAbilityEffect(this, unitParts[1]);
-                        AddSpecialEffect(effect);
+                        if(effect != null)
+                            AddSpecialEffect(effect);
                     }
                 }
             }

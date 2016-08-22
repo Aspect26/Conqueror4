@@ -13,6 +13,7 @@ namespace Server
         private const string DB = "conqueror4";
         private const string UID = "root";
         private const string PWD = "root";
+
         private const string CONN_STRING = "SERVER=" + SERVER + ";DATABASE=" + DB + 
             ";UID=" + UID + ";PASSWORD=" + PWD + ";";
 
@@ -308,11 +309,14 @@ namespace Server
         // DATABASE OBJECTIVES DATA GRAMMAR
         //  Objectives = Objective ["," Objective]
         //  Objective = Type [ ":" AdditionalInfo ]
-        //  Type = 1 - kill objective, AdditionalInfo = uid:count
+        //  Type = 1 - kill objective, AdditionalInfo = uid:count:current
         //  Type = 2 - region visited, AdditionalInfo = x:y:distance
         //  Type = 3 - unit visited,   AdditionalInfo = uid
         private IQuestObjective[] parseQuestObjectives(string data)
         {
+            if (data == "")
+                return new IQuestObjective[0];
+
             string[] objectives = data.Split(',');
             IQuestObjective[] iobjectives = new IQuestObjective[objectives.Length];
             for(int i = 0; i < objectives.Length; i++)
