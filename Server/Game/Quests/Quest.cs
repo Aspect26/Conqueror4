@@ -14,8 +14,9 @@ namespace Server
         private IQuestObjective[] objectives;
         private string description;
 
-        public Quest(QuestData data)
+        public Quest(int id, QuestData data)
         {
+            this.QuestID = id;
             this.NextQuestID = data.NextQuestID;
             this.title = data.Title;
             this.objectives = data.Objectives;
@@ -120,7 +121,7 @@ namespace Server
             {
                 objectivesCopy[i] = objectives[i].Copy();
             }
-            return new Quest(new QuestData(objectivesCopy, title, description, NextQuestID, questCompletionerId));
+            return new Quest(QuestID, new QuestData(objectivesCopy, title, description, NextQuestID, questCompletionerId));
         }
 
         // *********************************
@@ -132,7 +133,7 @@ namespace Server
             get
             {
                 if (noQuest == null)
-                    noQuest = new Quest(new QuestData(
+                    noQuest = new Quest(0,new QuestData(
                         new IQuestObjective[] { }, 
                         "No Quest", 
                         "You have completed all your quests!",

@@ -71,7 +71,8 @@ namespace Server
             Console.WriteLine("Loading characters...");
             charactersData = new Dictionary<string, Character>();
             var results = Select(new string[] { "account", "name", "spec", "xloc", "yloc", "mapid",
-                "hitpoints", "manapoints", "experience", "level", "questid" }, "characters");
+                "hitpoints", "manapoints", "experience", "level", "questid", "equip_weapon",
+                "equip_chest", "equip_head", "equip_pants" }, "characters");
 
             foreach(var row in results)
             {
@@ -87,6 +88,11 @@ namespace Server
                 int xp = Convert.ToInt32(row["experience"]);
                 int level = Convert.ToInt32(row["level"]);
                 IQuest quest = Data.GetQuest(Convert.ToInt32(row["questid"]));
+                Equip equip = new Equip();
+                equip.SetItem(parseItem(row["equip_weapon"], Data.ItemWeaponSlot), Data.ItemWeaponSlot);
+                equip.SetItem(parseItem(row["equip_chest"], Data.ItemChestSlot), Data.ItemChestSlot);
+                equip.SetItem(parseItem(row["equip_head"], Data.ItemHeadSlot), Data.ItemHeadSlot);
+                equip.SetItem(parseItem(row["equip_pants"], Data.ItemPantsSlot), Data.ItemPantsSlot);
 
                 // TODO: wtf is this uid?
                 Character character = new Character(name, spec, -1, new Location(mapId, xLoc, yLoc), null);
@@ -95,9 +101,52 @@ namespace Server
                 character.SetExperience(xp);
                 character.SetLevel(level);
                 character.SetQuest(quest);
+                character.SetEquip(equip);
 
                 charactersData.Add(name, character);
                 accounts[account].AddCharacter(character);
+            }
+        }
+
+        private IItem parseItem(string data, int slot)
+        {
+            if (data == "")
+                return null;
+
+            try
+            {
+                string[] parts = data.Split(',');
+                int uid = Convert.ToInt32(parts[0]);
+                int hp = 0, mp = 0, armor = 0, damage = 0, sb = 0;
+
+                for (int i = 1; i < parts.Length; i++)
+                {
+                    string[] itemBonus = parts[i].Split(':');
+                    int value = Convert.ToInt32(itemBonus[1]);
+                    switch (itemBonus[0])
+                    {
+                        case "H":
+                            hp = value; break;
+                        case "M":
+                            mp = value; break;
+                        case "A":
+                            armor = value; break;
+                        case "D":
+                            damage = value; break;
+                        case "S":
+                            sb = value; break;
+                        default:
+                            // TODO: throw some normal exception and catch it
+                            throw new NotImplementedException("Wrong item bonus in sql database.");
+                    }
+                }
+
+                Item item = new Item(new ItemStats(hp, mp, armor, damage, sb), slot, uid);
+                return item;
+            }
+            catch (Exception e) when (e is FormatException || e is IndexOutOfRangeException)
+            {
+                return null;
             }
         }
 
@@ -251,7 +300,7 @@ namespace Server
                 string objctives = row["objectives"];
                 int questCompletioner = Convert.ToInt32(row["quest_completioner_unit_id"]);
 
-                questsData.Add(id, new Quest(new QuestData(parseQuestObjectives(objctives), 
+                questsData.Add(id, new Quest(id, new QuestData(parseQuestObjectives(objctives), 
                     title, description, nextQuestId, questCompletioner)));
             }
         }
@@ -317,18 +366,57 @@ namespace Server
             int xp = c.Experience;
             int level = c.Level;
             int questId = c.CurrentQuest.QuestID;
+            string weapon = createItemString(c.Equip.Items[Data.ItemWeaponSlot]);
+            string chest = createItemString(c.Equip.Items[Data.ItemChestSlot]);
+            string head = createItemString(c.Equip.Items[Data.ItemHeadSlot]);
+            string pants = createItemString(c.Equip.Items[Data.ItemPantsSlot]);
 
             // build query
-            var queryBuilder = new StringBuilder("UPDATE characters SET xloc=").Append(xLoc)
-                .Append(",yloc=").Append(yLoc).Append(",mapid=").Append(mapid).Append(",hitpoints=")
-                .Append(hitpoints).Append(",manapoints=").Append(manapoints).Append(",experience=")
-                .Append(xp).Append(",level=").Append(level).Append(",questid=").Append(questId)
-                .Append(" WHERE name=\"")
-                .Append(c.Name).Append("\"");
+            string query = "UPDATE characters " + 
+                "SET xloc=" + xLoc + ",yloc=" + yLoc + ",mapid=" + mapid + ",hitpoints=" + 
+                hitpoints + ",manapoints=" + manapoints + ",experience=" + xp + ",level=" + 
+                level + ",questid=" + questId + ",equip_weapon=\"" + weapon + "\",equip_chest=\"" +
+                chest + "\",equip_head=\"" + head + "\",equip_pants=\"" + pants + "\" " +
+                "WHERE name=\"" + c.Name + "\"";
 
             // execute
-            var cmd = new MySqlCommand(queryBuilder.ToString(), connection);
+            var cmd = new MySqlCommand(query, connection);
             cmd.ExecuteNonQuery();
+        }
+
+        public void SaveAccount(Account acc)
+        {
+            string name = acc.Username;
+            string pass = acc.Password;
+
+            Insert(new string[] { "name", "password" }, 
+                new List<string[]> { new string[] { name, pass } }, "accounts");
+        }
+
+        private string createItemString(IItem item)
+        {
+            if (item == null)
+                return "";
+
+            int uid = item.UniqueID;
+            StringBuilder str = new StringBuilder(uid.ToString());
+
+            if (item.Stats.HitPoints != 0)
+                str.Append(",H:").Append(item.Stats.HitPoints);
+
+            if (item.Stats.ManaPoints != 0)
+                str.Append(",M:").Append(item.Stats.ManaPoints);
+
+            if (item.Stats.Armor != 0)
+                str.Append(",A:").Append(item.Stats.Armor);
+
+            if (item.Stats.Damage != 0)
+                str.Append(",D:").Append(item.Stats.Damage);
+
+            if (item.Stats.SpellBonus != 0)
+                str.Append("S:").Append(item.Stats.SpellBonus);
+
+            return str.ToString();
         }
 
         // *******************************************************

@@ -116,6 +116,8 @@ namespace Server
                 return false;
 
             accountData.Add(username, new Account(username, password));
+            lock(SQLLock)
+                sqlConnection.SaveAccount(accountData[username]);
             return true;
         }
 
@@ -140,6 +142,10 @@ namespace Server
         // CONSTANTS FROM DATABASE
         // *****************************************
         private static int ITEM_BONUS_BASE { get { return integerConstants["item_bonus_base"]; } }
+        public static int ItemWeaponSlot { get { return integerConstants["equip_weapon_slot"]; } }
+        public static int ItemChestSlot { get { return integerConstants["equip_chest_slot"]; } }
+        public static int ItemHeadSlot { get { return integerConstants["equip_head_slot"]; } }
+        public static int ItemPantsSlot { get { return integerConstants["equip_pants_slot"]; } }
         public static int CombatRange { get { return integerConstants["combat_range"]; } }
         public static int EnterCombatDistance { get { return integerConstants["enter_combat_distance"]; } }
         public static int LeaveCombatDistance { get { return integerConstants["leave_combat_distance"]; } }

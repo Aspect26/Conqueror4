@@ -13,6 +13,11 @@ namespace Server
             Items = new IItem[SharedData.ITEM_SLOTS];
         }
 
+        public void SetItem(IItem item, int slot)
+        {
+            Items[slot] = item;
+        }
+
         public int HitPoints
         {
             get { return Items.Sum(i => (i != null) ? i.Stats.HitPoints : 0 ); }
