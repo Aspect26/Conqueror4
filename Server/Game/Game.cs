@@ -5,20 +5,11 @@ namespace Server
     public class Game
     {
         private bool running = false;
-
         private Dictionary<int, MapInstance> mapInstances;
 
         public Game()
         {
-            mapInstances = new Dictionary<int, MapInstance>();
-
-            Dictionary<int, string> maps = Data.GetMaps(); 
-            foreach(int key in maps.Keys)
-            {
-                MapInstance map = new MapInstance(key);
-                MapInstanceGen.GenerateUnits(map, key);
-                mapInstances.Add(key, map);
-            }
+            mapInstances = Data.GetMapInstances();
         }
 
         public void RemoveClient(StateObject client)
@@ -63,8 +54,8 @@ namespace Server
             int mapId = character.Location.MapID;
             int uniqueId = -1;
 
-            lock (mapInstances[mapId])
-            {
+            lock (mapInstances[mapId]) { 
+                character.SetMapInstance(mapInstances[mapId]);
                 uniqueId = mapInstances[mapId].GetNextUniqueID();
                 character.SetUniqueID(uniqueId);
                 character.AddDifference(new UnitSpawnedDifference(character));

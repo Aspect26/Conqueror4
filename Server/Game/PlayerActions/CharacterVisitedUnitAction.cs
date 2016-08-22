@@ -20,7 +20,7 @@
         {
             if (character.CurrentQuest.Visited(host.UnitID))
             {
-                if (character.CurrentQuest.IsCompleted())
+                if (character.CurrentQuest.IsCompleted)
                 {
                     character.SetQuest(Data.GetQuest(character.CurrentQuest.NextQuestID));
                     character.AddDifference(new NewQuestDifference(character.UniqueID, character.CurrentQuest));

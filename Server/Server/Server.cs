@@ -9,7 +9,6 @@ namespace Server
 {
     public partial class Server
     {
-        private Data gameData;
         private Game game;
 
         private static int PORT = 26270;
@@ -20,18 +19,22 @@ namespace Server
 
         public Server()
         {
-            game = new Game();
-            gameData = new Data(game);
-            commandsHandler = new CommandsHandler(this, game);
         }
 
         public void Start()
         {
+            if (!Data.Initialize())
+            {
+                Console.WriteLine("Could not load server data.");
+                return;
+            }
+            game = new Game();
+            commandsHandler = new CommandsHandler(this, game);
+
             localEndPoint = new IPEndPoint(IPAddress.Any, PORT);
             serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             Console.WriteLine("Loading accounts database...");
-            gameData = Data.createMockData(game);
 
             Console.WriteLine("Starting server...");
 
@@ -54,11 +57,6 @@ namespace Server
         public void AddPlayerActionToGameQueue(IPlayerAction action)
         {
             game.AddPlayerAction(action);
-        }
-
-        public Data GetGameData()
-        {
-            return gameData;
         }
     }
 }

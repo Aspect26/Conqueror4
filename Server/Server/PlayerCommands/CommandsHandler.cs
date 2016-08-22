@@ -86,7 +86,7 @@ namespace Server
 
         private void handleCharacterLoad(StateObject client, string characterName)
         {
-            Character character = server.GetGameData().GetCharacter(characterName);
+            Character character = Data.GetCharacter(characterName);
             if (character == null)
                 return;
 

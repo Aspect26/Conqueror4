@@ -53,5 +53,7 @@ namespace Server
         List<IUnit> InCombatWith { get; }
         IItem GetDroppedItem();
         void AddDifference(IUnitDifference difference);
+
+        bool SQLDifference { get; set; }
     }
 }

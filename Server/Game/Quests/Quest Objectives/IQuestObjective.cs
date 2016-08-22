@@ -7,12 +7,12 @@ namespace Server
         bool IsCompleted { get; }
         string GetCodedData();
 
-        IQuestObjective[] PreRequiredObjecties { get; }
-
         void Reset();
 
         bool Visited(int unitId);
         bool MovedTo(int x, int y);
         bool Killed(int unitId);
+
+        IQuestObjective Copy();
     }
 }

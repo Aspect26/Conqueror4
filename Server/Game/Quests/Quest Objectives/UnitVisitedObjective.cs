@@ -8,8 +8,7 @@ namespace Server
 
         public override bool IsCompleted { get; protected set; }
 
-        public UnitVisitedObjective(int unitId, IQuestObjective[] preRequisites = null)
-            :base(preRequisites)
+        public UnitVisitedObjective(int unitId)
         {
             this.unitId = unitId;
         }
@@ -21,9 +20,6 @@ namespace Server
 
         public override bool Visited(int unitId)
         {
-            if (!checkRequisities())
-                return false;
-
             if(unitId == this.unitId)
             {
                 IsCompleted = true;
@@ -36,6 +32,11 @@ namespace Server
         public override void Reset()
         {
             IsCompleted = false;
+        }
+
+        public override IQuestObjective Copy()
+        {
+            return new UnitVisitedObjective(unitId);
         }
     }
 }

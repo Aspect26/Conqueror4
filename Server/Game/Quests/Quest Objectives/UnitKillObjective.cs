@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Server
 {
@@ -10,17 +9,11 @@ namespace Server
         private int unitsRequired;
 
         public override bool IsCompleted {
-            get {
-                if (!checkRequisities())
-                    return false;
-
-                return unitsKilled >= unitsRequired;
-            }
+            get { return unitsKilled >= unitsRequired; }
             protected set { }
         }
 
-        public UnitKillObjective(int unitId, int killCount, IQuestObjective[] preRequisities = null)
-            :base(preRequisities)
+        public UnitKillObjective(int unitId, int killCount)
         {
             this.unitId = unitId;
             this.unitsRequired = killCount;
@@ -45,6 +38,11 @@ namespace Server
         public override void Reset()
         {
             unitsKilled = 0;
+        }
+
+        public override IQuestObjective Copy()
+        {
+            return new UnitKillObjective(unitId, unitsRequired);
         }
     }
 }

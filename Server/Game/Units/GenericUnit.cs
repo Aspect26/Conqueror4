@@ -30,6 +30,7 @@ namespace Server
         public List<IUnitDifference> Differences { get; protected set; }
         public List<IUnit> CurrentlyVisited { get; protected set; }
         public List<IUnit> InCombatWith { get; protected set; }
+        public bool SQLDifference { get; set; }
 
         protected int movingSpeed;
         protected int shootCooldown;
@@ -55,6 +56,7 @@ namespace Server
             this.Fraction = data.Fraction;
             this.shootCooldown = 800;
             this.SpawnPosition = new Point(location.X, location.Y);
+            this.SQLDifference = false;
 
             Direction = MovingDirection.None;
             movingSpeed = 1;
@@ -148,7 +150,7 @@ namespace Server
                     if (myPoint.DistanceFrom(SpawnPosition) <= 10)
                     {
                         this.ActualStats.HitPoints = GetMaxHitPoints();
-                        this.Differences.Add(new ActualHPDifference(UniqueID, GetActualHitPoints()));
+                        this.AddDifference(new ActualHPDifference(UniqueID, GetActualHitPoints()));
                     }
                 }
             }
@@ -161,7 +163,7 @@ namespace Server
             if (timeStamp > lastShoot + shootCooldown)
             {
                 lastShoot = timeStamp;
-                this.Differences.Add(new PlayerShootDifference(UniqueID, x, y));
+                this.AddDifference(new PlayerShootDifference(UniqueID, x, y));
                 return new Missile(this, new Point(Location.X, Location.Y), new Point(x, y));
             }
 
@@ -219,13 +221,14 @@ namespace Server
             if(!HittedBy.Contains(missile.Source))
                 HittedBy.Add(missile.Source);
 
-            this.Differences.Add(new ActualHPDifference(UniqueID, GetActualHitPoints()));
+            this.AddDifference(new ActualHPDifference(UniqueID, GetActualHitPoints()));
         }
 
         public virtual void AddExperience(int xp) { }
 
         public void AddDifference(IUnitDifference difference)
         {
+            this.SQLDifference = true;
             this.Differences.Add(difference);
         }
 
@@ -284,7 +287,7 @@ namespace Server
         public void DecreaseActualManaPoints(int amount)
         {
             this.ActualStats.ManaPoints -= amount;
-            this.Differences.Add(new ActualMPDifference(this.UniqueID, GetActualManaPoints()));
+            this.AddDifference(new ActualMPDifference(this.UniqueID, GetActualManaPoints()));
         }
     }
 }

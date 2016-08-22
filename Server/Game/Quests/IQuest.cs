@@ -5,7 +5,8 @@
         int QuestID { get; }
         int NextQuestID { get; }
 
-        bool IsCompleted();
+        bool RequirementsCompleted();
+        bool IsCompleted { get; }
         void Reset();
 
         string GetCodedData();
@@ -14,5 +15,7 @@
         bool Visited(int unitId);
         bool MovedTo(int x, int y);
         bool Killed(int unitId);
+
+        IQuest Copy();
     }
 }

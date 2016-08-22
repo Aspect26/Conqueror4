@@ -109,6 +109,11 @@ namespace Server
             return this.ActualStats.SpellBonus + Equip.SpellBonus;
         }
 
+        public void SetMapInstance(MapInstance instance)
+        {
+            this.MapInstance = instance;
+        }
+
         public void Revive(Point location)
         {
             IsDead = false;
@@ -151,13 +156,13 @@ namespace Server
             this.Experience += xp;
             if(!(Experience >= SharedData.GetNextLevelXPRequired(Level)))
             {
-                this.Differences.Add(new ExperienceDifference(UniqueID, Experience));
+                this.AddDifference(new ExperienceDifference(UniqueID, Experience));
             }
             else
             {
                 this.Experience = Experience % SharedData.GetNextLevelXPRequired(Level);
                 this.Level++;
-                this.Differences.Add(new ExperienceDifference(UniqueID, Experience));
+                this.AddDifference(new ExperienceDifference(UniqueID, Experience));
             }
         }
 

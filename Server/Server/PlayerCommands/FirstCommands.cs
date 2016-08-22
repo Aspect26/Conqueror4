@@ -12,7 +12,7 @@ namespace Server
             if (args.Length < 2)
                 return false;
 
-            return gameData.RegisterAccount(args[0], args[1]);
+            return Data.RegisterAccount(args[0], args[1]);
         }
 
         private bool loginAccount(StateObject state, string[] args)
@@ -20,7 +20,7 @@ namespace Server
             if (args.Length < 2)
                 return false;
 
-            state.Account = gameData.LoginAccount(args[0], args[1]);
+            state.Account = Data.LoginAccount(args[0], args[1]);
             return state.Account != null;
         }
     }

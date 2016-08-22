@@ -28,7 +28,7 @@ namespace Server
 
             if (character.CurrentQuest.MovedTo(x, y))
             {
-                if (character.CurrentQuest.IsCompleted())
+                if (character.CurrentQuest.IsCompleted)
                 {
                     character.SetQuest(Data.GetQuest(character.CurrentQuest.NextQuestID));
                     character.AddDifference(new NewQuestDifference(character.UniqueID, character.CurrentQuest));

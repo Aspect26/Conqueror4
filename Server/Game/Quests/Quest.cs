@@ -7,7 +7,9 @@ namespace Server
     {
         public int QuestID { get; protected set; }
         public int NextQuestID { get; protected set; }
+        public bool IsCompleted { get; private set; }
 
+        private int questCompletionerId;
         private string title;
         private IQuestObjective[] objectives;
         private string description;
@@ -18,10 +20,12 @@ namespace Server
             this.title = data.Title;
             this.objectives = data.Objectives;
             this.description = data.Description;
+            this.questCompletionerId = data.QuestCompletionerId;
         }
 
-        public bool IsCompleted()
+        public bool RequirementsCompleted()
         {
+            // because of NO_QUEST
             if (objectives.Length == 0)
                 return false;
 
@@ -42,6 +46,12 @@ namespace Server
                 if (objective.Visited(unitId))
                     visited = true;
             }
+
+            if(unitId == questCompletionerId && RequirementsCompleted())
+            {
+                IsCompleted = true;
+            }
+
 
             return visited;
         }
@@ -103,6 +113,16 @@ namespace Server
             }
         }
 
+        public IQuest Copy()
+        {
+            IQuestObjective[] objectivesCopy = new IQuestObjective[objectives.Length];
+            for(int i = 0; i < objectives.Length; i++)
+            {
+                objectivesCopy[i] = objectives[i].Copy();
+            }
+            return new Quest(new QuestData(objectivesCopy, title, description, NextQuestID, questCompletionerId));
+        }
+
         // *********************************
         // no quest singleton
         // *********************************
@@ -116,7 +136,7 @@ namespace Server
                         new IQuestObjective[] { }, 
                         "No Quest", 
                         "You have completed all your quests!",
-                        -1));
+                        -1, -1));
 
                 return noQuest;
             }

@@ -1,36 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Server
+﻿namespace Server
 {
     public abstract class QuestObjective : IQuestObjective
     {
         public abstract bool IsCompleted { get; protected set; }
 
-        public IQuestObjective[] PreRequiredObjecties { get; }
-
-        public QuestObjective(IQuestObjective[] preRequisities)
-        {
-            this.PreRequiredObjecties = preRequisities;
-        }
-
-        protected bool checkRequisities()
-        {
-            if (PreRequiredObjecties == null)
-                return true;
-
-            foreach(IQuestObjective requisity in PreRequiredObjecties)
-            {
-                if (!requisity.IsCompleted)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
         public abstract void Reset();
+        public abstract IQuestObjective Copy();
 
         public abstract string GetCodedData();
 

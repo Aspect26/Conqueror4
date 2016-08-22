@@ -11,8 +11,7 @@ namespace Server
 
         public override bool IsCompleted { get; protected set; }
 
-        public RegionVisitedObjective(Point regionCenter, int centerDistance, IQuestObjective[] requisities = null)
-            :base(requisities)
+        public RegionVisitedObjective(Point regionCenter, int centerDistance)
         {
             this.regionCenter = regionCenter;
             this.centerDistance = centerDistance;
@@ -25,9 +24,6 @@ namespace Server
 
         public override bool MovedTo(int x, int y)
         {
-            if (!checkRequisities())
-                return false;
-
             if (IsCompleted)
                 return false; 
 
@@ -44,6 +40,11 @@ namespace Server
         public override void Reset()
         {
             IsCompleted = false;
+        }
+
+        public override IQuestObjective Copy()
+        {
+            return new RegionVisitedObjective(new Point(regionCenter.X, regionCenter.Y), centerDistance);
         }
     }
 }
