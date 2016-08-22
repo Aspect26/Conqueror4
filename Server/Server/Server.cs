@@ -50,6 +50,7 @@ namespace Server
 
         public void DisconnectClient(StateObject client)
         {
+            Data.SaveCharacter(client.PlayingCharacter);
             clients.Remove(client);
             game.RemoveClient(client);
         }

@@ -58,6 +58,16 @@ namespace Server
             }
         }
 
+        public void SetExperience(int xp)
+        {
+            this.Experience = xp;
+        }
+
+        public void SetLevel(int level)
+        {
+            this.Level = level;
+        }
+
         private void regenMp(long now)
         {
             lastManaRegenerated = now;

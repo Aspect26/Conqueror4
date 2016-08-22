@@ -70,7 +70,8 @@ namespace Server
         {
             Console.WriteLine("Loading characters...");
             charactersData = new Dictionary<string, Character>();
-            var results = Select(new string[] { "account", "name", "spec", "xloc", "yloc", "mapid" }, "characters");
+            var results = Select(new string[] { "account", "name", "spec", "xloc", "yloc", "mapid",
+                "hitpoints", "manapoints", "experience", "level", "questid" }, "characters");
 
             foreach(var row in results)
             {
@@ -81,8 +82,20 @@ namespace Server
                 int yLoc = Convert.ToInt32(row["yloc"]);
                 int mapId = Convert.ToInt32(row["mapid"]);
 
+                int actualHp = Convert.ToInt32(row["hitpoints"]);
+                int actualMp = Convert.ToInt32(row["manapoints"]);
+                int xp = Convert.ToInt32(row["experience"]);
+                int level = Convert.ToInt32(row["level"]);
+                IQuest quest = Data.GetQuest(Convert.ToInt32(row["questid"]));
+
                 // TODO: wtf is this uid?
                 Character character = new Character(name, spec, -1, new Location(mapId, xLoc, yLoc), null);
+                character.ActualStats.HitPoints = actualHp;
+                character.ActualStats.ManaPoints = actualMp;
+                character.SetExperience(xp);
+                character.SetLevel(level);
+                character.SetQuest(quest);
+
                 charactersData.Add(name, character);
                 accounts[account].AddCharacter(character);
             }
@@ -299,10 +312,18 @@ namespace Server
             int xLoc = c.GetLocation().X;
             int yLoc = c.GetLocation().Y;
             int mapid = c.GetLocation().MapID;
+            int hitpoints = c.GetActualHitPoints();
+            int manapoints = c.GetActualManaPoints();
+            int xp = c.Experience;
+            int level = c.Level;
+            int questId = c.CurrentQuest.QuestID;
 
             // build query
             var queryBuilder = new StringBuilder("UPDATE characters SET xloc=").Append(xLoc)
-                .Append(",yloc=").Append(yLoc).Append(",mapid=").Append(mapid).Append(" WHERE name=\"")
+                .Append(",yloc=").Append(yLoc).Append(",mapid=").Append(mapid).Append(",hitpoints=")
+                .Append(hitpoints).Append(",manapoints=").Append(manapoints).Append(",experience=")
+                .Append(xp).Append(",level=").Append(level).Append(",questid=").Append(questId)
+                .Append(" WHERE name=\"")
                 .Append(c.Name).Append("\"");
 
             // execute
