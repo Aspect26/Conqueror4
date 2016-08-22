@@ -9,6 +9,7 @@ namespace Server
     public class Data
     {
         private static MySQLConnection sqlConnection;
+        public static object SQLLock = new object();
 
         // data
         private static Dictionary<string, Account> accountData = new Dictionary<string, Account>();
@@ -32,18 +33,21 @@ namespace Server
 
         public static bool Initialize()
         {
-            if (!sqlConnection.Initialize())
-                return false;
+            lock (SQLLock)
+            {
+                if (!sqlConnection.Initialize())
+                    return false;
 
-            sqlConnection.LoadConstants(out integerConstants);
-            sqlConnection.LoadInitialQuests(out initialQuestIds);
-            sqlConnection.LoadQuests(out questsData);
-            sqlConnection.LoadUnitsData(out unitsData);
-            sqlConnection.LoadCharactersData(out characterBaseStats);
-            sqlConnection.LoadAccounts(out accountData);
-            sqlConnection.LoadCharacters(out characterData, accountData);
-            sqlConnection.LoadMaps(out mapData, out mapInstances);
-            sqlConnection.LoadStartingLocations(out startingLocations);
+                sqlConnection.LoadConstants(out integerConstants);
+                sqlConnection.LoadInitialQuests(out initialQuestIds);
+                sqlConnection.LoadQuests(out questsData);
+                sqlConnection.LoadUnitsData(out unitsData);
+                sqlConnection.LoadCharactersData(out characterBaseStats);
+                sqlConnection.LoadAccounts(out accountData);
+                sqlConnection.LoadCharacters(out characterData, accountData);
+                sqlConnection.LoadMaps(out mapData, out mapInstances);
+                sqlConnection.LoadStartingLocations(out startingLocations);
+            }
 
             return true;
         }
@@ -143,7 +147,7 @@ namespace Server
         public static int MaxLevel { get { return integerConstants["max_level"]; } }
         public static int HPRegenInterval { get { return integerConstants["hp_regen_interval"]; } }
         public static int MPRegenInterval { get { return integerConstants["mp_regen_interval"]; } }
-
+        public static int SQLSaveInterval { get { return integerConstants["sql_save_interval"]; } }
         // *****************************************
         // CONSTANTS 
         // *****************************************
@@ -266,6 +270,35 @@ namespace Server
             int slot = random.Next(SharedData.ITEM_SLOTS);
             IItem item = new Item(itemStats, slot, lastUID++);
             return item;
+        }
+
+        // ***************************************************
+        // SAVE
+        // ***************************************************
+        public static void Save()
+        {
+            Console.WriteLine("SAVING DATA...");
+            lock (SQLLock)
+            {
+                foreach(var pair in characterData)
+                {
+                    string name = pair.Key;
+                    Character c = pair.Value;
+                    if (c.SQLDifference)
+                    {
+                        sqlConnection.SaveCharacter(c);
+                        c.SQLDifference = false;
+                    }
+                }
+            }
+        }
+
+        public static void SaveCharacter(Character c)
+        {
+            lock (SQLLock)
+            {
+                sqlConnection.SaveCharacter(c);
+            }
         }
     }
 }

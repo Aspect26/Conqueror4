@@ -10,6 +10,7 @@ namespace Server
     public partial class Server
     {
         private const int SEND_UPDATE_INTERVAL = 30;
+        private long lastSQLSave = Extensions.GetCurrentMillis();
 
         public const int MSG_CHARACTERS_IN_MAP = 5;
 
@@ -31,6 +32,13 @@ namespace Server
                 foreach (KeyValuePair<int, MapInstance> key in game.GetMapInstances())
                 {
                     sendUpdate(key.Value, timeSpan);
+                }
+
+                // check for sql save
+                if(Extensions.GetCurrentMillis() > lastSQLSave + Data.SQLSaveInterval)
+                {
+                    Data.Save();
+                    lastSQLSave = Extensions.GetCurrentMillis();
                 }
             }
         }

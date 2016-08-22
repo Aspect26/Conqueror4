@@ -294,7 +294,65 @@ namespace Server
             return new UnitVisitedObjective(uid);
         }
 
+        public void SaveCharacter(Character c)
+        {
+            int xLoc = c.GetLocation().X;
+            int yLoc = c.GetLocation().Y;
+            int mapid = c.GetLocation().MapID;
+
+            // build query
+            var queryBuilder = new StringBuilder("UPDATE characters SET xloc=").Append(xLoc)
+                .Append(",yloc=").Append(yLoc).Append(",mapid=").Append(mapid).Append(" WHERE name=\"")
+                .Append(c.Name).Append("\"");
+
+            // execute
+            var cmd = new MySqlCommand(queryBuilder.ToString(), connection);
+            cmd.ExecuteNonQuery();
+        }
+
+        // *******************************************************
         // QUERIES
+        // *******************************************************
+
+        // INSERT
+        private void Insert(string[] insertingColumns, List<string[]> rows, string tableName)
+        {
+            if (insertingColumns.Length == 0 || rows.Count == 0)
+                return;
+
+            int columnnsCount = insertingColumns.Length;
+
+            // build query
+            var queryBuilder = new StringBuilder("INSERT INTO ").Append(tableName).Append(" ").Append(tableName);
+            queryBuilder.Append("(").Append(insertingColumns[0]);
+            for (int i = 1; i < insertingColumns.Length; i++)
+                queryBuilder.Append(",").Append(insertingColumns[i]);
+            queryBuilder.Append(") VALUES ");
+
+            bool first = true;
+            foreach (var row in rows)
+            {
+                if (row.Length != columnnsCount)
+                    // TODO: too lazy to create custom exception
+                    throw new Exception("Wrong number of values specified in insert statement.");
+
+                if (!first)
+                    queryBuilder.Append(",");
+                first = false;
+
+                queryBuilder.Append("(");
+                queryBuilder.Append(row[0]);
+                for (int i = 1; i < row.Length; i++)
+                    queryBuilder.Append(",").Append("\"").Append(row[i].ToString()).Append("\"");
+                queryBuilder.Append(")");
+            }
+
+            // execute
+            var cmd = new MySqlCommand(queryBuilder.ToString(), connection);
+            cmd.ExecuteNonQuery();
+        }
+
+        // SELECT
         private List<Dictionary<string, string>> Select(string[] columns, string tableName)
         {
             if (columns.Length == 0)
