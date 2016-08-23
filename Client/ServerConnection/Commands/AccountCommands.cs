@@ -8,6 +8,21 @@ namespace Client
 {
     public partial class ServerConnection
     {
+        public int CreateCharacter(string account, string username, int spec)
+        {
+            int res = trySend(CMD_CREATE_CHARACTER, new string[] { account, username, spec.ToString() });
+            if (res != RESULT_OK)
+                return res;
+
+            string msg = ReceiveOne();
+            int response = parseBooleanResponse(msg);
+
+            if (response != RESPONSE_OK)
+                return RESULT_FALSE;
+            else
+                return RESULT_OK;
+        }
+
         public int RegisterAccount(string username, string password)
         {
             Connect();

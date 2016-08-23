@@ -157,7 +157,6 @@ namespace Client
                 case SharedData.UNIT_PRIEST: return Image.FromFile("res/units/priest/priest_none.png");
 
                 case SharedData.UNIT_WARLOCK: return Image.FromFile("res/units/warlock/warlock_none.png");
-                case SharedData.UNIT_UNKHERO1: return Image.FromFile("res/units/warlock/warlock_none.png");
                 case SharedData.UNIT_SHAMAN: return Image.FromFile("res/units/shaman/shaman_none.png");
 
                 // UNITS
@@ -275,6 +274,17 @@ namespace Client
                     return "Pants";
                 default:
                     return "Unknown";
+            }
+        }
+
+        public static string GetCharacterInfo(int spec)
+        {
+            switch (spec)
+            {
+                case SharedData.UNIT_PRIEST:
+                    return "fddfb db d bd bd bd bdbdf bdb d bfd gdf gd gdfgdfgd gdg d gdf gdfg d";
+                default:
+                    return "sdhuih g sjn sdughsldhg uh huhgs;djgh ;oohgljdhg slieh slu jdkgilsuhg sdhg sldugh sdlunjvhlesui gnfg ldsuif jvb esdfgn sudfh knsdfjgn ;seogh dfiog s;df ;sofid bs;o h.";
             }
         }
     }

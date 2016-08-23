@@ -140,6 +140,11 @@ namespace Client
             }
         }
 
+        public bool IsFocused()
+        {
+            return focused;
+        }
+
         public virtual bool HasTooltip()
         {
             return hasTooltip;

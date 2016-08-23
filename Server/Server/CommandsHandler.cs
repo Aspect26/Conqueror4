@@ -20,6 +20,7 @@ namespace Server
         private const int CMD_SHOOT = 8;
         private const int CMD_TAKEITEM = 9;
         private const int CMD_USEABILITY = 10;
+        private const int CMD_CREATECHARACTER = 11;
 
         public CommandsHandler(Server server, Game game)
         {
@@ -47,6 +48,8 @@ namespace Server
 
             switch (cmdNumber)
             {
+                case CMD_CREATECHARACTER:
+                    handleCreateCharacter(clientState, arguments[0], arguments[1], Convert.ToInt32(arguments[2])); break;
                 case CMD_REGISTER_ACCOUNT:
                     handleRegisterAccounts(clientState, arguments[0], arguments[1]); break;
                 case CMD_LOGIN_ACCOUNT:
@@ -73,6 +76,19 @@ namespace Server
         // ************************************************
         // SPECIFIC HANDLERS
         // ************************************************
+        private void handleCreateCharacter(StateObject client, string username, string name, int spec)
+        {
+            Character c = Data.CreateCharacter(username.ToLower(), name.ToLower(), spec);
+
+            byte[] byteData;
+            if (c != null)
+                byteData = Encoding.ASCII.GetBytes("1\n");
+            else
+                byteData = Encoding.ASCII.GetBytes("0\n");
+
+            client.clientSocket.Send(byteData, 0, byteData.Length, 0);
+        }
+
         private void handleLoginAccount(StateObject client, string name, string password)
         {
             bool result = server.LoginAccount(client, name, password);

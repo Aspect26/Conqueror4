@@ -7,21 +7,21 @@ namespace Client
     {
         private CharactersPanel charactersPanel;
 
-        public CharactersScreen(Application game, ServerConnection server): base(game, server, GameData.GetCharactersBackground())
+        public CharactersScreen(Application application, ServerConnection server): base(application, server, GameData.GetCharactersBackground())
         {
-            int result = game.server.GetCharacters(game.Account);
+            int result = application.server.GetCharacters(application.Account);
             if (result != ServerConnection.RESULT_OK)
                 userInterface.MessageBoxShow("Error in communication with the server.");
 
             // CHARACTERS PANEL
-            LineText usernameText = new LineText(new Point(0, 0), game.Account.Username + ":", Color.Yellow,
+            LineText usernameText = new LineText(new Point(0, 0), application.Account.Username + ":", Color.Yellow,
                 new Point(10, 76), 14);
 
             charactersPanel = new CharactersPanel(new Point(0, 0), new Rectangle(10, 100, 256, Application.HEIGHT - 105));
 
             int currentY = 4;
             int btn_height = 50;
-            foreach(Character character in game.Account.GetCharacters())
+            foreach(Character character in application.Account.GetCharacters())
             {
                 CharacterButton btn = new CharacterButton(new Point(0, 0),
                     new Rectangle(0, currentY, charactersPanel.GetClientArea().Width, btn_height), character);
@@ -34,7 +34,7 @@ namespace Client
             Button createCharacterButton = new Button(new Point(0, 0), "NEW CHARACTER", 
                 new Rectangle(0, charactersPanel.HEIGHT - btn_height,
                     charactersPanel.GetClientArea().Width, btn_height));
-            createCharacterButton.Click += OnNewCharacterClicked;
+            createCharacterButton.OnClick += OnNewCharacterClicked;
             charactersPanel.AddComponent(createCharacterButton);
 
             // ENTER BUTTON
@@ -43,7 +43,7 @@ namespace Client
             Button enterButton = new Button(new Point(0, 0), "ENTER WORLD",
                 new Rectangle(((Application.WIDTH - charactersPanel.WIDTH-10) / 2 - btn_width / 2) + charactersPanel.WIDTH+10, 
                 Application.HEIGHT - 10 - btn_height, btn_width, btn_height));
-            enterButton.Click += OnEnterWorldClicked;
+            enterButton.OnClick += OnEnterWorldClicked;
 
             // APPLY ALL
             userInterface.AddComponent(usernameText);
@@ -78,7 +78,7 @@ namespace Client
 
         private void OnNewCharacterClicked(Button b, EventArgs e)
         {
-            userInterface.MessageBoxShow("Unfinished section!");
+            application.ChangeWindow(new CreateCharacterScreen(application, server));
         }
 
         private void enterWorld(Character character)

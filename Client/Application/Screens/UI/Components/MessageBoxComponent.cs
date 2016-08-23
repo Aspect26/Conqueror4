@@ -29,7 +29,7 @@ namespace Client
             int btn_height = 30;
             Button OKButton = new Button(thisPoisition, "Ok", new Rectangle(
                 this.WIDTH / 2 - btn_width / 2, this.HEIGHT - borderSize - MARGIN - btn_height, btn_width, btn_height));
-            OKButton.Click += OnOKClicked;
+            OKButton.OnClick += OnOKClicked;
             container.AddComponent(OKButton);
 
             container.SetFocusedComponent(OKButton);

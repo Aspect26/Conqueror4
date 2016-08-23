@@ -145,6 +145,9 @@ namespace Server
             characterData.Add(name, newChar);
             accountData[username].AddCharacter(newChar);
 
+            lock(SQLLock)
+                sqlConnection.SaveCharacter(newChar);
+
             return newChar;
         }
 

@@ -17,7 +17,7 @@ namespace Client
         protected Brush brush = Brushes.Black;
 
         public delegate void OnClickHandler(Button m, EventArgs e);
-        public event OnClickHandler Click;
+        public event OnClickHandler OnClick;
 
         public Button(Point parentPosition, string text, Rectangle position)
             : base(parentPosition, position, GameData.GetButtonBackground())
@@ -58,8 +58,8 @@ namespace Client
             }
             else
             {
-                if (this.pressed && Click != null)
-                    Click(this, null);
+                if (this.pressed && OnClick != null)
+                    OnClick(this, null);
 
                 this.pressed = pressed;
                 this.backgroundImage = GameData.GetButtonBackground();

@@ -5,7 +5,7 @@ namespace Client
 {
     class LoginScreen : EmptyScreen
     {
-        private const int BUILD_NUMBER = 80;
+        private const int BUILD_NUMBER = 90;
         private static Point position = new Point(0, 0);
         private LineInput nickInput;
         private PasswordInput passInput;
@@ -14,7 +14,7 @@ namespace Client
         private LineText loginText;
         private LineText passText;
 
-        public LoginScreen(Application game, ServerConnection server) : base(game, server, GameData.GetLoginBackground())
+        public LoginScreen(Application application, ServerConnection server) : base(application, server, GameData.GetLoginBackground())
         {
             int width = 300;
             nickInput = new LineInput(position, new Point(Application.WIDTH / 2 - width / 2, Application.HEIGHT / 2),
@@ -27,12 +27,12 @@ namespace Client
             loginButton = new Button(position, "Login",
                 new Rectangle(Application.WIDTH / 2 - width / 2, Application.HEIGHT / 2 + 2 * nickInput.HEIGHT + 2 * 5,
                 width / 2 - 5, 30));
-            loginButton.Click += OnLoginClicked;
+            loginButton.OnClick += OnLoginClicked;
 
             registerButton = new Button(position, "Register",
                 new Rectangle(Application.WIDTH / 2 - width / 2 + loginButton.WIDTH + 10, Application.HEIGHT / 2 + 2 * nickInput.HEIGHT + 2 * 5,
                 width / 2 - 5, 30));
-            registerButton.Click += OnRegisterClicked;
+            registerButton.OnClick += OnRegisterClicked;
 
             loginText = new LineText(position, "Username:", Color.Yellow, new Point(
                 nickInput.X - 150, nickInput.Y + 5), 20);

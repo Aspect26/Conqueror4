@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace Client
 {
@@ -17,6 +14,7 @@ namespace Client
         private static int CMD_SHOOT = 8;
         private static int CMD_TAKEITEM = 9;
         private static int CMD_USEABILITY = 10;
+        private static int CMD_CREATE_CHARACTER = 11;
 
         private int trySend(int commandNumber, string[] args)
         {
