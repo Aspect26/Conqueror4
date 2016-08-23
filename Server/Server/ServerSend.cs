@@ -19,7 +19,6 @@ namespace Server
         {
 
             Console.WriteLine("Task for sending messages to clients started...");
-            Console.WriteLine("-------------------------");
 
             long lastTimeStamp = Stopwatch.GetTimestamp();
             while (true)

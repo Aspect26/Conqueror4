@@ -454,7 +454,7 @@ namespace Server
             int columnnsCount = insertingColumns.Length;
 
             // build query
-            var queryBuilder = new StringBuilder("INSERT INTO ").Append(tableName).Append(" ").Append(tableName);
+            var queryBuilder = new StringBuilder("INSERT INTO ").Append(tableName);
             queryBuilder.Append("(").Append(insertingColumns[0]);
             for (int i = 1; i < insertingColumns.Length; i++)
                 queryBuilder.Append(",").Append(insertingColumns[i]);
@@ -472,7 +472,7 @@ namespace Server
                 first = false;
 
                 queryBuilder.Append("(");
-                queryBuilder.Append(row[0]);
+                queryBuilder.Append("\"" + row[0] + "\"" );
                 for (int i = 1; i < row.Length; i++)
                     queryBuilder.Append(",").Append("\"").Append(row[i].ToString()).Append("\"");
                 queryBuilder.Append(")");

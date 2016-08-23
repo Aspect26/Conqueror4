@@ -83,7 +83,7 @@ namespace Client
         private bool parseResponseCharactersList(string message, Account account)
         {
             if (message == "")
-                return false;
+                return true;
 
             foreach (string charString in message.Split('|'))
             {

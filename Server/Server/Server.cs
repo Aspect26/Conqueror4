@@ -16,10 +16,6 @@ namespace Server
 
         private List<StateObject> clients = new List<StateObject>();
 
-        public Server()
-        {
-        }
-
         public void Start()
         {
             if (!Data.Initialize())
@@ -47,11 +43,25 @@ namespace Server
             return;
         }
 
+        public bool RegisterAccount(string name, string password)
+        {
+            return Data.RegisterAccount(name, password);
+        }
+
+        public bool LoginAccount(StateObject state, string name, string password)
+        {
+            state.Account = Data.LoginAccount(name, password);
+            return state.Account != null;
+        }
+
         public void DisconnectClient(StateObject client)
         {
-            Data.SaveCharacter(client.PlayingCharacter);
             clients.Remove(client);
-            game.RemoveClient(client);
+            if (client.PlayingCharacter != null)
+            {
+                Data.SaveCharacter(client.PlayingCharacter);
+                game.RemoveClient(client);
+            }
         }
 
         public void AddPlayerActionToGameQueue(IPlayerAction action)

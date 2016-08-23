@@ -10,6 +10,9 @@ namespace Server
         private Server server;
         private Game game;
 
+        private const int CMD_REGISTER_ACCOUNT = 1;
+        private const int CMD_LOGIN_ACCOUNT = 2;
+        private const int CMD_CHARACTERS_LIST = 3;
         private const int CMD_CHARACTERLOAD = 4;
         private const int CMD_STARTMOVING = 5;
         private const int CMD_STOPMOVING = 6;
@@ -44,6 +47,12 @@ namespace Server
 
             switch (cmdNumber)
             {
+                case CMD_REGISTER_ACCOUNT:
+                    handleRegisterAccounts(clientState, arguments[0], arguments[1]); break;
+                case CMD_LOGIN_ACCOUNT:
+                    handleLoginAccount(clientState, arguments[0], arguments[1]); break;
+                case CMD_CHARACTERS_LIST:
+                    handleGetCharactersList(clientState); break;
                 case CMD_CHARACTERLOAD:
                     handleCharacterLoad(clientState, arguments[0].ToLower()); break;
                 case CMD_CHANGELOCATION:
@@ -64,6 +73,43 @@ namespace Server
         // ************************************************
         // SPECIFIC HANDLERS
         // ************************************************
+        private void handleLoginAccount(StateObject client, string name, string password)
+        {
+            bool result = server.LoginAccount(client, name, password);
+            byte[] byteData;
+            if (result)
+                byteData = Encoding.ASCII.GetBytes("1\n");
+            else
+                byteData = Encoding.ASCII.GetBytes("0\n");
+
+            client.clientSocket.Send(byteData, 0, byteData.Length, 0);
+        }
+
+        private void handleRegisterAccounts(StateObject client, string name, string password)
+        {
+            bool result = server.RegisterAccount(name, password);
+            byte[] byteData;
+            if (result)
+                byteData = Encoding.ASCII.GetBytes("1\n");
+            else
+                byteData = Encoding.ASCII.GetBytes("0\n");
+
+            client.clientSocket.Send(byteData, 0, byteData.Length, 0);
+            server.DisconnectClient(client);
+        }
+
+        private void handleGetCharactersList(StateObject client)
+        {
+            string charactersMessage = "";
+            foreach (Character character in client.Account.GetCharacters())
+            {
+                charactersMessage += character.Name + "," + character.Level + "," + character.Spec + "|";
+            }
+
+            byte[] byteData = Encoding.ASCII.GetBytes(charactersMessage + "\r\n");
+            client.clientSocket.Send(byteData, 0, byteData.Length, SocketFlags.None);
+        }
+
         private void handleUseAbility(StateObject client)
         {
             server.AddPlayerActionToGameQueue(new CharacterUseAbilityAction(client.PlayingCharacter));
