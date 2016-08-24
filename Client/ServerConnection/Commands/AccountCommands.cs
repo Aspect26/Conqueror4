@@ -1,16 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Client
+﻿namespace Client
 {
+    /// <summary>
+    /// This part of the ServerConnection class handles client's commands connected
+    /// with its account (e.g.: login, register, ...)
+    /// </summary>
     public partial class ServerConnection
     {
-        public int CreateCharacter(string account, string username, int spec)
+        /// <summary>
+        /// Command to the server to create a character for the specified account with 
+        /// specified nickname and specialization
+        /// </summary>
+        /// <param name="account">The account.</param>
+        /// <param name="nickname">The nickname.</param>
+        /// <param name="spec">The specialization.</param>
+        /// <returns>The result message id.</returns>
+        public int CreateCharacter(string account, string nickname, int spec)
         {
-            int res = trySend(CMD_CREATE_CHARACTER, new string[] { account, username, spec.ToString() });
+            int res = trySend(CMD_CREATE_CHARACTER, new string[] { account, nickname, spec.ToString() });
             if (res != RESULT_OK)
                 return res;
 
@@ -23,6 +29,13 @@ namespace Client
                 return RESULT_OK;
         }
 
+        /// <summary>
+        /// Command to the server to register a new account with specified username 
+        /// and password.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>The result message id.</returns>
         public int RegisterAccount(string username, string password)
         {
             Connect();
@@ -48,6 +61,13 @@ namespace Client
             return RESULT_OK;
         }
 
+        /// <summary>
+        /// Commands the server to login accounts with specified username and
+        /// password.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>The result message id.</returns>
         public int LoginAccount(string username, string password)
         {
             Connect();

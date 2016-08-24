@@ -24,7 +24,7 @@ namespace Client
         /// <param name="textColor">Color of the text.</param>
         /// <param name="neighbour">The neighbour.</param>
         public LineInput(Point parentPosition, Point position, int width, Color textColor, IComponent neighbour = null) 
-            : base(parentPosition, new Rectangle(position, new Size(width, HEIGHT)) , GameData.GetLineInputBackgground(), 
+            : base(parentPosition, new Rectangle(position, new Size(width, HEIGHT)) , GameData.GetLineInputBackground(), 
                   UserInterface.DEFAULT_BORDER_HEIGHT, neighbour)
         {
             brush = new SolidBrush(textColor);

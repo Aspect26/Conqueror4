@@ -3,6 +3,14 @@ using Shared;
 
 namespace Client
 {
+    /// <summary>
+    /// A basic animation for a unit.
+    /// Unit animation is composed of 7 images. 2 images for moving up, 2 images for moving to a side (left or right),
+    /// 2 images for moving down and one image for not moving.
+    /// All the images are store in one folder. The animation gets path to this folder + initial name of the file.
+    /// The files then have suffix: [ _front1, _front2, _back1, _back2, _side1, _side2, none ].png
+    /// </summary>
+    /// <seealso cref="Client.IAnimation" />
     public class UnitAnimation : IAnimation
     {
         protected string baseImagePath;
@@ -26,6 +34,13 @@ namespace Client
 
         protected Game game;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnitAnimation"/> class.
+        /// Initializes the animation images. If the image doesn't exist the application crashes... Someone please add that try, catch block.
+        /// </summary>
+        /// <param name="game">The game.</param>
+        /// <param name="unit">The unit.</param>
+        /// <param name="baseImagePath">The base image path.</param>
         public UnitAnimation(Game game, PlayedCharacter unit, string baseImagePath)
         {
             this.unit = unit;
@@ -35,6 +50,12 @@ namespace Client
             createImages();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnitAnimation"/> class.
+        /// Initializes the animation images. If the image doesn't exist the application crashes... Someone please add that try, catch block.
+        /// </summary>
+        /// <param name="unit">The unit.</param>
+        /// <param name="baseImagePath">The base image path.</param>
         public UnitAnimation(PlayedCharacter unit, string baseImagePath)
         {
             this.unit = unit;
@@ -70,6 +91,10 @@ namespace Client
             moving = false;
         }
 
+        /// <summary>
+        /// Renders the animated object.
+        /// </summary>
+        /// <param name="g">The graphics object.</param>
         public virtual void Render(Graphics g)
         {
             Point position = game.MapPositionToScreenPosition((int)unit.Location.X, (int)unit.Location.Y);
@@ -84,6 +109,10 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Animates one game cycle.
+        /// </summary>
+        /// <param name="timeSpan">The time span.</param>
         public void AnimateCycle(int timeSpan)
         {
             lastChangeBefore += timeSpan;
@@ -108,6 +137,13 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Checks whether the two moving directions are the same.
+        /// This is implemented as a binary operator, hence the parameter names right and left.
+        /// </summary>
+        /// <param name="left">The first operand.</param>
+        /// <param name="right">The second operand.</param>
+        /// <returns><c>true</c> if the directions equal, <c>false</c> otherwise.</returns>
         private bool AnimationEquals(MovingDirection left, MovingDirection right)
         {
             if (left == right)
@@ -169,6 +205,10 @@ namespace Client
             lastDirection = unit.MovingDirection;
         }
 
+        /// <summary>
+        /// Gets the current image of the animation.
+        /// </summary>
+        /// <returns>Image.</returns>
         public Image GetCurrentImage()
         {
             if (!moving)

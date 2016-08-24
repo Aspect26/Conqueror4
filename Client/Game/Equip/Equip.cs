@@ -1,38 +1,73 @@
 ﻿using Shared;
 using System;
-using System.Linq;
 
 namespace Client
 {
+    /// <summary>
+    /// Represents a unit's equip. It currently consists of 4 items: Weapon, Chest, Head and Pants.
+    /// </summary>
     public class Equip
     {
+        /// <summary>
+        /// Gets or sets the items.
+        /// </summary>
+        /// <value>The items.</value>
         public IItem[] Items { get; protected set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Equip"/> class.
+        /// </summary>
         public Equip()
         {
             this.Items = new IItem[SharedData.ITEM_SLOTS];
         }
 
+        /// <summary>
+        /// Sets the weapon slot.
+        /// </summary>
+        /// <param name="stats">The stats.</param>
+        /// <param name="uid">The uid.</param>
         public void SetWeapon(ItemStats stats, int uid)
         {
             Items[SharedData.ITEM_SLOT_WEAPON] = new Item(stats, SharedData.ITEM_SLOT_WEAPON, uid);
         }
 
+        /// <summary>
+        /// Sets the chest slot.
+        /// </summary>
+        /// <param name="stats">The stats.</param>
+        /// <param name="uid">The uid.</param>
         public void SetChest(ItemStats stats, int uid)
         {
             Items[SharedData.ITEM_SLOT_CHEST] = new Item(stats, SharedData.ITEM_SLOT_CHEST, uid);
         }
 
+        /// <summary>
+        /// Sets the head slot.
+        /// </summary>
+        /// <param name="stats">The stats.</param>
+        /// <param name="uid">The uid.</param>
         public void SetHead(ItemStats stats, int uid)
         {
             Items[SharedData.ITEM_SLOT_HEAD] = new Item(stats, SharedData.ITEM_SLOT_HEAD, uid);
         }
 
+        /// <summary>
+        /// Sets the pants slot.
+        /// </summary>
+        /// <param name="stats">The stats.</param>
+        /// <param name="uid">The uid.</param>
         public void SetPants(ItemStats stats, int uid)
         {
             Items[SharedData.ITEM_SLOT_PANTS] = new Item(stats, SharedData.ITEM_SLOT_PANTS, uid);
         }
 
+        /// <summary>
+        /// Parses the equip from server message.
+        /// </summary>
+        /// <param name="data">The server message.</param>
+        /// <returns>Parsed equip.</returns>
+        /// <exception cref="NotImplementedException">Unknown item type from server.</exception>
         public static Equip ParseEquip(string data)
         {
             string[] itemsData = data.Split(new char[] { '+' }, StringSplitOptions.RemoveEmptyEntries);
@@ -63,6 +98,11 @@ namespace Client
         }
 
         // TODO: this code is duplicit -> it is also in item parsing!
+        /// <summary>
+        /// Parses the item stats from server message.
+        /// </summary>
+        /// <param name="data">The splitted server message.</param>
+        /// <returns>ItemStats.</returns>
         public static ItemStats ParseStats(string[] data)
         {
             ItemStats stats = new ItemStats();

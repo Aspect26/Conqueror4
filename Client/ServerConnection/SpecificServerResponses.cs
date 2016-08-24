@@ -3,8 +3,39 @@ using System;
 
 namespace Client
 {
+    /// <summary>
+    /// This source file of ServerConnection class contains server responses's parser.
+    /// </summary>
     public partial class ServerConnection
     {
+        public static readonly int RESPONSE_NOTBOOLEAN = -1;
+        public static readonly int RESPONSE_FALSE = 0;
+        public static readonly int RESPONSE_OK = 1;
+
+        /// <summary>
+        /// Parses a boolean response.
+        /// </summary>
+        /// <param name="message">The server message.</param>
+        /// <returns>The corresponding constant.</returns>
+        public static int parseBooleanResponse(string message)
+        {
+            if (message == "1")
+                return RESPONSE_OK;
+            else if (message == "0")
+                return RESPONSE_FALSE;
+
+            return RESPONSE_NOTBOOLEAN;
+        }
+
+        // TODO: the function is horribly long
+        /// <summary>
+        /// Parses a server message that is received immediatelly after the player enters
+        /// the world of Conqueror 4!
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="game">The game.</param>
+        /// <param name="character">The character.</param>
+        /// <returns><c>true</c> if the operation is successful, <c>false</c> otherwise.</returns>
         private bool parseResponseCharacterLoad(string message, out Game game, PlayedCharacter character)
         {
             game = null;
@@ -14,9 +45,10 @@ namespace Client
             string[] parts = message.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             int myUid = -1;
-            
+
             // MYSELF
-            try {
+            try
+            {
                 int uid = Convert.ToInt32(parts[0]);
                 int mapID = Convert.ToInt32(parts[1]);
                 int experience = Convert.ToInt32(parts[2]);
@@ -55,7 +87,7 @@ namespace Client
             }
 
             // OTHER UNITS
-            for(int i = 13; i<parts.Length; i++)
+            for (int i = 13; i < parts.Length; i++)
             {
                 string[] unitParts = parts[i].Split('|');
 
@@ -80,6 +112,12 @@ namespace Client
             return true;
         }
 
+        /// <summary>
+        /// Parser the server message with account's characters list.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="account">The account.</param>
+        /// <returns><c>true</c> if the operation is successful, <c>false</c> otherwise.</returns>
         private bool parseResponseCharactersList(string message, Account account)
         {
             if (message == "")

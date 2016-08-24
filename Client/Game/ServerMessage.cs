@@ -8,6 +8,10 @@ namespace Client
     {
         private const int MSG_UNITS_DATA = 5;
 
+        /// <summary>
+        /// Processes the server message.
+        /// </summary>
+        /// <param name="message">The message.</param>
         public void ProcessServerMessage(string message)
         {
             string[] parts = message.Split(':');
@@ -22,7 +26,7 @@ namespace Client
 
         private void handleUnitsData(string arguments)
         {
-            // TODO: separate this into multiple functions
+            // TODO: totally separate this function into multiple smaller functions OMG WTF SRSLY
             string[] unitStrings = arguments.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string unitString in unitStrings)

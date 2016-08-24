@@ -3,14 +3,31 @@ using Shared;
 
 namespace Client
 {
+    /// <summary>
+    /// Represents the current map the player is located on. It is mostly just a 2D
+    /// grid of tiles.
+    /// </summary>
     public class Map
     {
-        // X x Y
         private Tile[][] tiles;
+
+        /// <summary>
+        /// Sets the visibility of the player so the map doesn't have to be rendered 
+        /// whole every time, only those tiles which are close enough.
+        /// </summary>
         private const int VISIBILITY = 20;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Map"/> class.
+        /// </summary>
         public Map() { }
 
+        /// <summary>
+        /// Creates the map from specified file. The map is loaded from a bitmap image 
+        /// where every pixel represents one tile and the pixel's color specifies which
+        /// type of tile it is.
+        /// </summary>
+        /// <param name="mapPath">The map path.</param>
         public void Create(string mapPath)
         {
             Bitmap bitMap = new Bitmap(mapPath);
@@ -31,6 +48,11 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Renders the map
+        /// </summary>
+        /// <param name="graphics">The graphics object.</param>
+        /// <param name="playerLocation">The player's location.</param>
         public void Render(Graphics graphics, Location playerLocation)
         {
             // "move" map accordingly to playe's location
@@ -56,6 +78,7 @@ namespace Client
                                 drawPoint.X, drawPoint.Y,
                                 Tile.TILE_SIZE + 1, Tile.TILE_SIZE + 1);
 
+                            // TODO: blend adjacent tiles
                             //BlendTile(graphics, x, y, drawPoint);
                         }
                     }

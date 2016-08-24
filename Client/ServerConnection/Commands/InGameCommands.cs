@@ -2,6 +2,11 @@
 
 namespace Client
 {
+    /// <summary>
+    /// I have already written 2.5k lines of documentation today, and I think the 
+    /// functions in this part of ServerConnection are self explanatory... :D
+    /// See the other parts of the Commands folder.
+    /// </summary>
     public partial class ServerConnection
     {
         public void SendPlayerShoot(int x, int y)

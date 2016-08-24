@@ -2,6 +2,10 @@
 
 namespace Client
 {
+    /// <summary>
+    /// The Commands section of the ServerConnection class represents all the commands
+    /// that the player can send to the server.
+    /// </summary>
     public partial class ServerConnection
     {
         private static int CMD_REGISTER = 1;
@@ -16,6 +20,13 @@ namespace Client
         private static int CMD_USEABILITY = 10;
         private static int CMD_CREATE_CHARACTER = 11;
 
+        /// <summary>
+        /// Tries to send a message to the server with specified command identifier
+        /// and arguments.
+        /// </summary>
+        /// <param name="commandNumber">The command number.</param>
+        /// <param name="args">The command arguments.</param>
+        /// <returns>The corresponding result id.</returns>
         private int trySend(int commandNumber, string[] args)
         {
             if (!Connected)

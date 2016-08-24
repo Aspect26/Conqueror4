@@ -5,6 +5,11 @@ using System.Net.Sockets;
 
 namespace Client
 {
+    /// <summary>
+    /// Represents the server connection. This class is divided into files that
+    /// are all in the ServerConnection folder. This file represents core of the server
+    /// connection.
+    /// </summary>
     public partial class ServerConnection
     {
         private const string IP = "127.0.0.1";
@@ -19,14 +24,26 @@ namespace Client
 
         private Application application;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the connection is established.
+        /// </summary>
+        /// <value><c>true</c> if connected; otherwise, <c>false</c>.</value>
         public bool Connected { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ServerConnection"/> class.
+        /// </summary>
+        /// <param name="application">The application.</param>
         public ServerConnection(Application application)
         {
             Connected = false;
             this.application = application;
         }
 
+        /// <summary>
+        /// Tries to connect to the server.
+        /// </summary>
+        /// <returns><c>true</c> if the operation is successful, <c>false</c> otherwise.</returns>
         public bool Connect()
         {
             try
@@ -60,18 +77,45 @@ namespace Client
             return false;
         }
 
+        /// <summary>
+        /// Terminates the connection.
+        /// </summary>
         public void End()
         {
             serverSocket.Shutdown(SocketShutdown.Both);
             serverSocket.Close();
         }
 
+        /// <summary>
+        /// A server result - ok
+        /// </summary>
         public const int RESULT_OK = 0;
+
+        /// <summary>
+        /// A server result - can't connect
+        /// </summary>
         public const int RESULT_CANTCONNECT = 1;
+
+        /// <summary>
+        /// A server result - can't send message
+        /// </summary>
         public const int RESULT_CANTSEND = 2;
+
+        /// <summary>
+        /// A server result is empty
+        /// </summary>
         public const int RESULT_EMPTY = 3;
+
+        /// <summary>
+        /// A server result - false
+        /// </summary>
         public const int RESULT_FALSE = 4;
 
+        /// <summary>
+        /// Sends one message to the server
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns><c>true</c> if the operation is succesfull, <c>false</c> otherwise.</returns>
         private bool SendOne(string data)
         {
             if (!stream.CanWrite)
@@ -85,6 +129,10 @@ namespace Client
             return true;
         }
 
+        /// <summary>
+        /// Receives one message from the server (or waits for it!!)
+        /// </summary>
+        /// <returns>The server message</returns>
         private string ReceiveOne()
         {
             try
@@ -100,7 +148,12 @@ namespace Client
             }
         }
 
-        public string ReadOneMessage()
+        /// <summary>
+        /// Tries to read one message from the server. Returns false if there is no
+        /// message from the server.
+        /// </summary>
+        /// <returns>The message or null.</returns>
+        public string TryReadOneMessage()
         {
             if (stream.DataAvailable)
             {

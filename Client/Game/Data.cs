@@ -6,8 +6,12 @@ using System.Text.RegularExpressions;
 
 namespace Client
 {
-    public partial class GameData 
+    /// <summary>
+    /// Represents the game data, mostly paths to images and strings. 
+    /// </summary>
+    public static class GameData 
     {
+        // mapId -> path to the map file
         private static Dictionary<int, string> mapIds = new Dictionary<int, string>()
         {
             { 0, "res/maps/kingdom.map" },
@@ -15,6 +19,7 @@ namespace Client
             { 2, "res/maps/third" }
         };
 
+        // tile id -> tile image
         private static Dictionary<int, Image> tileImages = new Dictionary<int, Image>()
         {
             {-1, Image.FromFile("res/tiles/none.png") },
@@ -24,6 +29,11 @@ namespace Client
             { 3, Image.FromFile("res/tiles/forest.png") },
         };
 
+        /// <summary>
+        /// Gets the tile identifier from the color of a pixel in the map file.
+        /// </summary>
+        /// <param name="color">The color.</param>
+        /// <returns>The tile identifier.</returns>
         public static int GetTileId(Color color)
         {
             // STONE
@@ -44,22 +54,40 @@ namespace Client
             return -1;
         }
 
-        // GET DATA
+        /// <summary>
+        /// Gets the map file path.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <returns>Path to the map file.</returns>
         public static string GetMapFilePath(int mapId)
         {
             return mapIds[mapId];
         }
 
+        /// <summary>
+        /// Gets the map image.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <returns>Map image.</returns>
         public static Image GetMapImage(int mapId)
         {
             return Image.FromFile(mapIds[mapId]);
         }
 
+        /// <summary>
+        /// Gets the equip slot image.
+        /// </summary>
+        /// <returns>The image.</returns>
         public static Image GetEquipSlotImage()
         {
             return Image.FromFile("res/textures/equip_slot.png");
         }
 
+        /// <summary>
+        /// Gets the item image.
+        /// </summary>
+        /// <param name="itemSlot">The item slot.</param>
+        /// <returns>Image.</returns>
         public static Image GetItemImage(int itemSlot)
         {
             switch (itemSlot)
@@ -76,11 +104,22 @@ namespace Client
                     return null; //crash
             }
         }
+
+        /// <summary>
+        /// Gets the tile image.
+        /// </summary>
+        /// <param name="tileId">The tile identifier.</param>
+        /// <returns>Image.</returns>
         public static Image GetTile(int tileId)
         {
             return tileImages[tileId];
         }
 
+        /// <summary>
+        /// Gets the character base path.
+        /// </summary>
+        /// <param name="spec">The specialization.</param>
+        /// <returns>The path</returns>
         public static string GetCharacterBasePath(int spec)
         {
             switch (spec)
@@ -101,6 +140,11 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Gets the missile image.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>Image.</returns>
         public static Image GetMissileImage(int id)
         {
             string path = "res/sprites/missiles/";
@@ -126,30 +170,50 @@ namespace Client
             return Image.FromFile(path);
         }
 
+        /// <summary>
+        /// Gets the unknown ground object image.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetUnknownGroundObjectImage()
         {
             return Image.FromFile("res/ground_objects/unknown.png");
         }
 
+        /// <summary>
+        /// Gets the chest image.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetChestImage()
         {
             return Image.FromFile("res/ground_objects/chest.png");
         }
 
-        // UI COMPONENTS
-        public static Image GetLineInputBackgground()
+        /// <summary>
+        /// Gets the line input background.
+        /// </summary>
+        /// <returns>Image.</returns>
+        public static Image GetLineInputBackground()
         {
             return Image.FromFile("res/textures/lineinputbackground.png");
         }
 
+        /// <summary>
+        /// Gets the panel background.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetPanelBackground()
         {
             return Image.FromFile("res/textures/panel.png");
         }
 
-        public static Image GetUnitImage(int spec)
+        /// <summary>
+        /// Gets the unit image.
+        /// </summary>
+        /// <param name="unitId">The unit identifier.</param>
+        /// <returns>Image.</returns>
+        public static Image GetUnitImage(int unitId)
         {
-            switch (spec)
+            switch (unitId)
             {
                 // HEROES
                 case SharedData.UNIT_DEMONHUNTER: return Image.FromFile("res/units/demonhunter/demonhunter_none.png");
@@ -173,77 +237,136 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Gets the character button background.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetCharacterButtonBackground()
         {
             return Image.FromFile("res/textures/characterbutton.png");
         }
 
+        /// <summary>
+        /// Gets the character button background selected.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetCharacterButtonBackgroundSelected()
         {
             return Image.FromFile("res/textures/characterbutton_selected.png");
         }
 
+        /// <summary>
+        /// Gets the button background.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetButtonBackground()
         {
             return Image.FromFile("res/textures/button.png");
         }
 
+        /// <summary>
+        /// Gets the button background pressed.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetButtonBackgroundPressed()
         {
             return Image.FromFile("res/textures/button_pressed.png");
         }
 
+        /// <summary>
+        /// Gets the UI horizontal border.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetUIHorizontalBorder()
         {
             return Image.FromFile("res/textures/horizontalborder.png");
         }
 
+        /// <summary>
+        /// Gets the UI vertical border.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetUIVerticalBorder()
         {
             return Image.FromFile("res/textures/verticalborder.png");
         }
 
+        /// <summary>
+        /// Gets the UI horizontal border focused.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetUIHorizontalBorderFocused()
         {
             return Image.FromFile("res/textures/horizontalborder_focused.png");
         }
 
+        /// <summary>
+        /// Gets the UI vertical border focused.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetUIVerticalBorderFocused()
         {
             return Image.FromFile("res/textures/verticalborder_focused.png");
         }
 
-        // BACKGROUNDS
+        /// <summary>
+        /// Gets the login background.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetLoginBackground()
         {
             return Image.FromFile("res/backgrounds/login.png");
         }
 
+        /// <summary>
+        /// Gets the characters background.
+        /// </summary>
+        /// <returns>Image.</returns>
         public static Image GetCharactersBackground()
         {
             return Image.FromFile("res/backgrounds/characters.png");
         }
 
-        // CHECKS
         private static Regex nicknamePattern = new Regex("^[a-zA-Z1-9]+$");
 
+        /// <summary>
+        /// Determines whether the speciddief name is valid.
+        /// THIS SHOULD BE DONE ON THE SERVER SIDE...
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns><c>true</c> if [is valid username] [the specified name]; otherwise, <c>false</c>.</returns>
         public static bool IsValidUsername(string name)
         {
             return nicknamePattern.IsMatch(name);
         }
 
+        /// <summary>
+        /// Determines whether [is player unit] [the specified unit identifier].
+        /// </summary>
+        /// <param name="unitId">The unit identifier.</param>
+        /// <returns><c>true</c> if [is player unit] [the specified unit identifier]; otherwise, <c>false</c>.</returns>
         public static bool IsPlayerUnit(int unitId)
         {
             return unitId > 0 && unitId < 7;
         }
 
         // FONT
+        /// <summary>
+        /// Gets the font.
+        /// </summary>
+        /// <param name="size">The size.</param>
+        /// <returns>Font.</returns>
         public static Font GetFont(int size)
         {
             return new Font(FontFamily.GenericMonospace, size);
         }
 
         // TEXTS
+        /// <summary>
+        /// Gets the name of the spec.
+        /// </summary>
+        /// <param name="spec">The spec.</param>
+        /// <returns>System.String.</returns>
         public static string GetSpecName(int spec)
         {
             switch (spec)
@@ -260,6 +383,11 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Gets the name of the item.
+        /// </summary>
+        /// <param name="slot">The slot.</param>
+        /// <returns>System.String.</returns>
         public static string GetItemName(int slot)
         {
             switch (slot)
@@ -277,6 +405,12 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Gets the character information.
+        /// Not implemented...
+        /// </summary>
+        /// <param name="spec">The spec.</param>
+        /// <returns>System.String.</returns>
         public static string GetCharacterInfo(int spec)
         {
             switch (spec)

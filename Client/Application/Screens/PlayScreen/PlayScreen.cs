@@ -76,7 +76,7 @@ namespace Client
             lastTimeStamp = now;
 
             string msg;
-            while ((msg = server.ReadOneMessage()) != null)
+            while ((msg = server.TryReadOneMessage()) != null)
             {
                 game.ProcessServerMessage(msg);
             }
