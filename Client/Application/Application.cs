@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.Drawing;
 
 namespace Client
 { 
-    public partial class Application
+    /// <summary>
+    /// Represents the whole application. It holds the information about current IWindow
+    /// and renders it in the main loop. It also passes the user input actions  (e.g.:
+    /// mouse click or key pressed) to that window.
+    /// </summary>
+    public class Application
     {
         private BufferedGraphics graphics;
         private IWindow gameScreen;
@@ -19,6 +19,12 @@ namespace Client
         public static int WIDTH { get; private set; }
         public static Point MIDDLE { get; private set; }
 
+        /// <summary>
+        /// Initializes the application and server conection. 
+        /// </summary>
+        /// <param name="height">application client size height</param>
+        /// <param name="width">application client size width</param>
+        /// <param name="graphics">form's graphics</param>
         public Application(int height, int width, BufferedGraphics graphics)
         {
             HEIGHT = height;
@@ -29,6 +35,9 @@ namespace Client
             this.server = new ServerConnection(this);
         }
 
+        /// <summary>
+        /// Sets the current screen to login screen and starts the infinite game cycle.
+        /// </summary>
         public void Start()
         {
             gameScreen = new LoginScreen(this, server);
@@ -49,6 +58,7 @@ namespace Client
             gameScreen.Render(graphics.Graphics);
         }
 
+        // Events are passeed here from the form and propagated to the current game screen (this is done in the UI thread).
         public void OnKeyDown(int key)
         {
             gameScreen.OnKeyDown(key);

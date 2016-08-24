@@ -1,34 +1,29 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
 
 namespace Client
 {
-    public abstract class RectangleComponent : IComponent
+    /// <summary>
+    /// An abstract class for all ui components in a shape of a rectangle. It takes care of all the common behaviour
+    /// for rectangular components such as function IsAt, setters and getters and fields.
+    /// </summary>
+    /// <seealso cref="Client.IComponent" />
+    public abstract class RectangleComponent : BaseComponent
     {
         protected Rectangle position;
         protected Color backgroundColor;
         protected Image backgroundImage;
         protected Brush backgroundBrush;
-        protected IComponent neighbour;
 
-        protected bool hasTooltip;
-        protected string tooltipText;
-        protected Font tooltipFont;
-        protected Brush tooltipBrush;
-        protected Brush tooltipRectangleBrush;
-        protected Pen tooltipBorderPen;
-        private const int TOOLTIP_FONT_SIZE = 8;
-
-        public int WIDTH { get { return position.Width; } }
-        public int HEIGHT { get { return position.Height; } }
-        public int X { get { return position.X; }  }
-        public int Y { get { return position.Y; } }
-
-        public bool Shown { get; protected set; }
-
-        protected bool focused = false;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RectangleComponent"/> class.
+        /// </summary>
+        /// <param name="parentPosition">The parent position.</param>
+        /// <param name="position">The component's position.</param>
+        /// <param name="background">The background.</param>
+        /// <param name="neighbour">The neighbour.</param>
+        /// <param name="shown">if set to <c>true</c> the component shall be shown.</param>
+        /// <param name="hasTooltip">if set to <c>true</c> the component has a tooltip.</param>
         public RectangleComponent(Point parentPosition, Rectangle position, Color background, 
             IComponent neighbour = null, bool shown = true, bool hasTooltip = false)
             : this(parentPosition, position, neighbour, shown, hasTooltip)
@@ -37,6 +32,16 @@ namespace Client
             this.backgroundBrush = new SolidBrush(background);
         }
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RectangleComponent"/> class.
+        /// </summary>
+        /// <param name="parentPosition">The parent position.</param>
+        /// <param name="position">The component's position.</param>
+        /// <param name="background">The background.</param>
+        /// <param name="neighbour">The neighbour.</param>
+        /// <param name="shown">if set to <c>true</c> the component shall be shown.</param>
+        /// <param name="hasTooltip">if set to <c>true</c> the component has a tooltip.</param>
         public RectangleComponent(Point parentPosition, Rectangle position, Image background, 
             IComponent neighbour = null, bool shown = true, bool hasTooltip = false)
             : this (parentPosition, position, neighbour, shown, hasTooltip)
@@ -44,6 +49,15 @@ namespace Client
             this.backgroundImage = background;
         }
 
+        /// <summary>
+        /// A private c'tor that has to be called every time! The private variables are being assigned and instantiated 
+        /// here.
+        /// </summary>
+        /// <param name="parentPosition">The parent position.</param>
+        /// <param name="position">The component's position.</param>
+        /// <param name="neighbour">The neighbour.</param>
+        /// <param name="shown">if set to <c>true</c> the component shall be shown..</param>
+        /// <param name="hasTooltip">if set to <c>true</c> the component has a tooltip.</param>
         private RectangleComponent(Point parentPosition, Rectangle position, IComponent neighbour = null,
             bool shown = true, bool hasTooltip = false)
         {
@@ -53,13 +67,13 @@ namespace Client
             this.neighbour = neighbour;
             this.Shown = shown;
             this.hasTooltip = hasTooltip;
-            this.tooltipFont = GameData.GetFont(TOOLTIP_FONT_SIZE);
-            this.tooltipBorderPen = Pens.White;
-            this.tooltipBrush = Brushes.White;
-            this.tooltipRectangleBrush = Brushes.Black;
         }
 
-        public virtual void Render(Graphics g)
+        /// <summary>
+        /// Renders the component on the graphics object.
+        /// </summary>
+        /// <param name="g">The graphics object.</param>
+        public override void Render(Graphics g)
         {
             if (backgroundImage == null)
                 g.FillRectangle(backgroundBrush, position);
@@ -67,94 +81,39 @@ namespace Client
                 g.DrawImage(backgroundImage, position);
         }
 
-        public virtual void SetShown(bool shown)
+        /// <summary>
+        /// Gets the height of the component.
+        /// </summary>
+        /// <value>The height.</value>
+        public override int HEIGHT
         {
-            this.Shown = shown;
+            get { return position.Height; }
+            protected set { position.Height = value; }
         }
 
-        public virtual void SetFocused(bool focused)
+        public override int WIDTH
         {
-            this.focused = focused;
+            get { return position.Width; }
+            protected set { position.Width = value; }
         }
 
-        public IComponent GetNeighbour()
-        {
-            return neighbour;
-        }
-
-        public void SetNeighbour(IComponent neighbour)
-        {
-            this.neighbour = neighbour;
-        }
-
-        public void MoveX(int X)
-        {
-            position.X += X;
-        }
-
-        public void MoveY(int Y)
-        {
-            position.Y += Y;
-        }
-
-        public void ChangeWidth(int width)
-        {
-            position.Width = width;
-        }
-
-        public void ChangeHeight(int height)
-        {
-            position.Height = height;
-        }
-
-        public virtual Rectangle GetClientArea()
+        /// <summary>
+        /// Gets the client area.
+        /// </summary>
+        /// <returns>The client area rectangle.</returns>
+        public override Rectangle GetClientArea()
         {
             return new Rectangle(X, Y, WIDTH, HEIGHT);
         }
 
-        public bool IsAt(Point location)
+        /// <summary>
+        /// Determines whether the component is at the specified location.
+        /// </summary>
+        /// <param name="location">The location.</param>
+        /// <returns><c>true</c> if the component is at the specified location; <c>false</c> otherwise.</returns>
+        public override bool IsAt(Point location)
         {
             return position.Contains(location);
         }
-
-        public virtual void RenderTooltip(Graphics g, Point position)
-        {
-            string[] tooltipLines = tooltipText.Split('\n');
-
-            // border
-            int height = tooltipLines.Length * (TOOLTIP_FONT_SIZE + 5) + 2;
-            int width = (int)g.MeasureString(tooltipLines.OrderByDescending(line => line.Length).First(), 
-                tooltipFont).Width + 5;
-            int y = position.Y - height;
-            int x = position.X;
-
-            g.FillRectangle(tooltipRectangleBrush, x, y, width, height);
-            g.DrawRectangle(tooltipBorderPen, x, y, width, height);
-
-            // text
-            int currentY = y + 4;
-            for(int i = 0; i<tooltipLines.Length; i++)
-            {
-                g.DrawString(tooltipLines[i], tooltipFont, tooltipBrush, x + 2, currentY);
-                currentY += TOOLTIP_FONT_SIZE + 2;
-            }
-        }
-
-        public bool IsFocused()
-        {
-            return focused;
-        }
-
-        public virtual bool HasTooltip()
-        {
-            return hasTooltip;
-        }
-
-        public virtual void OnKeyDown(int key) { }
-        public virtual void OnKeyUp(int key) { }
-        public virtual void OnMouseLeftDown(Point position) { }
-        public virtual void OnMouseLeftUp(Point position) { }
-        public virtual void OnMouseRightDown(Point position) { }
-        public virtual void OnMouseRightUp(Point position) { }
     }
 }

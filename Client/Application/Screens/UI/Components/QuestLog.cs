@@ -2,6 +2,11 @@
 
 namespace Client
 {
+    /// <summary>
+    /// Represents a quest log component. The quest title, description and objectives are written here. The quest
+    /// log can be accessed by pressing 'Q' character while ingame.
+    /// </summary>
+    /// <seealso cref="Client.Panel" />
     public class QuestLog : Panel
     {
         private PlayedCharacter character;
@@ -10,6 +15,11 @@ namespace Client
 
         private const int PADDING = 7;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuestLog"/> class.
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <param name="character">The character.</param>
         public QuestLog(Rectangle position, PlayedCharacter character) 
             :base(new Point(0,0), position)
         {
@@ -19,6 +29,11 @@ namespace Client
             this.descriptionFont = GameData.GetFont(8);
         }
 
+        /// <summary>
+        /// Renders the quest log.
+        /// </summary>
+        /// <param name="g">The graphics object.</param>
+        /// <seealso cref="Client.BorderedRectangleComponent" />
         public override void Render(Graphics g)
         {
             base.Render(g);

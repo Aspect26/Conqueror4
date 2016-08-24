@@ -313,7 +313,7 @@ namespace Client
             return this.droppedItem;
         }
 
-        public void TryTakeDroppeItem()
+        public void TryTakeDroppedItem()
         {
             if (droppedItem == null)
                 return;

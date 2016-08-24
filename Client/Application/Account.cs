@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace Client
 {
+    /// <summary>
+    /// Holds information about an account. Contains username, list of all characters belonging to that account and a 
+    /// character which user choose to play with
+    /// </summary>
     public class Account
     {
         public string Username { get; set; }
@@ -22,6 +26,7 @@ namespace Client
                 }
             }
 
+            // the character is loaded later -> when the PlayScreen is being created
             this.PlayCharacter = new PlayedCharacter(server, character.Name, character.Level, character.Spec, -1, 
                 new BaseStats(), new BaseStats(), 0);
         }

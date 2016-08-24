@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 
 namespace Client
 {
+    /// <summary>
+    /// The main class of the program. Contains the main function and starts the application.
+    /// </summary>
     static class Program
     {
         [STAThread]

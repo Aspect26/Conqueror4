@@ -4,14 +4,29 @@ using System.Text;
 
 namespace Client
 {
+    /// <summary>
+    /// Represents a item slot component. 
+    /// This components holds an information about one item and if it is hovered over it shows a tooltip with 
+    /// the description of the item. 
+    /// </summary>
+    /// <seealso cref="Client.RectangleComponent" />
     public class ItemSlotComponent : RectangleComponent
     {
+        /// <summary>
+        /// The size of this component (it is a square).
+        /// </summary>
         public const int EQUIP_SLOT_SIZE = 50;
 
         private PlayedCharacter character;
         private int itemSlot;
         protected Image itemImage;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ItemSlotComponent"/> class.
+        /// </summary>
+        /// <param name="character">The character.</param>
+        /// <param name="itemSlot">The item slot.</param>
+        /// <param name="position">The position.</param>
         public ItemSlotComponent(PlayedCharacter character, int itemSlot, Point position)
             :base(new Point(0,0), new Rectangle(position.X, position.Y, EQUIP_SLOT_SIZE, EQUIP_SLOT_SIZE),
                  GameData.GetEquipSlotImage())
@@ -24,6 +39,10 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Renders the component on the graphics object.
+        /// </summary>
+        /// <param name="g">The graphics object.</param>
         public override void Render(Graphics g)
         {
             base.Render(g);
@@ -39,6 +58,11 @@ namespace Client
             return character.Equip.Items[itemSlot];
         }
 
+        /// <summary>
+        /// Renders the tooltip.
+        /// </summary>
+        /// <param name="g">The graphics object.</param>
+        /// <param name="position">The tooltip position.</param>
         public override void RenderTooltip(Graphics g, Point position)
         {
             tooltipText = createTooltipText(getRenderingItem());
@@ -70,6 +94,10 @@ namespace Client
             return str.ToString();
         }
 
+        /// <summary>
+        /// Determines whether this instance has tooltip.
+        /// </summary>
+        /// <returns><c>true</c> if this instance has tooltip; otherwise, <c>false</c>.</returns>
         public override bool HasTooltip()
         {
             return true;

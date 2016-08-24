@@ -1,12 +1,20 @@
-﻿using Shared;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Client
 {
+    /// <summary>
+    /// Represents a component shown during the game in top left corner.
+    /// It contains visual information about player's level, hitpoints, manapoints. experience and image.
+    /// </summary>
+    /// <seealso cref="Client.StaticAbstractComponent" />
     public class CharacterStatus : StaticAbstractComponent
     {
         private PlayedCharacter character;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CharacterStatus"/> class.
+        /// </summary>
+        /// <param name="character">The character.</param>
         public CharacterStatus(PlayedCharacter character)
         {
             this.character = character;
@@ -20,8 +28,13 @@ namespace Client
 
         private const int STATUS_FONT_SIZE = 7;
 
+        /// <summary>
+        /// Renders the component on the graphics object.
+        /// </summary>
+        /// <param name="g">The graphics object.</param>
         public override void Render(Graphics g)
         {
+            // TODO: separate this function into multiple smaller ones
             // BORDER
             g.DrawRectangle(Pens.Black, x - 1, y - 1, width + 1, height + 1);
 

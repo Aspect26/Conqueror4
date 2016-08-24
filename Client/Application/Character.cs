@@ -1,5 +1,8 @@
 ﻿namespace Client
 {
+    /// <summary>
+    /// Holds basic information about a character (needed to be shown in the CharactersScreen). 
+    /// </summary>
     public class Character
     {
         public string Name { get; private set; }

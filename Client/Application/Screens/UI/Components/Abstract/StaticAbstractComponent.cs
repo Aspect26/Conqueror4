@@ -1,94 +1,68 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Client
 {
-    public abstract class StaticAbstractComponent : IComponent
+    /// <summary>
+    /// An abstract class for all the components that shall have a custom abstract shape and won't react to user's inputs.
+    /// </summary>
+    /// <seealso cref="Client.IComponent" />
+    public abstract class StaticAbstractComponent : BaseComponent
     {
-        public int WIDTH { get { return 1; } }
-        public int HEIGHT { get { return 1; } }
-        public int X { get; protected set; }
-        public int Y { get; protected set; }
+        /// <summary>
+        /// Returns 1 because it shall not be needed anywhere.
+        /// </summary>
+        /// <value>The width.</value>
+        public override int WIDTH { get { return 1; } }
 
-        public bool Shown { get; protected set; }
+        /// <summary>
+        /// Returns 1 because it shall not be needed anywhere.
+        /// </summary>
+        /// <value>The height.</value>
+        public override int HEIGHT { get { return 1; } }
 
-        protected IComponent neighbour;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StaticAbstractComponent"/> class.
+        /// </summary>
+        /// <param name="shown">if set to <c>true</c> the component shall be shown.
         public StaticAbstractComponent(bool shown = true)
         {
             this.Shown = shown;
         }
 
-        public void ChangeHeight(int height)
+        /// <summary>
+        /// Does nothing becaus height for this type of component is irelevant.
+        /// </summary>
+        /// <param name="height">The new height.</param>
+        public override void ChangeHeight(int height)
         {
             return;
         }
 
-        public void ChangeWidth(int width)
+        /// <summary>
+        /// Does nothing becaus height for this type of component is irelevant.
+        /// </summary>
+        /// <param name="width">The new width.</param>
+        public override void ChangeWidth(int width)
         {
             return;
         }
 
-        public Rectangle GetClientArea()
+        /// <summary>
+        /// Returns an empty rectangle because client area for this kind of component is irelevant.
+        /// </summary>
+        /// <returns>The client area rectangle.</returns>
+        public override Rectangle GetClientArea()
         {
             return new Rectangle(X, Y, WIDTH, HEIGHT);
         }
 
-        public IComponent GetNeighbour()
+        /// <summary>
+        /// Always returns false so the UserInterace class won't redirect user inputs to this component.
+        /// </summary>
+        /// <param name="location">The location.</param>
+        /// <returns><c>false</c>.</returns>
+        public override bool IsAt(Point location)
         {
-            return neighbour;
-        }
-
-        public bool IsAt(Point location)
-        {
-            return false;
-        }
-
-        public void MoveX(int X)
-        {
-            this.X += X;
-        }
-
-        public void MoveY(int Y)
-        {
-            this.Y += Y;
-        }
-
-        public void SetShown(bool shown)
-        {
-            this.Shown = shown;
-        }
-
-        public void OnKeyDown(int key) { }
-
-        public void OnKeyUp(int key) { }
-
-        public void OnMouseLeftDown(Point position) { }
-
-        public void OnMouseLeftUp(Point position) { }
-
-        public void OnMouseRightDown(Point position) { }
-
-        public void OnMouseRightUp(Point position) { }
-
-        public abstract void Render(Graphics g);
-
-        public void SetFocused(bool focused) { }
-
-        public void SetNeighbour(IComponent neighbour)
-        {
-            this.neighbour = neighbour;
-        }
-
-        public void RenderTooltip(Graphics g, Point position)
-        {
-            // TODO: too lazy to finish this
-            throw new NotImplementedException();
-        }
-
-        public bool HasTooltip()
-        {
-            // TODO: too lazy to finish this
             return false;
         }
     }

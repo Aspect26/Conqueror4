@@ -5,6 +5,10 @@ using System.Drawing;
 
 namespace Client
 {
+    /// <summary>
+    /// Represents the screen that is shown when the user actually plays the game with selected character.
+    /// </summary>
+    /// <seealso cref="Client.EmptyScreen" />
     public class PlayScreen : EmptyScreen
     {
         private const int playerSize = 50;
@@ -17,6 +21,13 @@ namespace Client
 
         private QuestLog questLog;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlayScreen"/> class.
+        /// Initializs the interface components and loads the character, other players, NPCs and game objects
+        /// from the server. 
+        /// </summary>
+        /// <param name="application">The application.</param>
+        /// <param name="server">The server connection.</param>
         public PlayScreen(Application application, ServerConnection server) : base(application, server)
         {
             this.server = server;
@@ -31,7 +42,7 @@ namespace Client
             // TODO: actively wait for game to load :( <- loading screen or something
             while (game == null) ;
             userInterface.AddComponent(new RightPlayOverlay(game, playerCharacter));
-            game.NewQuestAcquired += PlayerAquiredQuestMessage;
+            game.NewQuestAcquired += OnPlayerAquiredNewQuest;
 
             centerMessages = new CenterMessages();
             centerMessagesFont = GameData.GetFont(12);
@@ -39,11 +50,22 @@ namespace Client
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
 
-        public void PlayerAquiredQuestMessage(IQuest quest)
+        /// <summary>
+        /// Called when player aquired new quest. Shows a message with the new quest's title in the middle of the screen.
+        /// </summary>
+        /// <param name="quest">The new quest.</param>
+        public void OnPlayerAquiredNewQuest(IQuest quest)
         {
             centerMessages.AddMessage("New quest acquired: " + quest.Title);
         }
 
+        /// <summary>
+        /// Firstly read all the messages sent from the server and handles them. Then runs one game cycle (moves all
+        /// the objects to their new location, e.g.: player, NPCs, missiles, ...) and then renders all the objects. It 
+        /// also render a center message if there is any.
+        /// </summary>
+        /// <param name="g">Graphics object.</param>
+        /// <seealso cref="Client.CenterMessages"/>
         public override void Render(Graphics g)
         {
             // TODO: remove this when ready
@@ -85,20 +107,19 @@ namespace Client
         int previousDownKey = 0;
 
         // TODO: in this function -> player.Shoot, nevytvarat strelu v screene -_-
+        /// <summary>
+        /// Called when [left mouse button down] -> user tries to shoot a missile.
+        /// </summary>
+        /// <param name="location">The location.</param>
         public override void OnMouseLeftDown(Point location)
         {
-            int x = location.X - Application.MIDDLE.X;
-            int y = location.Y - Application.MIDDLE.Y;
-            double length = Math.Sqrt(x*x + y*y);
-
-            int dirX = (int)((x / length) * 100);
-            int dirY = (int)((y / length) * 100);
-            server.SendPlayerShoot(dirX, dirY);
-            /*
-            game.AddMissile(new Missile(game, playerCharacter, GameData.GetMissileImage(playerCharacter.UnitID), 
-                new Point(playerCharacter.Location.X, playerCharacter.Location.Y), new Point(dirX, dirY)));*/
+            playerCharacter.TryShoot(location);
         }
 
+        /// <summary>
+        /// Called when [key down]. Checks which key is down and does a appropriate action.
+        /// </summary>
+        /// <param name="key">The key.</param>
         public override void OnKeyDown(int key)
         {
             if (key == previousDownKey)
@@ -106,64 +127,76 @@ namespace Client
 
             previousDownKey = key;
 
-            if (key == 68)      // D
+            switch (key)
             {
-                playerCharacter.StartMovingRight();
-                Console.WriteLine("START RIGHT");
-            }
-            else if(key == 83)  // S
-            {
-                playerCharacter.StartMovingBottom();
-                Console.WriteLine("START BOTTOM");
-            }
-            else if(key == 65)   // A
-            {
-                playerCharacter.StartMovingLeft();
-                Console.WriteLine("START LEFT");
-            }
-            else if(key == 87)  // W
-            {
-                playerCharacter.StartMovingUp();
-                Console.WriteLine("START UP");
-            } 
-            else if(key == 81) // Q
-            {
-                questLog.SetShown(!questLog.Shown);
+                case 68:        // D
+                    playerCharacter.StartMovingRight();
+                    Console.WriteLine("START RIGHT");
+                    break;
+
+                case 83:        // S
+                    playerCharacter.StartMovingBottom();
+                    Console.WriteLine("START BOTTOM");
+                    break;
+
+                case 65:        // A
+                    playerCharacter.StartMovingLeft();
+                    Console.WriteLine("START LEFT");
+                    break;
+
+                case 87:        // W
+                    playerCharacter.StartMovingUp();
+                    Console.WriteLine("START UP");
+                    break;
+
+                case 81:        // Q
+                    questLog.SetShown(true);
+                    break;
             }
         }
 
+        /// <summary>
+        /// Called when [key up]. Checks which key is up and does a appropriate action.
+        /// </summary>
+        /// <param name="key">The key.</param>
         public override void OnKeyUp(int key)
         {
             if (key == previousDownKey)
                 previousDownKey = 0;
 
-            if (key == 68)      // D
+            switch (key)
             {
-                playerCharacter.StopMovingRight();
-                Console.WriteLine("STOP RIGHT");
-            }
-            else if (key == 83)  // S
-            {
-                playerCharacter.StopMovingBottom();
-                Console.WriteLine("STOP BOTTOM");
-            }
-            else if (key == 65)   // A
-            {
-                playerCharacter.StopMovingLeft();
-                Console.WriteLine("STOP LEFT");
-            }
-            else if (key == 87)  // W
-            {
-                playerCharacter.StopMovingUp();
-                Console.WriteLine("STOP UP");
-            }
-            else if (key == 84) // T
-            {
-                game.TryTakeDroppeItem();
-            }
-            else if (key == 32) // SPACE
-            {
-                game.TryUseAbility();
+                case 68:        // D
+                    playerCharacter.StopMovingRight();
+                    Console.WriteLine("START RIGHT");
+                    break;
+
+                case 83:        // S
+                    playerCharacter.StopMovingBottom();
+                    Console.WriteLine("START BOTTOM");
+                    break;
+
+                case 65:        // A
+                    playerCharacter.StopMovingLeft();
+                    Console.WriteLine("START LEFT");
+                    break;
+
+                case 87:        // W
+                    playerCharacter.StopMovingUp();
+                    Console.WriteLine("START UP");
+                    break;
+
+                case 81:        // Q
+                    questLog.SetShown(false);
+                    break;
+
+                case 84:        // T
+                    game.TryTakeDroppedItem();
+                    break;
+
+                case 32:        // SPACE
+                    game.TryUseAbility();
+                    break;
             }
         }
     }

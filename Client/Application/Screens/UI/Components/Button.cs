@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace Client
 {
+    /// <summary>
+    /// Class Button.
+    /// </summary>
+    /// <seealso cref="Client.RectangleComponent" />
     public class Button : RectangleComponent
     {
         protected string text;
@@ -16,9 +17,24 @@ namespace Client
         protected Font font;
         protected Brush brush = Brushes.Black;
 
-        public delegate void OnClickHandler(Button m, EventArgs e);
+        /// <summary>
+        /// Delegate OnClickHandler
+        /// </summary>
+        /// <param name="button">The button.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        public delegate void OnClickHandler(Button button, EventArgs e);
+
+        /// <summary>
+        /// Occurs when [on click].
+        /// </summary>
         public event OnClickHandler OnClick;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Button"/> class.
+        /// </summary>
+        /// <param name="parentPosition">The parent position.</param>
+        /// <param name="text">The text on the button.</param>
+        /// <param name="position">The button's position.</param>
         public Button(Point parentPosition, string text, Rectangle position)
             : base(parentPosition, position, GameData.GetButtonBackground())
         {
@@ -26,6 +42,10 @@ namespace Client
             font = GameData.GetFont((position.Height / 3) * 2);
         }
 
+        /// <summary>
+        /// Renders the component on the graphics object.
+        /// </summary>
+        /// <param name="g">The graphics object.</param>
         public override void Render(Graphics g)
         {
             base.Render(g);
@@ -66,6 +86,11 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Called when [key down].
+        /// Sets the button to be pressed.
+        /// </summary>
+        /// <param name="key">The key.</param>
         public override void OnKeyDown(int key)
         {
             if(key == 13) // enter
@@ -74,6 +99,11 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Called on [key up] event.
+        /// Unsets the pressed flag.
+        /// </summary>
+        /// <param name="key">The key.</param>
         public override void OnKeyUp(int key)
         {
             if (key == 13) // enter
@@ -82,20 +112,24 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Called on [mouse left down] event.
+        /// Sets the button to be pressed.
+        /// </summary>
+        /// <param name="position">The position.</param>
         public override void OnMouseLeftDown(Point position)
         {
             setPressed(true);
         }
 
+        /// <summary>
+        /// Called on [mouse left up] event.
+        /// Unsets the pressed flag.
+        /// </summary>
+        /// <param name="position">The position.</param>
         public override void OnMouseLeftUp(Point position)
         {
             setPressed(false);
-        }
-
-        public override void SetFocused(bool focused)
-        {
-            base.SetFocused(focused);
-
         }
     }
 }

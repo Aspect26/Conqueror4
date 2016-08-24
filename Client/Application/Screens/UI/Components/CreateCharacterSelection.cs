@@ -2,10 +2,19 @@
 
 namespace Client
 {
+    /// <summary>
+    /// Represents a component in the character creation screen that contains buttons for all playable character
+    /// specializations.
+    /// </summary>
+    /// <seealso cref="Client.RectangleComponent" />
+    /// <seealso cref="Client.CreateCharacterButton" />
     public class CreateCharacterSelection : RectangleComponent
     {
         private CreateCharacterButton[] characterButtons;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateCharacterSelection"/> class.
+        /// </summary>
         public CreateCharacterSelection()
             : base(new Point(0, 0), new Rectangle(Application.WIDTH / 2 - 3 * 64, 450, 64 * 6, 64), Color.Black)
         {
@@ -19,6 +28,10 @@ namespace Client
             this.characterButtons[0].SetFocused(true);
         }
 
+        /// <summary>
+        /// Renders the component on the graphics object.
+        /// </summary>
+        /// <param name="g">The graphics object.</param>
         public override void Render(Graphics g)
         {
             base.Render(g);
@@ -29,6 +42,11 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Called on [mouse left down] event.
+        /// Sets a button which was cliekced to be selected.
+        /// </summary>
+        /// <param name="position">The position.</param>
         public override void OnMouseLeftDown(Point position)
         {
             foreach(CreateCharacterButton btn in characterButtons)
@@ -37,6 +55,10 @@ namespace Client
             }
         }
 
+        /// <summary>
+        /// Gets the selected specialization.
+        /// </summary>
+        /// <returns>The specialization.</returns>
         public int GetSelectedSpec()
         {
             foreach (CreateCharacterButton btn in characterButtons)

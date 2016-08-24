@@ -215,5 +215,16 @@ namespace Client
         {
             movingLeft = false;
         }
+
+        public void TryShoot(Point location)
+        {
+            int x = location.X - Application.MIDDLE.X;
+            int y = location.Y - Application.MIDDLE.Y;
+            double length = Math.Sqrt(x * x + y * y);
+
+            int dirX = (int)((x / length) * 100);
+            int dirY = (int)((y / length) * 100);
+            server.SendPlayerShoot(dirX, dirY);
+        }
     }
 }

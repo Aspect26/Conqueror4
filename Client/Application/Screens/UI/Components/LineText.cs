@@ -1,26 +1,31 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Client
 {
-    public class LineText : IComponent
+    /// <summary>
+    /// Represents a component with one line of a text.
+    /// </summary>
+    /// <seealso cref="Client.BaseComponent" />
+    public class LineText : BaseComponent
     {
         protected readonly string text = "";
         protected Point position;
         protected readonly Brush brush;
         protected readonly int size;
-        protected IComponent neighbour;
 
         private bool set = false;
         private Font font;
 
-        public int HEIGHT { get; set; }
-        public int WIDTH { get; set; }
-        public int X { get { return position.X; } }
-        public int Y { get { return position.Y; } }
-
-        public bool Shown { get; protected set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LineText"/> class.
+        /// </summary>
+        /// <param name="parentPosition">The parent position.</param>
+        /// <param name="text">The text.</param>
+        /// <param name="color">The color.</param>
+        /// <param name="position">The position.</param>
+        /// <param name="size">The size.</param>
+        /// <param name="neighbour">The neighbour.</param>
+        /// <param name="shown">if set to <c>true</c> [shown].</param>
         public LineText(Point parentPosition, string text, Color color, Point position, int size, 
             IComponent neighbour = null, bool shown = true)
         {
@@ -36,7 +41,11 @@ namespace Client
             this.font = new Font(FontFamily.GenericMonospace, size);
         }
 
-        public void Render(Graphics g)
+        /// <summary>
+        /// Renders the component on the graphics object.
+        /// </summary>
+        /// <param name="g">The graphics object.</param>
+        public override void Render(Graphics g)
         {
             if (!set)
             {
@@ -50,61 +59,35 @@ namespace Client
             g.DrawString(text, font, brush, position);
         }
 
-        public void SetShown(bool shown)
-        {
-            this.Shown = shown;
-        }
+        /// <summary>
+        /// You can't change a width of a text that easily!
+        /// </summary>
+        /// <param name="width">Irelevant.</param>
+        public override void ChangeWidth(int width) { }
 
-        public IComponent GetNeighbour()
-        {
-            return neighbour;
-        }
+        /// <summary>
+        /// You can't change a height of a text that easily!
+        /// </summary>
+        /// <param name="height">Irelevant.</param>
+        public override void ChangeHeight(int height) { }
 
-        public void SetNeighbour(IComponent neighbour)
-        {
-            this.neighbour = neighbour;
-        }
-
-        public void MoveX(int X)
-        {
-            position.X += X;
-        }
-
-        public void MoveY(int Y)
-        {
-            position.Y += Y;
-        }
-
-        public void ChangeWidth(int width) { }
-
-        public void ChangeHeight(int height) { }
-
-        public Rectangle GetClientArea()
+        /// <summary>
+        /// Gets the client area.
+        /// </summary>
+        /// <returns>The client area rectangle.</returns>
+        public override Rectangle GetClientArea()
         {
             return new Rectangle(X, Y, WIDTH, HEIGHT);
         }
 
-        public bool IsAt(Point location)
+        /// <summary>
+        /// Determines whether the component is at the specified location.
+        /// </summary>
+        /// <param name="location">The location.</param>
+        /// <returns><c>true</c> if the component is at the specified location; <c>false</c> otherwise.</returns>
+        public override bool IsAt(Point location)
         {
             return new Rectangle(X, Y, WIDTH, HEIGHT).Contains(location);
-        }
-
-        public void OnKeyDown(int key) { }
-        public void OnKeyUp(int key) { }
-        public void OnMouseLeftDown(Point position) { }
-        public void OnMouseLeftUp(Point position) { }
-        public void OnMouseRightDown(Point position) { }
-        public void OnMouseRightUp(Point position) { }
-        public void SetFocused(bool focused) { }
-
-        public void RenderTooltip(Graphics g, Point position)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool HasTooltip()
-        {
-            return false;
         }
     }
 }
