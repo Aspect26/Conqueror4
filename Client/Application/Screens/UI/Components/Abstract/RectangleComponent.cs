@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using System.Linq;
 
 namespace Client
 {
@@ -95,6 +94,18 @@ namespace Client
         {
             get { return position.Width; }
             protected set { position.Width = value; }
+        }
+
+        public override int X
+        {
+            get { return position.X; }
+            protected set { position.X = value; }
+        }
+
+        public override int Y
+        {
+            get { return position.Y; }
+            protected set { position.Y = value; }
         }
 
         /// <summary>

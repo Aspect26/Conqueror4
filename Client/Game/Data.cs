@@ -189,6 +189,15 @@ namespace Client
         }
 
         /// <summary>
+        /// Gets the portal image.
+        /// </summary>
+        /// <returns>Image.</returns>
+        public static Image GetPortalImage()
+        {
+            return Image.FromFile("res/ground_objects/portal.png");
+        }
+
+        /// <summary>
         /// Gets the line input background.
         /// </summary>
         /// <returns>Image.</returns>

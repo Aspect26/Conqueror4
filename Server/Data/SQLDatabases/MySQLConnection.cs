@@ -234,13 +234,25 @@ namespace Server
         {
             // load units infos
             List<UnitInfo> units = new List<UnitInfo>();
-            var results = Select(new string[] { "unitid", "xloc", "yloc", }, tableName);
+            List<ObjectInfo> objects = new List<ObjectInfo>();
+            var results = Select(new string[] { "id", "xloc", "yloc", "special_arguments"}, tableName);
             foreach(var row in results)
             {
-                int unitId = Convert.ToInt32(row["unitid"]);
+                string objectId = row["id"];
                 int xLoc = Convert.ToInt32(row["xloc"]);
                 int yLoc = Convert.ToInt32(row["yloc"]);
-                units.Add(new UnitInfo(unitId, xLoc, yLoc));
+
+                int unitId;
+                var isUnit = int.TryParse(objectId, out unitId);
+                if (isUnit)
+                {
+                    units.Add(new UnitInfo(unitId, xLoc, yLoc));
+                }
+                else
+                {
+                    string[] specialArguments = row["special_arguments"].Split(',');
+                    objects.Add(new ObjectInfo(objectId[0], xLoc, yLoc, specialArguments));
+                }
             }
 
             // create map instance
@@ -248,6 +260,10 @@ namespace Server
             foreach(UnitInfo unit in units)
             {
                 instance.SpawnNPC(unit.ID, unit.X, unit.Y);
+            }
+            foreach (ObjectInfo objInfo in objects)
+            {
+                instance.SpawnObject(objInfo);
             }
 
             return instance;

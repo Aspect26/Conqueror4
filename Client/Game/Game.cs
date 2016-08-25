@@ -51,24 +51,19 @@ namespace Client
         {
             this.Character = character;
             this.server = server;
-
-            this.CreateMap(character.Location.MapID);
-
             this.units = new Dictionary<int, IUnit>();
             this.missiles = new List<Missile>();
             this.objects = new List<IGroundObject>();
             this.collidingObjects = new List<IGroundObject>();
             this.specialEffects = new List<ISpecialEffect>();
-
-            character.MapChanged += CreateMap;
         }
 
-        private  void CreateMap(int mapId)
+        public  void CreateMap()
         {
             if(Map == null)
                 Map = new Map();
 
-            Map.Create(GameData.GetMapFilePath(mapId));
+            Map.Create(GameData.GetMapFilePath(Character.Location.MapID));
         }
 
         // TODO: this function should be split into smaller ones...
@@ -408,6 +403,15 @@ namespace Client
         }
 
         /// <summary>
+        /// Adds a new object to the game. The object is parsed from server message.
+        /// </summary>
+        /// <param name="dataParts">The splitted server message.</param>
+        public void AddObject(string[] dataParts)
+        {
+            this.objects.Add(GroundObject.CreateObject(this, dataParts));
+        }
+
+        /// <summary>
         /// Sets the dropped item meaning the item that it displayed in the Dropped item
         /// slot in the game's right side overlay.
         /// </summary>
@@ -468,6 +472,15 @@ namespace Client
         public void TryUseAbility()
         {
             server.TryUseAbility();
+        }
+
+        /// <summary>
+        /// Sends server a message that the player wants to change the map.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        public void TryChangeMap(int mapId)
+        {
+            server.TryChangeMap(mapId);
         }
 
         /// <summary>

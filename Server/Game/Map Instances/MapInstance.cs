@@ -13,6 +13,7 @@ namespace Server
         private Queue<IPlayerAction> playerActions;
         private List<IUnitDifference> mapGeneralDifferenes;
         private List<IItem> droppedItems;
+        private List<IObject> objects;
         private SortedList<long, List<ITimedAction>> timedActions;
         private List<Missile> missiles;
         private Point ReviveLocation;
@@ -34,6 +35,7 @@ namespace Server
             this.timedActions = new SortedList<long, List<ITimedAction>>();
             this.ReviveLocation = Data.GetReviveLocation(mapId);
             this.droppedItems = new List<IItem>();
+            this.objects = new List<IObject>();
 
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
@@ -59,6 +61,13 @@ namespace Server
                 units.Add(newUnit);
 
             return newUnit;
+        }
+
+        public void SpawnObject(ObjectInfo objInfo)
+        {
+            lock (objects) {
+                objects.Add(GenericObject.Create(objInfo, GetNextUniqueID()));
+            }
         }
 
         public int GetNextUniqueID()
@@ -148,6 +157,12 @@ namespace Server
                         + unit.MaxStats.HitPoints + "|" + unit.ActualStats.HitPoints + "|"
                         + unit.Fraction + ",";
                 }
+            }
+            
+            // objects are only sended so they does not need to be locked
+            foreach(IObject obj in objects)
+            {
+                data += obj.GetCodedData() + ",";
             }
 
             return data;

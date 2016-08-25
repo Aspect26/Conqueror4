@@ -1,5 +1,6 @@
 ﻿using Shared;
 using System;
+using System.Drawing;
 using System.Net.Sockets;
 using System.Text;
 
@@ -21,6 +22,7 @@ namespace Server
         private const int CMD_TAKEITEM = 9;
         private const int CMD_USEABILITY = 10;
         private const int CMD_CREATECHARACTER = 11;
+        private const int CMD_CHANGE_MAP = 12;
 
         public CommandsHandler(Server server, Game game)
         {
@@ -68,6 +70,8 @@ namespace Server
                     handleTakeItem(clientState, Convert.ToInt32(arguments[0])); break;
                 case CMD_USEABILITY:
                     handleUseAbility(clientState); break;
+                case CMD_CHANGE_MAP:
+                    handleMapChange(clientState, Convert.ToInt32(arguments[0])); break;
                 default:
                     return;
             }
@@ -76,6 +80,16 @@ namespace Server
         // ************************************************
         // SPECIFIC HANDLERS
         // ************************************************
+        private void handleMapChange(StateObject client, int mapId)
+        {
+            client.PlayingCharacter.MapInstance.RemoveClient(client);
+            client.PlayingCharacter.Location.MapID = mapId;
+            Point mapPosition = Data.GetReviveLocation(mapId);
+            client.PlayingCharacter.Location.X = mapPosition.X;
+            client.PlayingCharacter.Location.Y = mapPosition.Y;
+            spawnPlayerToInstance(client);
+        }
+
         private void handleCreateCharacter(StateObject client, string username, string name, int spec)
         {
             Character c = Data.CreateCharacter(username.ToLower(), name.ToLower(), spec);
@@ -153,18 +167,22 @@ namespace Server
                 return;
 
             client.PlayingCharacter = character;
+            spawnPlayerToInstance(client);
+        }
 
-            // send data back
+        private void spawnPlayerToInstance(StateObject client)
+        {
+            Character character = client.PlayingCharacter;
             MapInstance map = game.AddPlayer(client, character);
-            string msg = character.UniqueID + "," + character.Location.MapID + "," + 
-                character.Experience + "," + Data.GetNextLevelXPRequired(character.Level) + "," + 
-                character.Location.X + "," + character.Location.Y + "," + character.GetMaxHitPoints() + "," + 
-                character.GetMaxManaPoints() + "," +  character.GetActualHitPoints() + "," + 
-                character.GetActualManaPoints() + "," + character.Fraction + "," + 
+            string msg = "6:" + character.UniqueID + "," + character.Location.MapID + "," +
+                character.Experience + "," + Data.GetNextLevelXPRequired(character.Level) + "," +
+                character.Location.X + "," + character.Location.Y + "," + character.GetMaxHitPoints() + "," +
+                character.GetMaxManaPoints() + "," + character.GetActualHitPoints() + "," +
+                character.GetActualManaPoints() + "," + character.Fraction + "," +
                 character.CurrentQuest.GetCodedData() + "," + character.Equip.GetCodedData() + ",";
             msg += map.GetMessageCodedData() + "\n";
             byte[] byteData = Encoding.ASCII.GetBytes(msg);
-            client.clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(SendCallback), 
+            client.clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(SendCallback),
                 client.clientSocket);
         }
 

@@ -39,6 +39,11 @@ namespace Client
             trySend(CMD_USEABILITY, new string[] { });
         }
 
+        public void TryChangeMap(int mapId)
+        {
+            trySend(CMD_CHANGE_MAP, new string[] { mapId.ToString() });
+        }
+
         private string directionToString(MovingDirection direction)
         {
             switch (direction)

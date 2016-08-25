@@ -33,14 +33,18 @@ namespace Client
             this.server = server;
 
             playerCharacter = application.Account.PlayCharacter;
-            application.server.LoadGame(out game, playerCharacter);
+            game = new Game(server, playerCharacter);
+            if(application.server.LoadGame(game, playerCharacter) != ServerConnection.RESULT_OK)
+            {
+                Console.WriteLine("Could not load the game :(");
+            }
+
             questLog = new QuestLog(new Rectangle(10, 80, 200, 250), playerCharacter);
 
             userInterface.AddComponent(new CharacterStatus(application.Account.PlayCharacter));
             userInterface.AddComponent(questLog);
 
-            // TODO: actively wait for game to load :( <- loading screen or something
-            while (game == null) ;
+            game.CreateMap();
             userInterface.AddComponent(new RightPlayOverlay(game, playerCharacter));
             game.NewQuestAcquired += OnPlayerAquiredNewQuest;
 

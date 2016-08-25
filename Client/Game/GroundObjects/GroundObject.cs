@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace Client
 {
@@ -80,5 +81,29 @@ namespace Client
         /// Implements what the object should do if it collides with a player.
         /// </summary>
         public abstract void Collide();
+
+
+        /// <summary>
+        /// A static function that creates the object directly from the server's message.
+        /// </summary>
+        /// <param name="dataParts">The splitted server message.</param>
+        /// <returns>The new parsed ground object</returns>
+        public static GroundObject CreateObject(Game game, string[] dataParts)
+        {
+            switch (dataParts[0])
+            {
+                case "P":
+                    int uid = Convert.ToInt32(dataParts[1]);
+                    int xLoc = Convert.ToInt32(dataParts[2]);
+                    int yLoc = Convert.ToInt32(dataParts[3]);
+                    int collisionRange = Convert.ToInt32(dataParts[4]);
+                    int mapId = Convert.ToInt32(dataParts[5]);
+                    return new PortalObject(game, uid, new Point(xLoc, yLoc),
+                        collisionRange, mapId);
+                default:
+                    throw new NotImplementedException("Got object from a server that " +
+                        "is not currently implemented: " + dataParts[0]);
+            }
+        }
     }
 }

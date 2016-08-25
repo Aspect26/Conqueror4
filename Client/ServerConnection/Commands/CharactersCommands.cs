@@ -13,14 +13,19 @@
         /// <param name="game">The game.</param>
         /// <param name="character">The character.</param>
         /// <returns>The result message id.</returns>
-        public int LoadGame(out Game game, PlayedCharacter character)
+        public int LoadGame(Game game, PlayedCharacter character)
         {
-            game = null;
             int res = trySend(CMD_LOADCHAR, new string[] { character.Name });
             if (res != RESULT_OK)
                 return res;
 
-            if (!parseResponseCharacterLoad(ReceiveOne(), out game, character))
+            string msg = ReceiveOne();
+            while (msg.Split(':')[0] != "6")
+            {
+                msg = ReceiveOne();
+            }
+
+            if (!ParseResponseCharacterLoad(msg.Split(':')[1], game, character))
                 return RESULT_FALSE;
 
             return RESULT_OK;

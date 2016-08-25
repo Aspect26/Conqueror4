@@ -7,6 +7,7 @@ namespace Client
     public partial class Game
     {
         private const int MSG_UNITS_DATA = 5;
+        private const int MSG_RELOAD_DATA = 6;
 
         /// <summary>
         /// Processes the server message.
@@ -21,7 +22,23 @@ namespace Client
             {
                 case MSG_UNITS_DATA:
                     handleUnitsData(parts[1]); break;
+                case MSG_RELOAD_DATA:
+                    handleLoadData(parts[1]); break;
             }
+        }
+
+        private void handleLoadData(string arguments)
+        {
+            // remove all the current data
+            this.units.Clear();
+            this.missiles.Clear();
+            this.objects.Clear();
+            this.collidingObjects.Clear();
+            this.specialEffects.Clear();
+            this.droppedItem = null;
+
+            server.ParseResponseCharacterLoad(arguments, this, this.Character);
+            this.Map.Create(GameData.GetMapFilePath(this.Character.Location.MapID));
         }
 
         private void handleUnitsData(string arguments)

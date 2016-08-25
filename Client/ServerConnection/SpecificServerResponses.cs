@@ -36,9 +36,8 @@ namespace Client
         /// <param name="game">The game.</param>
         /// <param name="character">The character.</param>
         /// <returns><c>true</c> if the operation is successful, <c>false</c> otherwise.</returns>
-        private bool parseResponseCharacterLoad(string message, out Game game, PlayedCharacter character)
+        public bool ParseResponseCharacterLoad(string message, Game game, PlayedCharacter character)
         {
-            game = null;
             if (message == "")
                 return false;
 
@@ -77,8 +76,6 @@ namespace Client
                 character.SetFraction(fraction);
                 character.SetCurrentQuest(quest);
                 character.SetEquip(equip);
-
-                game = new Game(this, character);
             }
             catch (FormatException e)
             {
@@ -86,27 +83,37 @@ namespace Client
                 return false;
             }
 
-            // OTHER UNITS
+            // OTHER THINGS
             for (int i = 13; i < parts.Length; i++)
             {
-                string[] unitParts = parts[i].Split('|');
+                string[] dataParts = parts[i].Split('|');
 
-                int uid = Convert.ToInt32(unitParts[0]);
+                // it is a unit if it starts with a number otherwise it is an object
+                int uid;
+                var isUnit = int.TryParse(dataParts[0], out uid);
+                if (isUnit)
+                {
+                    // UNIT
+                    int id = Convert.ToInt32(dataParts[1]);
+                    string name = dataParts[2];
+                    int xLoc = Convert.ToInt32(dataParts[3]);
+                    int yLoc = Convert.ToInt32(dataParts[4]);
 
-                int id = Convert.ToInt32(unitParts[1]);
-                string name = unitParts[2];
-                int xLoc = Convert.ToInt32(unitParts[3]);
-                int yLoc = Convert.ToInt32(unitParts[4]);
+                    int maxHp = Convert.ToInt32(dataParts[5]);
+                    int actualHp = Convert.ToInt32(dataParts[6]);
 
-                int maxHp = Convert.ToInt32(unitParts[5]);
-                int actualHp = Convert.ToInt32(unitParts[6]);
+                    int fraction = Convert.ToInt32(dataParts[7]);
 
-                int fraction = Convert.ToInt32(unitParts[7]);
+                    BaseStats maxStats = new BaseStats(maxHp, 0, 0, 0, 0);
+                    BaseStats actualStats = new BaseStats(actualHp, 0, 0, 0, 0);
 
-                BaseStats maxStats = new BaseStats(maxHp, 0, 0, 0, 0);
-                BaseStats actualStats = new BaseStats(actualHp, 0, 0, 0, 0);
-
-                game.AddUnit(name, id, uid, xLoc, yLoc, maxStats, actualStats, fraction);
+                    game.AddUnit(name, id, uid, xLoc, yLoc, maxStats, actualStats, fraction);
+                }
+                else
+                {
+                    // OBJECT
+                    game.AddObject(dataParts);
+                }
             }
 
             return true;

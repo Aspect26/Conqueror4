@@ -19,6 +19,7 @@ namespace Client
         private static int CMD_TAKEITEM = 9;
         private static int CMD_USEABILITY = 10;
         private static int CMD_CREATE_CHARACTER = 11;
+        private static int CMD_CHANGE_MAP = 12;
 
         /// <summary>
         /// Tries to send a message to the server with specified command identifier
