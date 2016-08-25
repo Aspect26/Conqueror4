@@ -1,8 +1,18 @@
 ﻿
 namespace Shared
 {
+    /// <summary>
+    /// This static class contains a simple values (mostly strings and identifiers),
+    /// that shall be the same on both client and server sides. If the server is better
+    /// implemented, this data shall not be needed on the client side.
+    /// </summary>
     public static class SharedData
     {
+        /// <summary>
+        /// Getss a name of the unit by its unit identifier.
+        /// </summary>
+        /// <param name="unitId">The unit identifier.</param>
+        /// <returns>The unit's name.</returns>
         public static string GetUnitName(int unitId)
         {
             switch (unitId)
