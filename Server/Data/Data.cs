@@ -6,11 +6,24 @@ using System.Linq;
 
 namespace Server
 {
+    /// <summary>
+    /// Represents the game data loaded from a MySQL database. 
+    /// This class is basicly just a bunch of getters (I give you ID and you will return
+    /// the right image or string. The documentation here is mostly only generted without
+    /// much further editation.
+    /// It contains a buch of hashmaps (dictionaries) that take integer identifier
+    /// or a string and return needed value. This data are loaded from an SQL server through
+    /// MySQLConnection instance.
+    /// </summary>
+    /// <seealso cref="MySQLConnection"/>
     public class Data
     {
         private static MySQLConnection sqlConnection;
-        //private static ASQLConnection sqlConnection;
 
+        /// <summary>
+        /// The lock for the sql database is needed becaus it is accessed from the
+        /// game thread (for data) and from the sending thread (to save the data).
+        /// </summary>
         public static object SQLLock = new object();
 
         // data
@@ -31,10 +44,13 @@ namespace Server
         static Data()
         {
             sqlConnection = new MySQLConnection();
-            //sqlConnection = new ASQLConnection();
             random = new Random();
         }
 
+        /// <summary>
+        /// Loads the data from the database.
+        /// </summary>
+        /// <returns><c>true</c> if the operation was successful, <c>false</c> otherwise.</returns>
         public static bool Initialize()
         {
             lock (SQLLock)
@@ -60,11 +76,21 @@ namespace Server
         // *****************************************
         // MISCELANEOUS
         // *****************************************
+        /// <summary>
+        /// Gets the xp reward.
+        /// </summary>
+        /// <param name="level">The level.</param>
+        /// <returns>System.Int32.</returns>
         public static int GetXPReward(int level)
         {
             return (int)(level * 2.5f + 7.5f);
         }
 
+        /// <summary>
+        /// Gets the next level xp required.
+        /// </summary>
+        /// <param name="level">The level.</param>
+        /// <returns>System.Int32.</returns>
         public static int GetNextLevelXPRequired(int level)
         {
             return levelXpRequirements[--level];
@@ -73,16 +99,29 @@ namespace Server
         // *****************************************
         // MAPS
         // *****************************************
+        /// <summary>
+        /// Gets the maps.
+        /// </summary>
+        /// <returns>Dictionary&lt;System.Int32, MapData&gt;.</returns>
         public static Dictionary<int, MapData> GetMaps()
         {
             return mapData;
         }
 
+        /// <summary>
+        /// Gets the revive location.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
+        /// <returns>Point.</returns>
         public static Point GetReviveLocation(int mapId)
         {
             return mapData[mapId].ReviveLocation;
         }
 
+        /// <summary>
+        /// Gets the map instances.
+        /// </summary>
+        /// <returns>Dictionary&lt;System.Int32, MapInstance&gt;.</returns>
         public static Dictionary<int, MapInstance> GetMapInstances()
         {
             return mapInstances;
@@ -91,6 +130,11 @@ namespace Server
         // *****************************************
         // ACCOUNTS & CHARACTERS
         // *****************************************
+        /// <summary>
+        /// Gets the character.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns>Character.</returns>
         public static Character GetCharacter(string name)
         {
             Character rtrn;
@@ -99,6 +143,12 @@ namespace Server
             else return null;
         }
 
+        /// <summary>
+        /// Logins the account.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>Account.</returns>
         public static Account LoginAccount(string username, string password)
         {
             username = username.ToLower();
@@ -117,6 +167,12 @@ namespace Server
             return accountData[username];
         }
 
+        /// <summary>
+        /// Registers the account.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
         public static bool RegisterAccount(string username, string password)
         {
             username = username.ToLower();
@@ -131,6 +187,13 @@ namespace Server
             return true;
         }
 
+        /// <summary>
+        /// Creates a character.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="name">The name.</param>
+        /// <param name="spec">The spec.</param>
+        /// <returns>Character.</returns>
         public static Character CreateCharacter(string username, string name, int spec)
         {
             name = name.ToLower();
@@ -155,18 +218,67 @@ namespace Server
         // CONSTANTS FROM DATABASE
         // *****************************************
         private static int ITEM_BONUS_BASE { get { return integerConstants["item_bonus_base"]; } }
+        /// <summary>
+        /// Gets the item weapon slot.
+        /// </summary>
+        /// <value>The item weapon slot.</value>
         public static int ItemWeaponSlot { get { return integerConstants["equip_weapon_slot"]; } }
+        /// <summary>
+        /// Gets the item chest slot.
+        /// </summary>
+        /// <value>The item chest slot.</value>
         public static int ItemChestSlot { get { return integerConstants["equip_chest_slot"]; } }
+        /// <summary>
+        /// Gets the item head slot.
+        /// </summary>
+        /// <value>The item head slot.</value>
         public static int ItemHeadSlot { get { return integerConstants["equip_head_slot"]; } }
+        /// <summary>
+        /// Gets the item pants slot.
+        /// </summary>
+        /// <value>The item pants slot.</value>
         public static int ItemPantsSlot { get { return integerConstants["equip_pants_slot"]; } }
+        /// <summary>
+        /// Gets the combat range.
+        /// </summary>
+        /// <value>The combat range.</value>
         public static int CombatRange { get { return integerConstants["combat_range"]; } }
+        /// <summary>
+        /// Gets the enter combat distance.
+        /// </summary>
+        /// <value>The enter combat distance.</value>
         public static int EnterCombatDistance { get { return integerConstants["enter_combat_distance"]; } }
+        /// <summary>
+        /// Gets the leave combat distance.
+        /// </summary>
+        /// <value>The leave combat distance.</value>
         public static int LeaveCombatDistance { get { return integerConstants["leave_combat_distance"]; } }
+        /// <summary>
+        /// Gets the visit distance.
+        /// </summary>
+        /// <value>The visit distance.</value>
         public static int VisitDistance { get { return integerConstants["visit_distance"]; } }
+        /// <summary>
+        /// Gets the maximum level.
+        /// </summary>
+        /// <value>The maximum level.</value>
         public static int MaxLevel { get { return integerConstants["max_level"]; } }
+        /// <summary>
+        /// Gets the hp regen interval.
+        /// </summary>
+        /// <value>The hp regen interval.</value>
         public static int HPRegenInterval { get { return integerConstants["hp_regen_interval"]; } }
+        /// <summary>
+        /// Gets the mp regen interval.
+        /// </summary>
+        /// <value>The mp regen interval.</value>
         public static int MPRegenInterval { get { return integerConstants["mp_regen_interval"]; } }
+        /// <summary>
+        /// Gets the SQL save interval.
+        /// </summary>
+        /// <value>The SQL save interval.</value>
         public static int SQLSaveInterval { get { return integerConstants["sql_save_interval"]; } }
+        
         // *****************************************
         // CONSTANTS 
         // *****************************************
@@ -181,11 +293,22 @@ namespace Server
         // *****************************************
         // BASE STATS
         // *****************************************
+        /// <summary>
+        /// Gets the initial data.
+        /// </summary>
+        /// <param name="unitId">The unit identifier.</param>
+        /// <returns>InitialData.</returns>
         public static InitialData GetInitialData(int unitId)
         {
             return unitsData[unitId];
         }
 
+        /// <summary>
+        /// Gets the character base stats.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="level">The level.</param>
+        /// <returns>InitialData.</returns>
         public static InitialData GetCharacterBaseStats(int id, int level)
         {
             return characterBaseStats[id][level];
@@ -194,6 +317,11 @@ namespace Server
         // *****************************************
         // QUESTS
         // *****************************************
+        /// <summary>
+        /// Gets the initial quest.
+        /// </summary>
+        /// <param name="spec">The spec.</param>
+        /// <returns>IQuest.</returns>
         public static IQuest GetInitialQuest(int spec)
         {
             switch (spec)
@@ -213,6 +341,11 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Gets the quest.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>IQuest.</returns>
         public static IQuest GetQuest(int id)
         {
             return questsData[id].Copy();
@@ -221,6 +354,11 @@ namespace Server
         // *****************************************
         // ABILITIES
         // *****************************************
+        /// <summary>
+        /// Gets the character ability.
+        /// </summary>
+        /// <param name="character">The character.</param>
+        /// <returns>IAbility.</returns>
         public static IAbility GetCharacterAbility(Character character)
         {
             switch (character.Spec)
@@ -232,6 +370,12 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Creates the ability.
+        /// </summary>
+        /// <param name="source">The source.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns>IAbility.</returns>
         public static IAbility CreateAbility(IUnit source, int id)
         {
             switch (id)
@@ -245,14 +389,18 @@ namespace Server
         // *****************************************
         // ITEMS
         // *****************************************
+        /// <summary>
+        /// Generates the item dropped.
+        /// </summary>
+        /// <param name="unit">The unit.</param>
+        /// <returns>IItem.</returns>
         public static IItem GenerateItemDropped(IUnit unit)
         {
             if (unit.IsPlayer())
                 return null;
 
             // NOTE: drop chance -> from db maybe?
-            // TODO: decrease to 170
-            if (!(random.Next(1000) < 1000))
+            if (!(random.Next(1000) < 170))
                 return null;
 
             // GENERATE THE ITEM
@@ -295,6 +443,10 @@ namespace Server
         // ***************************************************
         // SAVE
         // ***************************************************
+        /// <summary>
+        /// Saves the data to the SQL database. This function is called every X
+        /// minutes.
+        /// </summary>
         public static void Save()
         {
             Console.WriteLine("SAVING DATA...");
@@ -313,6 +465,10 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Saves a character to the SQL database.
+        /// </summary>
+        /// <param name="c">The c.</param>
         public static void SaveCharacter(Character c)
         {
             lock (SQLLock)

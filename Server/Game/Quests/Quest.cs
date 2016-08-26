@@ -1,12 +1,29 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace Server
 {
+    /// <summary>
+    /// A IQuest interface implementation.
+    /// </summary>
+    /// <seealso cref="Server.IQuest" />
     public class Quest : IQuest
     {
+        /// <summary>
+        /// Gets the quest identifier.
+        /// </summary>
+        /// <value>The quest identifier.</value>
         public int QuestID { get; protected set; }
+
+        /// <summary>
+        /// Gets the next quest identifier.
+        /// </summary>
+        /// <value>The next quest identifier.</value>
         public int NextQuestID { get; protected set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the quest is completed.
+        /// </summary>
+        /// <value><c>true</c> if this instance is completed; otherwise, <c>false</c>.</value>
         public bool IsCompleted { get; private set; }
 
         private int questCompletionerId;
@@ -14,6 +31,11 @@ namespace Server
         private IQuestObjective[] objectives;
         private string description;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Quest"/> class.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="data">The data.</param>
         public Quest(int id, QuestData data)
         {
             this.QuestID = id;
@@ -24,6 +46,12 @@ namespace Server
             this.questCompletionerId = data.QuestCompletionerId;
         }
 
+        /// <summary>
+        /// Checks if the quest objectives are completed. The quest objectives may
+        /// be completed but the player still needs to turn the quest to the quest
+        /// giver hence it still may not be completed.
+        /// </summary>
+        /// <returns><c>true</c> if they are, <c>false</c> otherwise.</returns>
         public bool RequirementsCompleted()
         {
             // because of NO_QUEST
@@ -39,6 +67,13 @@ namespace Server
             return true;
         }
 
+        /// <summary>
+        /// Calling this function informs the quest that a unit with specified
+        /// unit identifier was visited.
+        /// </summary>
+        /// <param name="unitId">The unit identifier.</param>
+        /// <returns><c>true</c> if any quest objecive was completed thanks to this
+        /// event, <c>false</c> otherwise.</returns>
         public bool Visited(int unitId)
         {
             bool visited = false;
@@ -57,6 +92,15 @@ namespace Server
             return visited;
         }
 
+        /// <summary>
+        /// Calling this function informs the quest that a specified location was
+        /// visited.
+        /// TODO mapId shall be included here.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        /// <returns><c>true</c> if any quest objecive was completed thanks to this
+        /// event, <c>false</c> otherwise.</returns>
         public bool MovedTo(int x, int y)
         {
             bool moved = false;
@@ -69,6 +113,13 @@ namespace Server
             return moved;
         }
 
+        /// <summary>
+        /// Calling this function informs the quest that a unit with specified
+        /// unit identifier was killed by the unit with this quest.
+        /// </summary>
+        /// <param name="unitId">The unit identifier.</param>
+        /// <returns><c>true</c> if any quest objecive was completed thanks to this
+        /// event, <c>false</c> otherwise.</returns>
         public bool Killed(int unitId)
         {
             bool killed = false;
@@ -81,6 +132,10 @@ namespace Server
             return killed;
         }
 
+        /// <summary>
+        /// Gets the coded data for a server message.
+        /// </summary>
+        /// <returns>System.String.</returns>
         public string GetCodedData()
         {
             StringBuilder msg = new StringBuilder();
@@ -93,6 +148,10 @@ namespace Server
             return msg.ToString();
         }
 
+        /// <summary>
+        /// Gets the objectives coded data for a server message.
+        /// </summary>
+        /// <returns>System.String.</returns>
         public string GetObjectivesCodedData()
         {
             StringBuilder data = new StringBuilder();
@@ -106,6 +165,9 @@ namespace Server
             return data.ToString();
         }
 
+        /// <summary>
+        /// Resets the quest objectives.
+        /// </summary>
         public void Reset()
         {
             foreach(IQuestObjective objective in objectives)
@@ -114,6 +176,10 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Performs a deep copy of this object.
+        /// </summary>
+        /// <returns>IQuest.</returns>
         public IQuest Copy()
         {
             IQuestObjective[] objectivesCopy = new IQuestObjective[objectives.Length];
@@ -125,10 +191,14 @@ namespace Server
         }
 
         // *********************************
-        // no quest singleton
+        // NO QUEST SINGLETON
         // *********************************
         private static Quest noQuest;
 
+        /// <summary>
+        /// Gets the no quest singleton.
+        /// </summary>
+        /// <value>The no quest singleton.</value>
         public static Quest NoQuestSingleton {
             get
             {

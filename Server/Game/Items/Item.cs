@@ -3,12 +3,36 @@ using System.Text;
 
 namespace Server
 {
+    /// <summary>
+    /// The only implementation of the IItem iterface.
+    /// </summary>
+    /// <seealso cref="Server.IItem" />
     public class Item : IItem
     {
+        /// <summary>
+        /// Gets the item's stats.
+        /// </summary>
+        /// <value>The stats.</value>
         public ItemStats Stats { get; protected set; }
+
+        /// <summary>
+        /// Gets the slot the item belongs to.
+        /// </summary>
+        /// <value>The slot.</value>
         public int Slot { get; protected set; }
+
+        /// <summary>
+        /// Gets the item's unique identifier.
+        /// </summary>
+        /// <value>The unique identifier.</value>
         public int UniqueID { get; protected set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Item"/> class.
+        /// </summary>
+        /// <param name="stats">The stats.</param>
+        /// <param name="slot">The slot.</param>
+        /// <param name="uid">The uid.</param>
         public Item(ItemStats stats, int slot, int uid)
         {
             this.Stats = stats;
@@ -16,6 +40,10 @@ namespace Server
             this.UniqueID = uid;
         }
 
+        /// <summary>
+        /// Gets the coded data for a server message.
+        /// </summary>
+        /// <returns>System.String.</returns>
         public string GetCodedData()
         {
             StringBuilder str = new StringBuilder(Slot + "&" + UniqueID);

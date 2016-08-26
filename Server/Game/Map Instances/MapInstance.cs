@@ -6,6 +6,12 @@ using System.Drawing;
 
 namespace Server
 {
+    /// <summary>
+    /// Represents one map instance. Every map in the game is represented by one 
+    /// MapInstance object. This way the game is divided into isolated smaller parts.
+    /// The map instance takes care of its game cycles and handles unit's (and player's)
+    /// actions.
+    /// </summary>
     public class MapInstance
     {
         private List<StateObject> clientStates;
@@ -24,6 +30,10 @@ namespace Server
 
         private int mapId;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MapInstance"/> class.
+        /// </summary>
+        /// <param name="mapId">The map identifier.</param>
         public MapInstance(int mapId)
         {
             this.mapId = mapId;
@@ -40,6 +50,10 @@ namespace Server
             lastTimeStamp = Stopwatch.GetTimestamp();
         }
 
+        /// <summary>
+        /// Removes a client from the map.
+        /// </summary>
+        /// <param name="client">The client.</param>
         public void RemoveClient(StateObject client)
         {
             lock(clientStates)
@@ -52,6 +66,13 @@ namespace Server
                 mapGeneralDifferenes.Add(new UnitDiedDifference(client.PlayingCharacter));
         }
 
+        /// <summary>
+        /// Spawns an NPC unit.
+        /// </summary>
+        /// <param name="unitId">The unit identifier.</param>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        /// <returns>IUnit.</returns>
         public IUnit SpawnNPC(int unitId, int x, int y)
         {
             IUnit newUnit = new GenericUnit(unitId, GetNextUniqueID(), new Location(x, y), 
@@ -63,6 +84,10 @@ namespace Server
             return newUnit;
         }
 
+        /// <summary>
+        /// Spawns a game object.
+        /// </summary>
+        /// <param name="objInfo">The object information.</param>
         public void SpawnObject(ObjectInfo objInfo)
         {
             lock (objects) {
@@ -70,26 +95,50 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Gets the next available unique identifier. This function is not really accurate
+        /// but it relies on the fact that the game will never be played by many players at
+        /// a time :'(.
+        /// </summary>
+        /// <returns>The uid.</returns>
         public int GetNextUniqueID()
         {
             return lastUniqueId++;
         }
 
+        /// <summary>
+        /// Gets the list of all units in the map (including players).
+        /// </summary>
+        /// <returns>List&lt;IUnit&gt;.</returns>
         public List<IUnit> GetUnits()
         {
             return this.units;
         }
 
+        /// <summary>
+        /// Gets all clients's state objects.
+        /// </summary>
+        /// <returns>List&lt;StateObject&gt;.</returns>
         public List<StateObject> GetClients()
         {
             return clientStates;
         }
 
+        /// <summary>
+        /// Adds a missile to the map.
+        /// </summary>
+        /// <param name="m">The missile.</param>
         public void AddMissile(Missile m)
         {
             this.missiles.Add(m);
         }
 
+        /// <summary>
+        /// Adds a timed action to the map instance..
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <param name="afterSeconds">The time (in seconds) after it shall be 
+        /// processed.</param>
         public void AddTimedAction(ITimedAction action, int afterSeconds)
         {
             lock (timedActions)
@@ -102,12 +151,27 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Adds a general difference. A general difference is a difference that cannot
+        /// be held in a unt's object (e.g.: if a unit dies it is removed from the game
+        /// so when the server next time sends list of all differences that happened it
+        /// would not get the information about unit dying).
+        /// </summary>
+        /// <param name="difference">The difference.</param>
+        /// <seealso cref="IUnitDifference"/>
         public void AddGeneralDifference(IUnitDifference difference)
         {
             this.mapGeneralDifferenes.Add(difference);
         }
 
         // THIS IS CALLED FROM GAME TASK
+        /// <summary>
+        /// Handles player's command to shoot. 
+        /// </summary>
+        /// <param name="character">The character.</param>
+        /// <param name="timeStamp">The time stamp.</param>
+        /// <param name="x">The x coordinate of the direction vector.</param>
+        /// <param name="y">The y coordinate of the direction vector.</param>
         public void PlayerShoot(Character character, long timeStamp, int x, int y)
         {
             Missile missile = character.Shoot(timeStamp, x, y);
@@ -118,6 +182,10 @@ namespace Server
         }
 
         // THIS IS CALLED FROM SENDING TASK
+        /// <summary>
+        /// Gets the general differences and resets them.
+        /// </summary>
+        /// <returns>List&lt;IUnitDifference&gt;.</returns>
         public List<IUnitDifference> GetGeneralDifferencesAndReset()
         {
             List<IUnitDifference> diffs = null;
@@ -131,6 +199,12 @@ namespace Server
         }
 
         // THIS IS CALLED FROM GAME TASK
+        /// <summary>
+        /// Gets a dropped item.
+        /// </summary>
+        /// <param name="uid">The uid.</param>
+        /// <returns>The item if there really is a dropped item (on the ground...)
+        /// with the specified uid or null otherise.</returns>
         public IItem GetDroppedItem(int uid)
         {
             IItem item = droppedItems.Find(i => i.UniqueID == uid);
@@ -144,6 +218,10 @@ namespace Server
         }
 
         // THIS IS CALLED FROM RECEIVING TASK
+        /// <summary>
+        /// Gets the coded data of the whole instance for the server message.
+        /// </summary>
+        /// <returns>System.String.</returns>
         public string GetMessageCodedData()
         {
             string data = "";
@@ -169,6 +247,10 @@ namespace Server
         }
 
         // THIS IS CALLED FROM RECEIVING TASK
+        /// <summary>
+        /// Adds a player action to the actions queue.
+        /// </summary>
+        /// <param name="action">The action.</param>
         public void AddPlayerAction(IPlayerAction action)
         {
             lock (playerActions)
@@ -178,6 +260,11 @@ namespace Server
         }
 
         // THIS IS CALLED FROM GAME TASK
+        /// <summary>
+        /// Adds a player to the map instance.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <param name="character">The character.</param>
         public void AddPlayer(StateObject state, Character character)
         {
             lock (clientStates)
@@ -192,6 +279,19 @@ namespace Server
         }
 
         // THIS IS CALLED FROM GAME TASK
+        /// <summary>
+        /// Plays one game cycle. This function is a real hell.
+        /// Dear maintainer:
+        /// 
+        /// Once you are done trying to 'optimize' this routine,
+        /// and have realized what a terrible mistake that was,
+        /// please increment the following counter as a warning
+        /// to the next guy:
+        /// 
+        /// total_hours_wasted_here = 95
+        /// 
+        /// hahahahahahahahahahahahahahah
+        /// </summary>
         public void PlayCycle()
         {
             long now = Stopwatch.GetTimestamp();

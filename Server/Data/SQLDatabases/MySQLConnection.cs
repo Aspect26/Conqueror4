@@ -7,6 +7,12 @@ using System.Drawing;
 
 namespace Server
 {
+    /// <summary>
+    /// This class represents a connection to a MySQL server. Currently it points to
+    /// localhost because I'm too poor to afford real server :(. 
+    /// It also contains functions to get game data from the database. 
+    /// </summary>
+    /// <seealso cref="System.IDisposable" />
     public class MySQLConnection : IDisposable
     {
         private const string SERVER = "localhost";
@@ -19,6 +25,10 @@ namespace Server
 
         private MySqlConnection connection;
 
+        /// <summary>
+        /// Initializes the MySql connection to the server.
+        /// </summary>
+        /// <returns><c>true</c> if the opertion was successful, <c>false</c> otherwise.</returns>
         public bool Initialize()
         {
             Console.WriteLine("Connecting to MySQL server...");
@@ -37,6 +47,10 @@ namespace Server
             return true;
         }
 
+        /// <summary>
+        /// Loads the accounts.
+        /// </summary>
+        /// <param name="accountData">The account data.</param>
         public void LoadAccounts(out Dictionary<string, Account> accountData)
         {
             Console.WriteLine("Loading accounts...");
@@ -52,6 +66,10 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Loads the constants.
+        /// </summary>
+        /// <param name="constants">The constants.</param>
         public void LoadConstants(out Dictionary<string, int> constants)
         {
             Console.WriteLine("Loading game constants...");
@@ -66,6 +84,11 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Loads the characters.
+        /// </summary>
+        /// <param name="charactersData">The characters data.</param>
+        /// <param name="accounts">The accounts.</param>
         public void LoadCharacters(out Dictionary<string, Character> charactersData,
             Dictionary<string, Account> accounts)
         {
@@ -151,6 +174,10 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Loads the units data.
+        /// </summary>
+        /// <param name="unitsData">The units data.</param>
         public void LoadUnitsData(out Dictionary<int, InitialData> unitsData)
         {
             Console.WriteLine("Loading units data...");
@@ -174,6 +201,10 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Loads the characters data.
+        /// </summary>
+        /// <param name="charactersBaseData">The characters base data.</param>
         public void LoadCharactersData(out Dictionary<int, InitialData[]> charactersBaseData)
         {
             Console.WriteLine("Loading characters data...");
@@ -201,6 +232,11 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Loads the maps.
+        /// </summary>
+        /// <param name="mapData">The map data.</param>
+        /// <param name="mapInstances">The map instances.</param>
         public void LoadMaps(out Dictionary<int, MapData> mapData, out Dictionary<int, MapInstance> mapInstances)
         {
             Console.WriteLine("Loading maps data...");
@@ -269,6 +305,10 @@ namespace Server
             return instance;
         }
 
+        /// <summary>
+        /// Loads the starting locations.
+        /// </summary>
+        /// <param name="startingLocations">The starting locations.</param>
         public void LoadStartingLocations(out Dictionary<int, Location> startingLocations)
         {
             Console.WriteLine("Loading starting locations...");
@@ -286,6 +326,10 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Loads the initial quests.
+        /// </summary>
+        /// <param name="initialQuests">The initial quests.</param>
         public void LoadInitialQuests(out Dictionary<int, int> initialQuests)
         {
             Console.WriteLine("Loading initial quests...");
@@ -300,6 +344,10 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Loads the quests.
+        /// </summary>
+        /// <param name="questsData">The quests data.</param>
         public void LoadQuests(out Dictionary<int, IQuest> questsData)
         {
             Console.WriteLine("Loading quests...");
@@ -322,6 +370,10 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// Loads the level xp requirements.
+        /// </summary>
+        /// <param name="requirements">The requirements.</param>
         public void LoadLevelXpRequirements(out List<int> requirements)
         {
             Console.WriteLine("Loading level xp requirements...");
@@ -394,6 +446,10 @@ namespace Server
             return new UnitVisitedObjective(uid);
         }
 
+        /// <summary>
+        /// Saves a character to the database.
+        /// </summary>
+        /// <param name="c">The character.</param>
         public void SaveCharacter(Character c)
         {
             int xLoc = c.GetLocation().X;
@@ -422,6 +478,10 @@ namespace Server
             cmd.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Saves and account to the database.
+        /// </summary>
+        /// <param name="acc">The account.</param>
         public void SaveAccount(Account acc)
         {
             string name = acc.Username;
@@ -461,7 +521,13 @@ namespace Server
         // QUERIES
         // *******************************************************
 
-        // INSERT
+        /// <summary>
+        /// Represents the INSERT query.
+        /// </summary>
+        /// <param name="insertingColumns">Name of the inserting columns.</param>
+        /// <param name="rows">The rows to be inserted.</param>
+        /// <param name="tableName">Name of the table.</param>
+        /// <exception cref="Exception">Wrong number of values specified in insert statement.</exception>
         private void Insert(string[] insertingColumns, List<string[]> rows, string tableName)
         {
             if (insertingColumns.Length == 0 || rows.Count == 0)
@@ -499,7 +565,13 @@ namespace Server
             cmd.ExecuteNonQuery();
         }
 
-        // SELECT
+        /// <summary>
+        /// Represents the SELECT query.
+        /// </summary>
+        /// <param name="columns">The columns to be selected.</param>
+        /// <param name="tableName">Name of the table.</param>
+        /// <returns>List containing hashmaps -> the hashmap's key is a column
+        /// and the value is the value that was selected from a row in that column.</returns>
         private List<Dictionary<string, string>> Select(string[] columns, string tableName)
         {
             if (columns.Length == 0)
@@ -533,6 +605,10 @@ namespace Server
             return results;
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, 
+        /// or resetting unmanaged resources (connection closure).
+        /// </summary>
         public void Dispose()
         {
             if (connection != null)
