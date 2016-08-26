@@ -6,7 +6,7 @@
     class Program
     {
         // WHY ARE JAVA PROGRAMMERS ALMOST BLIND - BECAUSE THEY DONT C#
-        // BWAHAHAHAHAHHAAH
+        // BWAHAHAHAHAHHAAHA
 
         /// <summary>
         /// Defines the entry point of the application.

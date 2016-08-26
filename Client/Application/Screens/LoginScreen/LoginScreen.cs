@@ -9,7 +9,7 @@ namespace Client
     /// <seealso cref="Client.EmptyScreen" />
     class LoginScreen : EmptyScreen
     {
-        private const int BUILD_NUMBER = 90;
+        private const int BUILD_NUMBER = 97;
         private static Point position = new Point(0, 0);
         private LineInput nickInput;
         private PasswordInput passInput;

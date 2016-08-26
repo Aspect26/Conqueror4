@@ -7,14 +7,27 @@ using System.Text;
 
 namespace Server
 {
+    /// <summary>
+    /// A server-core source file that contains implementation of the sending thread.
+    /// </summary>
     public partial class Server
     {
         private const int SEND_UPDATE_INTERVAL = 30;
         private long lastSQLSave = Extensions.GetCurrentMillis();
 
+        /// <summary>
+        /// The MSG characters in map
+        /// </summary>
         public const int MSG_CHARACTERS_IN_MAP = 5;
 
-
+        /// <summary>
+        /// The send function that contains an infinite loop. Every 30ms the server
+        /// send game update data to all the connected clients (it actively waits for
+        /// those 30ms to pass). For each map instance it enumerates all units contained
+        /// in it and creates a message with all difference that happened since the last
+        /// update. Then the message is send to all players -> every player in a map instance
+        /// reveives the same message. 
+        /// </summary>
         private void SendClients()
         {
 

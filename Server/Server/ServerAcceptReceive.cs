@@ -5,6 +5,9 @@ using System.Threading;
 
 namespace Server
 {
+    /// <summary>
+    /// This server-core source file represents the handling clients thread.
+    /// </summary>
     public partial class Server
     {
         private ManualResetEvent newConnectionEstablishedEvent = new ManualResetEvent(false);
@@ -12,7 +15,14 @@ namespace Server
 
         //**************************************************
         // ACCEPTING CYCLE
-        //**************************************************
+        //**************************************************        
+        /// <summary>
+        /// This is the function that runs in a separate thread. It contains an 
+        /// infinite loop in which it accepts new clients. 
+        /// In the time of writing this documentation I realized that this thread
+        /// is a bit useless since the messages from clients are processed in a thread
+        /// from a threadpool .............
+        /// </summary>
         private void AcceptAndReceiveClients()
         {
             try
@@ -54,7 +64,14 @@ namespace Server
 
         //**************************************************
         // GENERIC COMMANDS RECEIVING
-        //**************************************************
+        //**************************************************        
+        /// <summary>
+        /// A function that represents receiving messages from the clients. It is called
+        /// as a callback from the BeginReceive call from function AcceptCallback and
+        /// consequently it is called as a callback for every read of any client's message.
+        /// The client info is stored in the StateObject contained in IAsyncResult.
+        /// </summary>
+        /// <param name="result">The result data.</param>
         private void ReceivingCallback(IAsyncResult result)
         {
             StateObject state = (StateObject)result.AsyncState;

@@ -5,7 +5,14 @@ using System.Net.Sockets;
 using System.Text;
 
 namespace Server
-{ 
+{
+    /// <summary>
+    /// Instance of this class is used to handle all clients's messages.
+    /// It is not fool-proof or hack-proof implemented. If the server receives a
+    /// message in a wrong format then the server most probably craches with 
+    /// IndexOutOfRangeException (because the message is splitted into array) or
+    /// FormatException (because on some places it expects a number)
+    /// </summary>
     public class CommandsHandler
     {
         private Server server;
@@ -24,12 +31,22 @@ namespace Server
         private const int CMD_CREATECHARACTER = 11;
         private const int CMD_CHANGE_MAP = 12;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandsHandler"/> class.
+        /// </summary>
+        /// <param name="server">The server.</param>
+        /// <param name="game">The game.</param>
         public CommandsHandler(Server server, Game game)
         {
             this.server = server;
             this.game = game;
         }
 
+        /// <summary>
+        /// Handles a message from a client.
+        /// </summary>
+        /// <param name="clientState">The client's state object.</param>
+        /// <param name="message">The client's message.</param>
         public void HandleMessage(StateObject clientState, string message)
         {
             string[] parts = message.Split(':');
@@ -189,25 +206,9 @@ namespace Server
         // ************************************************
         // HELPER FUNCTIONS
         // ************************************************
-        private MovingDirection intToDirection(int direction)
-        {
-            switch (direction)
-            {
-                case 1:
-                    return MovingDirection.Up;
-                case 2:
-                    return MovingDirection.Right;
-                case 3:
-                    return MovingDirection.Bottom;
-                case 4:
-                    return MovingDirection.Left;
-
-                default:
-                    return MovingDirection.None;
-            }
-        }
 
         // ************************************************
+        // this may be disimplemented
         private void SendCallback(IAsyncResult result)
         {
             Socket handler = (Socket)result.AsyncState;

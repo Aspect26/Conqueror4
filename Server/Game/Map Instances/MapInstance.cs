@@ -366,7 +366,7 @@ namespace Server
                                 {
                                     mapGeneralDifferenes.Add(new UnitDiedDifference(u));
                                     AddTimedAction(new RespawnUnitAction(u), u.RespawnTime);
-                                    IItem item = u.GetDroppedItem();
+                                    IItem item = u.GenerateDroppedItem();
                                     if(item != null)
                                     {
                                         droppedItems.Add(item);
