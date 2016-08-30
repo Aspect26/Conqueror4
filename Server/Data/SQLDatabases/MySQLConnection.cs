@@ -450,7 +450,10 @@ namespace Server
         /// Saves a character to the database.
         /// </summary>
         /// <param name="c">The character.</param>
-        public void SaveCharacter(Character c)
+        /// <param name="create">If set to true, a new entry into the database is
+        /// created.</param>
+        /// <param name="accName">If the parameter create is true then accoun is needed.</param>
+        public void SaveCharacter(Character c, bool create, string accName = null)
         {
             int xLoc = c.GetLocation().X;
             int yLoc = c.GetLocation().Y;
@@ -466,12 +469,29 @@ namespace Server
             string pants = createItemString(c.Equip.Items[Data.ItemPantsSlot]);
 
             // build query
-            string query = "UPDATE characters " + 
-                "SET xloc=" + xLoc + ",yloc=" + yLoc + ",mapid=" + mapid + ",hitpoints=" + 
-                hitpoints + ",manapoints=" + manapoints + ",experience=" + xp + ",level=" + 
-                level + ",questid=" + questId + ",equip_weapon=\"" + weapon + "\",equip_chest=\"" +
-                chest + "\",equip_head=\"" + head + "\",equip_pants=\"" + pants + "\" " +
-                "WHERE name=\"" + c.Name + "\"";
+            string query = "";
+            if (create)
+            {
+                if (accName == null)
+                    throw new ArgumentException("Account cannot be null when creating new character.");
+                
+                // TODO insert only needed (non implicit) values
+                query = "INSERT INTO characters(xloc, yloc, mapid, hitpoints, manapoints, experience, " +
+                    "level, questid, equip_weapon, equip_chest, equip_head, equip_pants, name, spec, account) " +
+                    "VALUES (" + xLoc + "," + yLoc + "," + mapid + "," + hitpoints + "," + 
+                    manapoints + "," + xp + "," + level + "," + questId + ",\"" + weapon + "\",\"" +
+                    chest + "\",\"" + head + "\",\"" + pants + "\"," + "\"" + c.Name + "\"," + c.Spec + "," +
+                    "\"" + accName + "\")";
+            }
+            else
+            {
+                query = "UPDATE characters " +
+                    "SET xloc=" + xLoc + ",yloc=" + yLoc + ",mapid=" + mapid + ",hitpoints=" +
+                    hitpoints + ",manapoints=" + manapoints + ",experience=" + xp + ",level=" +
+                    level + ",questid=" + questId + ",equip_weapon=\"" + weapon + "\",equip_chest=\"" +
+                    chest + "\",equip_head=\"" + head + "\",equip_pants=\"" + pants + "\" " +
+                    "WHERE name=\"" + c.Name + "\"";
+            }
 
             // execute
             var cmd = new MySqlCommand(query, connection);

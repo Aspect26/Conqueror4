@@ -209,7 +209,7 @@ namespace Server
             accountData[username].AddCharacter(newChar);
 
             lock(SQLLock)
-                sqlConnection.SaveCharacter(newChar);
+                sqlConnection.SaveCharacter(newChar, true, username);
 
             return newChar;
         }
@@ -449,7 +449,7 @@ namespace Server
         /// </summary>
         public static void Save()
         {
-            Console.WriteLine("SAVING DATA...");
+            Console.WriteLine("SAVING DATA TO DB...");
             lock (SQLLock)
             {
                 foreach(var pair in characterData)
@@ -458,7 +458,7 @@ namespace Server
                     Character c = pair.Value;
                     if (c.SQLDifference)
                     {
-                        sqlConnection.SaveCharacter(c);
+                        sqlConnection.SaveCharacter(c, false);
                         c.SQLDifference = false;
                     }
                 }
@@ -473,7 +473,7 @@ namespace Server
         {
             lock (SQLLock)
             {
-                sqlConnection.SaveCharacter(c);
+                sqlConnection.SaveCharacter(c, false);
             }
         }
     }

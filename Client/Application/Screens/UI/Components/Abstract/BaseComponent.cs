@@ -231,14 +231,13 @@ namespace Client
             this.neighbour = neighbour;
         }
 
-        protected bool shown;
         /// <summary>
         /// Sets whether the component shall be shown.
         /// </summary>
         /// <param name="shown">if set to <c>true</c> then the component will be rendered when the ui it belongs to is being rendered.</param>
         public void SetShown(bool shown)
         {
-            this.shown = shown;
+            this.Shown = shown;
         }
     }
 }

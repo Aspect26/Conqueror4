@@ -154,7 +154,11 @@ namespace Client
                     break;
 
                 case 81:        // Q
-                    questLog.SetShown(true);
+                    questLog.SetShown(!questLog.Shown);
+                    break;
+
+                case 32:        // SPACE
+                    game.TryUseAbility();
                     break;
             }
         }
@@ -190,16 +194,8 @@ namespace Client
                     Console.WriteLine("START UP");
                     break;
 
-                case 81:        // Q
-                    questLog.SetShown(false);
-                    break;
-
                 case 84:        // T
                     game.TryTakeDroppedItem();
-                    break;
-
-                case 32:        // SPACE
-                    game.TryUseAbility();
                     break;
             }
         }
